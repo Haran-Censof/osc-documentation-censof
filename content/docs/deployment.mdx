@@ -1,43 +1,436 @@
 ---
 title: Deployment
-description: Deployment processes, environments, and best practices for the OSC system.
+description: Step-by-step deployment guide for OSC across all three environments — Docker Desktop (local), Development (remote K8s clusters), and Production (HA K8s clusters).
 ---
+
+import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
 
 # Deployment
 
-This section covers the deployment process, environments, and best practices for OSC.
+OSC runs on **Kubernetes** across three environments. All manifests live in the `censof-k8s-config` repository.
 
-## Environments
+```
+censof-k8s-config/
+├── docker-desktop/          ← Local single-cluster (your machine)
+├── development/             ← 3 remote clusters (dev servers)
+│   ├── cluster1-backend/
+│   ├── cluster2-fe-admin/
+│   └── cluster3-fe-public/
+└── production/              ← 3 remote clusters (HA + autoscaling)
+    ├── cluster1-backend/
+    ├── cluster2-fe-admin/
+    └── cluster3-fe-public/
+```
 
-### Development
+---
 
-Local development environment for feature development and testing.
+## Environment Comparison
 
-### Staging
+| | Docker Desktop | Development | Production |
+|---|---|---|---|
+| **Clusters** | 1 (local) | 3 (remote servers) | 3 (remote servers) |
+| **Images** | Local (`imagePullPolicy: Never`) | GitLab registry (`:dev` tags) | GitLab registry (`:latest` tags) |
+| **Replicas** | 1 | 1 | 2 + HPA (2-5 pods, 70% CPU) |
+| **DB / Redis** | Bundled in K8s (`database` namespace) | External IPs (`10.29.46.108` / `10.29.46.109`) | External IPs |
+| **Ingress** | Traefik (`*.test` domains) | NGINX (`dev-kpkt-api.test`) | NGINX + TLS (cert-manager) |
+| **TLS** | No | No | Yes |
+| **Health Checks** | No | No | Yes |
+| **Resource Limits** | 100m CPU / 128Mi | 100m CPU / 128Mi | 500m CPU / 512Mi |
+| **Queue Workers** | Yes (08-workers.yaml) | Yes (workers.yaml) | Not in manifests |
+| **Email** | SMTP4Dev (local) | SMTP4Dev (remote) | External SMTP |
 
-Pre-production environment that mirrors the production setup.
+---
 
-### Production
+## Local Deployment (Docker Desktop)
 
-Live environment serving actual users.
-
-## Deployment Process
+This is the recommended way to run the full OSC stack on your machine.
 
 ### Prerequisites
 
-- All tests passing
-- Code review approved
-- Documentation updated
+1. **Docker Desktop** installed with **Kubernetes enabled** (Settings → Kubernetes → Enable)
+2. **kubectl** available in your terminal (`docker desktop` bundles it)
+3. **Traefik** ingress controller (or use port-forwarding instead)
+4. All **source code repositories** cloned locally
 
-### Steps
+### Step 1: Build All Docker Images
 
-1. Build the application
-2. Run test suite
-3. Deploy to staging
-4. Run integration tests
-5. Deploy to production
-6. Monitor for issues
+Each service has a `Dockerfile`. Build them with the exact image names the manifests expect:
 
-### Rollback
+```powershell
+# Backend services (from each repo root)
+docker build -t be0:latest ./Backend/osc-be0-utiliti-main
+docker build -t be1:latest ./Backend/osc-be1-admin-profile-main
+docker build -t be2:latest ./Backend/osc-be2-pelesenan-main
+docker build -t be3:latest ./Backend/osc-be3-aduan-dan-notifikasi-main
+docker build -t be4:latest ./Backend/osc-be4-reporting-main
+docker build -t be5:latest ./Backend/osc-be5-enforcement-main
+docker build -t be6:latest ./Backend/osc-be6-chatbot-main
 
-Coming soon...
+# Frontend services
+docker build -t fe-admin:latest  ./Frontend/osc-fe-admin-main
+docker build -t fe-public:latest ./Frontend/osc-fe-customer-main
+```
+
+:::warning
+Image names must **exactly match** what the manifests use (`be0:latest`, `be1:latest`, etc.). The docker-desktop manifests set `imagePullPolicy: Never` so Kubernetes will only use local images.
+:::
+
+### Step 2: Apply K8s Manifests (In Order)
+
+```powershell
+cd Infra/censof-k8s-config-clone/docker-desktop
+
+# 1. Create namespaces (backend, frontend, database)
+kubectl apply -f 00-namespaces.yaml
+
+# 2. ConfigMaps and Secrets (DB credentials, API URLs, Redis config)
+kubectl apply -f 01-configmaps.yaml
+
+# 3. MySQL 8.0 (creates osc_pelesenan DB + osc_user)
+kubectl apply -f 02-mysql.yaml
+
+# 4. Redis 7
+kubectl apply -f 03-redis.yaml
+
+# 5. All 7 backend services (be0-be6)
+kubectl apply -f 04-backends.yaml
+
+# 6. Both frontends (fe-admin, fe-public)
+kubectl apply -f 05-frontends.yaml
+
+# 7. Ingress routes (optional — can use port-forward instead)
+kubectl apply -f 06-ingress.yaml
+
+# 8. SMTP4Dev for email testing
+kubectl apply -f 07-smtp4dev.yaml
+
+# 9. Queue workers + scheduler
+kubectl apply -f 08-workers.yaml
+```
+
+Or apply everything at once:
+
+```powershell
+kubectl apply -f .
+```
+
+### Step 3: Wait for Pods
+
+```powershell
+# Watch all pods come up
+kubectl get pods -A -w
+
+# Expected: ~15-20 pods across 3 namespaces
+kubectl get pods -n database     # mysql, redis, smtp4dev
+kubectl get pods -n backend      # be0-be6 + queue workers + scheduler
+kubectl get pods -n frontend     # fe-admin, fe-public
+```
+
+### Step 4: Run Database Migrations
+
+Once MySQL is running, exec into a backend pod to run migrations:
+
+```powershell
+# Find a running backend pod
+kubectl exec -it -n backend deployment/be0 -- php artisan migrate --force
+
+# Seed initial data (if applicable)
+kubectl exec -it -n backend deployment/be0 -- php artisan db:seed --force
+```
+
+### Step 5: Access the Application
+
+<Tabs items={['Port Forward (Simplest)', 'Ingress with Traefik', 'NodePort']}>
+  <Tab value="Port Forward (Simplest)">
+
+No hosts file changes needed:
+
+```powershell
+# Admin portal → http://localhost:8080
+kubectl port-forward -n frontend svc/fe-admin 8080:80
+
+# Customer portal → http://localhost:8081
+kubectl port-forward -n frontend svc/fe-public 8081:80
+
+# MySQL direct access → localhost:3306
+kubectl port-forward -n database svc/mysql 3306:3306
+
+# SMTP4Dev web UI → http://localhost:8025
+kubectl port-forward -n database svc/smtp4dev 8025:80
+```
+
+  </Tab>
+  <Tab value="Ingress with Traefik">
+
+The manifests use `ingressClassName: traefik`. Install Traefik first:
+
+```powershell
+# Install Traefik via Helm
+helm repo add traefik https://traefik.github.io/charts
+helm install traefik traefik/traefik
+```
+
+Then add to `C:\Windows\System32\drivers\etc\hosts`:
+
+```
+127.0.0.1  fe-admin.test
+127.0.0.1  fe-public.test
+127.0.0.1  api.utilities.test
+127.0.0.1  api.profile.test
+127.0.0.1  api.license.test
+127.0.0.1  api.complaints.test
+127.0.0.1  api.reporting.test
+127.0.0.1  api.enforcement.test
+127.0.0.1  api.chatbot.test
+```
+
+Access:
+- Admin: `http://fe-admin.test`
+- Customer: `http://fe-public.test`
+- BE0 API: `http://api.utilities.test`
+
+</Tab>
+  <Tab value="NodePort">
+
+Frontend services are configured as `type: NodePort`:
+
+```powershell
+# Find the assigned NodePorts
+kubectl get svc -n frontend
+
+# Access via http://localhost:<NodePort>
+```
+
+  </Tab>
+</Tabs>
+
+### What Gets Deployed
+
+| Namespace | Pods | Purpose |
+|-----------|------|---------|
+| `database` | mysql, redis, smtp4dev | MySQL 8.0 (`osc_pelesenan`), Redis 7 (cache/session/queue), SMTP4Dev (email) |
+| `backend` | be0 through be6, be0-queue...be6-queue, be0-scheduler | 7 Laravel API services + queue workers + scheduler |
+| `frontend` | fe-admin, fe-public | Admin portal (Blade+Vue+Alpine), Customer portal (Blade+Vue+Alpine) |
+
+### Default Credentials (Local Only)
+
+| Service | User | Password |
+|---------|------|----------|
+| MySQL (root) | `root` | `local_dev_password` |
+| MySQL (app) | `osc_user` | `osc_password` |
+| Redis | — | No password |
+| Database name | — | `osc_pelesenan` |
+
+---
+
+## Alternative: Docker Compose (Per-Service)
+
+Each service also has its own `docker-compose.yml` for running individually. This requires a shared Docker network:
+
+```powershell
+# Create the shared network first
+docker network create osc-network
+
+# Then start individual services
+cd Backend/osc-be0-utiliti-main
+docker-compose up -d    # Starts on port 9000
+
+cd ../../Backend/osc-be1-admin-profile-main
+docker-compose up -d    # Starts on port 9000
+
+cd ../../Frontend/osc-fe-admin-main
+docker-compose up -d    # Starts on port 8080
+
+cd ../../Frontend/osc-fe-customer-main
+docker-compose up -d    # Starts on port 8081
+```
+
+:::info
+The docker-compose approach runs services outside Kubernetes. Each service connects to `osc-mysql` and `osc-redis` on the `osc-network` bridge network. You'll need MySQL and Redis containers running on that network separately.
+:::
+
+---
+
+## Development Environment (Remote Clusters)
+
+Three separate K8s clusters on dedicated servers. Images come from GitLab registry at `10.29.46.111:5050`.
+
+### Infrastructure
+
+| Host | Name | IP | Purpose |
+|------|------|----|---------|
+| JKT-Dev-FE1 | FE Portal Server | 10.29.46.105 | Cluster 3 — fe-public |
+| JKT-Dev-FE2 | Admin Portal Server | 10.29.46.106 | Cluster 2 — fe-admin |
+| JKT-Dev-API | API Server | 10.29.46.107 | Cluster 1 — be0-be6 |
+| JKT-Dev-DB | MySQL Database | 10.29.46.108 | Shared MySQL (port 3306) |
+| JKT-Dev-FS | File Server / Redis | 10.29.46.109 | Redis (6379) + NFS storage |
+| JKT-Dev-DW | Data Warehouse | 10.29.46.110 | Reporting MySQL |
+| JKT-Dev-GIT | GitLab | 10.29.46.111 | Container registry + Git |
+
+### Deploy to Development
+
+```bash
+# Cluster 1 — Backend (from API server 10.29.46.107)
+kubectl apply -f development/cluster1-backend/00-namespace.yaml
+kubectl apply -f development/cluster1-backend/backends.yaml
+kubectl apply -f development/cluster1-backend/workers.yaml
+kubectl apply -f development/cluster1-backend/smtp4dev.yaml
+kubectl apply -f development/cluster1-backend/ingress.yaml
+
+# Cluster 2 — FE Admin (from FE2 server 10.29.46.106)
+kubectl apply -f development/cluster2-fe-admin/
+
+# Cluster 3 — FE Public (from FE1 server 10.29.46.105)
+kubectl apply -f development/cluster3-fe-public/
+
+# Or deploy all at once
+kubectl apply -R -f development/
+```
+
+### DNS / Hosts
+
+```
+10.29.46.107  dev-kpkt-api.test
+10.29.46.106  dev-kpkt-admin.test
+10.29.46.105  dev-kpkt-public.test
+```
+
+### NFS Storage
+
+Document uploads use NFS from `10.29.46.109`:
+
+| PVC | NFS Path | Mount | Used By |
+|-----|----------|-------|---------|
+| `pvc-kod-image` | `/mnt/nas/kod-image` | `/var/www/public/images/kod-image` | fe-admin |
+| `pvc-aduan` | `/mnt/nas/aduan` | `/var/www/public/uploads/aduan` | fe-public |
+| `pvc-ulasan-attachements` | `/mnt/nas/ulasan-attachements` | `/var/www/public/ulasan-attachements` | fe-admin |
+
+---
+
+## Production Environment (HA Clusters)
+
+Same 3-cluster topology as development, but with:
+- **2 base replicas** per service
+- **HPA** autoscaling to 5 pods at 70% CPU
+- **TLS** via cert-manager
+- **Individual YAML files** per backend (`be0.yaml`...`be6.yaml`)
+- **500m CPU / 512Mi** resource limits
+
+### Deploy to Production
+
+```bash
+# Cluster 1 — Backend
+kubectl apply -f production/cluster1-backend/00-namespace.yaml
+kubectl apply -f production/cluster1-backend/be0.yaml
+kubectl apply -f production/cluster1-backend/be1.yaml
+# ... through be6.yaml
+kubectl apply -f production/cluster1-backend/ingress.yaml
+
+# Cluster 2 — FE Admin
+kubectl apply -f production/cluster2-fe-admin/
+
+# Cluster 3 — FE Public
+kubectl apply -f production/cluster3-fe-public/
+```
+
+### Verify Production
+
+```bash
+# Check HPA is active
+kubectl get hpa -n backend
+kubectl get hpa -n frontend
+
+# Check pod distribution across nodes
+kubectl get pods -o wide -n backend
+
+# Check TLS certificates
+kubectl get certificates -n frontend
+```
+
+---
+
+## Troubleshooting
+
+<Tabs items={['Pod Issues', 'Database', 'Networking', 'Images']}>
+  <Tab value="Pod Issues">
+
+```powershell
+# Check pod status and events
+kubectl describe pod -n backend -l app=be0
+
+# View logs
+kubectl logs -n backend deployment/be0
+
+# View logs for crashed pod
+kubectl logs -n backend deployment/be0 --previous
+
+# Restart all pods in a namespace
+kubectl rollout restart deployment -n backend
+```
+
+  </Tab>
+  <Tab value="Database">
+
+```powershell
+# Check MySQL pod
+kubectl get pods -n database -l app=mysql
+
+# Connect to MySQL directly
+kubectl exec -it -n database deployment/mysql -- mysql -uosc_user -posc_password osc_pelesenan
+
+# Run migrations from any backend pod
+kubectl exec -it -n backend deployment/be0 -- php artisan migrate --force
+
+# Check Redis
+kubectl exec -it -n database deployment/redis -- redis-cli ping
+```
+
+  </Tab>
+  <Tab value="Networking">
+
+```powershell
+# Test internal DNS resolution from a pod
+kubectl exec -it -n backend deployment/be0 -- nslookup mysql.database.svc.cluster.local
+
+# Test connectivity to another service
+kubectl exec -it -n frontend deployment/fe-admin -- curl -s http://be1.backend.svc.cluster.local/health
+
+# Check ingress config
+kubectl get ingress -A
+kubectl describe ingress -n frontend
+```
+
+  </Tab>
+  <Tab value="Images">
+
+```powershell
+# Check if image exists locally (Docker Desktop)
+docker images | Select-String "be0|be1|fe-admin"
+
+# Rebuild and restart
+docker build -t be0:latest ./Backend/osc-be0-utiliti-main
+kubectl rollout restart -n backend deployment/be0
+
+# Force pull new image (dev/prod only)
+kubectl set image -n backend deployment/be0 be0=10.29.46.111:5050/development/backend-be0:dev
+kubectl rollout restart -n backend deployment/be0
+```
+
+  </Tab>
+</Tabs>
+
+---
+
+## Cleanup
+
+```powershell
+# Delete everything (Docker Desktop)
+kubectl delete -f docker-desktop/
+
+# Or delete by namespace
+kubectl delete namespace backend frontend database
+
+# Docker Compose cleanup
+docker-compose down -v   # per-service
+docker network rm osc-network
+```

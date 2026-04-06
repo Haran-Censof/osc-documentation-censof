@@ -4,4 +4,27 @@
 @import 'fumadocs-ui/css/ocean.css';
 @import 'fumadocs-ui/css/preset.css';
 
+/* Remove scrolling from code blocks and diagrams */
+pre {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+code {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+/* Ensure diagrams render at full size */
+[data-line-numbers] {
+  overflow: visible !important;
+}
+
+/* Remove scroll from mermaid diagrams */
+.dark svg[id^="mermaid"],
+svg[id^="mermaid"] {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
 

@@ -1,86 +1,552 @@
 ---
 title: K8s Config Repository
-description: Infrastructure and Kubernetes configuration management for OSC
+description: Kubernetes manifests for deploying OSC across environments
 ---
 
-import { RepoArchitecture } from '@/components/repo-architecture';
+# K8s Config Repository
 
-export const repoData = {
-  name: 'K8s Config (censof/k8s-config)',
-  description: 'Infrastructure as Code (IaC) repository containing Kubernetes manifests, Helm charts, environment configurations, and cluster deployment definitions for the OSC platform.',
-  database: 'N/A (Infrastructure Configuration)',
-  services: [
-    {
-      name: 'ConfigService',
-      description: 'Manages Kubernetes configuration files and Helm values'
-    },
-    {
-      name: 'DeploymentService',
-      description: 'Handles cluster deployments and rollouts'
-    },
-    {
-      name: 'NetworkService',
-      description: 'Network policies and ingress configurations'
-    }
-  ],
-  controllers: [
-    {
-      name: 'KubernetesController',
-      services: ['ConfigService', 'DeploymentService', 'NetworkService'],
-      endpoints: [
-        {
-          method: 'GET',
-          path: '/config/manifests',
-          description: 'Retrieve Kubernetes manifest files'
-        },
-        {
-          method: 'POST',
-          path: '/deploy/cluster',
-          description: 'Deploy configuration to cluster'
-        },
-        {
-          method: 'GET',
-          path: '/network/policies',
-          description: 'Get network policies'
-        }
-      ]
-    }
-  ]
-};
-
-<RepoArchitecture repo={repoData} />
-
-## Repository Structure
-
-```
-k8s-config/
-├── manifests/              # Kubernetes manifests
-├── helm/                   # Helm charts
-├── environments/           # Environment configurations
-│   ├── dev/
-│   ├── staging/
-│   └── production/
-└── README.md
-```
-
-## Key Technologies
-
-- **Kubernetes**: Container orchestration
-- **Helm**: Package management for Kubernetes
-- **Docker**: Containerization
-- **GitOps**: Infrastructure as Code practices
-
-## Configuration Management
-
-This repository manages:
-- Pod deployments and scaling
-- Service definitions
-- Persistent volumes
-- Ingress rules
-- Network policies
-- Resource quotas
-- RBAC (Role-Based Access Control)
+This repo contains the Kubernetes manifests for deploying the OSC platform. Just YAML files—no code, only infrastructure definitions.
 
 ---
 
-*Click on the tabs above to explore Services, Controllers, API Endpoints, and Architecture*
+## System Overview
+
+```
+┌───────────────────────────────────────────────────────────────────────────┐
+│                     OSC DEPLOYMENT ARCHITECTURE                           │
+├────────────────────┬─────────────────────────────┬────────────────────────┤
+│  DOCKER DESKTOP    │   DEVELOPMENT CLUSTERS      │   PRODUCTION CLUSTERS  │
+├────────────────────┼─────────────────────────────┼────────────────────────┤
+│                    │                             │                        │
+│  Local K8s         │  3 Remote Multi-Node        │  3 Remote Multi-Node   │
+│                    │                             │  + HA + Autoscaling    │
+│  ┌──────────────┐  │  ┌──────────────────────┐   │  ┌─────────────────┐   │
+│  │  Traefik     │  │  │  Cluster 1 Backend   │   │  │  Cluster 1      │   │
+│  │  MySQL       │  │  │  Cluster 2 Fe-Admin  │   │  │  Cluster 2      │   │
+│  │  Redis       │  │  │  Cluster 3 Fe-Public │   │  │  Cluster 3      │   │
+│  │  SMTP4Dev    │  │  └──────────────────────┘   │  └─────────────────┘   │
+│  │              │  │                             │                        │
+│  │  7 Backends  │  │  External Services:         │  External Services:    │
+│  │  2 Frontends │  │  • MySQL 10.29.46.108       │  • MySQL 10.29.46.108  │
+│  │              │  │  • Redis 10.29.46.109       │  • Redis 10.29.46.109  │
+│  │  Single node │  │  • NAS 10.29.46.109         │  • NAS 10.29.46.109    │
+│  └──────────────┘  │                             │                        │
+└────────────────────┴─────────────────────────────┴────────────────────────┘
+```
+
+---
+
+## The Three Environments
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                   DOCKER DESKTOP (Local Dev)                    │
+│  • Single machine, local images (imagePullPolicy: Never)        │
+│  • MySQL + Redis included                                       │
+│  • Uses Traefik ingress (*.test domains)                        │
+├─────────────────────────────────────────────────────────────────┤
+│           DEVELOPMENT (Remote Multi-Cluster)                    │
+│  • 3 separate clusters: backend, fe-admin, fe-public            │
+│  • External DB + Redis (fixed IPs: 10.29.46.108, 10.29.46.109)  │
+│  • GitLab registry (:dev tags)                                  │
+│  • 1 replica each, dev-kpkt-api.test hostname                   │
+├─────────────────────────────────────────────────────────────────┤
+│            PRODUCTION (Remote Multi-Cluster)                    │
+│  • 3 separate clusters: backend, fe-admin, fe-public            │
+│  • External DB + Redis (same IPs as dev)                        │
+│  • GitLab registry (:latest tags)                               │
+│  • 2 replicas + autoscaling (2-5 pods, 70% CPU)                 │
+│  • Real TLS certs from cert-manager                             │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Docker Desktop Architecture
+
+```
+┌──────────────────────────────────────────────────────────────────────────┐
+│                      Docker Desktop Kubernetes                           │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│    ┌──────────────────────────────────────────────────────────┐          │
+│    │     Ingress (Traefik)                                    │          │
+│    │     fe-admin.test │ fe-public.test │ api.*.test          │          │
+│    └──────────────────────────────────────────────────────────┘          │
+│                          ▲                                               │
+│                          │                                               │
+│     ┌────────────────────┼────────────────────┐                          │
+│     │                    │                    │                          │
+│     ▼                    ▼                    ▼                          │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐                │
+│  │  Frontend    │  │  Frontend    │  │    Backend       │                │
+│  │  Namespace   │  │  Namespace   │  │    Namespace     │                │
+│  │              │  │              │  │                  │                │
+│  │ ┌──────────┐ │  │ ┌──────────┐ │  │ ┌──────────────┐ │                │
+│  │ │ fe-admin │ │  │ │fe-public │ │  │ │  be0-be6     │ │                │
+│  │ │ Port 80  │ │  │ │Port 80   │ │  │ │  (7 services)│ │                │
+│  │ └──────────┘ │  │ └──────────┘ │  │ │  Port 80     │ │                │
+│  └──────────────┘  └──────────────┘  │ └──────────────┘ │                │
+│                                      └──────────────────┘                │
+│                                                                          │
+│    ┌──────────────────────────────────────────────────────────┐          │
+│    │           Database Namespace                             │          │
+│    ├──────────────────────────────────────────────────────────┤          │
+│    │                                                          │          │
+│    │   ┌──────────┐      ┌──────────┐    ┌─────────────┐      │          │
+│    │   │  MySQL   │      │  Redis   │    │  SMTP4Dev   │      │          │
+│    │   │  3306    │      │  6379    │    │  25 (email) │      │          │
+│    │   └──────────┘      └──────────┘    └─────────────┘      │          │
+│    │                                                          │          │
+│    └──────────────────────────────────────────────────────────┘          │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Development Environment - 3 Separate Clusters
+
+```
+┌──────────────────────────────────────────────────────────────────────────┐
+│                         DEVELOPMENT CLUSTERS                             │
+├─────────────────────────┬─────────────────────────┬──────────────────────┤
+│   CLUSTER 1 (Backend)   │   CLUSTER 2 (Admin)     │  CLUSTER 3 (Public)  │
+├─────────────────────────┼─────────────────────────┼──────────────────────┤
+│                         │                         │                      │
+│ ┌─────────────────────┐ │ ┌────────────────────┐  │ ┌──────────────────┐ │
+│ │ backend Namespace   │ │ │frontend Namespace  │  │ │frontend Namespace│ │
+│ ├─────────────────────┤ │ ├────────────────────┤  │ ├──────────────────┤ │
+│ │                     │ │ │                    │  │ │                  │ │
+│ │ ┌───────────────┐   │ │ │ ┌───────────────┐  │  │ │ ┌──────────────┐ │ │
+│ │ │   be0-be6     │   │ │ │ │  fe-admin     │  │  │ │ │  fe-public   │ │ │
+│ │ │ (7 services)  │   │ │ │ │               │  │  │ │ │              │ │ │
+│ │ │ Port: 80      │   │ │ │ │  Port: 80     │  │  │ │ │  Port: 80    │ │ │
+│ │ │               │   │ │ │ │               │  │  │ │ │              │ │ │
+│ │ │ Queue Workers │   │ │ │ │ Storage:      │  │  │ │ │ Storage:     │ │ │
+│ │ │ Scheduler     │   │ │ │ │ • kod-image   │  │  │ │ │ • aduan      │ │ │
+│ │ │               │   │ │ │ │ • ulasan-     │  │  │ │ │ • kod-image  │ │ │
+│ │ │ (dev only)    │   │ │ │ │   attachments │  │  │ │ │              │ │ │
+│ │ └───────────────┘   │ │ │ └───────────────┘  │  │ │ └──────────────┘ │ │
+│ │                     │ │ │                    │  │ │                  │ │
+│ │ Ingress (NGINX):    │ │ │ Ingress (NGINX):   │  │ │ Ingress (NGINX): │ │
+│ │ dev-kpkt-api.test   │ │ │ dev-kpkt-api.test  │  │ │ dev-kpkt-api.test│ │
+│ │ /be0 → be0          │ │ │ /fe-admin →        │  │ │ /fe-public →     │ │
+│ │ /be1 → be1          │ │ │   fe-admin         │  │ │   fe-public      │ │
+│ │ ... /be6 → be6      │ │ │                    │  │ │                  │ │
+│ └─────────────────────┘ │ └────────────────────┘  │ └──────────────────┘ │
+│                         │                         │                      │
+└─────────────────────────┴─────────────────────────┴──────────────────────┘
+│                                                                          │
+│ EXTERNAL SHARED SERVICES (Fixed IPs - All 3 clusters connect):           |
+│ ┌──────────────────────────────────────────────────────────────────┐     │
+│ │  MySQL: 10.29.46.108 (Port 3306)                                 │     │
+│ │  Redis: 10.29.46.109 (Port 6379)     NAS: 10.29.46.109           │     │
+│ └──────────────────────────────────────────────────────────────────┘     │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Production Environment - 3 Clusters with HA & Auto-Scaling
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                       PRODUCTION CLUSTERS (HA Ready)                         │
+├─────────────────────────┬───────────────────────────┬──────────────────────┤
+│  CLUSTER 1 (Backend)    │  CLUSTER 2 (Admin)        │  CLUSTER 3 (Public)  │
+├─────────────────────────┼───────────────────────────┼──────────────────────┤
+│                         │                           │                      │
+│ ┌─────────────────────┐ │ ┌───────────────────────┐ │ ┌──────────────────┐ │
+│ │ backend Namespace   │ │ │ frontend Namespace    │ │ │ frontend         │ │
+│ │ environment:        │ │ │ environment: prod     │ │ │ Namespace        │ │
+│ │ production          │ │ │                       │ │ │ environment:     │ │
+│ ├─────────────────────┤ │ ├───────────────────────┤ │ │ production       │ │
+│ │                     │ │ │                       │ │ ├──────────────────┤ │
+│ │ ┌─────────────────┐ │ │ │ ┌───────────────────┐ │ │ │                  │ │
+│ │ │ be0-be6         │ │ │ │ │ fe-admin (2 pods) │ │ │ │ fe-public        │ │
+│ │ │ 2 replicas each │ │ │ │ │ HPA: 2-5 pods     │ │ │ │ (2 pods)         │ │
+│ │ │ HPA: 2-5 pods   │ │ │ │ │ Trigger: 70%      │ │ │ │ HPA: 2-5 pods    │ │
+│ │ │ Trigger: 70%    │ │ │ │ │ CPU               │ │ │ │ Trigger: 70%     │ │
+│ │ │ CPU             │ │ │ │ │                   │ │ │ │ CPU              │ │
+│ │ │                 │ │ │ │ │ TLS: cert-        │ │ │ │                  │ │
+│ │ │ Health checks:  │ │ │ │ │ manager           │ │ │ │ TLS: cert-       │ │
+│ │ │ /health (8080)  │ │ │ │ │ admin.example.com │ │ │ │ manager          │ │
+│ │ │                 │ │ │ │ └───────────────────┘ │ │ │ www.example.com  │ │
+│ │ │ Ingress (NGINX):│ │ │ │                       │ │ │                  │ │
+│ │ │ api.internal    │ │ │ │ Ingress (NGINX):      │ │ │ Ingress (NGINX): │ │
+│ │ │ /be0...be6 path │ │ │ │                       | │ │  www.example.com │ │
+│ │ │                 │ │ │ │ (SSL redirect )       | | |  www.example.com │ │
+│ │ └─────────────────┘ │ │ └───────────────────────┘ │ └──────────────────┘ │
+│ │                     │ │                           │                      │
+│ └─────────────────────┘ │                           |                      │
+│                         │                           │                      │
+└─────────────────────────┴───────────────────────────┴──────────────────────┘
+│                                                                            │
+│ EXTERNAL SHARED SERVICES (Same IPs as Development):                        │
+│ ┌──────────────────────────────────────────────────────────────────┐       │
+│ │  MySQL: 10.29.46.108 (Port 3306) - Production Database           │       │
+│ │  Redis: 10.29.46.109 (Port 6379) - Production Cache              │       │
+│ └──────────────────────────────────────────────────────────────────┘       │
+│                                                                            │
+│ NOTE:   Prod DB config not visible in manifests - may be external          │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Backend Service Communication Flow
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                   BACKEND SERVICE MESH                                 │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│                         External Ingress:                              │
+│               dev-kpkt-api.test (or api.internal.com)                  │
+│                              │                                         │
+│        ┌─────────────────────┼─────────────────────┐                   │
+│        │                     │                     │                   │
+│        ▼                     ▼                     ▼                   │
+│    ┌────────┐           ┌────────┐            ┌─────────────────┐      │
+│    │  be0   │           │  be1   │    ────    │    be2 - be6    │      │
+│    │ :8080  │           │ :8080  │            │     (4 more)    │      │
+│    └────────┘           └────────┘            │     :8080 each  │      │
+│        │                     │                └─────────────────┘      │
+│        └─────────────────────┴──────────────────────────────────┐      │
+│                                                                 │      │
+│                              ▼                                  │      │
+│                    ┌──────────────────────┐                     │      │
+│                    │   Shared Redis       │                     │      │
+│                    │ 10.29.46.109:6379    │◄────────────────────┘      │
+│                    │ • Cache Store        │                            │
+│                    │ • Sessions           │                            │
+│                    │ • Queue Jobs         │                            │
+│                    └──────────────────────┘                            │
+│                              ▲                                         │
+│                              │                                         │
+│                    ┌──────────────────────┐                            │
+│                    │   Shared MySQL       │                            |
+│                    │ 10.29.46.108:3306    │                            │
+│                    │ • osc_pelesenan DB   │                            │
+│                    │ • All data shared    │                            │
+│                    └──────────────────────┘                            │
+│                                                                        │
+│ Development Only - Background Processing:                              │
+│ ├─ Queue Workers: be0-queue...be6-queue                                │
+│ │  └─> php artisan queue:work --sleep=3 --tries=3 --max-time=3600      │
+│ │                                                                      │
+│ └─ Scheduler: be0-scheduler                                            │
+│    └─> php artisan schedule:work                                       │
+│                                                                        │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Frontend Services - Request Flow
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                  FRONTEND REQUEST FLOW (All Environments)              │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│    User Browser          Ingress           Frontend      Backend       │
+│    ───────────           ───────           ────────      ───────       │
+│                                                                        │
+│        │                    │                 │            │           │
+│        │  1. HTTP Request   │                 │            │           │
+│        ├───────────────────>│                 │            │           │
+│        │                    │                 │            │           │
+│        │                    │  2. Route       │            │           │
+│        │                    ├────────────────>│            │           │
+│        │                    │     (Port 80)   │            │           │
+│        │                    │                 │            │           │
+│        │                    │                 │ 3. API Call│           │
+│        │                    │                 ├───────────>│           │
+│        │                    │                 │  (be0-be6) │           │
+│        │                    │                 │            │           │
+│        │                    │                 │<─── JSON ──┤           │
+│        │                    │                 │  Response  │           │
+│        │                    │                 │            │           │
+│        │<──────── HTML ─────┤<────────────────┤            │           │
+│        │     Response       │                 │            │           │
+│        │                    │                 │            │           │
+└────────────────────────────────────────────────────────────────────────┘
+
+ENVIRONMENT-SPECIFIC INGRESS CONFIGURATION:
+
+Docker Desktop:
+├─ Ingress: Traefik  
+├─ fe-admin.test   → fe-admin Service (ClusterIP) → Pod (port 80)
+└─ fe-public.test  → fe-public Service (ClusterIP) → Pod (port 80)
+
+Development:
+├─ Ingress: NGINX
+└─ dev-kpkt-api.test/fe-admin  → fe-admin Service → Pod (port 80)
+   dev-kpkt-api.test/fe-public → fe-public Service → Pod (port 80)
+
+Production:
+├─ Ingress: NGINX + TLS (cert-manager)
+├─ admin.example.com   → fe-admin Service (2+ pods) → Load Balanced
+├─ www.example.com     → fe-public Service (2+ pods) → Load Balanced
+└─ HPA: Scales to 5 pods @ 70% CPU threshold
+
+```
+
+---
+
+## Storage Architecture (Development)
+
+```
+┌──────────────────────────────────────────────────────────────────────┐
+│                   NFS-BASED PERSISTENT STORAGE                       │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│           NAS Server @ 10.29.46.109 (NFS Provider)                   │
+│           ──────────────────────────────────────────                 │
+│                         │                                            │
+│         ┌───────────────┼────────────────┐                           │
+│         │               │                │                           │
+│    ┌────▼──────┐  ┌─────▼──────┐  ┌──────▼─────────────┐             │
+│    │ kod-image │  │   aduan    │  │ ulasan-            │             │
+│    │ (NFS path)│  │ (NFS path) │  │ attachments        │             │
+│    │ /mnt/nas/ │  │ /mnt/nas/  │  │ (NFS path)         │             │
+│    │ kod-image │  │ aduan      │  │ /mnt/nas/          │             │
+│    └────┬──────┘  └──────┬─────┘  │ ulasan-            │             │
+│         │                │        │ attachments        │             │
+│         │                │        └─────┬──────────────┘             │
+│         │                │              │                            │
+│    ┌────▼──────┐    ┌────▼──────┐   ┌───▼──────┐                     │
+│    │ PVC:      │    │ PVC:      │   │ PVC:     │                     │
+│    │ pv-kod    │    │ pv-aduan  │   │ pv-      │                     │
+│    │ (10Gi)    │    │ (10Gi)    │   │ ulasan   │                     │
+│    │ Mode:     │    │ Mode:     │   │ (10Gi)   │                     │
+│    │ RWMany    │    │ RWMany    │   │ Mode:    │                     │
+│    └────┬──────┘    └────┬──────┘   │ RWMany   │                     │
+│         │                │          └───┬──────┘                     │
+│    ┌────▼──────┐    ┌────▼──────┐   ┌───▼──────────┐                 │
+│    │ Mounted:  │    │ Mounted:  │   │ Mounted:     │                 │
+│    │ /var/www/ │    │ /var/www/ │   │ /var/www/    │                 │
+│    │ images/   │    │ uploads/  │   │ public/      │                 │
+│    │ kod-image │    │ aduan     │   │ ulasan-      │                 │
+│    └────┬──────┘    └────┬──────┘   │ attachments  │                 │
+│         │                │          └───┬──────────┘                 │
+│    ┌────▼────────────────▼──────────────▼────┐                       │
+│    │                                         │                       │
+│    │   CLUSTER 2 (fe-admin)                  │                       │
+│    │   ┌──────────────────────────────────┐  │                       │
+│    │   │  fe-admin Container              │  │                       │
+│    │   │  Read/Write Access to:           │  │                       │
+│    │   │  • kod-image                     │  │                       │
+│    │   │  • ulasan-attachments            │  │                       │
+│    │   └──────────────────────────────────┘  │                       │
+│    │                                         │                       │
+│    └─────────────────────────────────────────┘                       │
+│                                                                      │
+│    ┌──────────────────────────────────────────┐                      │
+│    │                                          │                      │
+│    │   CLUSTER 3 (fe-public)                  │                      │
+│    │   ┌──────────────────────────────────┐   │                      │
+│    │   │  fe-public Container             │   │                      │
+│    │   │  Read/Write Access to:           │   │                      │
+│    │   │  • aduan                         │   │                      │
+│    │   │  • kod-image                     │   │                      │
+│    │   └──────────────────────────────────┘   │                      │
+│    │                                          │                      │
+│    └──────────────────────────────────────────┘                      │
+│                                                                      │
+│ Storage Policies:                                                    │
+│ ├─ Reclaim Policy: Retain (data preserved on delete)                 │
+│ ├─ Access Mode: ReadWriteMany (shared across pods & nodes)           │
+│ └─ Type: NFS v4 (network file system)                                │
+│                                                                      │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## What's Running
+
+### Backend Services (7 microservices)
+
+| Service | What it does |
+|---------|--------------|
+| **be0** | Utilities & shared functions |
+| **be1** | User profiles & admin |
+| **be2** | Licensing |
+| **be3** | Complaints & notifications |
+| **be4** | Reports |
+| **be5** | Enforcement |
+| **be6** | Chatbot |
+
+All services:
+- Listen on port 8080 (prod) or 80 (dev)
+- Run as ClusterIP services (internal only, accessed via ingress)
+- Have `/health` endpoint for readiness + liveness checks
+
+### Frontend Services (2 apps)
+
+- **fe-admin**: Admin dashboard
+- **fe-public**: Customer portal
+
+Both on port 80, NodePort in Docker Desktop, ClusterIP in prod/dev.
+
+### Infrastructure (Docker Desktop only)
+
+- **MySQL 8.0**: database `osc_pelesenan`, user `osc_user`
+- **Redis 7**: cache & sessions & queues
+- **SMTP4Dev**: local email testing
+
+---
+
+## Quick Reference: Key Differences
+
+```
+                    Docker Desktop    Development         Production
+────────────────────────────────────────────────────────────────
+Images              Local (:latest)   GitLab (:dev)       GitLab (:latest)
+Replicas            1                 1                   2 + autoscale
+DB/Redis            Bundled k8s       External IPs        External IPs
+Health checks       ❌                ❌                  ✅
+Resource limits     100m/128Mi        100m/128Mi          500m/512Mi
+Autoscaling         ❌                ❌                  ✅
+TLS                 ❌                ❌                  ✅
+```
+
+---
+
+## Ingress Routes (How traffic flows)
+
+### Docker Desktop
+```
+fe-admin.test          →  fe-admin:80
+fe-public.test         →  fe-public:80
+api.utilities.test     →  be0:80
+api.profile.test       →  be1:80
+... (one per backend service)
+```
+
+### Development
+```
+dev-kpkt-api.test/be0  →  be0:80
+dev-kpkt-api.test/be1  →  be1:80
+... (all backends at same hostname, different paths)
+```
+
+### Production
+```
+api.internal.example.com/be0     →  be0:80
+admin.example.com                →  fe-admin:80
+www.example.com                  →  fe-public:80
+```
+
+---
+
+## Storage (Development only)
+
+NFS volumes from NAS at `10.29.46.109`:
+
+- **kod-image** (10Gi) → fe-admin: `/var/www/public/images/kod-image`
+- **aduan** (10Gi) → fe-public: `/var/www/public/uploads/aduan`
+- **ulasan-attachements** (10Gi) → fe-admin: `/var/www/public/ulasan-attachements`
+
+---
+
+## Background Jobs (Development only)
+
+Queue workers + scheduler run in dev. Production has none (⚠️ question mark).
+
+- **Queue workers** (be0-queue...be6-queue): `php artisan queue:work --sleep=3 --tries=3 --max-time=3600`
+- **Scheduler** (be0-scheduler): `php artisan schedule:work`
+
+---
+
+## 🚨 Important Things to Check
+
+### 1. **Frontend images pointing to wrong place in prod**
+Production fe-admin and fe-public still use `10.29.46.111:5050/**development**/frontend-admin:latest`. Should be `/production/`.
+
+### 2. **Production frontend talking to dev backend**
+fe-admin prod config has `hostAliases` pointing to `dev-kpkt-api.test` (IP `10.29.46.107`). Probably should point to prod API instead.
+
+### 3. **No Redis password**
+`REDIS_PASSWORD=""` everywhere. Works if Redis is network-isolated, but risky.
+
+### 4. **Database passwords in git**
+Dev ConfigMap has plaintext password `xs2ADMIN!@#`. Not great for security.
+
+### 5. **GitLab registry secret missing**
+All deployments reference `gitlab-registry` secret, but it's not defined in the manifests. Must be created beforehand.
+
+### 6. **No queue/scheduler in production**
+Workers and scheduler only exist in dev. How do async jobs run in prod?
+
+### 7. **Production DB config unknown**
+No MySQL deployment in prod folder. Is it external? Where's the ConfigMap with prod DB_HOST?
+
+### 8. **Different env variable names**
+Dev uses `CACHE_STORE`, Docker uses `CACHE_DRIVER`. Suggests different app versions?
+
+### 9. **No pod spreading or affinity rules**
+If 2 replicas end up on same node, you lose HA. No rules prevent this.
+
+### 10. **Duplicate storage definition**
+`pv-aduan` defined in both cluster2 and cluster3. Should fail on second apply—clarify intent.
+
+---
+
+## File Structure
+
+```
+docker-desktop/                 ← Local docker desktop manifests
+  00-namespaces.yaml
+  01-configmaps.yaml
+  02-mysql.yaml
+  03-redis.yaml
+  04-backends.yaml
+  05-frontends.yaml
+  06-ingress.yaml
+  07-smtp4dev.yaml
+  08-workers.yaml
+  backend-example.yaml          ← Reference template
+
+development/                    ← 3 separate clusters
+  DEVELOPMENT_GUIDE.md
+  frontend-backend-troubleshooting.md
+  cluster1-backend/
+    00-namespace.yaml
+    backends.yaml               ← All 7 backends in one file
+    ingress.yaml
+    smtp4dev.yaml
+    workers.yaml
+  cluster2-fe-admin/
+  cluster3-fe-public/
+
+production/                     ← 3 separate clusters
+  cluster1-backend/
+    00-namespace.yaml
+    be0.yaml … be6.yaml         ← Individual files per backend
+    ingress.yaml
+  cluster2-fe-admin/
+    00-namespace.yaml
+    fe-admin.yaml
+    ingress.yaml
+  cluster3-fe-public/
+    00-namespace.yaml
+    fe-public.yaml
+    ingress.yaml
+```
+
+---
+
+## To Deploy
+
+1. Pick your environment folder
+2. Apply the manifests (`kubectl apply -f ...`)
+3. Make sure `gitlab-registry` secret exists first (prod/dev)
+4. For prod, confirm actual ingress hostnames before applying
+
+**Note**: Ask the team about those 10 issues above before going live with prod.
