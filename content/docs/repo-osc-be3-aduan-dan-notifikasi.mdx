@@ -323,7 +323,7 @@ These are simpler duplicate mappings to the same tables (kept for backward compa
 
 | Service | Injected | Purpose |
 |---------|----------|---------|
-| **AduanService** | NotificationService | Draft save, complaint submission (ADU-{YEAR}-{SEQ} generation with row locking), SLA calculation (14d default), auto-assign by category, file metadata storage, audit trail, CSAT save |
+| **AduanService** | NotificationService | Draft save, complaint submission (`ADU-{YEAR}-{SEQ}` generation with row locking), SLA calculation (14d default), auto-assign by category, file metadata storage, audit trail, CSAT save |
 | **OfficerService** | NotificationService | Accept ticket (P→D), reassign (same-PBT validation), save/send reply, auto-close on reply, close with rumusan, CSAT row creation, sends 3 notifications on reply (replied, closed, CSAT survey) |
 | **OfficerAuthService** | — | PBT access validation, role validation, combined access+role checks. JKT can access all PBTs |
 | **DashboardService** | — | Summary stats with sparklines, category breakdown, monthly trends (top 3), resolution time distribution (≤1d, 2-3d, 4-7d, >7d), urgent/SLA-at-risk complaints |

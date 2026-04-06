@@ -16,6 +16,8 @@ const withMDX = createMDX();
 
 /** @type {import('next').NextConfig} */
 const config = {
+  output: 'export',
+  basePath: '/osc-documentation-censof',
   serverExternalPackages: ['@takumi-rs/image-response'],
   reactStrictMode: true,
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
