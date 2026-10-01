@@ -1,0 +1,180 @@
+{
+  "id": "be4-reporting",
+  "name": "BE4 Pelaporan",
+  "kind": "spring",
+  "container": "be4-reporting",
+  "docsPage": null,
+  "role": "Report generation (JasperReports)",
+  "stack": {
+    "framework": "Spring Boot",
+    "springBoot": "3.2.2",
+    "java": "17",
+    "packages": [
+      "spring-boot-starter-parent",
+      "jasper-report-service",
+      "spring-boot-starter-web",
+      "spring-boot-starter-jdbc",
+      "spring-boot-starter-validation",
+      "spring-boot-starter-actuator",
+      "jasperreports",
+      "jasperreports-fonts",
+      "groovy",
+      "barbecue",
+      "barcode4j",
+      "core",
+      "javase",
+      "poi",
+      "poi-ooxml",
+      "mysql-connector-j",
+      "postgresql",
+      "ojdbc8",
+      "mssql-jdbc",
+      "HikariCP",
+      "logstash-logback-encoder",
+      "springdoc-openapi-starter-webmvc-ui",
+      "spring-boot-starter-test",
+      "spring-boot-maven-plugin"
+    ]
+  },
+  "code": {
+    "controllers": [
+      "TemplateController",
+      "ReportController"
+    ],
+    "javaFiles": 23,
+    "reportTemplates": 70
+  },
+  "migrations": 0,
+  "routes": [
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/templates/upload",
+      "name": null,
+      "controller": "TemplateController",
+      "action": "uploadTemplate",
+      "middleware": [],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/templates",
+      "name": null,
+      "controller": "TemplateController",
+      "action": "listTemplates",
+      "middleware": [],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/templates/{templateName}",
+      "name": null,
+      "controller": "TemplateController",
+      "action": "deleteTemplate",
+      "middleware": [],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/templates/{templateName}/exists",
+      "name": null,
+      "controller": "TemplateController",
+      "action": "templateExists",
+      "middleware": [],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/templates/debug-template-path",
+      "name": null,
+      "controller": "TemplateController",
+      "action": "debugTemplatePath",
+      "middleware": [],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/templates/debug-upload",
+      "name": null,
+      "controller": "TemplateController",
+      "action": "debugUpload",
+      "middleware": [],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/templates/health",
+      "name": null,
+      "controller": "TemplateController",
+      "action": "health",
+      "middleware": [],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/templates/cache/clear",
+      "name": null,
+      "controller": "TemplateController",
+      "action": "clearCache",
+      "middleware": [],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/reports/generate",
+      "name": null,
+      "controller": "ReportController",
+      "action": "generateReport",
+      "middleware": [],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/health",
+      "name": null,
+      "controller": "ReportController",
+      "action": "health",
+      "middleware": [],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/debug",
+      "name": null,
+      "controller": "ReportController",
+      "action": "debug",
+      "middleware": [],
+      "routeLevelAuth": false
+    }
+  ],
+  "routesSource": "static scan of @*Mapping annotations",
+  "status": "ok",
+  "git": {
+    "branch": "main",
+    "commit": "dcd9e26",
+    "commitDate": "2026-06-12T00:55:17+08:00",
+    "commitSubject": "Fix ReportService test regressions",
+    "remote": "https://github.com/censof/osc-report-service.git"
+  }
+}

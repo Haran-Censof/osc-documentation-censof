@@ -1,0 +1,472 @@
+{
+ "module": {
+  "id": "pemantauan-dan-penguatkuasaan",
+  "name": "Pemantauan dan Penguatkuasaan",
+  "code": "PA",
+  "version": "1.2",
+  "iteration": 1,
+  "sourceFile": "OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v1.2 - Printing Version - Pemantauan dan Penguatkuasaan.docx"
+ },
+ "functions": [
+  {
+   "id": "SF-PL-PA-PL",
+   "name": "Pemeriksaan Lesen",
+   "actors": []
+  },
+  {
+   "id": "SF-PL-PA-PL-01",
+   "name": "Senarai Lesen Ikut Status / Kawasan",
+   "actors": [
+    "Pegawai Penguatkuasa"
+   ]
+  },
+  {
+   "id": "SF-PL-PA-PL-02",
+   "name": "Imbas Kod QR Sijil",
+   "actors": [
+    "Pegawai Penguatkuasa"
+   ]
+  },
+  {
+   "id": "SF-PL-PA-PL-03",
+   "name": "Rekod Nota Pemeriksaan",
+   "actors": [
+    "Pegawai Penguatkuasa"
+   ]
+  }
+ ],
+ "useCases": [
+  {
+   "id": "UC-PL-PA-PL-01",
+   "name": "Senarai Lesen Ikut Status/Kawasan",
+   "group": "Pemantauan & Penguatkuasaan",
+   "actors": [
+    "Pegawai Penguatkuasa"
+   ],
+   "steps": [
+    "Pegawai buka modul pemantauan.",
+    "Sistem papar senarai lesen mengikut zon, kawasan, status sah/tamat.",
+    "Pegawai pilih lesen untuk diperiksa.",
+    "Sistem panggil UC-PL-PA-PL-01-01 untuk penapisan lanjut."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tiada lesen dalam kawasan.A2: Kegagalan capaian pangkalan data."
+    }
+   ],
+   "input": "Kawasan, status",
+   "output": "Senarai lesen",
+   "uiRefs": [],
+   "integration": "Modul 10 (Bayaran & Pengeluaran Lesen)",
+   "notes": "Kerja lapangan; optimasi paparan",
+   "calls": [
+    "UC-PL-PA-PL-01-01"
+   ],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PA-PL-01-01",
+   "name": "Tapis dan Cari Lesen",
+   "group": "Pemantauan & Penguatkuasaan",
+   "actors": [
+    "Pegawai"
+   ],
+   "steps": [
+    "Pegawai masukkan penapis (kawasan, kategori, tarikh luput).",
+    "Sistem memaparkan keputusan carian.",
+    "Pegawai pilih lesen untuk tindakan lanjut."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Carian terlalu luas.A2: Tiada rekod padanan."
+    }
+   ],
+   "input": "Parameter carian",
+   "output": "Senarai ditapis",
+   "uiRefs": [],
+   "integration": "–",
+   "notes": "Carian mesti responsif",
+   "calls": [],
+   "parentId": "UC-PL-PA-PL-01"
+  },
+  {
+   "id": "UC-PL-PA-PL-01-02",
+   "name": "Muat Turun Senarai (Offline Mode)",
+   "group": "Pemantauan & Penguatkuasaan",
+   "actors": [
+    "Pegawai"
+   ],
+   "steps": [
+    "Pegawai klik muat turun senarai.",
+    "Sistem sediakan fail offline (CSV/JSON).",
+    "Sistem simpan untuk capaian tanpa rangkaian."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Gagal jana fail.A2: Storan peranti penuh."
+    }
+   ],
+   "input": "Senarai lesen",
+   "output": "Fail offline",
+   "uiRefs": [],
+   "integration": "–",
+   "notes": "Mode offline untuk pemeriksaan lapangan",
+   "calls": [],
+   "parentId": "UC-PL-PA-PL-01"
+  },
+  {
+   "id": "UC-PL-PA-PL-02",
+   "name": "Imbas Kod QR Sijil",
+   "group": "Pemantauan & Penguatkuasaan",
+   "actors": [
+    "Pegawai"
+   ],
+   "steps": [
+    "Pegawai buka fungsi imbas QR.",
+    "Imbas kod pada sijil lesen.",
+    "Sistem panggil UC-PL-PA-PL-02-01 untuk sahkan tandatangan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "QR tidak sah.A2: Kamera gagal membaca."
+    }
+   ],
+   "input": "Kod QR",
+   "output": "Data lesen",
+   "uiRefs": [],
+   "integration": "Modul 10",
+   "notes": "QR wajib standard",
+   "calls": [
+    "UC-PL-PA-PL-02-01"
+   ],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PA-PL-02-01",
+   "name": "Sahkan Tandatangan/Checksum QR",
+   "group": "Pemantauan & Penguatkuasaan",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem membaca checksum QR.",
+    "Sistem sahkan tandatangan digital dari server.",
+    "Jika sah, teruskan proses; jika tidak, amaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tandatangan tidak sah.A2: Token tamat tempoh."
+    }
+   ],
+   "input": "Hash QR",
+   "output": "Status kesahihan",
+   "uiRefs": [],
+   "integration": "Sistem tandatangan digital",
+   "notes": "Keselamatan tahap tinggi",
+   "calls": [],
+   "parentId": "UC-PL-PA-PL-02"
+  },
+  {
+   "id": "UC-PL-PA-PL-02-02",
+   "name": "Dapatkan Butiran Lesen",
+   "group": "Pemantauan & Penguatkuasaan",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem tarik data lesen dari pangkalan data.",
+    "Papar status lesen, tarikh luput, syarat lesen, rekod pemilik."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Rekod lesen tidak dijumpai.A2: Ralat integriti data."
+    }
+   ],
+   "input": "ID Lesen",
+   "output": "Butiran lesen",
+   "uiRefs": [],
+   "integration": "Modul 10",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-PA-PL-02"
+  },
+  {
+   "id": "UC-PL-PA-PL-02-03",
+   "name": "Imbas Tanpa Rangkaian",
+   "group": "Pemantauan & Penguatkuasaan",
+   "actors": [
+    "Pegawai"
+   ],
+   "steps": [
+    "Pegawai imbas QR semasa offline.2. Sistem simpan imbasan dalam cache. 3. Apabila online, sistem sahkan & kemaskini data."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Cache rosak.A2: Fail QR tidak lengkap."
+    }
+   ],
+   "input": "Kod QR",
+   "output": "Rekod imbasan",
+   "uiRefs": [],
+   "integration": "–",
+   "notes": "Kritikal untuk operasi lapangan",
+   "calls": [],
+   "parentId": "UC-PL-PA-PL-02"
+  },
+  {
+   "id": "UC-PL-PA-PL-02-04",
+   "name": "Notifikasi Ketakpatuhan Segera",
+   "group": "Pemantauan & Penguatkuasaan",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem kesan lesen tamat atau tidak sah.",
+    "Paparkan notifikasi segera.",
+    "Pegawai terus ke tindakan pemeriksaan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Fail QR rosak.A2: Status lesen tidak dapat dikenal pasti."
+    }
+   ],
+   "input": "Status lesen",
+   "output": "Amaran ketakpatuhan",
+   "uiRefs": [],
+   "integration": "Modul 12",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-PA-PL-02"
+  },
+  {
+   "id": "UC-PL-PA-PL-03",
+   "name": "Rekod Nota Pemeriksaan",
+   "group": "Pemantauan & Penguatkuasaan",
+   "actors": [
+    "Pegawai"
+   ],
+   "steps": [
+    "Pegawai buka borang pemeriksaan tapak.",
+    "Catat dapatan keseluruhan.",
+    "Sistem panggil PL-03-01 hingga PL-03-05 untuk maklumat tambahan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Sistem gagal simpan rekod.A2: Lokasi tidak dapat diperoleh."
+    }
+   ],
+   "input": "Maklumat pemeriksaan",
+   "output": "Rekod pemeriksaan",
+   "uiRefs": [],
+   "integration": "–",
+   "notes": "Maklumat asas pemeriksaan",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PA-PL-03-01",
+   "name": "Tambah Nota dan Pemerhatian",
+   "group": "Pemantauan & Penguatkuasaan",
+   "actors": [
+    "Pegawai"
+   ],
+   "steps": [
+    "Pegawai catat nota, pemerhatian & cadangan tindakan.",
+    "Sistem simpan nota ke rekod lesen."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Nota melebihi had aksara."
+    }
+   ],
+   "input": "Nota",
+   "output": "Nota disimpan",
+   "uiRefs": [],
+   "integration": "–",
+   "notes": "Nota wajib jelas",
+   "calls": [],
+   "parentId": "UC-PL-PA-PL-03"
+  },
+  {
+   "id": "UC-PL-PA-PL-03-02",
+   "name": "Lampir Foto/Video Bukti",
+   "group": "Pemantauan & Penguatkuasaan",
+   "actors": [
+    "Pegawai"
+   ],
+   "steps": [
+    "Pegawai muat naik gambar/video.",
+    "Sistem semak format & saiz.",
+    "Sistem simpan ke repositori bukti."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Fail terlalu besar.A2: Format tidak sah."
+    }
+   ],
+   "input": "Fail Media",
+   "output": "Bukti disimpan",
+   "uiRefs": [],
+   "integration": "Repositori Dokumen",
+   "notes": "GPS metadata wajib",
+   "calls": [],
+   "parentId": "UC-PL-PA-PL-03"
+  },
+  {
+   "id": "UC-PL-PA-PL-03-03",
+   "name": "Geolokasi & Cap Masa",
+   "group": "Pemantauan & Penguatkuasaan",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem ambil GPS lokasi pemeriksaan.",
+    "Sistem ambil cap masa automatik.",
+    "Sistem simpan metadata."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "GPS dimatikan.A2: Lokasi tidak dapat dikesan."
+    }
+   ],
+   "input": "Koordinat GPS",
+   "output": "Lokasi disimpan",
+   "uiRefs": [],
+   "integration": "Peranti Pegawai",
+   "notes": "Lokasi wajib untuk audit",
+   "calls": [],
+   "parentId": "UC-PL-PA-PL-03"
+  },
+  {
+   "id": "UC-PL-PA-PL-03-04",
+   "name": "Amaran/Peringatan Tapak",
+   "group": "Pemantauan & Penguatkuasaan",
+   "actors": [
+    "Pegawai"
+   ],
+   "steps": [
+    "Pegawai pilih jenis amaran (peringatan, teguran, tanpa kompaun).",
+    "Sistem jana notis.",
+    "Sistem simpan rekod amaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Template notis hilang.A2: Rekod gagal disimpan."
+    }
+   ],
+   "input": "Maklumat amaran",
+   "output": "Notis tapak",
+   "uiRefs": [],
+   "integration": "Modul 12",
+   "notes": "Tidak melibatkan kompaun",
+   "calls": [],
+   "parentId": "UC-PL-PA-PL-03"
+  },
+  {
+   "id": "UC-PL-PA-PL-03-05",
+   "name": "Eskalasi Ketakpatuhan",
+   "group": "Pemantauan & Penguatkuasaan",
+   "actors": [
+    "Pegawai"
+   ],
+   "steps": [
+    "Pegawai tandakan pemeriksaan sebagai kes ketakpatuhan.",
+    "Sistem cipta tiket rujukan ke modul berkenaan (Aduan / Penguatkuasaan Lanjut).",
+    "Sistem rekod status eskalasi."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Modul rujukan tidak respons.A2: Data tidak lengkap."
+    }
+   ],
+   "input": "Rekod pemeriksaan",
+   "output": "Tiket eskalasi",
+   "uiRefs": [],
+   "integration": "Modul 8 / Modul 7 Lanjutan",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-PA-PL-03"
+  }
+ ],
+ "screens": [],
+ "businessRules": [
+  {
+   "group": "Pemantauan & Penguatkuasaan",
+   "rules": [
+    {
+     "code": null,
+     "text": "Pegawai penguatkuasa hanya boleh mengakses senarai lesen dalam kawasan yang ditetapkan mengikut zon atau daerah operasi."
+    },
+    {
+     "code": null,
+     "text": "Semua lesen yang hendak diperiksa mesti sah atau telah tamat mengikut rekod rasmi PBT."
+    },
+    {
+     "code": null,
+     "text": "Carian lesen wajib ditapis berdasarkan parameter yang sah seperti kawasan, kategori lesen, atau tarikh luput."
+    },
+    {
+     "code": null,
+     "text": "Semua rekod pemeriksaan lapangan mesti dilakukan mengikut format borang digital rasmi PBT."
+    },
+    {
+     "code": null,
+     "text": "Setiap imbasan QR wajib melalui semakan checksum / tandatangan digital bagi memastikan sijil lesen adalah tulen."
+    },
+    {
+     "code": null,
+     "text": "Sekiranya peranti tidak berhubung ke rangkaian, data imbasan mesti disimpan secara offline dan disahkan semula apabila kembali online."
+    },
+    {
+     "code": null,
+     "text": "Semua nota pemeriksaan mesti dinyatakan secara jelas, objektif, dan lengkap sebelum disimpan dalam rekod lesen."
+    },
+    {
+     "code": null,
+     "text": "Bukti visual (foto/video) mesti dilampirkan untuk sebarang ketakpatuhan yang kritikal."
+    },
+    {
+     "code": null,
+     "text": "Semua bukti visual mesti mempunyai geolokasi dan cap masa automatik sebagai syarat audit."
+    },
+    {
+     "code": null,
+     "text": "Pegawai hanya boleh mengeluarkan amaran/peringatan tapak jika tindakan tersebut dibenarkan dalam garis panduan penguatkuasaan PBT."
+    },
+    {
+     "code": null,
+     "text": "Kes ketakpatuhan serius mesti dieskalasi ke modul aduan/penguatkuasaan lanjutan secara automatik oleh sistem."
+    },
+    {
+     "code": null,
+     "text": "Rekod pemeriksaan yang telah disimpan tidak boleh dipadam; hanya kemas kini lanjutan dibenarkan."
+    },
+    {
+     "code": null,
+     "text": "Notifikasi ketakpatuhan mesti dihantar kepada sistem berkaitan (Modul 12)."
+    },
+    {
+     "code": null,
+     "text": "Semua tindakan lapangan wajib direkodkan sebagai audit trail untuk semakan dalaman."
+    }
+   ]
+  }
+ ],
+ "sdsIssues": [
+  "Use-case table under 'Pemantauan & Penguatkuasaan' has placeholder UI references (UI-XXXXX)"
+ ]
+}

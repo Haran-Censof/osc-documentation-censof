@@ -1,0 +1,259 @@
+{
+  "generatedAt": "2026-09-30T09:19:08.133Z",
+  "source": "\\\\wsl.localhost\\Ubuntu\\home\\csm-nyaana\\osc-docker-project",
+  "repos": [
+    {
+      "id": "be0-utilities",
+      "name": "BE0 Utiliti",
+      "role": "Shared utilities, database migrations & seeders",
+      "status": "ok",
+      "framework": "Laravel",
+      "git": {
+        "branch": "development",
+        "commit": "63b4953",
+        "commitDate": "2026-09-30T09:46:08+08:00",
+        "commitSubject": "Merge pull request #347 from censof/dev/fix/UAT-SR3/3098,3099/penyelenggaraan-kadar",
+        "remote": "https://github.com/censof/osc-be0-utiliti.git"
+      },
+      "counts": {
+        "controllers": 1,
+        "models": 5,
+        "services": 1,
+        "jobs": 0,
+        "events": 0,
+        "notifications": 0,
+        "middleware": 0,
+        "requests": 0,
+        "migrations": 450,
+        "routes": 3,
+        "apiRoutes": 0,
+        "apiRoutesWithRouteLevelAuth": 0
+      }
+    },
+    {
+      "id": "be1-profile-admin",
+      "name": "BE1 Profil & Pentadbiran",
+      "role": "Customer profile, authentication & system administration",
+      "status": "ok",
+      "framework": "Laravel",
+      "git": {
+        "branch": "development",
+        "commit": "b90d1ea",
+        "commitDate": "2026-09-28T17:21:50+08:00",
+        "commitSubject": "hotfix amount and dashboard",
+        "remote": "https://github.com/censof/osc-be1-admin-profile.git"
+      },
+      "counts": {
+        "controllers": 40,
+        "models": 55,
+        "services": 45,
+        "jobs": 1,
+        "events": 0,
+        "notifications": 23,
+        "middleware": 8,
+        "requests": 49,
+        "migrations": 7,
+        "routes": 402,
+        "apiRoutes": 381,
+        "apiRoutesWithRouteLevelAuth": 353
+      }
+    },
+    {
+      "id": "be2-licensing",
+      "name": "BE2 Pelesenan",
+      "role": "Licence application, review, meeting, payment, issuance, renewal, cancellation",
+      "status": "ok",
+      "framework": "Laravel",
+      "git": {
+        "branch": "dev/fix/3156/pembatalan-lesen-pbt-info",
+        "commit": "0f5e66e",
+        "commitDate": "2026-09-30T17:08:55+08:00",
+        "commitSubject": "fix(3156): pembatalan lesen - lookup license info by account + PBT",
+        "remote": "https://github.com/censof/osc-be2-pelesenan.git"
+      },
+      "counts": {
+        "controllers": 63,
+        "models": 88,
+        "services": 87,
+        "jobs": 12,
+        "events": 25,
+        "notifications": 2,
+        "middleware": 4,
+        "requests": 16,
+        "migrations": 0,
+        "routes": 416,
+        "apiRoutes": 410,
+        "apiRoutesWithRouteLevelAuth": 28
+      }
+    },
+    {
+      "id": "be3-complaints-notif",
+      "name": "BE3 Aduan & Notifikasi",
+      "role": "Complaints, inquiries & notifications",
+      "status": "ok",
+      "framework": "Laravel",
+      "git": {
+        "branch": "development",
+        "commit": "a713670",
+        "commitDate": "2026-09-09T20:30:24+08:00",
+        "commitSubject": "Merge pull request #103 from censof/dev/fix/2622/dashboard-of-feedback",
+        "remote": "https://github.com/censof/osc-be3-aduan-dan-notifikasi.git"
+      },
+      "counts": {
+        "controllers": 4,
+        "models": 19,
+        "services": 10,
+        "jobs": 0,
+        "events": 0,
+        "notifications": 15,
+        "middleware": 2,
+        "requests": 1,
+        "migrations": 0,
+        "routes": 55,
+        "apiRoutes": 52,
+        "apiRoutesWithRouteLevelAuth": 34
+      }
+    },
+    {
+      "id": "be4-reporting",
+      "name": "BE4 Pelaporan",
+      "role": "Report generation (JasperReports)",
+      "status": "ok",
+      "framework": "Spring Boot",
+      "git": {
+        "branch": "main",
+        "commit": "dcd9e26",
+        "commitDate": "2026-06-12T00:55:17+08:00",
+        "commitSubject": "Fix ReportService test regressions",
+        "remote": "https://github.com/censof/osc-report-service.git"
+      },
+      "counts": {
+        "controllers": 2,
+        "models": 0,
+        "services": 0,
+        "jobs": 0,
+        "events": 0,
+        "notifications": 0,
+        "middleware": 0,
+        "requests": 0,
+        "migrations": 0,
+        "routes": 11,
+        "apiRoutes": 11,
+        "apiRoutesWithRouteLevelAuth": 0
+      }
+    },
+    {
+      "id": "be5-enforcement",
+      "name": "BE5 Penguatkuasaan",
+      "role": "Monitoring & enforcement",
+      "status": "not-available",
+      "framework": null,
+      "counts": {
+        "controllers": 0,
+        "models": 0,
+        "services": 0,
+        "jobs": 0,
+        "events": 0,
+        "notifications": 0,
+        "middleware": 0,
+        "requests": 0,
+        "migrations": 0,
+        "routes": null,
+        "apiRoutes": null,
+        "apiRoutesWithRouteLevelAuth": null
+      }
+    },
+    {
+      "id": "be6-chatbot",
+      "name": "BE6 AI Chatbot",
+      "role": "AI chatbot",
+      "status": "not-available",
+      "framework": null,
+      "counts": {
+        "controllers": 0,
+        "models": 0,
+        "services": 0,
+        "jobs": 0,
+        "events": 0,
+        "notifications": 0,
+        "middleware": 0,
+        "requests": 0,
+        "migrations": 0,
+        "routes": null,
+        "apiRoutes": null,
+        "apiRoutesWithRouteLevelAuth": null
+      }
+    },
+    {
+      "id": "fe-admin",
+      "name": "FE Admin",
+      "role": "Officer / administrator portal",
+      "status": "ok",
+      "framework": "Laravel",
+      "git": {
+        "branch": "development",
+        "commit": "301de595",
+        "commitDate": "2026-09-30T09:46:04+08:00",
+        "commitSubject": "Merge pull request #911 from censof/dev/fix/UAT-SR3/3098,3099/penyelenggaraan-kadar",
+        "remote": "https://github.com/censof/osc-fe-admin.git"
+      },
+      "counts": {
+        "controllers": 76,
+        "models": 13,
+        "services": 11,
+        "jobs": 0,
+        "events": 0,
+        "notifications": 0,
+        "middleware": 5,
+        "requests": 0,
+        "migrations": 4,
+        "routes": 743,
+        "apiRoutes": 2,
+        "apiRoutesWithRouteLevelAuth": 0
+      }
+    },
+    {
+      "id": "fe-public",
+      "name": "FE Public",
+      "role": "Public / customer portal",
+      "status": "ok",
+      "framework": "Laravel",
+      "git": {
+        "branch": "dev/fix/3156/pembatalan-lesen-pbt-info",
+        "commit": "207879b",
+        "commitDate": "2026-09-30T17:09:04+08:00",
+        "commitSubject": "fix(3156): pembatalan lesen - pass PBT id when loading license info",
+        "remote": "https://github.com/censof/osc-fe-customer.git"
+      },
+      "counts": {
+        "controllers": 55,
+        "models": 2,
+        "services": 16,
+        "jobs": 0,
+        "events": 0,
+        "notifications": 0,
+        "middleware": 7,
+        "requests": 9,
+        "migrations": 5,
+        "routes": null,
+        "apiRoutes": null,
+        "apiRoutesWithRouteLevelAuth": null
+      }
+    }
+  ],
+  "warnings": [
+    "be2-licensing: on feature branch \"dev/fix/3156/pembatalan-lesen-pbt-info\", facts may not match the release baseline",
+    "be5-enforcement: no source code available locally",
+    "be6-chatbot: no source code available locally",
+    "fe-public: routes not extracted (ReflectionException: Class \"App\\Http\\Controllers\\LicenseVerificationController\" does not exist: at vendor/laravel/framework/src/Illuminate/Foundation/Console/RouteListCommand.php:235)",
+    "fe-public: on feature branch \"dev/fix/3156/pembatalan-lesen-pbt-info\", facts may not match the release baseline"
+  ],
+  "database": {
+    "schema": "oscp",
+    "tables": 162,
+    "columns": 2591,
+    "foreignKeys": 88,
+    "views": 2,
+    "routines": 8
+  }
+}

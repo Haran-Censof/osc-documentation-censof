@@ -1,0 +1,10 @@
+{
+  "id": "be6-chatbot",
+  "name": "BE6 AI Chatbot",
+  "kind": "laravel",
+  "container": "be6-chatbot",
+  "docsPage": null,
+  "role": "AI chatbot",
+  "status": "not-available",
+  "note": "Repository folder is empty or missing locally."
+}

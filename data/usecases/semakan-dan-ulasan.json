@@ -1,0 +1,3087 @@
+{
+ "module": {
+  "id": "semakan-dan-ulasan",
+  "name": "Semakan dan Ulasan",
+  "code": "SM",
+  "version": "2.0",
+  "iteration": 2,
+  "sourceFile": "OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v2.0 - Semakan dan Ulasan Latest Updated 17JUN2026.docx"
+ },
+ "functions": [
+  {
+   "id": "SF-PL-SM-SP",
+   "name": "Semakan Permohonan",
+   "actors": []
+  },
+  {
+   "id": "SF-PL-SM-SP-01",
+   "name": "Semak Kelengkapan & Kebenaran",
+   "actors": [
+    "PPSU"
+   ]
+  },
+  {
+   "id": "SF-PL-SM-SP-02",
+   "name": "Keluarkan Pertanyaan kepada Pemohon",
+   "actors": [
+    "PPSU"
+   ]
+  },
+  {
+   "id": "SF-PL-SM-SP-03",
+   "name": "Terima & Nilai Jawapan Pemohon",
+   "actors": [
+    "PPSU"
+   ]
+  },
+  {
+   "id": "SF-PL-SM-RT",
+   "name": "Rujukan Teknikal",
+   "actors": []
+  },
+  {
+   "id": "SF-PL-SM-RT-01",
+   "name": "Rujukan Kepada BTD/ATL",
+   "actors": [
+    "PPSU",
+    "BTD",
+    "ATL"
+   ]
+  },
+  {
+   "id": "SF-PL-SM-RT-02",
+   "name": "Ulasan & Lampiran Bukti",
+   "actors": [
+    "BTD",
+    "ATL"
+   ]
+  },
+  {
+   "id": "SF-PL-SM-RT-03",
+   "name": "Semakan Ketua Jabatan",
+   "actors": [
+    "BTD"
+   ]
+  },
+  {
+   "id": "SF-PL-SM-KT",
+   "name": "Kelulusan Tahap 1",
+   "actors": []
+  },
+  {
+   "id": "SF-PL-SM-KT-01",
+   "name": "Syor Keputusan",
+   "actors": [
+    "PPSU"
+   ]
+  },
+  {
+   "id": "SF-PL-SM-KT-02",
+   "name": "Keputusan PPKT1 (Lulus / Tolak / Eskalasi)",
+   "actors": [
+    "PPKT1"
+   ]
+  }
+ ],
+ "useCases": [
+  {
+   "id": "UC-PL-SM-SP-01",
+   "name": "Semak Kelengkapan & Kebenaran",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU"
+   ],
+   "steps": [
+    "Pegawai buka senarai permohonan. Apabila butang dibawah label tindakan ditekan oleh pegawai: i. Sistem panggil UC-PL-SM-SP-01-01 untuk jana senarai semak",
+    "Sistem himpunkan data & dokumen di setiap tab untuk semakan PPSU."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Dokumen tidak dapat dibuka → Sistem paparkan mesej ralat “Dokumen gagal dibuka. Sila muat naik semula atau hubungi pentadbir.” Tindakan susulan : Sistem logkan ralat, hentikan proses semakan dokumen, dan kekalkan pengguna pada skrin semasa."
+    },
+    {
+     "id": "A2",
+     "text": "Metadata tidak lengkap → Sistem paparkan mesej “Maklumat permohonan tidak lengkap. Sila semak dan isi semua medan wajib.” Tindakan susulan : Sistem halang proses simpanan, paparkan mesej ralat, dan minta pengguna lengkapkan metadata."
+    },
+    {
+     "id": "A3",
+     "text": "Permohonan tiada dalam sistem → Sistem paparkan mesej “Permohonan tidak ditemui. Sila semak ID permohonan atau hubungi OSC.” Tindakan susulan : Sistem hentikan proses semakan, paparkan mesej ralat, dan arahkan pengguna semak semula ID permohonan."
+    }
+   ],
+   "input": "ID permohonan - Format ID mengunakan No Siri Permohonan",
+   "output": "Status semakan - Status semakan adalah seperti berikut: Permohonan Baru – selepas pemohon menghantar permohonan. Dalam Semakan – permohonan sedang disemak oleh PPSU. Semakan Semula – permohonan dikembalikan untuk semakan tambahan. Menunggu Ulasan – rujukan teknikal kepada BTD/ATL. Menunggu Kelulusan Tahap 1 – selepas syor keputusan dikemukakan Menunggu Mesyuarat – permohonan dibawa ke mesyuarat pelesenan. Ditolak – permohonan tidak diluluskan. Kembali Diperbetulkan – pemohon perlu membetulkan maklumat Lulus – permohonan diluluskan dan lesen dikeluarkan. Tangguh – keputusan ditangguhkan atas sebab tertentu.",
+   "uiRefs": [
+    "UI-PL-SM-SP-01"
+   ],
+   "integration": "–",
+   "notes": "ID permohonan - Format ID mengunakan No Siri Permohonan termasuk: Komponen ID:maj_idpbt + nombor siri unik. Panjang aksara: ditetapkan secara konsisten (contoh: 12–15 aksara). Contoh format sah: PK_MDTM26050087 Format tarikh DD/MM/YYYY Kaedah penjanaan: dijana automatik oleh sistem untuk mengelakkan duplikasi. Kiraan SLA dilakukan secara automatik menggunakan formula: SLA_Hari = (Tarikh Tamat SLA – Tarikh Semasa). Tarikh Tamat SLA ditentukan berdasarkan konfigurasi SLA yang diluluskan JKT/PBT. Sistem memaparkan baki hari secara automatik dan mencetuskan eskalasi jika tamat tanpa tindakan Penapis Status Nilai yang dipaparkan: Permohonan Baru, Dalam Semakan, Semakan Semula, Menunggu Ulasan, Menunggu Kelulusan Tahap 1, Menunggu Mesyuarat, Ditolak, Kembali Diperbetulkan, Lulus, Tangguh. Penapis Jenis Permohonan / Jenis Lesen Nilai yang dipaparkan: Permohonan Baharu, Pembaharuan Lesen.",
+   "calls": [
+    "UC-PL-SM-SP-01-01"
+   ],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-SM-SP-01-01",
+   "name": "Jana Senarai Semak",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU"
+   ],
+   "steps": [
+    "Sistem jana senarai medan & dokumen mengikut jenis lesen - Bergantung kepada konfigurasi PBT bagi dokumen yang perlu dimuatnaik selain daripada maklumat wajib yang perlu diisi oleh pemohon lesen.",
+    "Sistem paparkan senarai semak di tab dokumen."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Rujukan senarai semak hilang → “Senarai semak tidak ditemui. Sila jana semula atau hubungi pentadbir.” Tindakan susulan : Sistem logkan ralat, hentikan proses semakan dokumen, dan kekalkan pengguna pada skrin semasa."
+    },
+    {
+     "id": "A2",
+     "text": "Data lesen tidak lengkap → “Maklumat lesen tidak lengkap. Sila semak dan isi semua medan wajib.” Tindakan susulan : Sistem halang proses simpanan, paparkan mesej ralat, dan minta pengguna lengkapkan metadata."
+    },
+    {
+     "id": "A3",
+     "text": "Permohonan tiada dalam sistem → “Permohonan tidak ditemui. Sila semak ID permohonan atau hubungi OSC.” Tindakan susulan : Sistem hentikan proses semakan, paparkan mesej ralat, dan arahkan pengguna semak semula ID permohonan."
+    }
+   ],
+   "input": "Jenis Lesen",
+   "output": "Senarai semak – Medan wajib – ID permohonan, nama pemohon, jenis lesen, tarikh permohonan,maklumat syarikat, maklumat perniagaan dan maklumat iklan Dokumen –bergantung kepada jenis lesen dan konfigurasi oleh PBT. Kriteria validasi – -format fail (PDF, JPEG), -saiz maksimum Langkah tindakan sistem – jika medan/dokumen tidak lengkap, sistem paparkan mesej ralat dan permintaan untuk dipulangkan semula kepada pemohon bagi tindakan pembetulan.",
+   "uiRefs": [
+    "UI-PL-SM-SP-01-01"
+   ],
+   "integration": "–",
+   "notes": "Bergantung modul konfigurasi di dalam Modul Pengurusan Dokumen",
+   "calls": [],
+   "parentId": "UC-PL-SM-SP-01"
+  },
+  {
+   "id": "UC-PL-SM-SP-01-02",
+   "name": "Papar Ringkasan Permohonan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU"
+   ],
+   "steps": [
+    "Sistem himpunkan data permohonan.",
+    "Sistem memaparkan Skrin Papar Ringkasan Permohonan. Skrin ini memaparkan maklumat lengkap permohonan termasuk: i.Maklumat Pemohon ii.Butiran Perniagaan iii.Lesen Dipohon iv.Maklumat Iklan v.Dokumen yang telah dihantar kepada PBT.",
+    "Pegawai semak medan wajib & dokumen- Bergantung kepada konfigurasi PBT bagi dokumen yang perlu dimuatnaik selain daripada maklumat wajib yang perlu diisi oleh pemohon lesen."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Ringkasan gagal dipaparkan → “Ringkasan permohonan gagal dipaparkan. Sila cuba semula atau hubungi pentadbir.” Tindakan susulan : Sistem hentikan paparan ringkasan, logkan isu dalam rekod sistem, dan kekalkan pengguna pada skrin semasa."
+    },
+    {
+     "id": "A2",
+     "text": "Data tidak lengkap → “Maklumat permohonan tidak lengkap. Sila semak dan isi semua medan wajib. Tindakan susulan : Sistem halang proses semakan, paparkan mesej ralat, dan arahkan pengguna untuk melengkapkan data."
+    }
+   ],
+   "input": "ID permohonan",
+   "output": "Paparan ringkasan",
+   "uiRefs": [
+    "UI-PL-SM-SP-01-02"
+   ],
+   "integration": "–",
+   "notes": "Paparan ini memaparkan Ringkasan Data Permohonan dan Ringkasan Dokumen Sokongan. Komponen Ringkasan Data: ID Permohonan → permohonan_id (jadual osc_mhn_permohonan) Nama Pemohon → nama_pemohon (jadual osc_mhn_pemohon) No. Kad Pengenalan / No. Syarikat → no_kp / no_syarikat (jadual osc_mhn_pemohon) Jenis Permohonan / Lesen Dipohon → jenis_permohonan, lesen_id (jadual osc_mhn_permohonan) Tarikh Permohonan → tarikh_permohonan (jadual osc_mhn_permohonan) Komponen Ringkasan Dokumen: Senarai Dokumen Sokongan → dokumen_id, dokumen_nama, dokumen_tarikh, dokumen_status (jadual osc_mhn_dokumen) Jenis Dokumen (contoh: Borang Permohonan, Sijil Suntikan, Lesen Perniagaan, Gambar Iklan) Status Dokumen (contoh: Diterima, Tidak Lengkap, Perlu Maklumat Tambahan) Logik Paparan: Semua maklumat utama permohonan dan dokumen sokongan dipaparkan dalam Ringkasan Data & Dokumen. Paparan ini bergantung kepada jenis lesen yang dipohon. Contoh: Lesen Makanan → dokumen sokongan termasuk sijil suntikan typhoid. Lesen Iklan → dokumen sokongan termasuk pelan lokasi iklan dan gambar iklan.",
+   "calls": [],
+   "parentId": "UC-PL-SM-SP-01"
+  },
+  {
+   "id": "UC-PL-SM-SP-01-03",
+   "name": "Rekod Dapatan Semakan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU"
+   ],
+   "steps": [
+    "*Pegawai menentukan status lengkap/tidak lengkap berdasarkan semakan. - Syarat yang jelas untuk menentukan status: *Lengkap → semua medan wajib diisi (ID permohonan, nama pemohon, jenis lesen, tarikh permohonan) dan semua dokumen sokongan dimuat naik serta sah. *Tidak lengkap → terdapat medan kosong, dokumen tidak dimuat naik, atau dokumen tidak memenuhi kriteria validasi (format, saiz, tarikh sah).",
+    "Pegawai memilih pilihan tindakan dibawah Tindakan semakan. Pilihan tersedia adalah:- i. Hantar ke Peringkat Seterusnya – status permohonan dikemaskini kepada Menunggu Kelulusan Tahap 1. (permohonan lengkap bagi lesen tidak berisiko) ii. Hantar untuk Ulasan BTD/ATL – status permohonan dikemaskini kepada Menunggu Ulasan. (permohonan lengkap bagi lesen berisiko). iii. Pulangkan untuk Semakan Semula – PPSU melaksanakan tindakan kuiri kepada permohonan yang dikemukakan kepada pemohon (permohonan tidak lengkap bagi lesen tidak berisiko dan berisiko)",
+    "Pegawai catat dapatan contohnya: Senarai isu yang dirujuk kepada medan/dokumen tertentu. Catatan teks dengan had aksara (contoh: 500–1000 aksara). Rujukan dokumen dengan status semakan (lengkap/tidak lengkap) 3. Sistem simpan status semakan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Ralat simpan data → “Data semakan gagal disimpan. Sila cuba semula atau hubungi pentadbir.” Tindakan Susulan : Sistem hentikan proses simpanan, rollback transaksi, dan kekalkan pengguna pada skrin semasa. Paparan mesej ralat : “Ralat semasa menyimpan data. Sila cuba lagi atau hubungi pentadbir sistem.”"
+    },
+    {
+     "id": "A2",
+     "text": "Status tidak sah → “Status semakan tidak sah. Sila pilih status yang dibenarkan.” Tindakan Susulan : Sistem halang proses kemaskini, paparkan mesej ralat, dan arahkan pengguna pilih status yang sah. Paparan mesej ralat : “Status permohonan tidak sah. Sila pilih status yang sah daripada senarai.”"
+    },
+    {
+     "id": "A3",
+     "text": "Permohonan tiada dalam sistem → “Permohonan tidak ditemui. Sila semak ID permohonan atau hubungi OSC.” Tindakan susulan : Sistem hentikan proses semakan, paparkan mesej ralat, dan arahkan pengguna semak semula ID permohonan. Paparan mesej ralat : “Permohonan tidak dijumpai dalam sistem. Sila semak ID permohonan atau hubungi pentadbir.”"
+    }
+   ],
+   "input": "Catatan semakan",
+   "output": "Status disimpan",
+   "uiRefs": [
+    "UI-PL-SM-SP-01-03"
+   ],
+   "integration": "",
+   "notes": "Nilai status lengkap yang ditetapkan dalam sistem dimana kesemua maklumat mandatori telah diisi oleh pemohon lesen berdasarkan UI-PL-LS-PB-04 Semak Kelengkapan Automatik. Walau bagaimanapun pengesahan kepada maklumat tersebut sama ada betul ataupun tidak tertakluk kepada semakan oleh PPSU PBT secara manual. Status permohonan selepas semakan ditentukan melalui Tab “Tindakan” dalam Skrin Papar Semakan Permohonan.",
+   "calls": [],
+   "parentId": "UC-PL-SM-SP-01"
+  },
+  {
+   "id": "UC-PL-SM-SP-02",
+   "name": "Keluarkan Pertanyaan kepada Pemohon",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU"
+   ],
+   "steps": [
+    "Pegawai cipta pertanyaan (kuiri) melalui tindakan Pulangkan untuk semakan semula",
+    "Pegawai mandatori memasukkan pertanyaan di textbox *Ulasan dan menghantar kepada pemohon melalui notifikasi sistem.",
+    "Sistem hantar notifikasi melalui UC-PL-SM-SP-02-01."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Notifikasi gagal → “Notifikasi tidak berjaya dihantar. Sila cuba semula atau hubungi pentadbir.” Tindakan susulan : Sistem logkan ralat, hentikan penghantaran, dan kekalkan status permohonan tanpa perubahan. Pengguna diminta cuba semula atau hubungi pentadbir. Paparan mesej ralat : “Notifikasi gagal dihantar. Sila cuba lagi atau hubungi pentadbir sistem.”"
+    },
+    {
+     "id": "A2",
+     "text": "Tarikh akhir tidak ditetapkan → “Tarikh akhir tidak ditentukan. Sila tetapkan tarikh akhir sebelum menghantar pertanyaan.” Tindakan susulan : Sistem halang proses simpanan, paparkan mesej ralat dan arahkan pengguna untuk menetapkan tarikh akhir sebelum meneruskan. Paparan mesej ralat : “Tarikh akhir semakan tidak ditetapkan. Sila pilih tarikh akhir sebelum klik <Sahkan>.”"
+    }
+   ],
+   "input": "Dapatan semakan",
+   "output": "Pertanyaan dikeluarkan melalui pilihan butang radio Pulangkan untuk Semakan Semula",
+   "uiRefs": [
+    "UI-PL-SM-SP-02"
+   ],
+   "integration": "",
+   "notes": "Tempoh maksimum yang dibenarkan adalah 7 hari kepada semua jenis permohonan. Sistem perlu mempunyai logik pengiraan automatik berdasarkan tarikh semakan, dengan validasi supaya tarikh akhir tidak melangkaui julat yang dibenarkan. Jika pemohon gagal menjawab dalam tempoh ditetapkan, sistem perlu menukar status kepada Tidak Lengkap atau Lewat Jawapan dan memaklumkan pegawai melalui notifikasi. Konfigurasi tetapan tarikh bagi kuiri ditetapkan di bahagian modul penyelenggaran - kod pbt - parameter am",
+   "calls": [
+    "UC-PL-SM-SP-02-01"
+   ],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-SM-SP-02-01",
+   "name": "Notifikasi Pertanyaan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU"
+   ],
+   "steps": [
+    "Sistem hantar notifikasi mengunakan medium penghantaran: emel rasmi dan notifikasi dalam sistem OSC kepada pemohon.- Kandungan mesej: status semakan (lengkap/tidak lengkap), senarai dokumen/medan yang perlu diperbetulkan, tarikh akhir tindakan. Masa/pencetus penghantaran: dihantar secara automatik selepas pegawai melengkapkan semakan atau mencipta pertanyaan.",
+    "Sistem simpan log penghantaran. Butiran yang direkodkan dalam log penghantaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Gagal hantar emel → “Notifikasi emel gagal dihantar. Sila semak sambungan sistem atau hubungi pentadbir.” Sistem perlu logkan kegagalan tersebut dan memberi pilihan kepada pegawai untuk menghantar semula notifikasi melalui saluran alternatif. Tindakan Susulan : Sistem logkan ralat dalam jadual notifikasi, hentikan penghantaran, dan kekalkan status permohonan tanpa perubahan. Pengguna diminta cuba semula atau hubungi pentadbir sistem. Mesej Ralat : “Emel notifikasi gagal dihantar. Sila cuba lagi atau hubungi pentadbir sistem.”"
+    }
+   ],
+   "input": "ID pemohon",
+   "output": "Notifikasi",
+   "uiRefs": [
+    "UI-PL-SM-SP-02-01"
+   ],
+   "integration": "Modul Notifikasi",
+   "notes": "Tarikh dan masa penghantaran. Nama penerima notifikasi. Status penghantaran (berjaya/gagal). Jenis saluran penghantaran (emel/sistem). Maklumat ini penting untuk pemantauan, jejak audit, dan pengujian sistem",
+   "calls": [],
+   "parentId": "UC-PL-SM-SP-02"
+  },
+  {
+   "id": "UC-PL-SM-SP-02-02",
+   "name": "Tetapkan Tarikh Akhir Jawapan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU"
+   ],
+   "steps": [
+    "Pegawai tetapkan due date. Tetapkan bahawa medan due date adalah wajib untuk semua pertanyaan atau semakan.",
+    "Sistem simpan dalam rekod pertanyaan. Segala rekod pertanyaan akan disimpan di dalam Databse OSCP."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tarikh tidak sah → “Tarikh akhir yang dimasukkan tidak sah. Sila pilih tarikh dalam julat yang dibenarkan.” Proses Susulan / Tindakan Pengguna Sistem menghalang simpanan data sehingga tarikh sah dimasukkan. Sistem logkan kesilapan dalam jadual audit untuk tujuan kawalan dan semakan. Pengguna perlu memilih tarikh baru yang sah sebelum meneruskan. Mesej Ralat “Tarikh akhir yang dimasukkan tidak sah. Sila pilih tarikh dalam julat yang dibenarkan.” Sistem perlu menghalang simpanan data sehingga tarikh sah dimasukkan, dan logkan kesilapan untuk tujuan audit. Apabila tarikh tidak sah dimasukkan, sistem akan halang simpanan, paparkan mesej ralat, dan rekodkan dalam osc_audit_log dengan maklumat: siapa pengguna, bila berlaku, modul terlibat, tindakan cuba dilakukan, mesej ralat, dan status gagal."
+    }
+   ],
+   "input": "Tarikh akhir",
+   "output": "Tarikh disimpan",
+   "uiRefs": [
+    "UI-PL-SM-SP-02"
+   ],
+   "integration": "–",
+   "notes": "Tempoh maksimum yang dibenarkan adalah 7 hari kepada semua jenis permohonan. Sistem perlu mempunyai logik pengiraan automatik berdasarkan tarikh semakan, dengan validasi supaya tarikh akhir tidak melangkaui julat yang dibenarkan. Jika pemohon gagal menjawab dalam tempoh ditetapkan, sistem perlu menukar status kepada Tidak Lengkap atau Lewat Jawapan dan memaklumkan pegawai melalui notifikasi.",
+   "calls": [],
+   "parentId": "UC-PL-SM-SP-02"
+  },
+  {
+   "id": "UC-PL-SM-SP-03",
+   "name": "Terima & Nilai Jawapan Pemohon",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU"
+   ],
+   "steps": [
+    "Sistem terima jawapan & dokumen pemohon.",
+    "PPSU melaksanakan tindakan semakan bermula dari proses UC-PL-SM-01-Semak Kelengkapan& Kebenaran"
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Dokumen rosak → Sistem paparkan mesej ralat “Dokumen gagal dibuka atau rosak. Sila muat naik semula dokumen dalam format yang sah.” Tindakan susulan : Sistem hentikan proses semakan dokumen, logkan isu dalam rekod sistem, dan kekalkan pengguna pada skrin semasa. Pemohon diminta muat naik semula dokumen yang sah. Mesej ralat : “Dokumen rosak atau tidak dapat dibuka. Sila muat naik semula dokumen dalam format yang sah.”"
+    },
+    {
+     "id": "A2",
+     "text": "Jawapan tidak lengkap → Sistem paparkan mesej “Jawapan tidak lengkap. Sila semak semula dan isi semua medan wajib.” Tindakan susulan : Sistem halang proses simpanan, paparkan mesej ralat, dan arahkan pengguna untuk melengkapkan jawapan sebelum meneruskan. Mesej ralat :“Jawapan tidak lengkap. Sila isi semua maklumat wajib dan lampirkan dokumen sokongan sebelum menghantar.” Sistem perlu logkan kesilapan dan memberi pilihan kepada pemohon untuk membetulkan input sebelum semakan diteruskan."
+    }
+   ],
+   "input": "Jawapan & dokumen",
+   "output": "Semakan semula permohonan",
+   "uiRefs": [
+    "UI-PL-SM-SP-01"
+   ],
+   "integration": "–",
+   "notes": "- Sistem membolehkan pemohon memuat naik dokumen dan membetulkan maklumat permohonan - Dokumen yang diterima direkodkan dengan metadata (nama fail, tarikh muat naik, status sah). - Semua jawapan dan dokumen disimpan dalam pangkalan data dan dikaitkan dengan ID permohonan untuk semakan lanjut. Pemohon hantar jawapan dan permohonan dipaparkan semula di UI-PL-SM-SP-01 – Semak Kelengkapan & Kebenaran",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-SM-SP-03-01",
+   "name": "Validasi Dokumen Jawapan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU"
+   ],
+   "steps": [
+    "Sistem semak format & saiz dokumen. Jika dokumen sah → Sistem paparkan mesej pengesahan seperti “Dokumen berjaya disahkan dan memenuhi syarat format serta saiz.” Jika dokumen tidak sah → Sistem paparkan mesej ralat yang jelas, contohnya “Format fail tidak dibenarkan. Sila muat naik dalam format PDF/JPEG.” atau “Saiz fail melebihi had maksimum. Sila muat naik semula dokumen dengan saiz yang dibenarkan.”",
+    "Sistem beri maklum balas. Mesej Maklum Balas : “Dokumen berjaya disahkan dan diterima.” Senario A1: Dokumen tidak sah (format/saiz tidak memenuhi syarat) Mekanisme Sistem: Sistem mengesan dokumen tidak sah (contoh: format tidak dibenarkan, saiz melebihi had). Proses Susulan / Tindakan Pengguna: Sistem menghalang simpanan data, logkan kesilapan untuk audit, dan arahkan pengguna muat naik semula dokumen yang sah. Mesej Ralat : “Dokumen tidak memenuhi syarat format atau saiz. Sila muat naik semula dokumen yang sah.”” Mekanisme Sistem: Sistem gagal membuka fail kerana korup atau tidak lengkap. Proses Susulan / Tindakan Pengguna: Sistem hentikan proses validasi, logkan isu, dan arahkan pengguna muat naik semula dokumen. Mesej Ralat : “Dokumen rosak atau tidak dapat dibuka. Sila muat naik semula dokumen.”"
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Format salah Mekanisme Sistem: Sistem mengesan dokumen yang dimuat naik tidak dalam format yang dibenarkan (contoh: hanya PDF/JPEG diterima, tetapi pengguna muat naik DOCX/ZIP). Proses Susulan / Tindakan Pengguna: Sistem menghalang simpanan dokumen. Sistem logkan isu dalam audit trail. Pengguna diarahkan untuk muat naik semula dokumen dalam format yang sah. Mesej Ralat (Paparan UI): “Format dokumen salah. Sila muat naik dokumen dalam format PDF atau JPEG.”"
+    },
+    {
+     "id": "A2",
+     "text": "Fail terlalu besar Mekanisme Sistem: Sistem mengesan saiz fail melebihi had maksimum yang ditetapkan (contoh: >10MB). Proses Susulan / Tindakan Pengguna: Sistem menghalang simpanan dokumen. Sistem logkan isu dalam audit trail. Pengguna diarahkan untuk muat naik semula dokumen dengan saiz yang dibenarkan. Mesej Ralat (Paparan UI): “Saiz dokumen melebihi had maksimum. Sila muat naik dokumen dengan saiz kurang daripada 10MB.” Maklumat yang direkod dalam audit trail: Tarikh & masa kejadian ID/Nama pengguna Modul terlibat (Dokumen Permohonan) Tindakan cuba dilakukan (Muat naik dokumen) Mesej ralat yang dipaparkan kepada pengguna Status tindakan (Gagal)"
+    }
+   ],
+   "input": "Fail dokumen",
+   "output": "Status validasi",
+   "uiRefs": [
+    "UI-PL-SM-SP-01-02"
+   ],
+   "integration": "–",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-SM-SP-03"
+  },
+  {
+   "id": "UC-PL-SM-SP-03-02",
+   "name": "Kemaskini Status Semakan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU"
+   ],
+   "steps": [
+    "Pegawai pilih status lengkap.",
+    "PPSU memilih hantar ke peringkat seterusnya ke PPKT 1 untuk semakan dan kelulusan bagi lesen tidak berisiko.",
+    "Sistem simpan kemaskini. Lesen Berisiko 1. Pegawai pilih status lengkap. 2. PPSU memilih hantar ke Rujukan ke BTD/ATL. 3. Sistem simpan kemaskini."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Gagal Simpan Mekanisme Sistem : Sistem cuba menyimpan data permohonan/draf ke pangkalan data. Proses gagal kerana ralat teknikal (contoh: sambungan pangkalan data terputus, konflik ID, format data tidak sah). Sistem hentikan proses simpanan serta-merta. Sistem cuba retry automatik (contoh: 3 kali percubaan dalam tempoh singkat). Proses Susulan / Tindakan Pengguna Jika percubaan berulang gagal, sistem tandakan status sebagai “Simpan Gagal”. Sistem paparkan mesej ralat kepada pengguna dan halang proses daripada diteruskan sehingga data berjaya disimpan. Pengguna diarahkan untuk cuba semula atau hubungi pentadbir sistem. Mesej Ralat (Paparan UI) “Ralat semasa menyimpan data. Sila cuba semula atau hubungi pentadbir sistem.”"
+    }
+   ],
+   "input": "Status & catatan",
+   "output": "Status dikemaskini",
+   "uiRefs": [
+    "UI-PL-SM-SP-01-03"
+   ],
+   "integration": "–",
+   "notes": "Berdasarkan pembangunan terkini, status telah diubah paparan seperti berikut:- Hantar ke Peringkat Seterusnya (Permohonan Lengkap) Status Semakan: Kelulusan Tahap 1 Mekanisme Sistem: Sistem kemaskini status permohonan kepada Kelulusan Tahap 1. Tindakan Susulan: Pegawai seterusnya dipilih melalui dropdown Pilih Pegawai PPKT 1 Hantar untuk Ulasan BTD/ATL (Permohonan Lengkap) Status Semakan: Menunggu Ulasan Mekanisme Sistem: Sistem rekodkan tindakan dan hantar permohonan ke BTD/ATL untuk ulasan teknikal. Tindakan Susulan: Pilih agensi teknikal & pegawai agensi berkenaan. Pulangkan untuk Semakan Semula (Permohonan Tidak Lengkap) Status Semakan: Kuiri Mekanisme Sistem: Sistem kemaskini status permohonan kepada kuiri Tindakan Susulan: Medan Ulasan* wajib diisi. Jika kosong, sistem paparkan mesej ralat: “Medan Ulasan wajib diisi.",
+   "calls": [],
+   "parentId": "UC-PL-SM-SP-03"
+  },
+  {
+   "id": "UC-PL-SM-RT-01",
+   "name": "Rujukan Kepada BTD/ATL",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU"
+   ],
+   "steps": [
+    "PPSU menekan butang radio Hantar Untuk Ulasan BTD/ATL.",
+    "Sistem papar senarai BTD/ATL yang telah didaftarkan oleh PBT."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Agensi tidak wujud Mekanisme Sistem: Sistem cuba rujuk senarai agensi daripada pangkalan data, tetapi rekod tidak ditemui atau ID agensi tidak sah. Proses Susulan / Tindakan Pengguna: Sistem hentikan proses rujukan. Sistem logkan isu dalam audit trail. Paparkan mesej ralat kepada pengguna dan arahkan untuk hubungi pentadbir sistem bagi semakan konfigurasi. Mesej Ralat (Paparan UI): “Agensi tidak wujud dalam sistem. Sila hubungi pentadbir sistem untuk semakan.” Maklumat yang direkod dalam audit trail (untuk semua senario) Tarikh & masa kejadian ID/Nama pengguna Tindakan cuba dilakukan (rujukan agensi, serahan permohonan, muat naik dokumen) Mesej ralat yang dipaparkan kepada pengguna Status tindakan (Gagal) Pengguna cipta/kemaskini rekod audit (log_iuser, log_uuser) Tarikh cipta/kemaskini rekod audit (log_idate, log_udate)"
+    }
+   ],
+   "input": "Pemilihan BTD/ATL",
+   "output": "Sistem",
+   "uiRefs": [
+    "UI-PL-SM-RT-01"
+   ],
+   "integration": "API SSM/JPN/ATL, modul integrasi agensi teknikal",
+   "notes": "Pre-condition: Permohonan telah disemak PPSU & perlu pengesahan teknikal. Post-condition: Status “Menunggu Ulasan BTD/ATL”. Acceptance Criteria: Permohonan ulasan berjaya dihantar.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-SM-RT-01-01",
+   "name": "Pilih Agensi dan Skop Rujukan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU",
+    "BTD",
+    "ATL",
+    "Ketua Jabatan BTD",
+    "ATL"
+   ],
+   "steps": [
+    "Sistem paparkan senarai agensi teknikal.",
+    "PPSU pilih agensi melalui checkbox - tetapkan skop rujukan berdasarkan(keselamatan, kesihatan, struktur, pengiklanan, alam sekitar). Pemilihan ini bergantung kepada keputusan PPSU/PPKT 1 secara manual. 4. PPSU memasukkan ulasan didalam text box ulasan. 5. PPSU menekan butang simpan & hantar. 6. Sistem hantar kepada BTD/ATL yang dipilih dan merekod pilihan agensi dan skop untuk audit serta notifikasi."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Senarai agensi tidak dijumpai Mekanisme Sistem: Sistem cuba menjana senarai agensi berdasarkan konfigurasi PBT atau rujukan pangkalan data, tetapi tiada rekod ditemui. Proses Susulan / Tindakan Pengguna: Sistem hentikan proses pemilihan agensi. Sistem logkan isu dalam audit trail. Paparkan mesej ralat kepada pengguna dan arahkan untuk hubungi pentadbir sistem bagi semakan konfigurasi. Mesej Ralat (Paparan UI): “Senarai agensi tidak dijumpai. Sila hubungi pentadbir sistem untuk semakan konfigurasi.” Tarikh & masa kejadian (log_tarikh) ID/Nama pengguna (log_pengguna) Tindakan cuba dilakukan (log_tindakan: Pemilihan agensi) Catatan sistem / mesej ralat (log_catatan: “Senarai agensi tidak dijumpai…”) Maklumat Audit Trail: Status tindakan (log_status: Gagal) Pengguna cipta/kemaskini rekod audit (log_iuser, log_uuser) Tarikh cipta/kemaskini rekod audit (log_idate, log_udate)"
+    }
+   ],
+   "input": "ID Permohonan, senarai agensi teknikal, dokumen sokongan",
+   "output": "Senarai agensi dipilih, skop rujukan direkod, notifikasi dihantar",
+   "uiRefs": [
+    "UI-PL-SM-RT-01"
+   ],
+   "integration": "Modul integrasi agensi teknikal (API/konfigurasi PBT)",
+   "notes": "PPSU boleh pilih lebih daripada satu agensi. Sistem rekod semua agensi dipilih. Konfigurasi bergantung kepada tetapan PBT. Expected Result: Proses pemilihan agensi teknikal jelas, boleh diuji, konsisten. Segala penetepan konfigurasi termasuk pendaftaran dan penyelenggaran BTD/ATL adalah dibawah MODUL PENYELENGGARAAN SISTEM.",
+   "calls": [],
+   "parentId": "UC-PL-SM-RT-01"
+  },
+  {
+   "id": "UC-PL-SM-RT-01-02",
+   "name": "Hantar Dokumen Rujukan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "BTD",
+    "ATL",
+    "Ketua Jabatan BTD",
+    "ATL"
+   ],
+   "steps": [
+    "Sistem hantar notifikasi kepada BTD/ATL melalui emel/SMS/inbox OSC.",
+    "BTD/ATL terima notifikasi permohonan ulasan.",
+    "BTD/ATL buka senarai ulasan bagi meneruskan tindakan semakan.",
+    "BTD/ATL dipaparkan senarai ulasan yang perlu dibuat di bawah label tindakan.",
+    "BTD/ATL menekan butang edit untuk kemaskini ulasan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Penghantaran gagal → sistem rekod ralat & cuba semula automatik."
+    },
+    {
+     "id": "A2",
+     "text": "Dokumen tidak lengkap."
+    },
+    {
+     "id": "A3",
+     "text": "Saluran notifikasi tidak tersedia."
+    }
+   ],
+   "input": "ID Permohonanmaklumat dan dokumen, senarai agensi teknikal",
+   "output": "Dokumen berjaya dihantar, notifikasi diterima, log audit direkod",
+   "uiRefs": [
+    "UI-PL-SM-RT-01-02"
+   ],
+   "integration": "Modul notifikasi (emel/SMS/inbox OSC), repositori dokumen",
+   "notes": "Pre-condition: Permohonan telah dipilih untuk rujukan. Post-condition: Status dikemaskini “Menunggu Ulasan BTD/ATL”. Acceptance Criteria: Dokumen berjaya dihantar.",
+   "calls": [],
+   "parentId": "UC-PL-SM-RT-01"
+  },
+  {
+   "id": "UC-PL-SM-RT-02",
+   "name": "Ulasan & Lampiran Bukti",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "BTD",
+    "ATL"
+   ],
+   "steps": [
+    "BTD/ATL dipaparkan maklumat permohonan mengikut tab : i.Maklumat Pemohon ii.Butiran Perniagaan iii.Lesen Dipohon iv.Maklumat Iklan v.Dokumen",
+    "BTD/ATL buat semakan permohonan yang dirujuk.",
+    "BTD/ATL menekan tab tindakan. 4.BTD/ATL memilih syor permohonan sokong/tidak sokong/tidak berkaitan. 5.BTD/ATL isi ulasan teknikal dalam text box (maksimum 500 aksara) contohnya syarat tambahan jika perlu atau ulasan ikut keperluan. 6. BTD/ATL muat naik dokumen sokongan (PDF/DOCX, JPEG/PNG, Excel/CSV) jika perlu. 7. Sistem rekod ulasan & lampiran dalam pangkalan data. 8. BTD/ATL menekan butang kemaskini ulasan dan sistem menghantar kepada Ketua Jabatan BTD/ATL. 9. Sistem rekod audit trail."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Dokumen ulasan tidak sah Mekanisme Sistem: Sistem mengesan dokumen ulasan yang dimuat naik tidak memenuhi syarat (contoh: format tidak dibenarkan, saiz melebihi had, atau dokumen rosak). Proses Susulan / Tindakan Pengguna: Sistem menghalang simpanan/serahan ulasan sehingga dokumen sah dimuat naik. Sistem logkan isu dalam audit trail. Pegawai diarahkan untuk muat naik semula dokumen ulasan dalam format yang sah. Mesej Ralat (Paparan UI): “Dokumen ulasan tidak sah. Sila muat naik semula dokumen dalam format dan saiz yang dibenarkan.” Audit Trail : Sistem merekod bahawa dokumen ulasan yang dimuat naik tidak sah kerana format atau saiz tidak memenuhi syarat. Rekod audit menunjukkan percubaan muat naik gagal, termasuk ID permohonan, ID dokumen, pengguna yang terlibat, tarikh dan masa kejadian, serta keterangan ralat bahawa dokumen tidak dapat disimpan."
+    },
+    {
+     "id": "A2",
+     "text": "Agensi tidak beri maklum balas Mekanisme Sistem: Sistem mengesan tiada maklum balas diterima daripada agensi dalam tempoh masa yang ditetapkan. Proses Susulan / Tindakan Pengguna: Sistem tandakan status permohonan sebagai “Tiada Maklum Balas”. Sistem logkan isu dalam audit trail. Sistem paparkan notifikasi kepada pegawai semakan untuk mengambil tindakan susulan (contoh: keluarkan kuiri tambahan atau teruskan proses tanpa maklum balas agensi). Mesej Ralat / Notifikasi (Paparan UI): “Tiada maklum balas diterima daripada agensi dalam tempoh ditetapkan. Sila ambil tindakan susulan.” Audit Trail : Sistem merekod bahawa tiada maklum balas diterima daripada agensi dalam tempoh SLA yang ditetapkan. Rekod audit menunjukkan status permohonan ditandakan sebagai “Tiada Maklum Balas”, termasuk ID permohonan, agensi yang terlibat, pegawai semakan yang menerima notifikasi, tarikh dan masa tamat SLA, serta keterangan bahawa sistem mengesan kegagalan maklum balas."
+    }
+   ],
+   "input": "ID Permohonan, ulasan teknikal, syarat tambahan, dokumen sokongan",
+   "output": "Ulasan teknikal direkod, dokumen sokongan disimpan, audit trail dikemaskini",
+   "uiRefs": [
+    "UI-PL-SM-RT-02"
+   ],
+   "integration": "",
+   "notes": "Pre-condition: Permohonan telah dirujuk kepada BTD/ATL. Post-condition: Ulasan & bukti direkod dalam sistem. Acceptance Criteria: Ulasan jelas, dokumen sah, metadata lengkap, audit trail disimpan. UI-PL-SM-RT-02 – Ulasan & Lampiran Bukti - Maklumat yang boleh dilihat Maklumat pemohon Butiran Perniagaan Lesen Dipohon Maklumat Iklan Dokumen Tindakan",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-SM-RT-02-01",
+   "name": "Muat Naik Ulasan dan Bukti",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "BTD",
+    "ATL",
+    "Ketua Jabatan BTD",
+    "ATL"
+   ],
+   "steps": [
+    "BTD/ATL pilih fail lampiran (PDF/JPG/PNG).",
+    "Sistem semak format & saiz fail (≤ 10 MB).",
+    "Sistem rekod ulasan & bukti dalam pangkalan data.",
+    "Sistem simpan metadata (nama pegawai, jabatan, tarikh ulasan).",
+    "Sistem rekod audit trail."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Format tidak dibenarkan Mekanisme Sistem: Sistem mengesan dokumen yang dimuat naik tidak dalam format yang dibenarkan (contoh: hanya PDF/JPEG diterima, tetapi pengguna muat naik DOCX/ZIP). Proses Susulan / Tindakan Pengguna: Sistem menghalang simpanan dokumen. Sistem logkan isu dalam audit trail. Pengguna diarahkan untuk muat naik semula dokumen dalam format yang sah. Mesej Ralat (Paparan UI): “Format dokumen tidak dibenarkan. Sila muat naik dokumen dalam format PDF atau JPEG.”"
+    },
+    {
+     "id": "A2",
+     "text": "Saiz terlalu besar Mekanisme Sistem: Sistem mengesan saiz fail melebihi had maksimum yang ditetapkan (contoh: >10MB). Proses Susulan / Tindakan Pengguna: Sistem menghalang simpanan dokumen. Sistem logkan isu dalam audit trail. Pengguna diarahkan untuk muat naik semula dokumen dengan saiz yang dibenarkan. Mesej Ralat (Paparan UI): “Saiz dokumen melebihi had maksimum. Sila muat naik dokumen dengan saiz kurang daripada 10MB.”"
+    },
+    {
+     "id": "A3",
+     "text": "Fail rosak Mekanisme Sistem: Sistem gagal membuka dokumen kerana fail korup, tidak lengkap, atau rosak semasa muat naik. Proses Susulan / Tindakan Pengguna: Sistem hentikan proses semakan dokumen. Sistem logkan isu dalam audit trail. Pengguna diarahkan untuk muat naik semula dokumen yang sah. Mesej Ralat (Paparan UI): “Fail rosak atau tidak dapat dibuka. Sila muat naik semula dokumen.”"
+    }
+   ],
+   "input": "ID Permohonan, ulasan teknikal, dokumen sokongan (PDF/JPG/PNG)",
+   "output": "Status “Lengkap” jika berjaya, mesej ralat jika gagal, audit trail direkod",
+   "uiRefs": [
+    "UI-PL-SM-RT-02"
+   ],
+   "integration": "",
+   "notes": "Pre-condition: Permohonan telah dirujuk kepada BTD/ATL. Post-condition: Fail berjaya dimuat naik → status “Lengkap”. Acceptance Criteria: Fail sah, ulasan jelas, metadata lengkap, audit trail disimpan.",
+   "calls": [],
+   "parentId": "UC-PL-SM-RT-02"
+  },
+  {
+   "id": "UC-PL-SM-RT-02-02",
+   "name": "Notifikasi Ulasan Diterima",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "Ketua Jabatan BTD",
+    "ATL"
+   ],
+   "steps": [
+    "Sistem jana notifikasi automatik.",
+    "Sistem hantar notifikasi melalui emel rasmi (pautan OSC), SMS ringkas, dan inbox OSC.",
+    "Ketua jabatan BTD/ATL terima notifikasi dengan kandungan mesej penuh.",
+    "Sistem rekod log audit penghantaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Saluran notifikasi gagal → sistem cuba semula automatik."
+    },
+    {
+     "id": "A2",
+     "text": "Kandungan mesej tidak lengkap."
+    },
+    {
+     "id": "A3",
+     "text": "Inbox OSC tidak dapat diakses."
+    }
+   ],
+   "input": "ID Permohonan, nama pemohon, jenis lesen, jabatan/agensi teknikal, ringkasan ulasan, status pengesahan, tarikh/masa ulasan",
+   "output": "Notifikasi berjaya dihantar, status ulasan diterima, log audit direkod",
+   "uiRefs": [
+    "UI-PL-SM-RT-02-02"
+   ],
+   "integration": "Modul notifikasi (emel/SMS/inbox OSC)",
+   "notes": "Pre-condition: Ulasan telah dimuat naik & disahkan Ketua Jabatan. Post-condition: Notifikasi dihantar segera tanpa kelewatan. Acceptance Criteria: Notifikasi lengkap, saluran berfungsi, log audit direkod.",
+   "calls": [],
+   "parentId": "UC-PL-SM-RT-02"
+  },
+  {
+   "id": "UC-PL-SM-RT-03",
+   "name": "Semakan Ketua Jabatan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "Ketua Jabatan BTD",
+    "ATL"
+   ],
+   "steps": [
+    "Ketua Jabatan BTD/ATL buka senarai ulasan.",
+    "Sistem paparkan senarai ulasan yang mempunyai butang semak & lulus bagi ulasan teknikal yang dimuat naik oleh pegawai BTD/ATL dan memerlukan kelulusan Ketua Jabatan BTD/ATL.",
+    "Ketua Jabatan BTD/ATL menekan butang semak & lulus.",
+    "Ketua Jabatan BTD/ATL ringkasan butiran permohonan berserta kandungan ulasan dan dokumen sokongan yang telah dihantar oleh pegawai BTD/ATL.",
+    "Ketua Jabatan BTD/ATL menilai ulasan dan kesesuaian mengikut pertimbangan agensi."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tiada ulasan diterima Mekanisme Sistem: Sistem mengesan tiada ulasan dimasukkan oleh pegawai semakan walaupun status semakan memerlukan ulasan. Proses Susulan / Tindakan Pengguna: Sistem menghalang simpanan/serahan semakan sehingga ulasan dimasukkan. Sistem logkan isu dalam audit trail untuk tujuan kawalan. Pegawai diarahkan untuk mengisi ulasan sebelum meneruskan. Mesej Ralat (Paparan UI): “Tiada ulasan dimasukkan. Sila isi ulasan sebelum meneruskan.”"
+    },
+    {
+     "id": "A2",
+     "text": "Ulasan tidak lengkap Mekanisme Sistem: Sistem mengesan ulasan teknikal dimasukkan tetapi tidak mengandungi semua maklumat wajib (contoh: catatan, status, dokumen sokongan). Proses Susulan / Tindakan Pengguna: Sistem menghalang simpanan/serahan ulasan sehingga semua medan wajib dilengkapkan. Sistem logkan isu dalam audit trail. Pegawai diarahkan untuk melengkapkan ulasan teknikal sebelum meneruskan. Mesej Ralat (Paparan UI): “Ulasan tidak lengkap. Sila isi semua maklumat wajib sebelum meneruskan.”"
+    }
+   ],
+   "input": "ID Permohonan, ulasan teknikal, dokumen sokongan, metadata ulasan",
+   "output": "Status ulasan: “Lulus/Tolak/Semakan Semula” Dan audit trail direkod",
+   "uiRefs": [
+    "UI-PL-SM-RT-03"
+   ],
+   "integration": "",
+   "notes": "Pre-condition: Ulasan teknikal telah dimuat naik. Post-condition: Status ulasan ditetapkan (Lulus/Tolak/Semakan Semula), audit trail direkodkan. Acceptance Criteria: Ulasan lengkap, jelas, bukti sah, selaras skop teknikal jabatan.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-SM-RT-03-01",
+   "name": "Sahkan Ulasan Jabatan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "Ketua Jabatan BTD",
+    "ATL",
+    "Pegawai BTD",
+    "ATL",
+    "PPSU"
+   ],
+   "steps": [
+    "Ketua Jabatan BTD/ATL isi ulasan teknikal dalam text box Keputusan Semakan(maksimum 500 asakra) dan tekan Butang tindakan yang tersedia: [Lulus] → Status permohonan dikemaskini kepada Diluluskan. [Tolak] → Status permohonan dikemaskini kepada Ditolak. [Hantar Semula] → Status permohonan dikemaskini kepada Kembali Diperbetulkan / Semakan Semula. [Kembali] → Navigasi kembali ke skrin sebelumnya tanpa perubahan status.",
+    "Sistem rekod keputusan dan kemaskini status ulasan di database OSCP.",
+    "Sistem maklumkan PPSU melalui notifikasi."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Dokumen Tidak Boleh Dibuka Mekanisme Sistem. Sistem cuba membuka dokumen yang dimuat naik oleh pemohon. Jika dokumen rosak, format tidak sah, atau muat naik tidak lengkap, sistem gagal membaca kandungan. Sistem hentikan proses semakan dokumen. Proses Susulan / Tindakan Pengguna Sistem menghalang proses semakan/kelulusan sehingga dokumen sah dimuat naik. Sistem logkan isu dalam audit trail untuk tujuan kawalan dan semakan teknikal. Pengguna (pemohon) diarahkan untuk muat naik semula dokumen dalam format yang sah. Mesej Ralat (Paparan UI) “Dokumen tidak dapat dibuka. Sila muat naik semula dokumen dalam format yang sah.” Audit Trail Rekodkan maklumat berikut: ID permohonan Nama dokumen Tarikh/masa percubaan membuka dokumen Jenis ralat (contoh: fail rosak, format tidak sah) Status dokumen (Error)"
+    }
+   ],
+   "input": "ID Permohonan, ulasan teknikal, dokumen rujukan, metadata ulasan",
+   "output": "Status ulasan: “Lulus/Tolak/Hantar Semula” Dan audit trail direkod",
+   "uiRefs": [
+    "UI-PL-SM-RT-03"
+   ],
+   "integration": "",
+   "notes": "Pre-condition: Ulasan teknikal telah dimuat naik oleh pegawai BTD/ATL. Post-condition: Status ulasan ditetapkan (Lulus/Tolak/Hantar Semula), audit trail direkodkan. Acceptance Criteria: Ulasan lengkap, jelas, bukti sah, selaras skop teknikal jabatan.",
+   "calls": [],
+   "parentId": "UC-PL-SM-RT-03"
+  },
+  {
+   "id": "UC-PL-SM-RT-03-02",
+   "name": "Notifikasi Keputusan Semakan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "Ketua Jabatan BTD",
+    "ATL",
+    "PPSU",
+    "Pemohon"
+   ],
+   "steps": [
+    "Sistem rekod keputusan semakan.",
+    "Sistem jana notifikasi automatik.",
+    "Sistem hantar notifikasi kepada pemohon, PPSU, dan Ketua Jabatan melalui emel, SMS, dan inbox OSC.",
+    "Sistem rekod log audit penghantaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Gagal Hantar Mekanisme Sistem Sistem cuba menghantar data/notifikasi (contoh: emel, SMS, atau mesej sistem) kepada penerima. Proses gagal kerana ralat teknikal (contoh: sambungan pelayan terputus, konfigurasi tidak sah, alamat penerima tidak wujud). Sistem hentikan proses penghantaran dan cuba retry automatik (contoh: 3 kali percubaan dalam tempoh singkat). Proses Susulan / Tindakan Pengguna Jika percubaan berulang gagal, sistem tandakan status sebagai “Hantar Gagal”. Sistem paparkan mesej ralat kepada pengguna dan halang proses daripada diteruskan sehingga penghantaran berjaya. Pengguna (pegawai) boleh cuba semula atau hubungi pentadbir sistem untuk tindakan lanjut. Mesej Ralat (Paparan UI) “Gagal menghantar notifikasi. Sila cuba semula atau hubungi pentadbir sistem.” Audit Trail Rekodkan maklumat berikut: ID permohonan ID pengguna Tarikh/masa percubaan Jenis ralat Status penghantaran (Berjaya / Gagal)"
+    }
+   ],
+   "input": "ID Permohonan, nama pemohon, jenis lesen, jabatan/agensi teknikal, ringkasan ulasan, status pengesahan, tarikh/masa ulasan",
+   "output": "Notifikasi berjaya dihantar, status keputusan diterima, log audit direkod",
+   "uiRefs": [],
+   "integration": "Modul notifikasi (emel/SMS/inbox OSC)",
+   "notes": "Pre-condition: Keputusan semakan telah direkodkan. Post-condition: Notifikasi dihantar segera tanpa kelewatan. Acceptance Criteria: Notifikasi lengkap, saluran berfungsi, log audit direkod.",
+   "calls": [],
+   "parentId": "UC-PL-SM-RT-03"
+  },
+  {
+   "id": "UC-PL-SM-KT-01",
+   "name": "Syor Keputusan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU"
+   ],
+   "steps": [
+    "PPSU buka senarai permohonan ke mesyuarat",
+    "Sistem paparkan senarai permohonan.",
+    "PPSU menekan butang tindakan bagi penyediaan kertas syor."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Ulasan teknikal tidak lengkap Mekanisme Sistem: Sistem mengesan ulasan teknikal yang dimasukkan oleh pegawai semakan tidak mengandungi semua maklumat wajib (contoh: catatan, status, dokumen sokongan). Proses Susulan / Tindakan Pengguna: Sistem menghalang simpanan/serahan ulasan sehingga semua medan wajib dilengkapkan. Sistem logkan isu dalam audit trail. Pegawai diarahkan untuk melengkapkan ulasan teknikal sebelum meneruskan. Mesej Ralat (Paparan UI): “Ulasan teknikal tidak lengkap. Sila isi semua maklumat wajib sebelum meneruskan.”"
+    },
+    {
+     "id": "A2",
+     "text": "Dokumen tidak boleh dibuka Mekanisme Sistem: Sistem gagal membuka dokumen kerana fail rosak, format tidak sah, atau muat naik tidak lengkap. Proses Susulan / Tindakan Pengguna: Sistem hentikan proses semakan dokumen. Sistem logkan isu dalam audit trail. Pengguna diarahkan untuk muat naik semula dokumen yang sah. Mesej Ralat (Paparan UI): “Dokumen tidak dapat dibuka. Sila muat naik semula dokumen dalam format yang sah.”"
+    }
+   ],
+   "input": "ID Permohonan, nama pemohon, jenis lesen, tarikh permohonan, ringkasan ulasan teknikal, justifikasi keputusan, cadangan keputusan, dokumen sokongan",
+   "output": "Status ulasan direkod kertas syor disimpan, audit trail direkod",
+   "uiRefs": [
+    "UI-PL-SM-KT-01-SYOR"
+   ],
+   "integration": "",
+   "notes": "Pre-condition: Semua ulasan teknikal telah direkodkan. Post-condition: Status syor direkodkan (Lulus/Tolak/Eskalasi). Acceptance Criteria: Syor hanya boleh dibuat jika semua ulasan lengkap.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-SM-KT-01-01",
+   "name": "Draf Syor Keputusan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU",
+    "PPKT1"
+   ],
+   "steps": [
+    "PPSU klik pada permohonan.",
+    "Sistem paparkan template ulasan dengan medan wajib untuk diisi oleh PPSU seperti maklumat pemohon, ulasan teknikal, syarat tambahan, cadangan keputusan.",
+    "PPSU isi draf ulasan yang berkaitan mengikut ketetapan PPSU.",
+    "PPSU klik Hantar Ke PPKT 1 dan sistem menghantar draf kertas permohonan ke PPKT1.",
+    "Sistem rekod draf syor & log audit."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Maklumat kes tidak lengkap Mekanisme Sistem: Sistem mengesan medan wajib (contoh: butiran kes, tarikh, kategori kes) tidak diisi atau tidak lengkap. Proses Susulan / Tindakan Pengguna: Sistem menghalang simpanan data sehingga semua maklumat kes dilengkapkan. Sistem logkan isu dalam audit trail untuk tujuan kawalan. Pengguna diarahkan untuk melengkapkan maklumat sebelum meneruskan. Mesej Ralat (Paparan UI): “Maklumat kes tidak lengkap. Sila isi semua medan wajib sebelum meneruskan.”"
+    },
+    {
+     "id": "A2",
+     "text": "Ulasan teknikal hilang Mekanisme Sistem: Sistem mengesan ulasan teknikal tidak dimasukkan oleh pegawai semakan (BTD/ATL) walaupun status semakan memerlukan ulasan. Proses Susulan / Tindakan Pengguna: Sistem menghalang tindakan simpan/serah sehingga ulasan teknikal dimasukkan. Sistem logkan isu dalam audit trail. Pegawai diarahkan untuk mengisi ulasan teknikal sebelum meneruskan. Mesej Ralat (Paparan UI): “Ulasan teknikal wajib dimasukkan. Sila isi ulasan sebelum meneruskan.”"
+    },
+    {
+     "id": "A3",
+     "text": "Ralat menyimpan draf Mekanisme Sistem: Sistem cuba menyimpan draf permohonan tetapi gagal kerana ralat teknikal (contoh: sambungan pangkalan data terputus, format data tidak sah). Proses Susulan / Tindakan Pengguna: Sistem cuba retry automatik (contoh: 3 kali percubaan). Jika percubaan berulang gagal, sistem tandakan status sebagai “Simpan Draf Gagal”. Sistem paparkan mesej ralat dan halang pengguna daripada meneruskan sehingga draf berjaya disimpan. Mesej Ralat (Paparan UI): “Ralat semasa menyimpan draf. Sila cuba semula atau hubungi pentadbir sistem.”"
+    }
+   ],
+   "input": "ID Permohonan, maklumat pemohon, ulasan teknikal, syarat tambahan, cadangan keputusan, dokumen sokongan, bukti lawatan tapak",
+   "output": "Draf syor direkod, status penghantaran berjaya, log audit disimpan",
+   "uiRefs": [
+    "UI-PL-SM-KT-01-01"
+   ],
+   "integration": "",
+   "notes": "Pre-condition: Semua ulasan teknikal telah direkodkan. Post-condition: Draf syor direkod & dihantar ke PPKT1. Acceptance Criteria: Semua medan wajib diisi, dokumen sah, log audit direkod.",
+   "calls": [],
+   "parentId": "UC-PL-SM-KT-01"
+  },
+  {
+   "id": "UC-PL-SM-KT-01-02",
+   "name": "Papar Ringkasan Kes",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU"
+   ],
+   "steps": [
+    "PPKT1 buka ringkasan kes melalui menu Senarai Permohonan ke Mesyuarat.",
+    "PPKT1 semak ulasan teknikal. 3.PPKT1 rekod catatan syarat tambahan atau alasan sekiranya ada. 4. PPKT1 pilih keputusan: Semakan Semula kepada PPSU / Hantar ke urusetia 5. Sekiranya PPKT 1 memilih semakan semula ke PPSU, sistem akan menghantar draf syor keputusan kepada PPSU untuk semakan semula. 6.Sekiranya PPKT 1 memilih untuk Hantar ke urusetia, sistem akan hantar permohonan kepada urusetia mesyuarat untuk didaftarkan permohonan dan dipertimbangkan kelulusan dalam mesyuarat. 7. Sistem rekod keputusan & kemaskini status permohonan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Data Ulasan Tidak Lengkap Sistem kesan data ulasan teknikal tidak lengkap. Paparkan mesej ralat: Data ulasan teknikal tidak lengkap Log kesalahan ke dalam audit trail Hentikan proses paparan ringkasan kes Arahkan pengguna kembali ke skrin semakan untuk melengkapkan ulasan"
+    },
+    {
+     "id": "A2",
+     "text": "Syarat Tambahan Tidak Direkod Sistem kesan syarat tambahan tidak direkod. Paparkan mesej amaran: Syarat tambahan belum direkod Benarkan pengguna menambah syarat tambahan melalui modul input Simpan semula rekod selepas syarat ditambah Jana semula ringkasan kes dengan syarat lengkap"
+    },
+    {
+     "id": "A3",
+     "text": "Sistem Gagal Jana Ringkasan Sistem gagal menghasilkan ringkasan kes. Paparkan mesej ralat: Ringkasan kes gagal dijana Log kesalahan ke dalam sistem error log Hantar notifikasi kepada pentadbir sistem Sediakan pilihan untuk cuba semula atau hubungi sokongan teknikal"
+    }
+   ],
+   "input": "ID Permohonan, nama pemohon, jenis lesen, tarikh permohonan, ulasan teknikal, syarat tambahan, cadangan keputusan",
+   "output": "Ringkasan kes dipaparkan dalam sistem, status semakan dikemaskini",
+   "uiRefs": [
+    "UI-PL-SM-KT-01-02"
+   ],
+   "integration": "",
+   "notes": "Pre-condition: Semua ulasan teknikal telah direkodkan. Post-condition: Ringkasan kes dipaparkan dengan status semakan. Acceptance Criteria: Ringkasan kes lengkap, jelas, dan selaras dengan data permohonan.",
+   "calls": [],
+   "parentId": "UC-PL-SM-KT-01"
+  },
+  {
+   "id": "UC-PL-SM-KT-02",
+   "name": "Keputusan PPKT1 (Lulus/Tolak/Eskalasi)",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPKT1"
+   ],
+   "steps": [
+    "2.PPKT 1 membuat keputusan untuk lulus/tolak/ eskalasi. Eskalasi disini bermaksud tindakan-tindakan seterusnya yang diputuskan oleh PPKT 1 berdasarkan ketetapan JKT kelak. Dalam hal ini, tindakan eskalasi disini adalah tindakan lulus bersyarat /pulangkan untuk semakan semula kepada PPSU. 3. Sistem memaklumkan keputusan kepada pemohon keputusan untuk lulus/lulus bersyarat/ menolak/pulangkan untuk semakan semula kepada PPSU."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Ketua Jabatan iaitu PPKT1 tiada akses Mekanisme Sistem: Sistem mengesan peranan pengguna tidak mempunyai kebenaran untuk mengakses fungsi atau dokumen tertentu. Proses Susulan / Tindakan Pengguna: Sistem menghalang akses, logkan percubaan dalam audit trail, dan arahkan pengguna untuk hubungi pentadbir sistem. Mesej Ralat (Paparan UI): “Anda tidak mempunyai akses sebagai Ketua Jabatan untuk fungsi ini. Sila hubungi pentadbir sistem.”"
+    },
+    {
+     "id": "A2",
+     "text": "Dokumen tidak lengkap Mekanisme Sistem: Sistem mengesan dokumen wajib tidak dimuat naik atau medan dokumen tidak diisi sepenuhnya. Proses Susulan / Tindakan Pengguna: Sistem menghalang proses simpanan/semakan, logkan isu, dan arahkan pengguna untuk melengkapkan dokumen sebelum meneruskan. Mesej Ralat (Paparan UI): “Dokumen tidak lengkap. Sila muat naik semua dokumen wajib sebelum meneruskan.”"
+    },
+    {
+     "id": "A3",
+     "text": "Keputusan tidak sah Mekanisme Sistem: Sistem mengesan keputusan yang dimasukkan tidak padan dengan senarai status sah (contoh: kod status tidak wujud dalam jadual rujukan). Proses Susulan / Tindakan Pengguna: Sistem menghalang simpanan keputusan, logkan kesilapan, dan arahkan pengguna pilih keputusan yang sah daripada senarai. Mesej Ralat (Paparan UI): “Keputusan yang dimasukkan tidak sah. Sila pilih keputusan yang sah daripada senarai.”"
+    }
+   ],
+   "input": "ID Permohonan, nama pemohon, jenis lesen, butiran permohonan, ulasan teknikal, dokumen sokongan",
+   "output": "Status keputusan lulus/lulus bersyarat/ menolak/pulangkan untuk semakan semula kepada PPSU. Surat rasmi PDF, notifikasi kepada pemohon & PPSU, audit trail",
+   "uiRefs": [
+    "UI-PL-SM-KT-01-SYOR"
+   ],
+   "integration": "",
+   "notes": "Pre-condition: Semua ulasan teknikal telah direkodkan. Post-condition: Surat rasmi boleh dimuat turun oleh pemohon. Acceptance Criteria: Keputusan jelas, syarat tambahan direkod, surat rasmi sah dengan tandatangan digital.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-SM-KT-02-01",
+   "name": "Rekod Keputusan dan Catatan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPKT1",
+    "PPSU"
+   ],
+   "steps": [
+    "Sistem rekod keputusan & catatan syarat.",
+    "Sistem simpan metadata (nama pegawai, tarikh keputusan, jabatan).",
+    "Sistem rekod log audit."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Medan catatan syarat tidak diisi untuk keputusan Lulus. Pegawai pilih keputusan Lulus. Pegawai tidak mengisi medan catatan syarat tambahan. Sistem papar mesej ralat “Catatan syarat wajib diisi untuk keputusan Lulus” dan halang simpanan."
+    },
+    {
+     "id": "A2",
+     "text": "Metadata tidak lengkap. Pegawai pilih keputusan (Lulus/Tidak Lulus/Eskalasi). Metadata seperti nama pegawai, tarikh keputusan, atau jabatan tidak direkod. Sistem papar mesej ralat “Metadata tidak lengkap. Sila semak maklumat pegawai/jabatan” dan halang simpanan."
+    },
+    {
+     "id": "A3",
+     "text": "Sistem gagal simpan keputusan. Pegawai pilih keputusan dan isi catatan syarat (jika Lulus). Sistem cuba simpan rekod tetapi berlaku kegagalan teknikal (contoh: pangkalan data/rangkaian). Sistem papar mesej ralat “Sistem gagal menyimpan keputusan. Sila cuba semula atau hubungi pentadbir sistem” dan rekod audit log kegagalan"
+    }
+   ],
+   "input": "ID Permohonan, keputusan (Lulus/Tidak Lulus/Eskalasi), catatan syarat tambahan, metadata pegawai",
+   "output": "Status keputusan direkod, catatan syarat disimpan, audit trail dikemaskini",
+   "uiRefs": [
+    "UI-PL-SM-KT-01-SYOR"
+   ],
+   "integration": "",
+   "notes": "Pre-condition: Semua ulasan teknikal telah direkodkan. Post-condition: Status keputusan direkod bersama catatan syarat (jika Lulus). Acceptance Criteria: Keputusan jelas, catatan syarat wajib diisi untuk Lulus, metadata lengkap, audit trail direkod.",
+   "calls": [],
+   "parentId": "UC-PL-SM-KT-02"
+  },
+  {
+   "id": "UC-PL-SM-KT-02-02",
+   "name": "Notifikasi Keputusan",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "Pemohon",
+    "PPSU",
+    "BTD",
+    "ATL",
+    "Pentadbir Sistem"
+   ],
+   "steps": [
+    "Sistem rekod keputusan PPKT1.",
+    "Sistem jana notifikasi automatik.",
+    "Sistem hantar notifikasi kepada pemohon dan PPSU.",
+    "Notifikasi dihantar melalui emel, SMS, dan inbox OSC.",
+    "Sistem rekod log audit penghantaran."
+   ],
+   "alternatives": [
+    {
+     "id": null,
+     "text": "Mekanisme Sistem: Sistem cuba hantar notifikasi keputusan melalui Modul Notifikasi (Modul 12). Jika berlaku kegagalan (contoh: ralat sambungan, modul penerima tidak responsif, atau alamat penerima tidak sah), sistem hentikan proses penghantaran. Sistem cuba retry automatik (contoh: 3 kali percubaan dalam tempoh tertentu). Tindakan Sistem: Paparkan mesej ralat kepada pengguna: “Notifikasi gagal dihantar. Sila cuba semula atau hubungi pentadbir sistem.” Tandakan status permohonan sebagai “Notifikasi Gagal” sehingga penghantaran berjaya. Berikan pilihan kepada pengguna untuk menghantar semula secara manual. Proses Susulan / Tindakan Pengguna Sistem logkan kesilapan dalam jadual notifikasi untuk tujuan audit. Status permohonan tetap dikemaskini ke Kelulusan Tahap 1 walaupun notifikasi gagal. Pegawai diberi amaran melalui paparan sistem bahawa notifikasi tidak berjaya dihantar. Pengguna (pegawai) boleh cuba semula penghantaran notifikasi atau hubungi pentadbir sistem. Mesej Ralat (Paparan UI) “Notifikasi gagal dihantar. Sila cuba lagi atau hubungi pentadbir sistem.”Audit Trail: Rekodkan ID permohonan, penerima notifikasi, tarikh/masa percubaan, dan sebab kegagalan. Log ini membolehkan pentadbir sistem menjejak isu dan melakukan semakan teknikal"
+    }
+   ],
+   "input": "ID Permohonan, nama pemohon, jenis lesen, status keputusan, syarat tambahan (jika ada), metadata keputusan",
+   "output": "Notifikasi berjaya dihantar, status keputusan diterima, log audit direkod",
+   "uiRefs": [
+    "UI-PL-SM-KT-02-02"
+   ],
+   "integration": "Modul notifikasi (emel/SMS/inbox OSC)",
+   "notes": "Pre-condition: Keputusan PPKT1 telah direkodkan. Post-condition: Notifikasi berjaya dihantar, log audit direkodkan. Acceptance Criteria: Notifikasi lengkap, saluran berfungsi, log audit direkod. Mekanisme sistem: Sistem semak status penghantaran notifikasi. Jika gagal (contoh: ralat sambungan, alamat penerima tidak sah), sistem hentikan proses. Tindakan sistem: Paparkan mesej ralat: “Notifikasi gagal dihantar. Sila cuba semula atau hubungi pentadbir sistem.” Audit trail: Rekodkan ID permohonan, jenis notifikasi, tarikh/masa percubaan, dan sebab kegagalan. Proses susulan: Sistem boleh menjadualkan semula percubaan penghantaran secara automatik (retry mechanism) atau memberi pilihan kepada pengguna untuk menghantar semula.",
+   "calls": [],
+   "parentId": "UC-PL-SM-KT-02"
+  },
+  {
+   "id": "UC-PL-SM-KT-02-03",
+   "name": "Rujuk ke Mesyuarat OSC",
+   "group": "Semakan dan Ulasan",
+   "actors": [
+    "PPSU",
+    "PPKT1",
+    "Jawatankuasa OSC"
+   ],
+   "steps": [
+    "Urusetia Mesyuarat menerima notifikasi permohonan yang perlu dibawa ke mesyuarat. 2.Urusetia Mesyurat buka Senarai Permohonan Ke Mesyuarat.",
+    "Urusetia Mesyuarat eskalasi permohonan ke Mesyuarat OSC /Mesyuarat Pelesenan yang dipilih.",
+    "Sistem pindahkan kes ke Modul Kelulusan Mesyuarat.",
+    "Sistem jana dokumen rasmi (template kertas mesyuarat) dengan ulasan teknikal & justifikasi bagi pertimbangan kelulusan mesyuarat selanjutnya.",
+    "Sistem rekod log audit penghantaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Integriti dokumen gagal Mekanisme Sistem: Sistem mengesan dokumen yang dimuat naik tidak sah dari segi integriti (contoh: checksum tidak sepadan, dokumen diubah selepas muat naik, atau fail rosak). Proses Susulan / Tindakan Pengguna: Sistem hentikan proses semakan dokumen. Sistem logkan isu dalam audit trail untuk tujuan kawalan. Paparkan mesej ralat kepada pengguna dan arahkan untuk muat naik semula dokumen yang sah. Mesej Ralat (Paparan UI): “Integriti dokumen gagal. Sila muat naik semula dokumen yang sah.” Proses Validasi : Sistem merekod bahawa dokumen ulasan yang dimuat naik telah ditolak kerana integriti gagal. Semakan checksum/hash mendapati nilai tidak sepadan dengan rekod asal. Audit trail menunjukkan ID permohonan, ID dokumen terlibat, tarikh dan masa kejadian, serta status validasi “Integriti Gagal”. Sistem menghalang proses simpanan atau serahan ulasan sehingga dokumen sah dimuat naik semula."
+    },
+    {
+     "id": "A2",
+     "text": "Modul Kelulusan Mesyuarat tidak memberi respons Mekanisme Sistem: Sistem cuba berkomunikasi dengan Modul Kelulusan Mesyuarat untuk rujukan/kelulusan, tetapi tiada respons dalam tempoh masa ditetapkan. Punca: sambungan rangkaian terputus, modul tidak aktif, atau ralat teknikal. Proses Susulan / Tindakan Pengguna: Sistem cuba retry automatik (contoh: 3 kali percubaan). Jika gagal, sistem tandakan status sebagai “Modul Tidak Respons”. Paparkan mesej ralat kepada urusetia dan arahkan untuk hubungi pentadbir sistem. Mesej Ralat (Paparan UI): “Modul Kelulusan Mesyuarat tidak memberi respons. Sila cuba semula atau hubungi pentadbir sistem.” Proses Validasi : Sistem merekod bahawa Modul MO tidak memberi respons selepas percubaan penghantaran data melepasi tempoh SLA. Proses dihentikan secara automatik dan mesej ralat dipaparkan kepada pengguna. Audit trail menunjukkan ID permohonan, tarikh dan masa kejadian, serta status validasi “MO Tidak Respons”. Sistem menandakan langkah validasi modul sebagai gagal dan mengarahkan pengguna untuk cuba semula atau hubungi pentadbir sistem."
+    }
+   ],
+   "input": "ID Permohonan, ulasan teknikal, dokumen sokongan, justifikasi syor",
+   "output": "Status permohonan “Menunggu Keputusan Mesyuarat OSC”; dokumen rasmi mesyuarat; keputusan mesyuarat direkod",
+   "uiRefs": [
+    "UI-PL-SM-KT-02-03"
+   ],
+   "integration": "Modul Mesyuarat OSC, modul dokumen OSC, modul notifikasi",
+   "notes": "Pre-condition: Permohonan tidak boleh diputuskan oleh PPKT1. Post-condition: Status permohonan dikemas kini kepada “Eskalasi ke Mesyuarat OSC”. Acceptance Criteria: Kes berjaya direkodkan dalam agenda mesyuarat jawatankuasa.",
+   "calls": [],
+   "parentId": "UC-PL-SM-KT-02"
+  }
+ ],
+ "screens": [
+  {
+   "title": "Skrin Semak Kelengkapan & Kebenaran",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-SP-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Carian Permohonan",
+     "objectType": "Text Field",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nosiri"
+     ],
+     "crud": "R",
+     "note": "Input nombor siri permohonan untuk carian spesifik rekod"
+    },
+    {
+     "label": "Carian (Semua Risiko)",
+     "objectType": "Dropdown Filter",
+     "tables": [
+      "osc_kod_niaga"
+     ],
+     "fields": [
+      "nia_risiko"
+     ],
+     "crud": "R",
+     "note": "Penapis senarai berdasarkan tahap Risiko Kritikal Tinggi Rendah"
+    },
+    {
+     "label": "Carian (Semua Jenis Permohonan)",
+     "objectType": "Dropdown Filter",
+     "tables": [
+      "osc_slg_lookuptable"
+     ],
+     "fields": [
+      "ctl_ctrlstatus"
+     ],
+     "crud": "R",
+     "note": "Penapis untuk semua jenis permohonan Baharu Pembaharuan Tukar Nama Kemaskini Pindak Milik"
+    },
+    {
+     "label": "No. Siri Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nosiri"
+     ],
+     "crud": "R",
+     "note": "Paparan nombor siri unik permohonan"
+    },
+    {
+     "label": "Pelanggan",
+     "objectType": "Label",
+     "tables": [
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "plgn_nama"
+     ],
+     "crud": "R",
+     "note": "Diambil dari jadual pelanggan (individu/syarikat)"
+    },
+    {
+     "label": "Tarikh Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_tkmohon"
+     ],
+     "crud": "R",
+     "note": "Tarikh permohonan didaftarkan mengikut format DD/MM/YYYY"
+    },
+    {
+     "label": "Risiko",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_kod_niaga"
+     ],
+     "fields": [
+      "nia_risiko"
+     ],
+     "crud": "R",
+     "note": "Kategori Risiko Rendah Tinggi Kritikal"
+    },
+    {
+     "label": "Kategori",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_jenismhn"
+     ],
+     "crud": "R",
+     "note": "Kategori permohonan •Baharu •Pembaharuan •Tukar Nama •Kemaskini •Pindak Milik"
+    },
+    {
+     "label": "Status “Baharu”",
+     "objectType": "Status",
+     "tables": [
+      "application_processing_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "",
+     "note": "Berdasarkan Status proses semasa permohonan Baharu Kuiri Semakan Semula PBT Kelulusan Tahap 1 Menunggu Ulasan Menunggu PPSU Semakan Akhir Semakan Urusetia Menunggu Mesyuarat Lulus Lulus Bersyarat Tolak Tangguh"
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Button/Icon",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Tindakan : Apabila butang semak ditekan oleh pengguna: Sistem akan memaparkan Skrin Papar Ringkasan Permohonan (rujuk Rajah 4: UI Mockup / Screenshot – Skrin Papar Ringkasan Permohonan). Skrin ini memaparkan maklumat lengkap permohonan termasuk butiran pemohon, premis, dokumen sokongan, dan lampiran yang telah dihantar kepada PBT. Rujukan data adalah berdasarkan Jadual 4: Jadual Pemetaan Data – Skrin Papar Ringkasan Permohonan."
+    },
+    {
+     "label": "Pagination",
+     "objectType": "Navigasi",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Kawalan paparan bilangan rekod per halaman"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Jana Senarai Semak",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-SP-01",
+    "UI-PL-SM-SP-01-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Carian Permohonan",
+     "objectType": "Text Field",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nosiri"
+     ],
+     "crud": "R",
+     "note": "Input nombor siri permohonan untuk carian spesifik rekod"
+    },
+    {
+     "label": "Carian (Semua Risiko)",
+     "objectType": "Dropdown Filter",
+     "tables": [
+      "osc_kod_niaga"
+     ],
+     "fields": [
+      "nia_risiko"
+     ],
+     "crud": "R",
+     "note": "Penapis senarai berdasarkan tahap Risiko Krtikal Tinggi Rendah"
+    },
+    {
+     "label": "Carian (Semua Jenis Permohonan)",
+     "objectType": "Dropdown Filter",
+     "tables": [
+      "osc_slg_lookuptable"
+     ],
+     "fields": [
+      "ctl_ctrlstatus"
+     ],
+     "crud": "R",
+     "note": "Penapis untuk semua jenis permohonan Baharu Pembaharuan Tukar Nama Kemaskini Pindak Milik"
+    },
+    {
+     "label": "No. Siri Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nosiri"
+     ],
+     "crud": "R",
+     "note": "Paparan nombor siri unik permohonan"
+    },
+    {
+     "label": "Pelanggan",
+     "objectType": "Label",
+     "tables": [
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "plgn_nama"
+     ],
+     "crud": "R",
+     "note": "Diambil dari jadual pelanggan"
+    },
+    {
+     "label": "Tarikh Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_tkmohon"
+     ],
+     "crud": "R",
+     "note": "Tarikh permohonan didaftarkan"
+    },
+    {
+     "label": "Status “Baharu”",
+     "objectType": "Status",
+     "tables": [
+      "application_processing_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "",
+     "note": "Berdasarkan Status proses semasa permohonan Baharu Kuiri Semakan Semula PBT Kelulusan Tahap 1 Menunggu Ulasan Menunggu PPSU Semakan Akhir Semakan Urusetia Menunggu Mesyuarat Lulus Lulus Bersyarat Tolak Tangguh"
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Button/Icon",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Butang untuk semakan lanjut / tindakan pegawai"
+    },
+    {
+     "label": "Pagination",
+     "objectType": "Navigasi",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Kawalan paparan bilangan rekod per halaman"
+    },
+    {
+     "label": "Maklumat Pemohon",
+     "objectType": "Tab",
+     "tables": [
+      "osc_da_individu",
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar maklumat asas pemohon"
+    },
+    {
+     "label": "Butiran Perniagaan",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar maklumat butiran perniagaan"
+    },
+    {
+     "label": "Lesen Dipohon",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar pilihan jenis lessen / permit"
+    },
+    {
+     "label": "Maklumat Iklan",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar maklumat iklan"
+    },
+    {
+     "label": "Dokumen",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar Muat Naik Dokumen"
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "C/U",
+     "note": "Papar untuk Tindakan Semakan"
+    },
+    {
+     "label": "Kembali ke Senarai",
+     "objectType": "Navigation Btn",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Navigasi semula ke senarai permohonan"
+    },
+    {
+     "label": "Nama Dokumen",
+     "objectType": "Label/Text",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_kddocmt"
+     ],
+     "crud": "R",
+     "note": "Papar senarai dokumen"
+    },
+    {
+     "label": "Dokumen Dimuat Naik",
+     "objectType": "Link/Download",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "original_filename"
+     ],
+     "crud": "R",
+     "note": "Papar nama fail & pautan muat turun"
+    },
+    {
+     "label": "Status Muat Naik",
+     "objectType": "Indicator/Text",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "ocr_status"
+     ],
+     "crud": "R",
+     "note": "Status: “Dimuat Naik” / “Belum Dimuat Naik”"
+    },
+    {
+     "label": "Keperluan Dokumen",
+     "objectType": "Compliance Flag",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_statusd"
+     ],
+     "crud": "R/U",
+     "note": "Sistem tandakan “Dipatuhi” jika lengkap, “Tidak Dipatuhi” jika gagal"
+    },
+    {
+     "label": "Senarai Semak Dokumen",
+     "objectType": "Checklist",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_ktegori"
+     ],
+     "crud": "R",
+     "note": "Digunakan untuk jana senarai semak automatik yang telah dikonfigurasi oleh PBT di bawah osc_kod_aktiviti dan osc_kod_dokumen."
+    }
+   ]
+  },
+  {
+   "title": "Skrin Papar Ringkasan Permohonan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-SP-01-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Nama Penuh",
+     "objectType": "Label",
+     "tables": [
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "plgn_nama"
+     ],
+     "crud": "R",
+     "note": "Nama pemohon individu"
+    },
+    {
+     "label": "No. Kad Pengenalan",
+     "objectType": "Label",
+     "tables": [
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "plgn_nokp"
+     ],
+     "crud": "R",
+     "note": "Nombor pengenalan unik"
+    },
+    {
+     "label": "Tarikh Lahir",
+     "objectType": "Label",
+     "tables": [
+      "osc_da_individu"
+     ],
+     "fields": [
+      "plgn_tarikh_lahir"
+     ],
+     "crud": "R",
+     "note": "Tarikh lahir pemohon"
+    },
+    {
+     "label": "Alamat Emel",
+     "objectType": "Label",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "plgn_emel"
+     ],
+     "crud": "R/U",
+     "note": "Butiran emel untuk komunikasi"
+    },
+    {
+     "label": "No. Telefon",
+     "objectType": "Label",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "plgn_notel"
+     ],
+     "crud": "R/U",
+     "note": "Nombor telefon pemohon"
+    },
+    {
+     "label": "Alamat Rumah",
+     "objectType": "Label",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "plgn_alamatid"
+     ],
+     "crud": "R/U",
+     "note": "Alamat kediaman pemohon"
+    },
+    {
+     "label": "Butang Teruskan",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "",
+     "note": "Navigasi ke tab Butiran Perniagaan"
+    },
+    {
+     "label": "Kod SSM",
+     "objectType": "Label",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "plgn_nossm"
+     ],
+     "crud": "R",
+     "note": "Kod pendaftaran syarikat"
+    },
+    {
+     "label": "Nama Premis",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_namaperniagaan"
+     ],
+     "crud": "R",
+     "note": "Nama premis perniagaan"
+    },
+    {
+     "label": "Alamat Premis",
+     "objectType": "Label",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "plgn_alamat1 plgn_alamat2 plgn_alamat3 plgn_poskod plgn_alamat4 plgn_alamat5"
+     ],
+     "crud": "R",
+     "note": "Alamat penuh premis"
+    },
+    {
+     "label": "Poskod",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_poskod2"
+     ],
+     "crud": "R",
+     "note": "Poskod lokasi premis"
+    },
+    {
+     "label": "Koordinat (Lat, Lon)",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_ycoordinat"
+     ],
+     "crud": "R",
+     "note": "Koordinat lokasi premis -Sistem menggunakan geo tagging OpenStreetMap."
+    },
+    {
+     "label": "Koordinat (Lat, Lon)",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_lcoordinat"
+     ],
+     "crud": "R",
+     "note": "Koordinat lokasi premis -Sistem menggunakan geo tagging OpenStreetMap."
+    },
+    {
+     "label": "Medan Cari Alamat",
+     "objectType": "Text Field",
+     "tables": [
+      "osc_kod_lokasi"
+     ],
+     "fields": [
+      "lok_namalokasi",
+      "lok_namajalan"
+     ],
+     "crud": "R/U",
+     "note": "Input alamat atau nama lokasi/jalan untuk dicari"
+    },
+    {
+     "label": "Butang Cari",
+     "objectType": "Button",
+     "tables": [
+      "osc_kod_lokasi"
+     ],
+     "fields": [
+      "lok_kodlokasi",
+      "lok_poskod"
+     ],
+     "crud": "R",
+     "note": "Sistem panggil API geolokasi → jana hasil carian berdasarkan kod lokasi & poskod"
+    },
+    {
+     "label": "Butang Simpan",
+     "objectType": "Button",
+     "tables": [
+      "osc_kod_lokasi"
+     ],
+     "fields": [
+      "id",
+      "lok_idpbt",
+      "lok_namalokasi",
+      "lok_namajalan",
+      "lok_poskod",
+      "lok_statf"
+     ],
+     "crud": "C/U",
+     "note": "Simpan rekod lokasi lengkap (ID, PBT, nama lokasi/jalan, poskod, status) ke dalam jadual lokasi"
+    },
+    {
+     "label": "Warganegara",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_lpekerja"
+     ],
+     "fields": [
+      "lpk_melayu lpk_cina lpk_india"
+     ],
+     "crud": "R",
+     "note": "Jumlah pekerja warganegara"
+    },
+    {
+     "label": "Bukan Warganegara",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_lpekerja"
+     ],
+     "fields": [
+      "lpk_lainlain"
+     ],
+     "crud": "R",
+     "note": "Jumlah pekerja asing"
+    },
+    {
+     "label": "Butang Teruskan",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "",
+     "note": "Navigasi ke tab Lesen Dipohon"
+    },
+    {
+     "label": "Butang Kembali",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke tab Maklumat Permohonan"
+    },
+    {
+     "label": "Butang Pratonton Bil",
+     "objectType": "Button",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id_permohonan"
+     ],
+     "crud": "R",
+     "note": "Tindakan sistem jana paparan bil (preview)"
+    },
+    {
+     "label": "Paparan Bil",
+     "objectType": "Report View",
+     "tables": [
+      "osc_bil_transaksi"
+     ],
+     "fields": [
+      "id_bil"
+     ],
+     "crud": "C/R",
+     "note": "Papar bil untuk semakan"
+    },
+    {
+     "label": "Kod Undang",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_niaga"
+     ],
+     "fields": [
+      "nia_kodundang"
+     ],
+     "crud": "R",
+     "note": "Kod undang-undang lesen"
+    },
+    {
+     "label": "Transaksi",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_niaga"
+     ],
+     "fields": [
+      "nia_transaksi"
+     ],
+     "crud": "R",
+     "note": "Jenis transaksi lesen"
+    },
+    {
+     "label": "Kod Aktiviti",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_kodaktiviti"
+     ],
+     "crud": "R",
+     "note": "Kod aktiviti perniagaan"
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "plgn_nossm"
+     ],
+     "crud": "R",
+     "note": "Nama perniagaan yang dipohon"
+    },
+    {
+     "label": "Kadar Bandar",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_niaga"
+     ],
+     "fields": [
+      "nia_kdrbndr"
+     ],
+     "crud": "R",
+     "note": "Caj kadar bandar"
+    },
+    {
+     "label": "Risiko",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_niaga"
+     ],
+     "fields": [
+      "nia_risiko"
+     ],
+     "crud": "R",
+     "note": "Tahap risiko lesen"
+    },
+    {
+     "label": "Tempoh",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_niaga"
+     ],
+     "fields": [
+      "nia_tmpoh"
+     ],
+     "crud": "R",
+     "note": "Tempoh sah lesen"
+    },
+    {
+     "label": "Jumlah",
+     "objectType": "Label",
+     "tables": [
+      "osc_bil_bayaran"
+     ],
+     "fields": [
+      "bil_jumlah"
+     ],
+     "crud": "R",
+     "note": "Jumlah keseluruhan bayaran lesen"
+    },
+    {
+     "label": "Butang Teruskan",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "",
+     "note": "Navigasi ke skrin tab Maklumat Iklan"
+    },
+    {
+     "label": "Butang Kembali",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke skrin tab Butiran Perniagaan"
+    },
+    {
+     "label": "Maklumat Iklan",
+     "objectType": "Section Header",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar maklumat iklan. Jika tiada rekod, paparan mesej “Tiada Maklumat Iklan”"
+    },
+    {
+     "label": "Butang Kembali",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke tab Lesen Dipohon"
+    },
+    {
+     "label": "Butang Teruskan",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke tab dokumen"
+    },
+    {
+     "label": "Salinan Kad Pengenalan",
+     "objectType": "Upload Field",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "original_filename"
+     ],
+     "crud": "C/R/U",
+     "note": "Fail imej PKK_MDMH_L02A.png"
+    },
+    {
+     "label": "Gambar Ukuran Pasport",
+     "objectType": "Upload Field",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "original_filename"
+     ],
+     "crud": "C/R/U",
+     "note": "Fail imej PKK_MDMH_L02B.png"
+    },
+    {
+     "label": "Salinan SSM",
+     "objectType": "Upload Field",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "original_filename"
+     ],
+     "crud": "C/R/U",
+     "note": "Fail imej PKK_MDMH_L02C.png"
+    },
+    {
+     "label": "Salinan Perjanjian Sewa / Geran Hakmilik Premis",
+     "objectType": "Upload Field",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "original_filename"
+     ],
+     "crud": "C/R/U",
+     "note": "Fail imej PKK_MDMH_L02D.png"
+    },
+    {
+     "label": "Status Dokumen",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "ocr_status"
+     ],
+     "crud": "R/U",
+     "note": "Paparan “Dimuat Naik” atau “Belum Dimuat Naik”"
+    },
+    {
+     "label": "Nama Dokumen",
+     "objectType": "Label/Text",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_kddocmt"
+     ],
+     "crud": "R",
+     "note": "Papar senarai dokumen"
+    },
+    {
+     "label": "Dokumen Dimuat Naik",
+     "objectType": "Link/Download",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "original_filename"
+     ],
+     "crud": "R",
+     "note": "Papar nama fail & pautan muat turun"
+    },
+    {
+     "label": "Status Muat Naik",
+     "objectType": "Indicator/Text",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "status_upload"
+     ],
+     "crud": "R",
+     "note": "Status: “Dimuat Naik” / “Belum Dimuat Naik”"
+    },
+    {
+     "label": "Keperluan Dokumen",
+     "objectType": "Compliance Flag",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_statusd"
+     ],
+     "crud": "R/U",
+     "note": "Sistem tandakan “Dipatuhi” jika lengkap, “Tidak Dipatuhi” jika gagal"
+    },
+    {
+     "label": "Senarai Semak Dokumen",
+     "objectType": "Label/Text",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_ktegori"
+     ],
+     "crud": "R",
+     "note": "Digunakan untuk jana senarai semak automatik"
+    },
+    {
+     "label": "Muat Turun",
+     "objectType": "Button / Icon",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "file_path"
+     ],
+     "crud": "R",
+     "note": "Akses pautan fail yang telah dimuat naik"
+    },
+    {
+     "label": "Dimuat Naik",
+     "objectType": "Status Icon",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "ocr_status"
+     ],
+     "crud": "R/U",
+     "note": "Penanda dokumen berjaya dimuat naik"
+    },
+    {
+     "label": "Butang Kembali",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke tab maklumat iklan"
+    },
+    {
+     "label": "Butang Teruskan",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke tab tindakan"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Rekod Dapatan Semakan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-SP-01-03"
+   ],
+   "dataMap": [
+    {
+     "label": "Maklumat Pemohon",
+     "objectType": "Button/Tab",
+     "tables": [
+      "osc_da_individu",
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R/U",
+     "note": "Bila klik tab, sistem paparkan skrin maklumat pemohon"
+    },
+    {
+     "label": "Butiran Perniagaan",
+     "objectType": "Button/Tab",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "C/R/U",
+     "note": "Klik tab untuk paparkan skrin butiran perniagaan"
+    },
+    {
+     "label": "Lesen Dipohon",
+     "objectType": "Button/Tab",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "C/R/U",
+     "note": "Klik tab untuk paparkan skrin lesen dipohon"
+    },
+    {
+     "label": "Maklumat Iklan",
+     "objectType": "Button/Tab",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "C/R/U",
+     "note": "Klik tab untuk paparkan skrin maklumat iklan"
+    },
+    {
+     "label": "Dokumen",
+     "objectType": "Button/Tab",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "C/R/U",
+     "note": "Klik tab untuk paparkan skrin dokumen dimuat naik"
+    },
+    {
+     "label": "Sejarah Permohonan",
+     "objectType": "Section Header",
+     "tables": [
+      "osc_mhn_timeline"
+     ],
+     "fields": [
+      "tl_status"
+     ],
+     "crud": "R",
+     "note": "Paparan garis masa proses; jika tiada rekod, mesej “Tiada rekod garis masa”"
+    },
+    {
+     "label": "Status Risiko Lesen (Risiko)",
+     "objectType": "Indicator",
+     "tables": [
+      "osc_kod_niaga"
+     ],
+     "fields": [
+      "nia_risiko"
+     ],
+     "crud": "R",
+     "note": "Menunjukkan kategori risiko lessen (kritikal/ Tinggi/Rendah)"
+    },
+    {
+     "label": "Status “Baharu”",
+     "objectType": "Status",
+     "tables": [
+      "application_processing_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "",
+     "note": "Berdasarkan Status proses semasa permohonan Baharu Kuiri Semakan Semula PBT Kelulusan Tahap 1 Menunggu Ulasan Menunggu PPSU Semakan Akhir Semakan Urusetia Menunggu Mesyuarat Lulus Lulus Bersyarat Tolak Tangguh"
+    },
+    {
+     "label": "Hantar ke Peringkat Seterusnya",
+     "objectType": "Radio Button",
+     "tables": [
+      "recommendations"
+     ],
+     "fields": [
+      "rec_type = ‘NEXT_STAGE’"
+     ],
+     "crud": "C",
+     "note": "Menyimpan keputusan untuk hantar ke peringkat seterusnya"
+    },
+    {
+     "label": "Semakan Permohonan Telah Lengkap",
+     "objectType": "Checkbox",
+     "tables": [
+      "recommendations"
+     ],
+     "fields": [
+      "rec_flag_complete"
+     ],
+     "crud": "C",
+     "note": "Tandakan jika semua dokumen/ulasan telah lengkap; digunakan bersama rec_type = 'NEXT_STAGE' untuk sahkan penghantaran ke peringkat seterusnya."
+    },
+    {
+     "label": "Hantar untuk Ulasan BTD/ATL",
+     "objectType": "Radio Button",
+     "tables": [
+      "recommendations"
+     ],
+     "fields": [
+      "rec_type = ‘BTD_ATL’"
+     ],
+     "crud": "C",
+     "note": "Menyimpan keputusan untuk ulasan teknikal"
+    },
+    {
+     "label": "Pulangkan untuk Semakan Semula",
+     "objectType": "Radio Button",
+     "tables": [
+      "syor_keputusan"
+     ],
+     "fields": [
+      "keputusan = ‘PULANGAN’"
+     ],
+     "crud": "C",
+     "note": "Menyimpan keputusan untuk dikembalikan kepada pelanggan"
+    },
+    {
+     "label": "Pilih Pegawai PBT - PPT",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_mhn_ulasan"
+     ],
+     "fields": [
+      "uls_peglulus"
+     ],
+     "crud": "C/R/U",
+     "note": "Pegawai yang dipilih untuk ulasan/tindakan"
+    },
+    {
+     "label": "Ulasan",
+     "objectType": "Text Area",
+     "tables": [
+      "osc_mhn_ulasan"
+     ],
+     "fields": [
+      "uls_ulasan"
+     ],
+     "crud": "C/R/U",
+     "note": "Catatan ulasan pegawai; wajib diisi (*)"
+    },
+    {
+     "label": "Butang Kembali",
+     "objectType": "Button",
+     "tables": [
+      "ui_action"
+     ],
+     "fields": [
+      "btn_kembali"
+     ],
+     "crud": "R",
+     "note": "Navigasi ke skrin sebelumnya"
+    },
+    {
+     "label": "Butang Simpan & Hantar",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Simpan keputusan dan hantar ke proses seterusnya"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Keluarkan Pertanyaan Kepada Pemohon",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-SP-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Maklumat Pemohon",
+     "objectType": "Tab",
+     "tables": [
+      "osc_da_individu",
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar maklumat asas pemohon"
+    },
+    {
+     "label": "Butiran Perniagaan",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar maklumat butiran perniagaan"
+    },
+    {
+     "label": "Lesen Dipohon",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar pilihan jenis lessen / permit"
+    },
+    {
+     "label": "Maklumat Iklan",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar maklumat iklan"
+    },
+    {
+     "label": "Dokumen",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar Muat Naik Dokumen"
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "C/U",
+     "note": "Papar untuk Tindakan Semakan"
+    },
+    {
+     "label": "Status Risiko Lesen – “Rendah\"",
+     "objectType": "Indicator",
+     "tables": [
+      "osc_kod_niaga"
+     ],
+     "fields": [
+      "nia_risiko"
+     ],
+     "crud": "R",
+     "note": "Menunjukkan kategori risiko lessen (kritikal/ Tinggi/Rendah)"
+    },
+    {
+     "label": "Status “Baharu”",
+     "objectType": "Status",
+     "tables": [
+      "application_processing_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "",
+     "note": "Berdasarkan Status proses semasa permohonan Baharu Kuiri Semakan Semula PBT Kelulusan Tahap 1 Menunggu Ulasan Menunggu PPSU Semakan Akhir Semakan Urusetia Menunggu Mesyuarat Lulus Lulus Bersyarat Tolak Tangguh"
+    },
+    {
+     "label": "Pulangkan untuk Semakan Semula",
+     "objectType": "Radio Button",
+     "tables": [
+      "queries"
+     ],
+     "fields": [
+      "query_type"
+     ],
+     "crud": "C",
+     "note": "Nilai = RETURN / PULANGAN; simpan jenis tindakan pertanyaan."
+    },
+    {
+     "label": "Tempoh Maklum Balas (Hari)",
+     "objectType": "Dropdown",
+     "tables": [
+      "queries"
+     ],
+     "fields": [
+      "query_deadline"
+     ],
+     "crud": "C/R/U",
+     "note": "Tarikh akhir dikira berdasarkan bilangan hari (1–14) dari query_issued_at."
+    },
+    {
+     "label": "Ulasan",
+     "objectType": "Text Area",
+     "tables": [
+      "queries"
+     ],
+     "fields": [
+      "query_text"
+     ],
+     "crud": "C/R/U",
+     "note": "Catatan wajib diisi; menjelaskan pembetulan yang perlu dibuat oleh pemohon."
+    },
+    {
+     "label": "Butang Kembali",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke tab dokumen"
+    },
+    {
+     "label": "Butang Simpan & Hantar",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Simpan pertanyaan dan hantar ke pemohon."
+    }
+   ]
+  },
+  {
+   "title": "Skrin Notifikasi Pertanyaan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-SP-02-01"
+   ],
+   "dataMap": []
+  },
+  {
+   "title": "Skrin Rujukan Kepada BTD/ATL",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-RT-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Maklumat Pemohon",
+     "objectType": "Tab",
+     "tables": [
+      "osc_da_individu",
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar maklumat asas pemohon"
+    },
+    {
+     "label": "Butiran Perniagaan",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar maklumat butiran perniagaan"
+    },
+    {
+     "label": "Lesen Dipohon",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar pilihan jenis lessen / permit"
+    },
+    {
+     "label": "Maklumat Iklan",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar maklumat iklan"
+    },
+    {
+     "label": "Dokumen",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Papar Muat Naik Dokumen"
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Tab",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "C/U",
+     "note": "Papar untuk Tindakan Semakan"
+    },
+    {
+     "label": "Hantar untuk ulasan BTD/ATL",
+     "objectType": "Radio Button",
+     "tables": [
+      "osc_mhn_ulasan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "C/U",
+     "note": "Digunakan untuk menandakan permohonan dihantar ke agensi teknikal dalaman (BTD) atau luaran (ATL)."
+    },
+    {
+     "label": "Pilih Pegawai (BTD/ATL)",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_mhn_ulasandetail"
+     ],
+     "fields": [
+      "uls_pegawai"
+     ],
+     "crud": "R",
+     "note": "Senarai pegawai teknikal dalaman/luaran"
+    },
+    {
+     "label": "Agensi Teknikal Luaran (ATL)",
+     "objectType": "Checkbox",
+     "tables": [
+      "osc_mhn_ulasandetail"
+     ],
+     "fields": [
+      "uls_kdagensi"
+     ],
+     "crud": "R",
+     "note": "Contoh: BOMBA, IWK, JAS, SKMM, ST, TNB"
+    },
+    {
+     "label": "Bahagian Teknikal Dalaman (BTD)",
+     "objectType": "Checkbox",
+     "tables": [
+      "osc_mhn_ulasandetail"
+     ],
+     "fields": [
+      "uls_kdagensi"
+     ],
+     "crud": "R",
+     "note": "Contoh: Bahagian Bangunan, Bahagian Penguatkuasaan, Bahagian Pelepasan"
+    },
+    {
+     "label": "Ulasan",
+     "objectType": "Text Area",
+     "tables": [
+      "osc_mhn_ulasandetail"
+     ],
+     "fields": [
+      "uls_catatan"
+     ],
+     "crud": "C/U/R",
+     "note": "Wajib diisi bagi semua pilihan tindakan."
+    },
+    {
+     "label": "Tolak Permohonan",
+     "objectType": "Radio Button",
+     "tables": [
+      "osc_mhn_ulasan"
+     ],
+     "fields": [
+      "uls_status"
+     ],
+     "crud": "C/U/R",
+     "note": "Status permohonan dikemaskini → “Ditolak”"
+    },
+    {
+     "label": "Pulangkan untuk Semakan Semula",
+     "objectType": "Radio Button",
+     "tables": [
+      "osc_mhn_ulasan"
+     ],
+     "fields": [
+      "uls_status"
+     ],
+     "crud": "C/U/R",
+     "note": "Status permohonan dikemaskini → “Kuiri”"
+    },
+    {
+     "label": "Butang Kembali",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Navigasi kembali ke skrin sebelumnya"
+    },
+    {
+     "label": "Butang Simpan & Hantar",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Simpan rekod rujukan dan hantar ke pegawai/agensi teknikal yang dipilih"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Hantar Dokumen Rujukan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-RT-01-02"
+   ],
+   "dataMap": []
+  },
+  {
+   "title": "Skrin Ulasan & Lampiran Bukti",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-RT-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Tab Maklumat Pemohon",
+     "objectType": "Button/Tab",
+     "tables": [
+      "osc_da_pelanggan",
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R/U",
+     "note": "Bila klik tab, sistem paparkan skrin maklumat pemohon"
+    },
+    {
+     "label": "Tab Butiran Perniagaan",
+     "objectType": "Button/Tab",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "C/R/U",
+     "note": "Klik tab untuk paparkan skrin butiran perniagaan"
+    },
+    {
+     "label": "Tab Lesen Dipohon",
+     "objectType": "Button/Tab",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "C/R/U",
+     "note": "Klik tab untuk paparkan skrin lesen dipohon"
+    },
+    {
+     "label": "Tab Maklumat Iklan",
+     "objectType": "Button/Tab",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "C/R/U",
+     "note": "Klik tab untuk paparkan skrin maklumat iklan"
+    },
+    {
+     "label": "Tab Dokumen",
+     "objectType": "Button/Tab",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "C/R/U",
+     "note": "Klik tab untuk paparkan skrin dokumen dimuat naik"
+    },
+    {
+     "label": "Tab Tindakan",
+     "objectType": "Button/Tab",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Butang/label navigasi untuk paparkan skrin Kemaskini Ulasan – Tindakan"
+    },
+    {
+     "label": "Sejarah Permohonan",
+     "objectType": "Table",
+     "tables": [
+      "osc_mhn_ulasan_review_history"
+     ],
+     "fields": [
+      "uls_status",
+      "uls_reviewed_by",
+      "uls_reviewed_at",
+      "uls_review_remarks"
+     ],
+     "crud": "R",
+     "note": "Paparan rekod ulasan terdahulu"
+    },
+    {
+     "label": "Syor Permohonan",
+     "objectType": "Dropdown",
+     "tables": [
+      "syor_keputusan"
+     ],
+     "fields": [
+      "syor_jenis"
+     ],
+     "crud": "C/R/U",
+     "note": "Jenis syor (SOKONG=Sokong kelulusan, TIDAK_SOKONG=Bantah)"
+    },
+    {
+     "label": "Keterangan Ulasan",
+     "objectType": "Text Area",
+     "tables": [
+      "syor_keputusan"
+     ],
+     "fields": [
+      "syor_keterangan"
+     ],
+     "crud": "C/R/U",
+     "note": "Wajib nyatakan ulasan pegawai"
+    },
+    {
+     "label": "Lampiran Dokumen",
+     "objectType": "Upload Field",
+     "tables": [
+      "osc_syor_attachments"
+     ],
+     "fields": [
+      "original_name"
+     ],
+     "crud": "C/R/U",
+     "note": "Opsyenal. Jenis fail dibenarkan: PDF, DOC, IMG. Saiz maksimum: 10MB. Tiada bilangan maksimum mukasurat yang ditetapkan selagi masih dalam lingkungan saiz fail yang dibenarkan."
+    },
+    {
+     "label": "Maklumat Audit – Dicipta Oleh",
+     "objectType": "Label",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [
+      "user_id"
+     ],
+     "crud": "R",
+     "note": "ID pegawai yang cipta ulasan"
+    },
+    {
+     "label": "Maklumat Audit – Tarikh Dicipta",
+     "objectType": "Label",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [
+      "created_at"
+     ],
+     "crud": "R",
+     "note": "Tarikh ulasan direkodkan"
+    },
+    {
+     "label": "Butang Kemaskini Ulasan",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "U",
+     "note": "Simpan perubahan ulasan - Berdasarkan pembangunan sistem terkini UI-PL-SM-RT-02 – Ulasan & Lampiran Bukti Sistem akan menyimpan ulasan yang dimasukkan oleh PPSU ke dalam DB OSCP Butang Kemaskini Ulasan Button ui_action btn_update Simpan perubahan ulasan. Sistem akan menyimpan di jadual osc_mhn_ulasan"
+    },
+    {
+     "label": "Butang Kembali",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke skrin sebelumnya"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Notifikasi Ulasan Diterima",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-RT-02-02"
+   ],
+   "dataMap": []
+  },
+  {
+   "title": "Skrin Semakan Ketua Jabatan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-RT-03"
+   ],
+   "dataMap": [
+    {
+     "label": "No. Siri Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "osc_mhn_permohonan"
+     ],
+     "crud": "R",
+     "note": "Paparan nombor siri permohonan (contoh: PKK_MPKS202200003)"
+    },
+    {
+     "label": "Pemohon",
+     "objectType": "Text Display",
+     "tables": [
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "plgn_nama"
+     ],
+     "crud": "R",
+     "note": "Paparan nama pemohon."
+    },
+    {
+     "label": "Keputusan",
+     "objectType": "Label/Status",
+     "tables": [
+      "syor_keputusan"
+     ],
+     "fields": [
+      "syor_jenis"
+     ],
+     "crud": "R/U",
+     "note": "Status syor: Sokong / Tidak Sokong"
+    },
+    {
+     "label": "Status “Menunggu Ulasan”",
+     "objectType": "Status",
+     "tables": [
+      "application_processing_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "",
+     "note": "Berdasarkan Status proses semasa permohonan Baharu Kuiri Semakan Semula PBT Kelulusan Tahap 1 Menunggu Ulasan Menunggu PPSU Semakan Akhir Semakan Urusetia Menunggu Mesyuarat Lulus Lulus Bersyarat Tolak Tangguh"
+    },
+    {
+     "label": "Status Ulasan",
+     "objectType": "Label/Status",
+     "tables": [
+      "osc_mhn_ulasan"
+     ],
+     "fields": [
+      "uls_status"
+     ],
+     "crud": "R/U",
+     "note": "Berdasarkan Status proses semasa Penapis untuk semua status permohonan •Kelulusan Tahap 1 •Semakan Semula PBT •Menunggu Ulasan •Menunggu Mesyuarat •Tangguh •Lulus •Kuiri"
+    },
+    {
+     "label": "Ulasan Oleh",
+     "objectType": "Label/Text",
+     "tables": [
+      "osc_mhn_ulasan_review_history"
+     ],
+     "fields": [
+      "uls_reviewed_by"
+     ],
+     "crud": "R",
+     "note": "Nama pegawai penyemak (contoh: ATL PENYEMAK)"
+    },
+    {
+     "label": "Tarikh Ulasan",
+     "objectType": "Label/Date",
+     "tables": [
+      "osc_mhn_ulasan_review_history"
+     ],
+     "fields": [
+      "uls_reviewed_at"
+     ],
+     "crud": "R",
+     "note": "Tarikh ulasan direkodkan (contoh: 06/05/2026)"
+    },
+    {
+     "label": "Tindakan (Semak & Lulus)",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Butang untuk buka tab semakan & lulus"
+    },
+    {
+     "label": "Kembali",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Navigasi semula ke senarai ulasan"
+    },
+    {
+     "label": "No. Siri Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nosiri"
+     ],
+     "crud": "R",
+     "note": "Paparan nombor siri permohonan (contoh: PKK_MPKS202200003)"
+    },
+    {
+     "label": "Tarikh Permohonan",
+     "objectType": "Label/Date",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_tkmohon"
+     ],
+     "crud": "R",
+     "note": "Tarikh permohonan didaftarkan (contoh: 16/03/2022)"
+    },
+    {
+     "label": "Pemohon",
+     "objectType": "Label",
+     "tables": [
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "plgn_nama"
+     ],
+     "crud": "R",
+     "note": "Nama pemohon individu/syarikat (contoh: AHMAD BAIT MAHMUD)"
+    },
+    {
+     "label": "Jenis Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_jenis"
+     ],
+     "crud": "R",
+     "note": "Jenis permohonan (contoh: PERAKUANAN BARU)"
+    },
+    {
+     "label": "Status “Menunggu Ulasan”",
+     "objectType": "Status",
+     "tables": [
+      "application_processing_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "",
+     "note": "Berdasarkan Status proses semasa permohonan Baharu Kuiri Semakan Semula PBT Kelulusan Tahap 1 Menunggu Ulasan Menunggu PPSU Semakan Akhir Semakan Urusetia Menunggu Mesyuarat Lulus Lulus Bersyarat Tolak Tangguh"
+    },
+    {
+     "label": "Syor Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "syor_keputusan"
+     ],
+     "fields": [
+      "syor_jenis"
+     ],
+     "crud": "R/U",
+     "note": "Keputusan syor (contoh: Sokong / Tidak Sokong)"
+    },
+    {
+     "label": "Status Ulasan “Menunggu Ulasan”",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_ulasan"
+     ],
+     "fields": [
+      "uls_status"
+     ],
+     "crud": "R/U",
+     "note": "Status ulasan (Menunggu Ulasan)"
+    },
+    {
+     "label": "Keterangan Ulasan",
+     "objectType": "Text Area",
+     "tables": [
+      "osc_mhn_ulasan"
+     ],
+     "fields": [
+      "uls_catatan"
+     ],
+     "crud": "R",
+     "note": "Catatan ulasan pegawai peyemak ATL/BTD"
+    },
+    {
+     "label": "Ulasan Oleh",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_ulasan"
+     ],
+     "fields": [
+      "uls_pegawai"
+     ],
+     "crud": "R",
+     "note": "Nama pegawai penyemak ATL/BTD yang membuat ulasan"
+    },
+    {
+     "label": "Tarikh Ulasan",
+     "objectType": "Tarikh Ulasan",
+     "tables": [
+      "osc_mhn_ulasan_review_history"
+     ],
+     "fields": [
+      "uls_reviewed_at"
+     ],
+     "crud": "R",
+     "note": "Tarikh ulasan direkodkan (contoh: 17/06/2026)"
+    },
+    {
+     "label": "Hari Berjalan (Hari Berkerja)",
+     "objectType": "Label",
+     "tables": [
+      "osc_slg_sysparam"
+     ],
+     "fields": [
+      "para_value"
+     ],
+     "crud": "R",
+     "note": "Bilangan hari bekerja ulasan berjalan"
+    },
+    {
+     "label": "Hari Amaran",
+     "objectType": "Label",
+     "tables": [
+      "osc_slg_sysparam"
+     ],
+     "fields": [
+      "para_value"
+     ],
+     "crud": "R",
+     "note": "Bilangan hari amaran (contoh: 7)"
+    },
+    {
+     "label": "Hari SLA",
+     "objectType": "Label",
+     "tables": [
+      "osc_slg_sysparam"
+     ],
+     "fields": [
+      "para_value"
+     ],
+     "crud": "R",
+     "note": "Tempoh hari SLA (contoh: 10)"
+    },
+    {
+     "label": "Peringatan Dihantar",
+     "objectType": "Label / Flag",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "read_at"
+     ],
+     "crud": "R/U",
+     "note": "Tarikh/masa notifikasi ditanda sebagai dihantar/dibaca. NULL = belum dihantar/dibaca, ada nilai timestamp = sudah dihantar/dibaca."
+    },
+    {
+     "label": "Lampiran (Muat turun)",
+     "objectType": "Link",
+     "tables": [
+      "osc_syor_attachments"
+     ],
+     "fields": [
+      "original_name"
+     ],
+     "crud": "R",
+     "note": "Fail yang boleh dimuaturun untuk semakan Ketua Jabatan BTD/ATL"
+    },
+    {
+     "label": "Keputusan Semakan Catatan*",
+     "objectType": "Text Area",
+     "tables": [
+      "syor_keputusan"
+     ],
+     "fields": [
+      "syor_keterangan"
+     ],
+     "crud": "C/R/U",
+     "note": "Catatan tambahan wajib diisi semasa tindakan (Lulus/Tolak/Hantar Semula)"
+    },
+    {
+     "label": "Catatan Tambahan (Keputusan)",
+     "objectType": "Text Area",
+     "tables": [
+      "syor_keputusan"
+     ],
+     "fields": [
+      "syor_keterangan"
+     ],
+     "crud": "C/R/U",
+     "note": "Catatan tambahan wajib diisi semasa tindakan (Lulus/Tolak/Hantar Semula)"
+    },
+    {
+     "label": "Butang Lulus",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Simpan keputusan lulus dan dihantar ke PPSU"
+    },
+    {
+     "label": "Butang Tolak",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Simpan keputusan tolak dan dihantar ke PPSU"
+    },
+    {
+     "label": "Butang Hantar Semula",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Hantar semula untuk semakan penyemak BTD/ATL"
+    },
+    {
+     "label": "Butang Kembali",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke skrin sebelumnya"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Syor Keputusan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-KT-01-SYOR"
+   ],
+   "dataMap": []
+  },
+  {
+   "title": "Notifikasi Keputusan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-KT-02-02"
+   ],
+   "dataMap": []
+  },
+  {
+   "title": "Draf syor keputusan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-KT-01-01"
+   ],
+   "dataMap": []
+  },
+  {
+   "title": "Papar Ringkasan Kes",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-KT-01-02"
+   ],
+   "dataMap": []
+  },
+  {
+   "title": "Rujuk Ke Mesyuarat OSC",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Semakan dan Ulasan Permohonan Lesen di Peringkat PBT",
+   "uiIds": [
+    "UI-PL-SM-KT-02-03"
+   ],
+   "dataMap": []
+  }
+ ],
+ "businessRules": [
+  {
+   "group": "Semakan dan Ulasan",
+   "rules": [
+    {
+     "code": "Keperluan Dokumen Mengikut Jenis Lesen (KS-01)",
+     "text": "Setiap jenis lesen mesti mempunyai senarai dokumen wajib dan pilihan yang ditentukan oleh pentadbir. Setiap dokumen wajib mempunyai peraturan berikut: Jenis fail dibenarkan (PDF, JPEG, PNG) Saiz maksimum fail Bilangan lampiran dibenarkan Kebergantungan dokumen (contoh: Lesen Lama → hanya diperlukan untuk pembaharuan) Keperluan dokumen mesti dipetakan kepada satu atau lebih jenis lesen/permit. Perubahan keperluan dokumen mesti melalui aliran semakan 4-mata (four-eyes review) sebelum diaktifkan. Pencadang - Pentadbir Sistem cipta konfigurasi keperluan dokumen. Penyemak - PPSU PBT menilai konfigurasi berdasarkan senarai dokumen dan syarat. Pelulus - PPKT 1 sahkan atau tolak konfigurasi. Kriteria kelulusan: semua dokumen wajib ditentukan, tiada konflik syarat, dan mematuhi garis panduan PBT. Hanya selepas kelulusan, konfigurasi boleh diaktifkan dalam sistem. Hanya konfigurasi yang telah lulus semakan boleh diaktifkan untuk kegunaan Modul Permohonan Lesen LS (Lesen Baru) dan Modul Pembaharuan Lesen BL (Pembaharuan). Sistem hanya membenarkan konfigurasi dengan status Diluluskan untuk diaktifkan.Mekanisme pemetaan: konfigurasi yang aktif dipautkan secara automatik kepada modul LS (Lesen Baru) dan BL (Pembaharuan).Ini memastikan hanya konfigurasi sah digunakan dalam proses permohonan. Setiap perubahan mesti direkodkan dengan effective date dan disimpan dalam audit log. Mekanisme sistem: Pegawai menetapkan tarikh kuat kuasa semasa menyimpan konfigurasi baharu. Sistem hanya menguatkuasakan konfigurasi yang mempunyai effective date aktif pada tarikh semasa. Jika terdapat konfigurasi berlapis dengan tarikh berbeza, sistem akan memilih konfigurasi yang paling relevan berdasarkan tarikh semasa. Ini memastikan hanya konfigurasi sah digunakan dalam proses permohonan. Senarai keperluan mesti sentiasa lengkap, sah, dan tidak mempunyai konflik (format tidak sah, duplikasi, atau pemetaan hilang)."
+    },
+    {
+     "code": "Versi & Audit Konfigurasi Dokumen (KS-02)",
+     "text": "Sistem mesti memastikan setiap perubahan keperluan dokumen akan direkod dalam audit log dan tiada versioning baru akan dicipta. Sistem mesti mencipta snapshot sebelum perubahan, sebelum konfigurasi baharu disimpan. Tempoh penyimpanan: sekurang-kurangnya 3–5 tahun atau mengikut polisi PBT. Mekanisme sistem: Snapshot diwujudkan secara automatik sebelum perubahan disimpan. Snapshot boleh digunakan untuk proses rollback (pemulihan konfigurasi lama) atau audit trail. Sistem mesti membenarkan paparan perbezaan antara dua versi (delta comparison). Sistem perlu membenarkan pengguna memilih mana-mana dua versi konfigurasi untuk dibandingkan. Elemen perubahan yang dipaparkan: Dokumen ditambah. Dokumen dipadam. Dokumen diubah (contoh: syarat, format, tarikh sah). Paparan boleh dalam bentuk senarai atau jadual dengan penanda warna (contoh: hijau untuk penambahan, merah untuk pemadaman, kuning untuk perubahan). Ini memudahkan pengguna mengenal pasti perbezaan dengan jelas dan menyokong kriteria penerimaan fungsi. Pentadbir boleh rollback kepada versi terdahulu sekiranya konfigurasi baharu bermasalah. Kawalan akses: hanya pentadbir sistem atau peranan tertentu yang dibenarkan melaksanakan rollback. Mekanisme rollback: Pilihan 1: rollback mengaktifkan semula versi terdahulu secara langsung. Pilihan 2: rollback menghasilkan versi baharu yang merujuk kepada konfigurasi lama, dengan nombor versi baharu (contoh: v3.1). Sistem perlu logkan tindakan rollback dalam audit trail untuk memastikan kebolehkesanan. Audit trail mesti merekodkan butiran lengkap: Audit trail perlu merekodkan maklumat perubahan secara terperinci, termasuk: ID pengguna (pegawai) yang membuat perubahan. Tarikh dan masa perubahan. Nilai asal (before value) dan nilai baharu (after value) bagi setiap atribut konfigurasi dokumen. Justifikasi atau catatan perubahan jika diperlukan. Perincian ini memastikan kebolehkesanan penuh semasa proses audit dan pengujian sistem.Audit trail tidak boleh dipadam dan mesti disimpan untuk tempoh minimum yang ditetapkan oleh dasar PBT iaitu selama 7 Tahun."
+    },
+    {
+     "code": "Storan Berpusat & Akses Dokumen (KS-03)",
+     "text": "Semua dokumen yang dimuat naik pengguna mesti disimpan dalam storan berpusat yang ditetapkan. Object storage (sesuai untuk fail besar dan pelbagai format). File repository (struktur folder tradisional). Document management repository (dengan metadata dan kawalan versi). Mekanisme capaian: sistem perlu menggunakan API integrasi untuk memuat naik, memuat turun, dan mengesahkan dokumen. Pastikan storan menyokong backup, redundancy, dan kawalan akses. Akses kepada dokumen mesti menggunakan RBAC (Role-Based Access Control) Senaraikan peranan pengguna dan kebenaran: Pentadbir Sistem : Pendaftaran ATL/BTD, Pegawai PBT, Pengurusan Dokumen. Pemohon → muat naik, lihat dokumen sendiri. Pegawai Semakan → lihat, muat turun, tandakan status dokumen. PPKT 1 dan PPKT 2 → semua tindakan termasuk meluluskan, mengesahkan dan memadam Pendaftaran ATL/BTD, Pegawai PBT, Pengurusan Dokumen Peranan pengguna mesti menentukan kebenaran berikut: Lihat Muat naik Muat turun Luluskan / sahkan Padam (jika dibenarkan) Syarat pemadaman dokumen: Dokumen tamat tempoh retensi. Dokumen dimuat naik secara tersilap. Kawalan akses: hanya pentadbir sistem PBT atau pegawai dengan peranan khas dibenarkan memadam (PPKT 2). Sistem perlu logkan tindakan pemadaman dalam audit trail untuk mengelakkan risiko kehilangan dokumen penting. Sistem mesti menetapkan polisi retensi dokumen (automatik atau manual) bergantung kepada dasar PBT. Polisi retensi dokumen mengikut kategori: Dokumen permohonan → minimum 7 tahun. Dokumen sokongan teknikal → minimum 5 tahun. Dokumen pentadbiran → mengikut dasar PBT (contoh: 3 tahun). Mekanisme pelaksanaan: Automatik → sistem menandakan dokumen tamat tempoh retensi dan memindahkannya ke arkib. Manual → pegawai boleh menandakan dokumen untuk pemadaman/arkib berdasarkan dasar. Proses pengurusan: dokumen tamat retensi dipindahkan ke arkib atau dipadam dengan rekod audit. Maklumat Audit Trail Pemadaman Dokumen Tarikh Pemadaman – tarikh sebenar dokumen dipadam. Masa Pemadaman – masa tepat tindakan pemadaman berlaku. Nama Pegawai / Pengguna – ID atau nama pengguna yang melaksanakan pemadaman. Jenis Dokumen – kategori dokumen yang dipadam (contoh: salinan IC, sijil kesihatan). Nama Fail Asal – nama fail asal sebelum dipadam. Lokasi Fail (dok_path) – laluan atau direktori fail dalam sistem sebelum dipadam. Sebab Pemadaman – catatan alasan pemadaman (contoh: dokumen tidak sah, dokumen duplikasi). Status Permohonan Berkaitan – status permohonan yang terkesan akibat pemadaman (contoh: Tidak Lengkap). ID Permohonan – rujukan unik permohonan yang berkait dengan dokumen dipadam. Catatan Tambahan – nota pegawai jika ada tindakan susulan (contoh: pemohon diminta muat naik semula). Dokumen yang melepasi tempoh retensi mesti dipadam atau diarkibkan mengikut keperluan. Aliran proses: Sistem mengenal pasti dokumen tamat tempoh retensi. Dokumen dipindahkan ke lokasi arkib berpusat atau dipadam jika dasar membenarkan. Kawalan akses: hanya pentadbir atau pegawai tertentu boleh mengakses arkib. Lokasi arkib: repositori arkib berasingan dalam pangkalan data atau storan berpusat. Semua tindakan direkodkan dalam audit trail. Kesahihan fail mesti disahkan menggunakan checksum/hash (SHA-256) semasa: Proses muat naik: sistem menjana nilai hash SHA-256 dan menyimpannya bersama metadata dokumen. Proses muat turun/capaian: sistem mengira semula hash dokumen dan membandingkan dengan nilai asal. Jika nilai hash tidak sepadan: sistem paparkan mesej ralat “Integriti dokumen gagal disahkan. Sila muat naik semula dokumen.” dan logkan insiden. Ini memastikan keutuhan dokumen terjamin.Semua dokumen mesti disulit kan ketika disimpan (encryption at rest) dan ketika dipindahkan (encryption in transit). Encryption at rest: gunakan algoritma AES-256 untuk penyimpanan dokumen dalam pangkalan data/storan. Encryption in transit: gunakan protokol TLS 1.2/1.3 semasa pemindahan data antara sistem dan pengguna. Pengurusan kunci penyulitan: kunci disimpan dalam modul pengurusan kunci (Key Management System – KMS) dengan kawalan akses ketat. Sistem perlu menyokong putaran kunci (key rotation) secara berkala untuk keselamatan tambahan. Lokasi storan boleh berada di: Dibawah PDSA Pusat data PBT Cloud storage yang diluluskan Hybrid storage (bergantung kepada dasar)"
+    },
+    {
+     "code": "BR-SM-RT-01",
+     "text": "Rujukan teknikal hanya boleh dibuat kepada agensi sah yang dikonfigurasi dalam Modul Penyelenggaraan Sistem. PBT akan mendaftarkan id bagi Agensi Teknikal Luaran (ATL) dan Bahagian Teknikal Dalaman (BTD) yang mempunyai kaitan dengan urusan teknikal pelesenan PBT. Pendaftaran ini adalah bergantung kepada ketetapan oleh PBT dan sistem hanya menyediakan modul pendaftaran. (Rujukan Teknikal)Senarai Agensi Teknikal Luaran (ATL) dan Bahagian Teknikal Dalaman (BTD) adalah bergantung kepada pilihan dan konfigurasi yang dilakukan oleh PBT masing-masing berdasarkan ketetapan jenis lesen. Aliran proses konfigurasi (step-by-step) Langkah 1: Input parameter Pentadbir sistem atau pegawai berautoriti menambah, mengedit, atau memadam kod rujukan. Medan input termasuk: Kod Rujukan, Nama Rujukan, Kategori, dan Status Aktif/Tidak Aktif. Langkah 2: Semakan dan kelulusan Jika dasar PBT menetapkan kawalan semakan, konfigurasi baharu perlu melalui proses four-eyes review (pencadang + pelulus). Status konfigurasi: Draf → Dalam Semakan → Diluluskan → Aktif. Langkah 3: Penguatkuasaan real-time Setelah diluluskan, tetapan rujukan dikemaskini secara automatik dan digunakan oleh modul transaksi lain tanpa perlu restart sistem. Modul lain membaca tetapan rujukan melalui pangkalan data konfigurasi berpusat. Peranan pengguna yang mempunyai autoriti Pentadbir Sistem → autoriti penuh untuk menambah/memadam kod rujukan. Pegawai Semakan/Pelulus → menyemak dan meluluskan perubahan sebelum tetapan diaktifkan. Pengguna Biasa → hanya boleh melihat senarai rujukan, tanpa hak mengubah. Audit trail Semua tindakan konfigurasi direkodkan: ID pengguna, tarikh/massa, jenis perubahan (Add/Edit/Delete), status kelulusan. Log audit ini memastikan kebolehkesanan semasa pengujian dan audit dalaman."
+    },
+    {
+     "code": "BR-SM-RT-02",
+     "text": "Semua dokumen rujukan mesti sah dari segi format, integriti dan saiz."
+    },
+    {
+     "code": "BR-SM-RT-03",
+     "text": "Agensi teknikal mesti memberikan ulasan dalam tempoh yang ditetapkan oleh PBT. * bergantung kepada pertimbangan BTD/ATL secara manual. Logik Validasi Ulasan Rasmi Mandatori: Semua kategori ulasan (Lulus, Tidak Lulus, Perlu Semakan Tambahan) mesti mempunyai medan teks ulasan rasmi. Sistem tidak membenarkan penghantaran ulasan tanpa input teks. Optional: Nota tambahan boleh dimasukkan tetapi tidak wajib. Ulasan mandatori Logik validasi sistem: Lulus → Medan ulasan rasmi wajib diisi, lampiran bukti optional. Tolak → Medan ulasan rasmi wajib diisi, lampiran bukti mandatori (contoh: laporan pemeriksaan, gambar). Bersyarat → Medan ulasan rasmi wajib diisi, medan Syarat Teknikal wajib diisi, lampiran bukti mandatori. Jenis Dokumen Bukti Wajib* tertakluk kepada konfigurasi oleh PBT Agensi Alam Sekitar → Laporan Impak Alam Sekitar, gambar tapak. Agensi Kesihatan → Sijil kesihatan, laporan pemeriksaan premis. Agensi Infrastruktur → Lukisan teknikal, laporan keselamatan. Audit Trail & Pengujian Sistem perlu merekodkan sama ada ulasan rasmi dan lampiran bukti dimuat naik. Jika syarat mandatori tidak dipenuhi, sistem paparkan mesej ralat: “Lampiran bukti wajib untuk keputusan Tidak Lulus. Sila muat naik dokumen sokongan sebelum meneruskan.” “Medan ulasan rasmi tidak boleh kosong.”"
+    },
+    {
+     "code": "BR-SM-RT-04",
+     "text": "Ulasan teknikal mesti disertakan dengan bukti sokongan (jika berkenaan)."
+    },
+    {
+     "code": "BR-SM-RT-05",
+     "text": "Semua ulasan teknikal mesti disahkan oleh PPSU sebelum digunakan untuk kelulusan."
+    },
+    {
+     "code": "BR-SM-RT-06",
+     "text": "Notifikasi ulasan siap mesti dihantar melalui Modul Notifikasi. Sebarang proses tindakan akhir ataupun serahan bagi setiap proses kepada mana-mana pengguna yang berkaitan dengan Sistem OSCP, pengguna tersebut akan menerima notifikasi secara in app atau emel. Manakala bagi pemohon lesen akan menerima notifikasi tambahan berbentuk SMS."
+    },
+    {
+     "code": "BR-SM-RT-07",
+     "text": "Ulasan teknikal tanpa bukti atau dokumen sokongan dianggap tidak lengkap. Dokumen atau ulasan teknikal dianggap tidak lengkap apabila: Dokumen ulasan tidak dimuat naik. Dokumen sokongan wajib (contoh: laporan teknikal, gambar tapak) tidak dilampirkan. Format/jenis fail tidak mematuhi spesifikasi sistem (contoh: hanya PDF/DOCX dibenarkan). Saiz fail melebihi had maksimum (contoh: 20MB). Mesej ralat contoh: “Dokumen sokongan wajib tidak dilampirkan. Sila muat naik sebelum meneruskan.” “Format fail tidak sah. Sila gunakan PDF atau DOCX.” “Saiz fail melebihi had maksimum 20MB. Sila kecilkan fail sebelum muat naik.”"
+    }
+   ]
+  }
+ ],
+ "sdsIssues": []
+}

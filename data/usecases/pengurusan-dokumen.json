@@ -1,0 +1,2708 @@
+{
+ "module": {
+  "id": "pengurusan-dokumen",
+  "name": "Pengurusan Dokumen",
+  "code": "DK",
+  "version": "2.0",
+  "iteration": 2,
+  "sourceFile": "OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v2.0 - printing version - Pengurusan Dokumen - latest.docx"
+ },
+ "functions": [
+  {
+   "id": "SF-PL-DK-KS",
+   "name": "Konfigurasi dan Storan Dokumen",
+   "actors": []
+  },
+  {
+   "id": "SF-PL-DK-KS-01",
+   "name": "Tetap Dokumen Wajib per Jenis Lesen",
+   "actors": [
+    "Pentadbir Sistem PBT"
+   ]
+  },
+  {
+   "id": "SF-PL-DK-KS-02",
+   "name": "Versi & Audit Dokumen",
+   "actors": [
+    "Pegawai Audit",
+    "Pentadbir Sistem PBT"
+   ]
+  },
+  {
+   "id": "SF-PL-DK-KS-03",
+   "name": "Storan Berpusat & Kawalan Akses",
+   "actors": [
+    "Pentadbir Sistem PBT"
+   ]
+  }
+ ],
+ "useCases": [
+  {
+   "id": "UC-PL-DK-KS-01",
+   "name": "Tetap Dokumen Wajib per Jenis Lesen",
+   "group": "Pengurusan Dokumen",
+   "actors": [
+    "Pentadbir Sistem PBT"
+   ],
+   "steps": [
+    "Sistem paparkan senarai kod dokumen (Kod PBT, Kod Dokumen, Keterangan, Kategori, Status, Ikon Tindakan).",
+    "Pentadbir Sistem PBT pilih Tambah Dokumen.",
+    "Sistem paparkan borang Tambah Dokumen.",
+    "Pentadbir isi medan minima & simpan.",
+    "Rekod dipaparkan semula dalam senarai dokumen."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Carian dokumen ikut kod/keterangan melalui medan carian. Mesej ralat “Tiada rekod ditemui. Cuba guna kata kunci carian yang berbeza”"
+    },
+    {
+     "id": "A2",
+     "text": "Cetak/jana senarai dalam format Excel, CSV atau PDF. Tiada mesej ralat."
+    },
+    {
+     "id": "A3",
+     "text": "Lihat jejak audit pada skrin Butiran Kod Dokumen. Tiada mesej ralat."
+    },
+    {
+     "id": "A4",
+     "text": "Nyahaktif rekod (tiada pemadaman fizikal). Mesej ralat \"Kod dokumen berjaya dinyahaktifkan.\""
+    }
+   ],
+   "input": "Kod PBT (auto), Kod Dokumen (auto), Keterangan Dokumen, Kategori, Jenis Permohonan, Status Dokumen, Status, Parameter/Catatan",
+   "output": "Senarai kod dokumen dikemas kini; rekod jejak audit (Dicipta Pada/Oleh, Dikemaskini Pada/Oleh)",
+   "uiRefs": [
+    "UI-PL-DK-KS-01"
+   ],
+   "integration": "Modul Permohonan/Pembaharuan Lesen",
+   "notes": "Admin JKT dan Pentadbir Sistem PBT boleh tetapkan dokumen wajib per lesen. Tiada pemadaman fizikal bagi tetapan yang telah digunakan — hanya nyahaktif. Sejarah perubahan disimpan untuk audit. Sistem akan menghalang permohonan baru bagi kod dokumen yang telah dinyahaktifkan dan bagi permohonan yang telah dihantar, kod dokumen masih diguna pakai.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-DK-KS-01-01",
+   "name": "Lihat/Pilih Jenis Lesen",
+   "group": "Pengurusan Dokumen",
+   "actors": [
+    "Pentadbir Sistem PBT"
+   ],
+   "steps": [
+    "Pentadbir Sistem PBT semak jenis-jenis lesen yang wujud.",
+    "Pilih jenis lesen sebelum penetapan dokumen dibuat.",
+    "Penetapan dibuat pada kod aktiviti lesen, bahagian kod dokumen."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tiada Kod Dokumen bagi Lesen Didaftarkan. Mesej ralat “Tiada rekod ditemui.\""
+    }
+   ],
+   "input": "Pilihan jenis lesen",
+   "output": "Senarai jenis lesen dipaparkan untuk penetapan dokumen",
+   "uiRefs": [
+    "UI-PL-DK-KS-01"
+   ],
+   "integration": "Modul Permohonan/Pembaharuan Lesen",
+   "notes": "Perlu disemak dahulu sebelum penetapan dokumen.",
+   "calls": [],
+   "parentId": "UC-PL-DK-KS-01"
+  },
+  {
+   "id": "UC-PL-DK-KS-01-02",
+   "name": "Tetap Senarai Dokumen Wajib/Pilihan",
+   "group": "Pengurusan Dokumen",
+   "actors": [
+    "Pentadbir Sistem PBT"
+   ],
+   "steps": [
+    "Bagi jenis lesen terpilih, tetapkan senarai dokumen wajib/pilihan.",
+    "Masukkan kod dokumen ke dalam jenis lesen yang berkaitan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Kategori Dokumen Tidak Dipilih. Mesej ralat \"Tiada rekod ditemui Senarai Dokumen Aktiviti.\""
+    },
+    {
+     "id": "A2",
+     "text": "Carian Kod Dokumen Yang berkaitan. Mesej ralat \"Tiada dokumen dijumpai Sila cuba carian lain atau pastikan kategori betul.\""
+    }
+   ],
+   "input": "Senarai dokumen wajib/pilihan bagi jenis lesen",
+   "output": "Tetapan dokumen bagi jenis lesen",
+   "uiRefs": [
+    "UI-PL-DK-KS-01"
+   ],
+   "integration": "Modul Permohonan/Pembaharuan Lesen",
+   "notes": "Penetapan wajib/tidak wajib bagi setiap jenis lesen berbeza.",
+   "calls": [],
+   "parentId": "UC-PL-DK-KS-01"
+  },
+  {
+   "id": "UC-PL-DK-KS-01-03",
+   "name": "Simpan Tetapan",
+   "group": "Pengurusan Dokumen",
+   "actors": [
+    "Pentadbir Sistem PBT"
+   ],
+   "steps": [
+    "Pentadbir Sistem PBT simpan tetapan dokumen.",
+    "Sistem sahkan & simpan rekod."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Simpan Gagal Disebabkan Ralat Pelayan. Mesej ralat \"Gagal capaian data. Sila cuba semula.\""
+    }
+   ],
+   "input": "Tetapan dokumen yang dikonfigurasi",
+   "output": "Tetapan dokumen disimpan; rekod jejak audit",
+   "uiRefs": [
+    "UI-PL-DK-KS-01"
+   ],
+   "integration": "DB dalaman",
+   "notes": "Proses simpan hanya boleh dilaksanakan setelah semua medan wajib dilengkapkan.",
+   "calls": [],
+   "parentId": "UC-PL-DK-KS-01"
+  },
+  {
+   "id": "UC-PL-DK-KS-02",
+   "name": "Versi & Audit Dokumen",
+   "group": "Pengurusan Dokumen",
+   "actors": [
+    "Pegawai Audit",
+    "Pentadbir Sistem PBT"
+   ],
+   "steps": [
+    "Sewaktu pembaharuan lesen, pemohon boleh melihat, memuat turun, mengemaskini atau menggantikan dokumen yang telah dihantar bagi permohonan terdahulu.",
+    "Dokumen asal/pertama yang dimuat naik boleh dimuat turun, dikemaskini dan dimuat naik semula sebagai dokumen terkini. Tarikh dan masa kemaskini akan direkodkan oleh sistem.",
+    "Capaian dikawal ikut matriks peranan & kebenaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Jejak Dokumen. Tiada mesej ralat."
+    },
+    {
+     "id": "A2",
+     "text": "Semakan Dokumen. Tiada mesej ralat."
+    },
+    {
+     "id": "A2",
+     "text": "Muat Turun Mengikut Dokumen. Mesej ralat “Gagal capaian data. Sila cuba semula.\""
+    }
+   ],
+   "input": "No Siri Dokumen (doc_dcsiri), versi dokumen, Tarikh Input/Tarikh Kemaskini",
+   "output": "Senarai versi dokumen; rekod jejak audit versi",
+   "uiRefs": [
+    "UI-PL-DK-KS-02"
+   ],
+   "integration": "—",
+   "notes": "Pemohon hanya lihat/muat turun dokumen sendiri; tidak boleh banding/buang/kemaskini versi lama. Capaian ikut matriks peranan & kebenaran sistem.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-DK-KS-02-01",
+   "name": "Jejak Versi Dokumen",
+   "group": "Pengurusan Dokumen",
+   "actors": [
+    "Pegawai Audit",
+    "Pentadbir Sistem PBT"
+   ],
+   "steps": [
+    "Pegawai lesen jejak dokumen yang ditetapkan sistem.",
+    "Lihat dokumen yang dihantar pemohon sewaktu pembaharuan lesen."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Jejak Dokumen. Tiada mesej ralat."
+    }
+   ],
+   "input": "Pilihan dokumen/permohonan",
+   "output": "Jejak versi dokumen dipaparkan",
+   "uiRefs": [
+    "UI-PL-DK-KS-02"
+   ],
+   "integration": "—",
+   "notes": "Capaian terhad ikut peranan & kebenaran sistem.",
+   "calls": [],
+   "parentId": "UC-PL-DK-KS-02"
+  },
+  {
+   "id": "UC-PL-DK-KS-02-02",
+   "name": "Banding Versi Dokumen",
+   "group": "Pengurusan Dokumen",
+   "actors": [
+    "Pegawai Audit",
+    "Pentadbir Sistem PBT"
+   ],
+   "steps": [
+    "Pegawai lesen boleh menyemak dokumen-dokumen yang dihantar oleh pemohon sewaktu pembaharuan lesen."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Muat Turun Mengikut Dokumen. Mesej ralat \" Gagal capaian data. Sila cuba semula.\""
+    }
+   ],
+   "input": "Dua atau lebih versi dokumen untuk dibanding",
+   "output": "Paparan perbandingan versi dokumen",
+   "uiRefs": [
+    "UI-PL-DK-KS-02"
+   ],
+   "integration": "—",
+   "notes": "Pemohon tidak dibenarkan membanding versi dokumen.",
+   "calls": [],
+   "parentId": "UC-PL-DK-KS-02"
+  },
+  {
+   "id": "UC-PL-DK-KS-02-03",
+   "name": "Muat Turun Mengikut Versi Dokumen",
+   "group": "Pengurusan Dokumen",
+   "actors": [
+    "Pegawai Audit",
+    "Pentadbir Sistem PBT"
+   ],
+   "steps": [
+    "Pengguna boleh melihat dokumen terdahulu.",
+    "Sistem sediakan muat turun dalam format PDF."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Muat Turun Mengikut Dokumen. Mesej ralat \" Gagal capaian data. Sila cuba semula.\""
+    }
+   ],
+   "input": "Pilihan versi dokumen",
+   "output": "Dokumen versi dimuat turun (PDF)",
+   "uiRefs": [
+    "UI-PL-DK-KS-02"
+   ],
+   "integration": "—",
+   "notes": "Tempoh simpan maksimum 5 tahun. Had bergantung kapasiti storan PDSA.",
+   "calls": [],
+   "parentId": "UC-PL-DK-KS-02"
+  },
+  {
+   "id": "UC-PL-DK-KS-03",
+   "name": "Storan Berpusat & Kawalan Akses",
+   "group": "Pengurusan Dokumen",
+   "actors": [
+    "Pentadbir Sistem PBT"
+   ],
+   "steps": [
+    "Sistem akan menyimpan dokumen yang dimuat naik oleh pemohon secara berpusat di cloud PDSA (Pusat Data Selamat Awam).",
+    "Sistem menetapkan kawalan akses ke atas dokumen berdasarkan peranan dan kebenaran pengguna yang telah ditetapkan.",
+    "Pemohon boleh mendapatkan semula dokumen yang telah dimuat naik pada bila-bila masa melalui sistem mengikut skop capaian yang dibenarkan.",
+    "Sistem pantau kapasiti storan automatik."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Notifikasi kepada Pentadbir Sistem JKT apabila storan capai 80%. Mesej ralat \" AMARAN STORAN SISTEM / SYSTEM STORAGE ALERT Tahap / Level: AMARAN / WARNING Disk: LOCAL Penggunaan / Usage: 62.04% Jumlah / Total: 95.11 GB Digunakan / Used: 59.01 GB Baki / Free: 36.11 GB Ambang Amaran / Warning Threshold: 50.00% Ambang Kritikal / Critical Threshold: 90.00% Semakan pada / Checked at: 2026-07-14 16:07:02 \""
+    },
+    {
+     "id": "A2",
+     "text": "Storan cloud tidak dapat dicapai. Mesej ralat \"Storan cloud tidak dapat dicapai. Sila cuba semula kemudian.\""
+    },
+    {
+     "id": "A3",
+     "text": "Akses ditolak. Tiada mesej ralat. Tab Konfigurasi Sistem tidak dipaparkan sekiranyan tiada kebenaran akses Konfigurasi Sistem ditetapkan."
+    }
+   ],
+   "input": "Dokumen yang dimuat naik; peraturan kawalan akses",
+   "output": "Dokumen disimpan berpusat; status kapasiti storan; notifikasi storan",
+   "uiRefs": [
+    "UI-PL-DK-KS-03"
+   ],
+   "integration": "Cloud PDSA (Pusat Data Selamat Awam)",
+   "notes": "Kapasiti maks 50 GB/PBT. Backup cronjob setiap 4 jam. RTO 8–24 jam, RPO ≤4 jam.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-DK-KS-03-01",
+   "name": "Storan Berpusat Dokumen",
+   "group": "Pengurusan Dokumen",
+   "actors": [
+    "Pentadbir Sistem PBT"
+   ],
+   "steps": [
+    "Sistem laksanakan & sediakan storan berpusat bagi dokumen."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Sambungan ke Storan Gagal. Mesej gagal \"Sambungan ke storan PDSA gagal. Sila cuba sebentar lagi.\""
+    }
+   ],
+   "input": "Dokumen untuk disimpan",
+   "output": "Dokumen disimpan di storan berpusat (PDSA)",
+   "uiRefs": [
+    "UI-PL-DK-KS-03"
+   ],
+   "integration": "Cloud PDSA (Pusat Data Selamat Awam)",
+   "notes": "Sistem akan menjalankan cronjob backup automatik setiap 4 jam bagi memastikan pangkalan data sentiasa menyimpan data terkini.",
+   "calls": [],
+   "parentId": "UC-PL-DK-KS-03"
+  },
+  {
+   "id": "UC-PL-DK-KS-03-02",
+   "name": "Urus Kebenaran Akses Dokumen",
+   "group": "Pengurusan Dokumen",
+   "actors": [
+    "Pentadbir Sistem PBT"
+   ],
+   "steps": [
+    "Tetapkan peraturan kebenaran akses ke atas dokumen.",
+    "Sistem kuatkuasa peraturan ikut peranan pengguna."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Pentadbir Cuba Akses Dokumen Pemohon. Mesej ralat \"Capaian ditolak. Anda tidak dibenarkan mengakses dokumen yang dimuat naik oleh pemohon.\""
+    },
+    {
+     "id": "A2",
+     "text": "Pemohon Cuba Kemaskini Dokumen Pembaharuan Terdahulu. Tiada mesej ralat."
+    }
+   ],
+   "input": "Peraturan kebenaran akses dokumen",
+   "output": "Kebenaran akses dokumen dikuatkuasa",
+   "uiRefs": [
+    "UI-PL-DK-KS-03"
+   ],
+   "integration": "Cloud PDSA (Pusat Data Selamat Awam)",
+   "notes": "Pentadbir Sistem boleh akses dokumen muat naik pemohon. Pegawai Lesen/Audit hanya muat turun. Pemohon muat naik/turun/kemaskini di permohonan; hanya muat turun history di pembaharuan.",
+   "calls": [],
+   "parentId": "UC-PL-DK-KS-03"
+  },
+  {
+   "id": "UC-PL-DK-KS-03-03",
+   "name": "Tetapan Peraturan Akses",
+   "group": "Pengurusan Dokumen",
+   "actors": [
+    "Pentadbir Sistem PBT"
+   ],
+   "steps": [
+    "Wujudkan peraturan akses dokumen ikut Aras Kawalan Akses (ACL) dan PBT."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Kemaskini tetapan kebenaran. Mesej ralat “Kebenaran tetapan Berjaya dikemaskini.”"
+    }
+   ],
+   "input": "Peraturan ACL & PBT",
+   "output": "Peraturan akses dokumen ditetapkan",
+   "uiRefs": [
+    "UI-PL-DK-KS-03"
+   ],
+   "integration": "Cloud PDSA (Pusat Data Selamat Awam)",
+   "notes": "Penetapan berdasarkan Aras Kawalan Akses (ACL) dan PBT. Merujuk keterangan use case UC-PL-DK-KS-02.",
+   "calls": [],
+   "parentId": "UC-PL-DK-KS-03"
+  }
+ ],
+ "screens": [
+  {
+   "title": "Skrin Tetap Dokumen Wajib per Jenis Lesen",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pengurusan Dokumen",
+   "uiIds": [
+    "UI-PL-DK-KS-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Medan Carian",
+     "objectType": "Search field",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_idpbt",
+      "doc_kddocmt",
+      "doc_docdesc",
+      "doc_ktegori",
+      "doc_statf"
+     ],
+     "crud": "R",
+     "note": "Carian berdasarkan kod PBT, kod dokumen, keterangan dokumen, kategori dokumen atau status."
+    },
+    {
+     "label": "Semua Kategori (dropdown: Keperluan / Risiko / Teknikal / Pilihan)",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_ktegori"
+     ],
+     "crud": "R",
+     "note": "Penapis mengikut kategori dokumen. Medan pilihan kategori: Semua Kategori, Keperluan, Risiko, Teknikal, Pilihan"
+    },
+    {
+     "label": "-- Semua Status --",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_statf"
+     ],
+     "crud": "R",
+     "note": "Penapis status aktif rekod. Pilihan status : Semua Status, Aktif, Tidak Aktif"
+    },
+    {
+     "label": "Cetak Rekod",
+     "objectType": "Butang (Button)",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_idpbt",
+      "doc_kddocmt",
+      "doc_docdesc",
+      "doc_ktegori",
+      "doc_statusd",
+      "doc_catatan"
+     ],
+     "crud": "R",
+     "note": "Menjana laporan cetak (PDF/Excel/CSV) bagi senarai Kod Dokumen."
+    },
+    {
+     "label": "Butang <Tambah Dokumen>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Buka borang tambah dokumen baharu."
+    },
+    {
+     "label": "Kod PBT",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_idpbt"
+     ],
+     "crud": "R",
+     "note": "Kod PBT pemilik rekod dokumen"
+    },
+    {
+     "label": "Kod Dokumen",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_kddocmt"
+     ],
+     "crud": "R",
+     "note": "Kod unik dokumen."
+    },
+    {
+     "label": "Keterangan",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_docdesc"
+     ],
+     "crud": "R",
+     "note": "Keterangan dokumen"
+    },
+    {
+     "label": "Kategori",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_ktegori"
+     ],
+     "crud": "R",
+     "note": "Kategori risiko dokumen."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_statf"
+     ],
+     "crud": "R",
+     "note": "Status rekod."
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "–"
+    },
+    {
+     "label": "Butang <Lihat>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Papar butiran penuh rekod dokumen"
+    },
+    {
+     "label": "Butang <Kemaskini>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Buka borang kemaskini rekod dokumen."
+    },
+    {
+     "label": "Butang <Jejak Audit>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Papar sejarah perubahan rekod dokumen."
+    },
+    {
+     "label": "Butang <Status>",
+     "objectType": "Button",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_statf"
+     ],
+     "crud": "",
+     "note": "Ikon hijau = Aktif, Ikon merah = Nyahaktif"
+    },
+    {
+     "label": "Paparan (saiz halaman)",
+     "objectType": "Dropdown",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Pilihan bilangan rekod dipapar per halaman."
+    },
+    {
+     "label": "Maklumat Bilangan Rekod",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Papar 'Memaparkan 1 hingga 10 daripada 91' — dikira automatik oleh sistem."
+    },
+    {
+     "label": "Butang >",
+     "objectType": "Pagination Control",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Sistem akan paparkan maklumat seterusnya daripada senarai"
+    },
+    {
+     "label": "Butang <",
+     "objectType": "Pagination Control",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Sistem akan memaparkan maklumat sebelumnya daripada senarai"
+    },
+    {
+     "label": "Kod PBT",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_kod_majlis"
+     ],
+     "fields": [
+      "maj_idpbt"
+     ],
+     "crud": "C",
+     "note": "Wajib diisi. Senarai PBT diambil dari osc_kod_majlis"
+    },
+    {
+     "label": "Kod Dokumen",
+     "objectType": "Auto-jana",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_kddocmt"
+     ],
+     "crud": "C",
+     "note": "Jana automatik oleh sistem. Contoh: DK0001"
+    },
+    {
+     "label": "Keterangan Dokumen",
+     "objectType": "Text Area",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "c"
+     ],
+     "crud": "C",
+     "note": "Wajib diisi. Masukkan keterangan dokumen."
+    },
+    {
+     "label": "Kategori Dokumen",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_ktegori"
+     ],
+     "crud": "C",
+     "note": "Wajib diisi. Pilihan: Keperluan / Risiko / Teknikal / Perlu."
+    },
+    {
+     "label": "Status Dokumen",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_statusd"
+     ],
+     "crud": "C",
+     "note": "Wajib diisi. Pilihan: Mandatori / Pilihan."
+    },
+    {
+     "label": "Parameter/Catatan",
+     "objectType": "Text Area",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_catatan"
+     ],
+     "crud": "C",
+     "note": "Tidak wajib. Masukkan parameter atau catatan sekiranya ada."
+    },
+    {
+     "label": "Butang Tambah",
+     "objectType": "Button",
+     "tables": [
+      "osc_kod_dokumen",
+      "osc_kod_majlis"
+     ],
+     "fields": [
+      "maj_idpbt",
+      "doc_kddocmt",
+      "doc_docdesc",
+      "doc_ktegori",
+      "doc_statusd",
+      "doc_catatan"
+     ],
+     "crud": "C",
+     "note": "Hantar borang dan simpan rekod dokumen baharu."
+    },
+    {
+     "label": "Butang Batal",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Kembali ke senarai Kod Dokumen tanpa menyimpan data."
+    }
+   ]
+  },
+  {
+   "title": "Skrin Lihat / Pilih Jenis Lesen",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pengurusan Dokumen",
+   "uiIds": [
+    "UI-PL-DK-KS-01-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Carian Keterangan Aktiviti / Kod",
+     "objectType": "Input Search",
+     "tables": [
+      "osc_kod_aktiviti"
+     ],
+     "fields": [
+      "tvt_kodaktiviti",
+      "tvt_tvtnama",
+      "tvt_kodsektor",
+      "tvt_statf"
+     ],
+     "crud": "R",
+     "note": "Carian rekod mengikut keterangan atau kod aktiviti. Tekan Enter untuk mencari"
+    },
+    {
+     "label": "Butang Set Semula",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Kosongkan medan carian dan paparkan semua rekod semula"
+    },
+    {
+     "label": "Butang Cetak Rekod",
+     "objectType": "Button",
+     "tables": [
+      "osc_kod_aktiviti"
+     ],
+     "fields": [
+      "tvt_kodaktiviti",
+      "tvt_tvtnama",
+      "tvt_kodsektor",
+      "tvt_statf"
+     ],
+     "crud": "R",
+     "note": "Jana laporan atau cetak senarai rekod kod aktiviti yang dipaparkan"
+    },
+    {
+     "label": "Butang Tambah Kod Aktiviti",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Navigasi ke skrin Tambah Kod Aktiviti Baharu"
+    },
+    {
+     "label": "Ikon Notifikasi",
+     "objectType": "Icon Badge",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Papar bilangan notifikasi sistem yang belum dibaca. Contoh: 20"
+    },
+    {
+     "label": "# (Nombor Baris)",
+     "objectType": "Column Grid / Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Nombor urutan baris dalam senarai. Jana secara automatik mengikut halaman"
+    },
+    {
+     "label": "Kod Aktiviti",
+     "objectType": "Column Grid / Label",
+     "tables": [
+      "osc_kod_aktiviti"
+     ],
+     "fields": [
+      "kod_aktiviti"
+     ],
+     "crud": "R",
+     "note": "Kod unik aktiviti perniagaan. Contoh: AKT0002, AKT0001, A0011, Q0004"
+    },
+    {
+     "label": "Keterangan Aktiviti",
+     "objectType": "Column Grid / Label",
+     "tables": [
+      "osc_kod_aktiviti"
+     ],
+     "fields": [
+      "tvt_tvtnama"
+     ],
+     "crud": "R",
+     "note": "Nama atau huraian aktiviti perniagaan. Contoh: Kedai Aiskrim Pop, Menjahot Pakaian"
+    },
+    {
+     "label": "Kod Sektor",
+     "objectType": "Column Grid / Label",
+     "tables": [
+      "osc_kod_aktiviti"
+     ],
+     "fields": [
+      "tvt_kodsektor"
+     ],
+     "crud": "R",
+     "note": "Kod sektor aktiviti. Contoh: 30001, 10010, 10001, 30004, 30002"
+    },
+    {
+     "label": "Kelengkapan",
+     "objectType": "Column Grid / Badge",
+     "tables": [
+      "osc_kod_aktivtdokumen"
+     ],
+     "fields": [
+      "akd_koddokumen"
+     ],
+     "crud": "R",
+     "note": "Status kelengkapan dokumen aktiviti. Nilai: 'Tidak Lengkap' (oren) atau 'X Kod Niaga' (hijau). Contoh: 13 Kod Niaga"
+    },
+    {
+     "label": "Status",
+     "objectType": "Column Grid / Badge",
+     "tables": [
+      "osc_kod_aktiviti"
+     ],
+     "fields": [
+      "tvt_statf"
+     ],
+     "crud": "R",
+     "note": "Status rekod aktiviti. AKTIF (hijau) atau TIDAK AKTIF (merah)"
+    },
+    {
+     "label": "Ikon Lihat (Mata)",
+     "objectType": "Column Grid / Icon Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke skrin paparan butiran kod aktiviti (View)"
+    },
+    {
+     "label": "Ikon Kemaskini (Pensil)",
+     "objectType": "Column Grid / Icon Button",
+     "tables": [],
+     "fields": [],
+     "crud": "U",
+     "note": "Navigasi ke skrin Kemaskini Kod Aktiviti"
+    },
+    {
+     "label": "Ikon Carta (Bar Chart)",
+     "objectType": "Column Grid / Icon Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Papar laporan atau carta berkaitan kod aktiviti"
+    },
+    {
+     "label": "Ikon Aktif/Tidak Aktif",
+     "objectType": "Column Grid / Icon Button",
+     "tables": [
+      "osc_kod_aktiviti"
+     ],
+     "fields": [
+      "tvt_statf"
+     ],
+     "crud": "U",
+     "note": "Toggle status rekod. Ikon (✓) hijau = Aktifkan, Ikon (✗) merah = Nyahaktifkan"
+    },
+    {
+     "label": "Paparan (Dropdown)",
+     "objectType": "Dropdown Select",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Pilih bilangan rekod yang dipapar setiap halaman. Contoh: 10, 25, 50"
+    },
+    {
+     "label": "Info Rekod",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Papar maklumat rekod semasa. Contoh: Memaparkan 1 hingga 10 daripada 204"
+    },
+    {
+     "label": "Butang Halaman Sebelum (<)",
+     "objectType": "Pagination Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke halaman sebelumnya"
+    },
+    {
+     "label": "Nombor Halaman (1, 2, 3...)",
+     "objectType": "Pagination Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke halaman tertentu secara terus. Halaman aktif ditanda biru"
+    },
+    {
+     "label": "Ellipsis (...)",
+     "objectType": "Pagination Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Penanda halaman tengah yang tidak dipapar. Tiada operasi pangkalan data"
+    },
+    {
+     "label": "Nombor Halaman Terakhir (21)",
+     "objectType": "Pagination Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke halaman terakhir. Dikira berdasarkan jumlah rekod dan saiz halaman"
+    },
+    {
+     "label": "Butang Halaman Seterus (>)",
+     "objectType": "Pagination Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke halaman seterusnya"
+    },
+    {
+     "label": "Sila lengkapkan maklumat yang diperlukan",
+     "objectType": "Alert / Error Banner",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "-"
+    },
+    {
+     "label": "Sila pilih sekurang-kurangnya satu Kod Dokumen sebelum menyimpan",
+     "objectType": "Alert Message (List)",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "-"
+    },
+    {
+     "label": "Maklumat Aktiviti",
+     "objectType": "Sidebar Navigation",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke bahagian 1 — Maklumat Aktiviti. Aktif semasa berada di bahagian ini"
+    },
+    {
+     "label": "Butiran Aktiviti",
+     "objectType": "Sidebar Navigation",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke bahagian 2 — Butiran Aktiviti"
+    },
+    {
+     "label": "Dokumen Aktiviti",
+     "objectType": "Sidebar Navigation",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke bahagian 3 — Dokumen Aktiviti"
+    },
+    {
+     "label": "Kod PBT",
+     "objectType": "Input Text (Read Only)",
+     "tables": [
+      "osc_kod_majlis"
+     ],
+     "fields": [
+      "maj_idpbt"
+     ],
+     "crud": "R",
+     "note": "Medan mandatori (*). Diisi secara automatik berdasarkan PBT pengguna log masuk. Contoh: PK_MDTM - MAJLIS DAERAH TANJONG MALIM. Tidak boleh diubah"
+    },
+    {
+     "label": "Kod Aktiviti",
+     "objectType": "Input Text (Read Only)",
+     "tables": [
+      "osc_kod_aktiviti"
+     ],
+     "fields": [
+      "tvt_kodaktiviti"
+     ],
+     "crud": "R",
+     "note": "Medan mandatori (*). Jana secara automatik oleh sistem. Contoh: AKT0003. Tidak boleh diubah"
+    },
+    {
+     "label": "Keterangan",
+     "objectType": "Input Text",
+     "tables": [
+      "osc_kod_aktiviti"
+     ],
+     "fields": [
+      "tvt_tvtnama"
+     ],
+     "crud": "C",
+     "note": "Medan mandatori (*). Placeholder: Masukkan keterangan aktiviti. Wajib diisi sebelum simpan"
+    },
+    {
+     "label": "Kod Sektor",
+     "objectType": "Dropdown (Single-select)",
+     "tables": [
+      "osc_kod_sektor"
+     ],
+     "fields": [
+      "Skt_kodsektor",
+      "skt_sktrnama"
+     ],
+     "crud": "C",
+     "note": "Medan mandatori (*). Placeholder: Pilih Kod Sektor. Paparkan senarai kod dan nama sektor"
+    },
+    {
+     "label": "Kod Dokumen",
+     "objectType": "Label / Info",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Medan mandatori (*). Label pengenalan bahagian dokumen aktiviti"
+    },
+    {
+     "label": "Nota Kategori Dokumen",
+     "objectType": "Info Panel",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Panel maklumat tetap — tiada pemetaan pangkalan data"
+    },
+    {
+     "label": "Kategori: Keperluan",
+     "objectType": "Info Text",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Dokumen wajib untuk semua jenis permohonan lesen"
+    },
+    {
+     "label": "Kategori: Perlu",
+     "objectType": "Info Text",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Dokumen tambahan bergantung kepada jenis lesen atau aktiviti perniagaan"
+    },
+    {
+     "label": "Kategori: Teknikal",
+     "objectType": "Info Text",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Dokumen teknikal untuk semakan agensi teknikal (ATL/BTD)"
+    },
+    {
+     "label": "Kategori: Risiko",
+     "objectType": "Info Text",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Dokumen berkaitan penilaian risiko premis atau aktiviti perniagaan"
+    },
+    {
+     "label": "Carian Dokumen Aktiviti",
+     "objectType": "Input Search",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_kddocmt",
+      "doc_docdesc",
+      "doc_ktegori",
+      "doc_jenismhn"
+     ],
+     "crud": "R",
+     "note": "Carian dalam senarai dokumen aktiviti. Tekan Enter untuk mencari"
+    },
+    {
+     "label": "Butang Tambah Dokumen",
+     "objectType": "Button",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [],
+     "crud": "C",
+     "note": "Buka modal Tambah Dokumen untuk memilih dan menambah dokumen ke senarai"
+    },
+    {
+     "label": "Kategori Dokumen",
+     "objectType": "Column Grid / Label",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_ktegori"
+     ],
+     "crud": "R",
+     "note": "Papar kategori dokumen dalam grid. Contoh: Keperluan / Perlu / Teknikal / Risiko"
+    },
+    {
+     "label": "Kod Dokumen",
+     "objectType": "Column Grid / Label",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_kddocmt"
+     ],
+     "crud": "R",
+     "note": "Kod unik dokumen dalam grid senarai"
+    },
+    {
+     "label": "Keterangan Dokumen",
+     "objectType": "Column Grid / Label",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_docdesc"
+     ],
+     "crud": "R",
+     "note": "Nama atau huraian dokumen dalam grid senarai"
+    },
+    {
+     "label": "Jenis Permohonan",
+     "objectType": "Column Grid / Label",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_jenismhn"
+     ],
+     "crud": "R",
+     "note": "Jenis permohonan dokumen. Contoh: Baru / Pembaharuan / Semua"
+    },
+    {
+     "label": "Tindakan (Padam)",
+     "objectType": "Column Grid / Icon Button",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [],
+     "crud": "D",
+     "note": "Butang ikon (X) untuk memadam dokumen dari senarai sebelum disimpan"
+    },
+    {
+     "label": "Tiada Rekod Ditemui",
+     "objectType": "Empty State",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Papar apabila tiada dokumen ditambah ke dalam senarai dokumen aktiviti"
+    },
+    {
+     "label": "Butang Simpan",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Simpan rekod kod aktiviti baharu beserta senarai dokumen aktiviti ke pangkalan data"
+    },
+    {
+     "label": "Butang Batal",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Batalkan proses tambah dan kembali ke senarai Kod Aktiviti tanpa menyimpan"
+    },
+    {
+     "label": "Tab Dokumen Keperluan",
+     "objectType": "Tab",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_ktegori"
+     ],
+     "crud": "R",
+     "note": "Tab aktif secara lalai. Tapis senarai dokumen dengan kategori 'Keperluan'"
+    },
+    {
+     "label": "Tab Dokumen Perlu",
+     "objectType": "Tab",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_ktegori"
+     ],
+     "crud": "R",
+     "note": "Tapis senarai dokumen dengan kategori 'Perlu'"
+    },
+    {
+     "label": "Tab Dokumen Teknikal",
+     "objectType": "Tab",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_ktegori"
+     ],
+     "crud": "R",
+     "note": "Tapis senarai dokumen dengan kategori 'Teknikal'"
+    },
+    {
+     "label": "Tab Dokumen Risiko",
+     "objectType": "Tab",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_ktegori"
+     ],
+     "crud": "R",
+     "note": "Tapis senarai dokumen dengan kategori 'Risiko'"
+    },
+    {
+     "label": "Cari Dokumen (Kod/Keterangan)",
+     "objectType": "Input Search",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_kddocmt",
+      "doc_docdesc",
+      "doc_ktegori"
+     ],
+     "crud": "R",
+     "note": "Carian dokumen mengikut kod atau keterangan. Tekan Enter untuk mencari"
+    },
+    {
+     "label": "Jenis Permohonan: Semua",
+     "objectType": "Toggle Button",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_jenismhn"
+     ],
+     "crud": "R",
+     "note": "Paparkan semua dokumen tanpa mengira jenis permohonan"
+    },
+    {
+     "label": "Jenis Permohonan: Baharu",
+     "objectType": "Toggle Button",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_jenismhn"
+     ],
+     "crud": "R",
+     "note": "Tapis dokumen yang hanya digunakan untuk permohonan baharu"
+    },
+    {
+     "label": "Jenis Permohonan: Pembaharuan",
+     "objectType": "Toggle Button",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_jenismhn"
+     ],
+     "crud": "R",
+     "note": "Tapis dokumen yang hanya digunakan untuk permohonan pembaharuan"
+    },
+    {
+     "label": "Checkbox Pilih Dokumen",
+     "objectType": "Checkbox",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Checkbox untuk memilih satu atau lebih dokumen yang ingin ditambah"
+    },
+    {
+     "label": "Kategori",
+     "objectType": "Column Grid / Label",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_ktegori"
+     ],
+     "crud": "R",
+     "note": "Kategori dokumen: Keperluan / Perlu / Teknikal / Risiko"
+    },
+    {
+     "label": "Kod",
+     "objectType": "Column Grid / Label",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_kddocmt"
+     ],
+     "crud": "R",
+     "note": "Kod unik dokumen. Contoh: 01, 03, 04, 05, 06, 07, 100, 107"
+    },
+    {
+     "label": "Keterangan",
+     "objectType": "Column Grid / Label",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_docdesc"
+     ],
+     "crud": "R",
+     "note": "Nama atau huraian dokumen. Contoh: BORANG PERMOHONAN LESEN PERNIAGAAN"
+    },
+    {
+     "label": "Butang Tambah Pilihan",
+     "objectType": "Button",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_kddocmt",
+      "doc_docdesc",
+      "doc_ktegori"
+     ],
+     "crud": "C",
+     "note": "Simpan dokumen yang dipilih ke dalam senarai dokumen aktiviti"
+    },
+    {
+     "label": "Butang Batal",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Tutup modal tanpa menyimpan sebarang dokumen yang dipilih"
+    },
+    {
+     "label": "Butang Tutup (X)",
+     "objectType": "Icon Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Tutup modal tanpa menyimpan. Sama fungsi dengan butang Batal"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Versi & Audit Dokumen",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pengurusan Dokumen",
+   "uiIds": [
+    "UI-PL-DK-KS-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Data Induk",
+     "objectType": "Link Navigation",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pautan skrin Data Induk."
+    },
+    {
+     "label": "Kod Dokumen",
+     "objectType": "Link Navigation",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pautan skrin Senarai Kod Dokumen."
+    },
+    {
+     "label": "Medan Carian",
+     "objectType": "Search Input",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_kddocmt",
+      "doc_docdesc"
+     ],
+     "crud": "R",
+     "note": "Carian berdasarkan kod dokumen atau keterangan. Placeholder: 'Kod atau keterangan...' Ikon kanta di kanan."
+    },
+    {
+     "label": "Penapis Kategori",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_ktegori"
+     ],
+     "crud": "R",
+     "note": "Penapis mengikut kategori dokumen. Default: Semua Kategori. Pilihan: Keperluan / Risiko / Teknikal."
+    },
+    {
+     "label": "Penapis Status",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_statf"
+     ],
+     "crud": "R",
+     "note": "Penapis mengikut status rekod. Default: -- Semua Status --. Pilihan: Aktif (Y) / Tidak Aktif (T)."
+    },
+    {
+     "label": "Butang Carian",
+     "objectType": "Button",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Laksanakan carian berdasarkan medan carian dan penapis yang dipilih. Warna biru gelap."
+    },
+    {
+     "label": "Butang Cetak Rekod",
+     "objectType": "Button",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Jana cetakan senarai rekod kod dokumen. Ikon dokumen di kiri butang. Warna putih (secondary)."
+    },
+    {
+     "label": "Butang Tambah Kod Dokumen",
+     "objectType": "Button",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "C",
+     "note": "Buka borang tambah kod dokumen baharu. Ikon dokumen di kiri. Warna merah (utama). Dropdown pilihan tambah."
+    },
+    {
+     "label": "Kod PBT",
+     "objectType": "Grid Column",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_idpbt"
+     ],
+     "crud": "R",
+     "note": "Kod PBT pemilik rekod dokumen. Contoh: KD_MBAS."
+    },
+    {
+     "label": "Kod Dokumen",
+     "objectType": "Grid Column",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_kddocmt"
+     ],
+     "crud": "R",
+     "note": "Kod unik dokumen. Contoh: D0002, F2344, D0040, D0001."
+    },
+    {
+     "label": "Keterangan",
+     "objectType": "Grid Column",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_docdesc"
+     ],
+     "crud": "R",
+     "note": "Keterangan / deskripsi penuh dokumen. Boleh mengandungi teks panjang berbilang baris."
+    },
+    {
+     "label": "Kategori Dokumen",
+     "objectType": "Grid Column",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_ktegori"
+     ],
+     "crud": "R",
+     "note": "Penanda Status kategori. Contoh: badge 'Keperluan', 'Risiko', 'Teknikal'. Warna badge berbeza mengikut kategori."
+    },
+    {
+     "label": "Status",
+     "objectType": "Grid Column",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_statf"
+     ],
+     "crud": "R",
+     "note": "Penanda Status keaktifan rekod. Badge hijau = AKTIF (Y), badge merah = TIDAK AKTIF (T)."
+    },
+    {
+     "label": "Ikon Lihat",
+     "objectType": "Icon",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Ikon mata biru. Papar butiran penuh rekod kod dokumen dalam mod baca sahaja."
+    },
+    {
+     "label": "Ikon Jejak Audit",
+     "objectType": "Icon",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [
+      "entity_id"
+     ],
+     "crud": "R",
+     "note": "Ikon graf. Papar sejarah perubahan rekod kod dokumen dalam log audit."
+    },
+    {
+     "label": "Ikon Kemaskini",
+     "objectType": "Icon",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "U",
+     "note": "Ikon pensel. Buka borang kemaskini rekod kod dokumen."
+    },
+    {
+     "label": "Ikon Kunci / Buka Kunci",
+     "objectType": "Icon",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_statf"
+     ],
+     "crud": "U",
+     "note": "Ikon kunci merah = Nyahaktifkan (doc_statf=T). Ikon kunci hijau terbuka = Aktifkan (doc_statf=Y). Bertukar mengikut status semasa."
+    },
+    {
+     "label": "Maklumat Bilangan Rekod",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "COUNT(id)"
+     ],
+     "crud": "R",
+     "note": "Papar julat dan jumlah rekod. Contoh: '1-10 / 12'."
+    },
+    {
+     "label": "Navigasi Halaman",
+     "objectType": "Pagination",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Navigasi muka surat dengan nombor halaman dan butang anak panah. Contoh: 1, 2, »."
+    },
+    {
+     "label": "Sistem",
+     "objectType": "Link Navigation",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pautan kembali ke skrin utama Sistem."
+    },
+    {
+     "label": "Master Data",
+     "objectType": "Link Navigation",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pautan kembali ke skrin Master Data."
+    },
+    {
+     "label": "Jejak Audit",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Halaman semasa. Menunjukkan skrin Jejak Audit."
+    },
+    {
+     "label": "Tajuk: Jejak Audit",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tajuk halaman jejak audit."
+    },
+    {
+     "label": "Subtajuk Entiti",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Teks keterangan entiti yang disemak. Contoh: 'Sejarah perubahan untuk OSC KOD DOKUMEN'."
+    },
+    {
+     "label": "Butang Kembali",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke skrin sebelumnya (Senarai Kod Dokumen). Warna putih"
+    },
+    {
+     "label": "Tarikh & Masa",
+     "objectType": "Grid Column",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [
+      "created_at"
+     ],
+     "crud": "R",
+     "note": "Tarikh dan masa tindakan dilaksanakan. Format: DD/MM/YYYY HH:MM AM/PM. Contoh: 22/06/2026 03:01 AM."
+    },
+    {
+     "label": "Pengguna",
+     "objectType": "Grid Column",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [
+      "user_id"
+     ],
+     "crud": "R",
+     "note": "ID pengguna yang melaksanakan tindakan. Contoh: 990111145946."
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Grid Column",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [
+      "action"
+     ],
+     "crud": "R",
+     "note": "Jenis tindakan yang dilaksanakan. Badge warna berbeza: badge hijau = DICIPTA, badge oren = DIKEMASKINI, badge merah = DIPADAM."
+    },
+    {
+     "label": "Medan",
+     "objectType": "Grid Column",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [
+      "old_values",
+      "new_values"
+     ],
+     "crud": "R",
+     "note": "Nama medan yang terlibat dalam perubahan. Contoh: Kod PBT, Status, Catatan, Keterangan, Kod Dokumen, Kategori, Status Dokumen, Jenis Permohonan."
+    },
+    {
+     "label": "Data Asal",
+     "objectType": "Grid Column",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [
+      "old_values"
+     ],
+     "crud": "R",
+     "note": "Nilai medan sebelum perubahan. Papar ' — ' jika rekod baharu (DICIPTA) dan tiada nilai asal."
+    },
+    {
+     "label": "Data Baharu",
+     "objectType": "Grid Column",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [
+      "new_values"
+     ],
+     "crud": "R",
+     "note": "Nilai medan selepas perubahan. Contoh: KD_MBAS, Aktif, test, test tambah dokumen, D0002, K, M, B. Teks tebal."
+    }
+   ]
+  },
+  {
+   "title": "Skrin Bagi Jejak, Banding dan Muat Turun Mengikut Versi Dokumen",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pengurusan Dokumen",
+   "uiIds": [],
+   "dataMap": [
+    {
+     "label": "Permohonan",
+     "objectType": "Link Navigation",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pautan kembali ke skrin Senarai Permohonan."
+    },
+    {
+     "label": "Semakan Permohonan",
+     "objectType": "Label Statik",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nosiri"
+     ],
+     "crud": "—",
+     "note": "Halaman semasa. Menunjukkan skrin Semakan Permohonan."
+    },
+    {
+     "label": "Butang Kembali ke Senarai",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Ikon anak panah kiri. Kembali ke skrin Senarai Permohonan."
+    },
+    {
+     "label": "Permohonan",
+     "objectType": "Link Navigation",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pautan kembali ke skrin Senarai Permohonan."
+    },
+    {
+     "label": "Tab Maklumat Pemohon",
+     "objectType": "Tab",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Navigasi ke bahagian maklumat peribadi pemohon."
+    },
+    {
+     "label": "Tab Butiran Perniagaan",
+     "objectType": "Tab",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Navigasi ke bahagian maklumat butiran perniagaan."
+    },
+    {
+     "label": "Tab Lesen Dipohon",
+     "objectType": "Tab",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Navigasi ke bahagian maklumat lesen yang dipohon."
+    },
+    {
+     "label": "Tab Maklumat Iklan",
+     "objectType": "Tab",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Navigasi ke bahagian maklumat iklan perniagaan."
+    },
+    {
+     "label": "Tab Dokumen",
+     "objectType": "Tab",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Tab aktif semasa (baris bawah biru). Papar senarai dokumen yang dimuat naik oleh pemohon."
+    },
+    {
+     "label": "Tab Tindakan",
+     "objectType": "Tab",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Navigasi ke bahagian tindakan dan keputusan permohonan."
+    },
+    {
+     "label": "Ikon Dokumen",
+     "objectType": "Icon Panel",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Ikon dokumen kuning di bahagian atas panel."
+    },
+    {
+     "label": "Tajuk: Dokumen Dimuat Naik",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tajuk seksyen dokumen. Teks: 'Dokumen Dimuat Naik'."
+    },
+    {
+     "label": "Subtajuk Panel",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Teks: 'Dokumen dan gambar yang dimuat naik pemohon'."
+    },
+    {
+     "label": "Penanda Status Bilangan Dokumen",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "COUNT(id)"
+     ],
+     "crud": "R",
+     "note": "Badge oren. Papar jumlah dokumen yang dimuat naik. Contoh: '5 Dokumen'."
+    },
+    {
+     "label": "Ikon Jenis Fail",
+     "objectType": "Grid Column",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Ikon fail biru di sebelah kiri setiap baris. Menunjukkan rekod dokumen."
+    },
+    {
+     "label": "Nama Dokumen",
+     "objectType": "Grid Column",
+     "tables": [
+      "osc_kod_dokumen"
+     ],
+     "fields": [
+      "doc_docdesc"
+     ],
+     "crud": "R",
+     "note": "Nama jenis dokumen (baris 1, tebal). Contoh: SALINAN KAD PENGENALAN, GAMBAR UKURAN PASPORT."
+    },
+    {
+     "label": "Nama Fail",
+     "objectType": "Grid Column",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "original_filename"
+     ],
+     "crud": "R",
+     "note": "Nama fail yang dimuat naik (baris 2, kecil). Contoh: mdtm_2.png."
+    },
+    {
+     "label": "Butang Muat Turun",
+     "objectType": "Button",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "doc_dokumen"
+     ],
+     "crud": "R",
+     "note": "Butang muat turun fail dokumen. Ikon muat turun biru. Muat turun fail ke peranti pengguna."
+    },
+    {
+     "label": "Penanda Status Muat Naik",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "doc_dokumen"
+     ],
+     "crud": "R",
+     "note": "Badge hijau dengan tanda semak. Teks: 'Dimuat Naik'. Menunjukkan dokumen telah berjaya dimuat naik oleh pemohon."
+    },
+    {
+     "label": "Butang Kembali",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke tab / langkah sebelumnya. Warna putih (secondary)."
+    },
+    {
+     "label": "Butang Teruskan →",
+     "objectType": "Button",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nosiri"
+     ],
+     "crud": "R",
+     "note": "Teruskan ke tab seterusnya (Tindakan). Warna putih (secondary) dengan anak panah ke kanan."
+    }
+   ]
+  },
+  {
+   "title": "Skrin Konfigurasi Storan Berpusat dan Kawalan Akses",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pengurusan Dokumen",
+   "uiIds": [
+    "UI-PL-DK-KS-03"
+   ],
+   "dataMap": [
+    {
+     "label": "Ambang Amaran (%)",
+     "objectType": "Input Text",
+     "tables": [
+      "osc_storage_settings"
+     ],
+     "fields": [
+      "value"
+     ],
+     "crud": "U",
+     "note": "Nilai peratusan had amaran storan. Lalai: 80"
+    },
+    {
+     "label": "Ambang Kritikal (%)",
+     "objectType": "Input Text",
+     "tables": [
+      "osc_storage_settings"
+     ],
+     "fields": [
+      "value"
+     ],
+     "crud": "U",
+     "note": "Nilai peratusan had kritikal storan. Lalai: 90"
+    },
+    {
+     "label": "Senarai Emel Notifikasi Amaran",
+     "objectType": "Input Text",
+     "tables": [
+      "osc_storage_settings"
+     ],
+     "fields": [
+      "key"
+     ],
+     "crud": "U",
+     "note": "Emel penerima dipisahkan koma. Setiap emel mesti unik"
+    },
+    {
+     "label": "Set Masa Cronjob Semakan Saiz Storan",
+     "objectType": "Input Time",
+     "tables": [
+      "osc_storage_settings"
+     ],
+     "fields": [
+      "value"
+     ],
+     "crud": "U",
+     "note": "Format masa: HH:MM AM/PM. Zon waktu Asia/Kuala_Lumpur"
+    },
+    {
+     "label": "Status Penghantaran Emel Notifikasi",
+     "objectType": "Toggle Switch",
+     "tables": [
+      "osc_storage_settings"
+     ],
+     "fields": [
+      "value"
+     ],
+     "crud": "U",
+     "note": "1=Diaktifkan, 0=Dinyahaktifkan"
+    },
+    {
+     "label": "Butang Simpan Tetapan Storan",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "U",
+     "note": "Trigger simpan kesemua tetapan storan ke pangkalan data"
+    },
+    {
+     "label": "Tahap Penggunaan (%)",
+     "objectType": "Label / Progress Bar",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "used_percentage"
+     ],
+     "crud": "R",
+     "note": "Peratusan penggunaan storan semasa. Contoh: 27.30%"
+    },
+    {
+     "label": "Status Disk",
+     "objectType": "Badge",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "AKTIF / TIDAK AKTIF berdasarkan status semakan terkini"
+    },
+    {
+     "label": "Penanda Amaran (80%)",
+     "objectType": "Marker / Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "warning_threshold"
+     ],
+     "crud": "R",
+     "note": "Paparkan nilai ambang amaran pada bar penggunaan"
+    },
+    {
+     "label": "Penanda Kritikal (90%)",
+     "objectType": "Marker / Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "critical_threshold"
+     ],
+     "crud": "R",
+     "note": "Paparkan nilai ambang kritikal pada bar penggunaan"
+    },
+    {
+     "label": "Jumlah Kapasiti",
+     "objectType": "Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "total_bytes"
+     ],
+     "crud": "R",
+     "note": "Jumlah kapasiti disk. Contoh: 95.11 GB"
+    },
+    {
+     "label": "Storan Digunakan",
+     "objectType": "Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "used_bytes"
+     ],
+     "crud": "R",
+     "note": "Jumlah storan digunakan. Contoh: 25.96 GB"
+    },
+    {
+     "label": "Storan Baki",
+     "objectType": "Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "free_bytes"
+     ],
+     "crud": "R",
+     "note": "Jumlah storan baki. Contoh: 69.15 GB"
+    },
+    {
+     "label": "Laluan Storan",
+     "objectType": "Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "disk_name"
+     ],
+     "crud": "R",
+     "note": "Path storan pada pelayan. Contoh: /var/www/storage/app/private"
+    },
+    {
+     "label": "Hos",
+     "objectType": "Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "disk_name"
+     ],
+     "crud": "R",
+     "note": "Nama hos pelayan. Contoh: fe-admin-78768664b7-vt98x"
+    },
+    {
+     "label": "Alamat IP",
+     "objectType": "Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "disk_name"
+     ],
+     "crud": "R",
+     "note": "Alamat IP pelayan. Contoh: 10.244.0.37"
+    },
+    {
+     "label": "Tarikh & Masa Semakan",
+     "objectType": "Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "checked_at"
+     ],
+     "crud": "R",
+     "note": "Tarikh dan masa semakan storan dijalankan"
+    },
+    {
+     "label": "Jenis Semakan",
+     "objectType": "Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "run_type"
+     ],
+     "crud": "R",
+     "note": "scheduled (auto) / manual"
+    },
+    {
+     "label": "Kod Hasil",
+     "objectType": "Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "result_code"
+     ],
+     "crud": "R",
+     "note": "OK / WARNING / CRITICAL"
+    },
+    {
+     "label": "Alert Dihantar",
+     "objectType": "Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "alert_sent"
+     ],
+     "crud": "R",
+     "note": "0=Tidak, 1=Ya"
+    },
+    {
+     "label": "Tahap Alert",
+     "objectType": "Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "alert_level_sent"
+     ],
+     "crud": "R",
+     "note": "warning / critical"
+    },
+    {
+     "label": "Bilangan Penerima",
+     "objectType": "Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "recipient_count"
+     ],
+     "crud": "R",
+     "note": "Bilangan emel penerima yang berjaya dihantar"
+    },
+    {
+     "label": "Mesej Ralat",
+     "objectType": "Label",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "error_message"
+     ],
+     "crud": "R",
+     "note": "Mesej ralat jika semakan gagal. Kosong jika berjaya"
+    },
+    {
+     "label": "Tarikh & Masa Semakan",
+     "objectType": "Label / Column Grid",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "checked_at"
+     ],
+     "crud": "R",
+     "note": "Rekod 7 hari terkini bagi setiap semakan berjadual"
+    },
+    {
+     "label": "Jenis Semakan",
+     "objectType": "Label / Column Grid",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "run_type"
+     ],
+     "crud": "R",
+     "note": "scheduled / manual"
+    },
+    {
+     "label": "Status Semakan",
+     "objectType": "Badge / Column Grid",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "success / failed / warning"
+    },
+    {
+     "label": "Peratusan Penggunaan",
+     "objectType": "Label / Column Grid",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "used_percentage"
+     ],
+     "crud": "R",
+     "note": "Peratusan penggunaan storan pada masa semakan"
+    },
+    {
+     "label": "Kod Hasil",
+     "objectType": "Label / Column Grid",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "result_code"
+     ],
+     "crud": "R",
+     "note": "OK / WARNING / CRITICAL"
+    },
+    {
+     "label": "Alert Dihantar",
+     "objectType": "Label / Column Grid",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "alert_sent"
+     ],
+     "crud": "R",
+     "note": "0=Tidak, 1=Ya"
+    },
+    {
+     "label": "Bilangan Penerima",
+     "objectType": "Label / Column Grid",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [
+      "recipient_count"
+     ],
+     "crud": "R",
+     "note": "Bilangan penerima emel notifikasi"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Urus Kebenaran Akses Dokumen",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pengurusan Dokumen",
+   "uiIds": [
+    "UI-PL-DK-KS-03-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Penyelenggaraan",
+     "objectType": "Link Navigation",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pautan kembali ke skrin utama Penyelenggaraan."
+    },
+    {
+     "label": "Peranan & Kebenaran",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Halaman semasa. Menunjukkan skrin Senarai Peranan & Kebenaran."
+    },
+    {
+     "label": "Medan Carian",
+     "objectType": "Search Input",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "role_code",
+      "role_name"
+     ],
+     "crud": "R",
+     "note": "Carian berdasarkan kod peranan atau nama peranan. Ikon kanta di sebelah kanan. Placeholder: 'Carian kod peranan atau nama peranan'."
+    },
+    {
+     "label": "Penapis Status",
+     "objectType": "Dropdown",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "is_active"
+     ],
+     "crud": "R",
+     "note": "Penapis mengikut status peranan. Default: Semua status. Pilihan: Aktif (is_active=1) / Tidak Aktif (is_active=0)."
+    },
+    {
+     "label": "Butang Tambah Peranan Baharu",
+     "objectType": "Button",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "C",
+     "note": "Buka borang tambah peranan baharu. Warna merah (utama). Ikon dokumen. Hanya boleh mencipta peranan jenis Dicipta (is_system_role=0)."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Grid Column",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "role_name",
+      "role_code"
+     ],
+     "crud": "R",
+     "note": "Nama penuh peranan (baris 1, tebal) dan kod sistem peranan (baris 2, kecil). Contoh: Super Administrator / super_admin."
+    },
+    {
+     "label": "Hierarki",
+     "objectType": "Grid Column",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "hierarchy_level"
+     ],
+     "crud": "R",
+     "note": "Tahap hierarki peranan dalam sistem (1-11). Nilai lebih kecil = tahap lebih tinggi. Diindeks untuk carian pantas."
+    },
+    {
+     "label": "Jenis",
+     "objectType": "Grid Column",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "is_system_role"
+     ],
+     "crud": "R",
+     "note": "Penanda Status jenis peranan. Badge oren = Sistem (is_system_role=1), badge kelabu = Dicipta (is_system_role=0)."
+    },
+    {
+     "label": "Status",
+     "objectType": "Grid Column",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "is_active"
+     ],
+     "crud": "R",
+     "note": "Penanda Status keaktifan peranan. Badge hijau = AKTIF (is_active=1), badge merah = TIDAK AKTIF (is_active=0). Diindeks."
+    },
+    {
+     "label": "Ikon Lihat",
+     "objectType": "Icon Button",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Ikon mata biru. Papar butiran penuh rekod peranan dan senarai kebenaran modul. Tersedia untuk semua jenis peranan."
+    },
+    {
+     "label": "Ikon Kemaskini",
+     "objectType": "Icon Button",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "id",
+      "role_name",
+      "hierarchy_level",
+      "description",
+      "is_active"
+     ],
+     "crud": "U",
+     "note": "Ikon pensel. Buka borang kemaskini peranan. Hanya tersedia apabila is_system_role=0 (jenis Dicipta)."
+    },
+    {
+     "label": "Ikon Nyahaktif",
+     "objectType": "Icon Button",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "id",
+      "is_active"
+     ],
+     "crud": "U",
+     "note": "Ikon larangan merah. Nyahaktifkan (is_active=0) atau padam rekod peranan. Hanya tersedia apabila is_system_role=0 (jenis Dicipta)."
+    },
+    {
+     "label": "Penyelenggaraan",
+     "objectType": "Link Navigation",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pautan kembali ke skrin utama Penyelenggaraan."
+    },
+    {
+     "label": "Peranan & Kebenaran",
+     "objectType": "Link Navigation",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pautan kembali ke skrin Senarai Peranan & Kebenaran."
+    },
+    {
+     "label": "Tambah",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Halaman semasa. Menunjukkan mod tambah peranan baharu."
+    },
+    {
+     "label": "Tetapan Peranan",
+     "objectType": "Info Panel",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Panel panduan bertajuk 'TETAPAN PERANAN'. Teks: 'Tentukan identiti peranan dahulu. Pemetaan kebenaran dan penyimpanan sebenar akan menyusul dalam fasa seterusnya.'"
+    },
+    {
+     "label": "Tajuk: Tambah Peranan Baharu",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tajuk halaman borang tambah peranan."
+    },
+    {
+     "label": "Subtajuk Borang",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Teks italik: 'Sediakan definisi peranan baharu sebelum pemetaan kebenaran dilakukan pada langkah seterusnya.'"
+    },
+    {
+     "label": "Tajuk Seksyen: 1. Identiti Peranan",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tajuk bahagian pertama borang tambah peranan."
+    },
+    {
+     "label": "Kod Peranan *",
+     "objectType": "Text Input",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "role_code"
+     ],
+     "crud": "C",
+     "note": "Wajib diisi. Placeholder: 'contoh: licensing_reviewer'. Nota validasi: 'Gunakan huruf kecil dan garis bawah sahaja.' Format: snake_case. Kekunci unik — tidak boleh sama dengan peranan lain. Maksimum 50 aksara."
+    },
+    {
+     "label": "Nama Peranan *",
+     "objectType": "Text Input",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "role_name"
+     ],
+     "crud": "C",
+     "note": "Wajib diisi. Placeholder: 'Penyemak Pelesenan'. Nama penuh peranan yang boleh dibaca pengguna. Maksimum 100 aksara."
+    },
+    {
+     "label": "Tahap Hierarki *",
+     "objectType": "Number Input",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "hierarchy_level"
+     ],
+     "crud": "C",
+     "note": "Wajib diisi. Placeholder: '1 – 11'. Nilai integer antara 1 (tertinggi) hingga 11. Menentukan tahap kuasa peranan dalam sistem."
+    },
+    {
+     "label": "Keterangan",
+     "objectType": "Text Area",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "description"
+     ],
+     "crud": "C",
+     "note": "Tidak wajib. Placeholder: 'Terangkan tanggungjawab peranan ini.' Keterangan skop tugas dan kebenaran peranan. Boleh diubah saiz (resizable)."
+    },
+    {
+     "label": "Butang Batal",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke skrin Senarai Peranan & Kebenaran tanpa menyimpan data."
+    },
+    {
+     "label": "Butang Simpan Peranan",
+     "objectType": "Button",
+     "tables": [
+      "roles"
+     ],
+     "fields": [
+      "role_code",
+      "role_name",
+      "hierarchy_level",
+      "description",
+      "is_system_role",
+      "is_active"
+     ],
+     "crud": "C",
+     "note": "Simpan rekod peranan baharu. Warna biru (utama). Sahkan semua medan wajib dan format kod peranan sebelum simpan."
+    }
+   ]
+  }
+ ],
+ "businessRules": [
+  {
+   "group": "Pengurusan Dokumen",
+   "rules": [
+    {
+     "code": "Keperluan Dokumen Mengikut Jenis Lesen (KS-01)",
+     "text": "Setiap jenis lesen mesti mempunyai senarai dokumen wajib dan pilihan yang ditentukan oleh pentadbir. Setiap dokumen wajib mempunyai peraturan berikut: Jenis fail dibenarkan (PDF, JPEG, PNG) Saiz maksimum fail. Maksimum hanya 5 MB saja. Bilangan lampiran yang dibenarkan mengikut syarat. Jumlah had bilangan lampiran, jenis fail dan saiz fail yang dibenarkan bagi setiap modul atau transaksi serta melaksanakan validasi sebelum lampiran dimuat naik dan disimpan ke dalam sistem. Kebergantungan dokumen (contoh: Lesen Lama → hanya diperlukan untuk pembaharuan) Keperluan dokumen mesti dipetakan kepada satu atau lebih jenis lesen/permit. Perubahan keperluan dokumen mesti melalui aliran semakan 4-mata (four-eyes review) sebelum diaktifkan. Hanya konfigurasi yang telah lulus semakan boleh diaktifkan untuk kegunaan modul LS (Lesen Baru) dan BL (Pembaharuan). Setiap perubahan mesti direkodkan dengan effective date dan disimpan dalam audit log. Senarai keperluan mesti sentiasa lengkap, sah, dan tidak mempunyai konflik (format tidak sah, duplikasi, atau pemetaan hilang)."
+    },
+    {
+     "code": "Versi & Audit Konfigurasi Dokumen (KS-02)",
+     "text": "Sistem mesti memastikan setiap perubahan keperluan dokumen menghasilkan versi baharu (versioning). Sistem mesti mencipta snapshot sebelum perubahan, sebelum konfigurasi baharu disimpan. Proses salinan konfigurasi semasa yang disimpan sebelum sebarang perubahan dibuat bagi merekod sejarah perubahan, pemulihan data dan audit trail. Sistem mesti membenarkan paparan perbezaan antara dua versi (delta comparison). Pentadbir boleh rollback kepada versi terdahulu sekiranya konfigurasi baharu bermasalah. Audit trail mesti merekodkan butiran lengkap: Siapa membuat perubahan Apa yang berubah Bila ia berlaku Audit trail tidak boleh dipadam dan mesti disimpan untuk tempoh minimum yang ditetapkan oleh dasar PBT."
+    },
+    {
+     "code": "Storan Berpusat & Akses Dokumen (KS-03)",
+     "text": "Semua dokumen yang dimuat naik pengguna mesti disimpan dalam storan berpusat yang ditetapkan. Akses kepada dokumen mesti menggunakan RBAC (Role-Based Access Control). Peranan pengguna mesti menentukan kebenaran berikut: Lihat Muat naik Muat turun Luluskan / sahkan Padam (jika dibenarkan) Sistem mesti menetapkan polisi retensi dokumen (automatik atau manual) bergantung kepada dasar PBT. Dokumen yang melepasi tempoh retensi mesti dipadam atau diarkibkan mengikut keperluan. Tempoh bergantung kepada dasar PBT. Kesahihan fail mesti disahkan menggunakan checksum/hash (SHA-256) semasa: Muat naik (to generate hash) Muat turun / retrieve (to verify hash) Semua dokumen mesti disulitkan ketika disimpan (encryption at rest) dan ketika dipindahkan (encryption in transit). Lokasi storan boleh berada di: Pusat data PBT Cloud storage yang diluluskan Hybrid storage (bergantung kepada dasar)"
+    }
+   ]
+  }
+ ],
+ "sdsIssues": []
+}
