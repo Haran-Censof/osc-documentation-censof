@@ -1,0 +1,882 @@
+{
+ "module": {
+  "id": "dashboard-dan-pelaporan",
+  "name": "Dashboard dan Pelaporan",
+  "code": "DB",
+  "version": "1.2",
+  "iteration": 1,
+  "sourceFile": "OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v1.2 - printing version - Dashboard dan Pelaporan.docx"
+ },
+ "functions": [
+  {
+   "id": "SF-PL-DB-LO",
+   "name": "Laporan Operasi",
+   "actors": []
+  },
+  {
+   "id": "SF-PL-DB-LO-01",
+   "name": "Papar KPI & Statistik",
+   "actors": [
+    "Pegawai",
+    "Pengurusan"
+   ]
+  },
+  {
+   "id": "SF-PL-DB-LO-02",
+   "name": "Jana Laporan Pratakrif",
+   "actors": [
+    "Pegawai",
+    "Pengurusan"
+   ]
+  }
+ ],
+ "useCases": [
+  {
+   "id": "UC-PL-DB-LO-01",
+   "name": "Papar KPI & Statistik",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Pengguna PBT"
+   ],
+   "steps": [
+    "Pengguna buka Dashboard.",
+    "Sistem memaparkan KPI utama (ketaktulinan, masa proses, jumlah permohonan).",
+    "Sistem tarik data dari modul berkaitan secara realtime/near realtime.",
+    "Pengguna interaksi dengan paparan KPI."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tiada data.A2: Ralat capaian modul lain.A3: Kelewatan pemuatan data."
+    }
+   ],
+   "input": "Dimensi paparan",
+   "output": "KPI Dashboard",
+   "uiRefs": [],
+   "integration": "Modul 1–8",
+   "notes": "Refresh automatik",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-DB-LO-01-01",
+   "name": "Pilih Tempoh & Dimensi",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna pilih tempoh paparan (harian, mingguan, bulanan).",
+    "Sistem kemas kini paparan statistik."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tempoh tidak sah."
+    }
+   ],
+   "input": "Tempoh, dimensi",
+   "output": "Data ditapis",
+   "uiRefs": [],
+   "integration": "–",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-DB-LO-01"
+  },
+  {
+   "id": "UC-PL-DB-LO-01-02",
+   "name": "Penapis & Carian Lanjutan",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna gunakan penapis (status, kawasan, modul).",
+    "Sistem papar hasil penapisan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Carian terlalu luas."
+    }
+   ],
+   "input": "Parameter carian",
+   "output": "Statistik ditapis",
+   "uiRefs": [],
+   "integration": "–",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-DB-LO-01"
+  },
+  {
+   "id": "UC-PL-DB-LO-01-03",
+   "name": "Drill-down / Drill-through",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna klik KPI.",
+    "Sistem paparkan perincian ke senarai kes/permohonan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tiada data terperinci."
+    }
+   ],
+   "input": "KPI",
+   "output": "Data drill-down",
+   "uiRefs": [],
+   "integration": "Modul berkaitan",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-DB-LO-01"
+  },
+  {
+   "id": "UC-PL-DB-LO-01-04",
+   "name": "Simpan Paparan Kegemaran",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna klik “Simpan Paparan”.",
+    "Sistem rekod konfigurasi (tempoh, penapis, layout)."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Gagal simpan."
+    }
+   ],
+   "input": "Tetapan UI",
+   "output": "Paparan disimpan",
+   "uiRefs": [],
+   "integration": "–",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-DB-LO-01"
+  },
+  {
+   "id": "UC-PL-DB-LO-02",
+   "name": "Jana Laporan Pratakrif",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna pilih laporan standard.",
+    "Sistem paparkan opsyen laporan (PDF/Excel).",
+    "Sistem panggil LO-02-01 hingga 02-05."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Template tidak dijumpai."
+    }
+   ],
+   "input": "Parameter",
+   "output": "Laporan dijana",
+   "uiRefs": [],
+   "integration": "Modul 1–8",
+   "notes": "–",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-DB-LO-02-01",
+   "name": "Pilih Templat Laporan",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna pilih template (cth: volum permohonan, masa proses PBT)."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Template rosak."
+    }
+   ],
+   "input": "Template",
+   "output": "Template dipilih",
+   "uiRefs": [],
+   "integration": "–",
+   "notes": "Template boleh dikonfigurasi",
+   "calls": [],
+   "parentId": "UC-PL-DB-LO-02"
+  },
+  {
+   "id": "UC-PL-DB-LO-02-02",
+   "name": "Tetap Parameter Laporan",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna pilih tempoh, modul, PBT, status.",
+    "Sistem sahkan parameter."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Parameter tidak sah."
+    }
+   ],
+   "input": "Parameter",
+   "output": "Parameter disahkan",
+   "uiRefs": [],
+   "integration": "–",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-DB-LO-02"
+  },
+  {
+   "id": "UC-PL-DB-LO-02-03",
+   "name": "Jana & Muat Turun",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Sistem",
+    "Pengguna"
+   ],
+   "steps": [
+    "Sistem hasilkan laporan PDF/Excel.",
+    "Pengguna muat turun laporan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Gagal jana.A2: Saiz fail besar."
+    }
+   ],
+   "input": "Parameter",
+   "output": "Laporan",
+   "uiRefs": [],
+   "integration": "Repositori Dokumen",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-DB-LO-02"
+  },
+  {
+   "id": "UC-PL-DB-LO-02-04",
+   "name": "Jadualkan Penghantaran",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Pengguna",
+    "Sistem"
+   ],
+   "steps": [
+    "Pengguna tetapkan jadual penghantaran automatik (harian/mingguan/bulanan).",
+    "Sistem hantar ikut jadual."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "E-mel gagal.A2: Jadual bertembung."
+    }
+   ],
+   "input": "Jadual",
+   "output": "Laporan dihantar",
+   "uiRefs": [],
+   "integration": "Modul 12",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-DB-LO-02"
+  },
+  {
+   "id": "UC-PL-DB-LO-02-05",
+   "name": "Agih Laporan",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Sistem benarkan pengguna kongsikan berdasarkan peranan.",
+    "Laporan dihantar kepada penerima."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Akses tidak dibenarkan."
+    }
+   ],
+   "input": "Laporan",
+   "output": "Laporan diagih",
+   "uiRefs": [],
+   "integration": "Modul 11",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-DB-LO-02"
+  },
+  {
+   "id": "UC-PL-DB-LO-03",
+   "name": "Akses & Kebenaran Laporan",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem semak peranan pengguna.",
+    "Sistem sekat/benarkan akses laporan tertentu."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Akses tidak sah."
+    }
+   ],
+   "input": "ID pengguna",
+   "output": "Hak akses",
+   "uiRefs": [],
+   "integration": "Modul 11",
+   "notes": "Kawalan akses kritikal",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-DB-LO-03-01",
+   "name": "Tetapan Peranan & Skop",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Admin"
+   ],
+   "steps": [
+    "Admin tetapkan skop laporan setiap peranan.",
+    "Sistem simpan konfigurasi."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Peranan tidak sah."
+    }
+   ],
+   "input": "Peranan",
+   "output": "Skop akses",
+   "uiRefs": [],
+   "integration": "Modul 11",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-DB-LO-03"
+  },
+  {
+   "id": "UC-PL-DB-LO-03-02",
+   "name": "Audit Akses Laporan",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Admin",
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem log setiap capaian laporan.",
+    "Admin semak audit trail."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Log tidak lengkap."
+    }
+   ],
+   "input": "Capaian laporan",
+   "output": "Audit log",
+   "uiRefs": [],
+   "integration": "–",
+   "notes": "Audit wajib",
+   "calls": [],
+   "parentId": "UC-PL-DB-LO-03"
+  },
+  {
+   "id": "UC-PL-DB-LO-04",
+   "name": "Penggera KPI (Threshold Alert)",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem pantau nilai KPI secara berkala.",
+    "Jika melepasi ambang → amaran dijana."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tiada data KPI."
+    }
+   ],
+   "input": "Data KPI",
+   "output": "Amaran KPI",
+   "uiRefs": [],
+   "integration": "Modul 12",
+   "notes": "–",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-DB-LO-04-01",
+   "name": "Tetap Ambang KPI",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Admin"
+   ],
+   "steps": [
+    "Admin tetapkan nilai ambang KPI.",
+    "Sistem simpan ambang untuk pemantauan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Nilai ambang tidak sah."
+    }
+   ],
+   "input": "Ambang KPI",
+   "output": "Ambang disimpan",
+   "uiRefs": [],
+   "integration": "–",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-DB-LO-04"
+  },
+  {
+   "id": "UC-PL-DB-LO-04-02",
+   "name": "Notifikasi Penggera",
+   "group": "Dashboard & Pelaporan",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem hantar notifikasi apabila KPI melebihi ambang.",
+    "Sistem log penghantaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Notifikasi gagal dihantar."
+    }
+   ],
+   "input": "KPI",
+   "output": "Notifikasi",
+   "uiRefs": [],
+   "integration": "Modul 12",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-DB-LO-04"
+  }
+ ],
+ "screens": [
+  {
+   "title": "Skrin Dashboard Pemohon",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Dashboard dan Pelaporan",
+   "uiIds": [],
+   "dataMap": [
+    {
+     "label": "Bilangan Permohonan",
+     "objectType": "",
+     "tables": [
+      "permohonan"
+     ],
+     "fields": [
+      "COUNT(*) WHERE id_pemohon"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Status Permohonan",
+     "objectType": "",
+     "tables": [
+      "permohonan"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "Pie / Donut chart"
+    },
+    {
+     "label": "Permohonan Terkini",
+     "objectType": "",
+     "tables": [
+      "permohonan"
+     ],
+     "fields": [
+      "no_permohonan, tarikh"
+     ],
+     "crud": "R",
+     "note": "List"
+    },
+    {
+     "label": "Pembaharuan Lesen",
+     "objectType": "",
+     "tables": [
+      "lesen_dikeluarkan"
+     ],
+     "fields": [
+      "tarikh_luput"
+     ],
+     "crud": "R",
+     "note": "Notifikasi 30 hari"
+    },
+    {
+     "label": "Jumlah Bayaran",
+     "objectType": "",
+     "tables": [
+      "bayaran"
+     ],
+     "fields": [
+      "SUM(jumlah)"
+     ],
+     "crud": "R",
+     "note": "Tahun semasa"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Dashboard Pegawai Pelesenan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Dashboard dan Pelaporan",
+   "uiIds": [],
+   "dataMap": [
+    {
+     "label": "Permohonan Baharu",
+     "objectType": "",
+     "tables": [
+      "permohonan"
+     ],
+     "fields": [
+      "status=\"Baharu\""
+     ],
+     "crud": "R",
+     "note": "Card"
+    },
+    {
+     "label": "Dalam Semakan",
+     "objectType": "",
+     "tables": [
+      "semakan_teknikal"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Untuk Mesyuarat",
+     "objectType": "",
+     "tables": [
+      "mesyuarat_permohonan"
+     ],
+     "fields": [
+      "no_permohonan"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Lesen Tamat Tempoh",
+     "objectType": "",
+     "tables": [
+      "lesen_dikeluarkan"
+     ],
+     "fields": [
+      "tarikh_luput"
+     ],
+     "crud": "R",
+     "note": "< 30 hari"
+    },
+    {
+     "label": "Carta Trend Permohonan",
+     "objectType": "",
+     "tables": [
+      "permohonan"
+     ],
+     "fields": [
+      "tarikh_hantar"
+     ],
+     "crud": "R",
+     "note": "Line chart"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Dashboard Penguatkuasaan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Dashboard dan Pelaporan",
+   "uiIds": [],
+   "dataMap": [
+    {
+     "label": "Bilangan Pemeriksaan",
+     "objectType": "",
+     "tables": [
+      "rekod_pemeriksaan"
+     ],
+     "fields": [
+      "Kiraan bulanan"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Pemeriksaan Berisiko",
+     "objectType": "",
+     "tables": [
+      "rekod_pemeriksaan"
+     ],
+     "fields": [
+      "status=\"Berisiko\""
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Kompaun Dikeluarkan",
+     "objectType": "",
+     "tables": [
+      "kompaun"
+     ],
+     "fields": [
+      "jumlah"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Status Kompaun",
+     "objectType": "",
+     "tables": [
+      "kompaun_bayaran"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Peta Lokasi Panas",
+     "objectType": "",
+     "tables": [
+      "rekod_pemeriksaan"
+     ],
+     "fields": [
+      "geo_location"
+     ],
+     "crud": "R",
+     "note": "–"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Dashboard Aduan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Dashboard dan Pelaporan",
+   "uiIds": [],
+   "dataMap": [
+    {
+     "label": "Aduan Baru",
+     "objectType": "",
+     "tables": [
+      "aduan"
+     ],
+     "fields": [
+      "status=\"Baharu\""
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Aduan Dibuka",
+     "objectType": "",
+     "tables": [
+      "aduan"
+     ],
+     "fields": [
+      "status=\"Dalam Proses\""
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Aduan Selesai",
+     "objectType": "",
+     "tables": [
+      "aduan"
+     ],
+     "fields": [
+      "status=\"Selesai\""
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "SLA Aduan",
+     "objectType": "",
+     "tables": [
+      "aduan"
+     ],
+     "fields": [
+      "Beza tarikh selesai vs hantar"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Carta Aduan Mengikut Kategori",
+     "objectType": "",
+     "tables": [
+      "aduan"
+     ],
+     "fields": [
+      "kategori"
+     ],
+     "crud": "R",
+     "note": "–"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Dasboard Kewangan (Fi Proses & Kompaun)",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Dashboard dan Pelaporan",
+   "uiIds": [],
+   "dataMap": [
+    {
+     "label": "Jumlah Bayaran Bulanan",
+     "objectType": "",
+     "tables": [
+      "bayaran"
+     ],
+     "fields": [
+      "SUM(jumlah)"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Jumlah Kompaun",
+     "objectType": "",
+     "tables": [
+      "kompaun_bayaran"
+     ],
+     "fields": [
+      "SUM(jumlah)"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Status Pembayaran",
+     "objectType": "",
+     "tables": [
+      "bayaran"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "Pie"
+    },
+    {
+     "label": "Trend Kewangan",
+     "objectType": "",
+     "tables": [
+      "bayaran"
+     ],
+     "fields": [
+      "tarikh"
+     ],
+     "crud": "R",
+     "note": "Line chart"
+    },
+    {
+     "label": "Laporan Harian",
+     "objectType": "",
+     "tables": [
+      "bayaran"
+     ],
+     "fields": [
+      "tarikh"
+     ],
+     "crud": "R",
+     "note": "Table"
+    }
+   ]
+  },
+  {
+   "title": "Senarai Pelaporan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Dashboard dan Pelaporan",
+   "uiIds": [],
+   "dataMap": []
+  }
+ ],
+ "businessRules": [
+  {
+   "group": "Dashboard & Pelaporan",
+   "rules": [
+    {
+     "code": null,
+     "text": "Dashboard mesti memaparkan KPI rasmi yang disahkan oleh PBT, termasuk volum permohonan, masa proses, tahap kelulusan, bilangan aduan, dan ketakpatuhan."
+    },
+    {
+     "code": null,
+     "text": "Semua KPI mesti menggunakan data terkini daripada modul berkaitan (Modul 1–8)."
+    },
+    {
+     "code": null,
+     "text": "Pengguna mesti boleh memilih tempoh masa (harian, mingguan, bulanan, tahunan) untuk memaparkan statistik."
+    },
+    {
+     "code": null,
+     "text": "Semua penapisan statistik (status, kawasan, kategori, pegawai) mesti menghasilkan paparan yang konsisten dan sah."
+    },
+    {
+     "code": null,
+     "text": "Fungsi drill-down/drill-through hanya boleh memaparkan data yang pengguna diberi kebenaran untuk melihat."
+    },
+    {
+     "code": null,
+     "text": "Konfigurasi paparan kegemaran (favorite Dashboards) mesti disimpan bagi setiap pengguna secara individu."
+    },
+    {
+     "code": null,
+     "text": "Laporan pratakrif mesti menggunakan template rasmi yang ditetapkan oleh pentadbir sistem."
+    },
+    {
+     "code": null,
+     "text": "Pengguna hanya boleh menjana laporan yang termasuk dalam skop peranan mereka."
+    },
+    {
+     "code": null,
+     "text": "Semua laporan mesti dijana menggunakan parameter sah (tarikh, kategori, status, PBT)."
+    },
+    {
+     "code": null,
+     "text": "Penjadualan penghantaran laporan (harian / mingguan / bulanan) mesti dilakukan mengikut jadual yang ditetapkan tanpa konflik masa."
+    },
+    {
+     "code": null,
+     "text": "Laporan yang dihantar melalui e-mel wajib disulitkan atau dilindungi kata laluan jika mengandungi maklumat sensitif."
+    },
+    {
+     "code": null,
+     "text": "Akses laporan tertakluk kepada kawalan peranan dan skop modul (role-scope-based access control)."
+    },
+    {
+     "code": null,
+     "text": "Semua akses laporan penting mesti direkodkan dalam audit trail."
+    },
+    {
+     "code": null,
+     "text": "Semua penggera KPI (threshold alert) hanya boleh dicetuskan berdasarkan ambang KPI yang telah ditetapkan oleh admin."
+    },
+    {
+     "code": null,
+     "text": "Sistem mesti menghantar notifikasi apabila ambang KPI melebihi atau jatuh di bawah paras yang ditentukan."
+    },
+    {
+     "code": null,
+     "text": "Paparan Dashboard mesti mematuhi standard UI dan UX PBT termasuk visualisasi yang jelas, padat, dan mesra pengguna."
+    }
+   ]
+  }
+ ],
+ "sdsIssues": [
+  "Use-case table under 'Dashboard & Pelaporan' has placeholder UI references (UI-XXXXX)"
+ ]
+}

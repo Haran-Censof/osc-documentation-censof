@@ -1,0 +1,6037 @@
+{
+ "module": {
+  "id": "notifikasi",
+  "name": "Notifikasi",
+  "code": "NT",
+  "version": "2.0",
+  "iteration": 2,
+  "sourceFile": "OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v2.0 - Notifikasi_Idham.docx"
+ },
+ "functions": [
+  {
+   "id": "SF-PL-NT-PS",
+   "name": "Pemberitahuan Sistem",
+   "actors": []
+  },
+  {
+   "id": "SF-PL-NT-PS-01",
+   "name": "Hantar Notifikasi Status Proses",
+   "actors": [
+    "Pentadbir Sistem PBT",
+    "PPKT 1",
+    "PPKT2",
+    "Ketua Jabatan BTD."
+   ]
+  },
+  {
+   "id": "SF-PL-NT-PS-02",
+   "name": "Hantar Notifikasi Keputusan (Lulus/Gagal)",
+   "actors": [
+    "Pelanggan"
+   ]
+  },
+  {
+   "id": "SF-PL-NT-PS-03",
+   "name": "Peringatan Pembaharuan",
+   "actors": [
+    "Pelanggan"
+   ]
+  },
+  {
+   "id": "SF-PL-NT-PS-04",
+   "name": "Pengurusan Templat Mesej",
+   "actors": [
+    "Pentadbir Sistem"
+   ]
+  },
+  {
+   "id": "SF-PL-NT-PS-05",
+   "name": "Konfigurasi Saluran dan Gateway",
+   "actors": [
+    "Pentadbir Sistem"
+   ]
+  },
+  {
+   "id": "SF-PL-NT-PS-06",
+   "name": "Audit dan Laporan Notifikasi",
+   "actors": [
+    "Pentadbir Sistem"
+   ]
+  },
+  {
+   "id": "SF-PL-NT-PS-07",
+   "name": "Pemprosesan Balikan (Bounce/Reply)",
+   "actors": [
+    "Pentadbir Sistem"
+   ]
+  }
+ ],
+ "useCases": [
+  {
+   "id": "UC-PL-NT-PS-01",
+   "name": "Hantar Notifikasi Status Proses",
+   "group": "Notifikasi",
+   "actors": [
+    "Pentadbir Sistem PBT",
+    "PPKT 1",
+    "PPKT2",
+    "Ketua Jabatan BTD."
+   ],
+   "steps": [
+    "Sistem mengesan peristiwa proses (serahan permohonan/pembaharuan).",
+    "Sistem memilih templat mesej mengikut saluran notifikasi yang ditetapkan.",
+    "Sistem mengisi data dinamik ke dalam templat mesej.",
+    "Sistem menghantar notifikasi melalui saluran yang telah ditetapkan",
+    "Sistem merekodkan status penghantaran notifikasi ke dalam log.",
+    "Sistem memaparkan senarai pemberitahuan kepada pengguna pada skrin Pemberitahuan",
+    "Pengguna boleh memasukkan kata kunci pada medan Carian dan memilih Kategori untuk menapis senarai pemberitahuan.",
+    "Pengguna menekan butang Cari dan sistem memaparkan senarai pemberitahuan yang sepadan dengan kriteria carian."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Saluran utama gagal – sistem guna saluran alternatif (fallback)."
+    },
+    {
+     "id": "A2",
+     "text": "Data dinamik tidak tersedia – sistem guna teks default."
+    },
+    {
+     "id": "A3",
+     "text": "Notifikasi tidak kritikal tiada SLA dan notifikasi amaran."
+    }
+   ],
+   "input": "Jenis event, data permohonan (nama, no. rujukan, status, tarikh), saluran pilihan pengguna, templat mesej",
+   "output": "Notifikasi dihantar (emel/SMS/in-app), log penghantaran direkod, status notifikasi dikemaskini.",
+   "uiRefs": [
+    "UI-PL-NT-PS-01"
+   ],
+   "integration": "SMTP Server, SMS Gateway, Push Notification Service, Modul Permohonan Lesen",
+   "notes": "Notifikasi kritikal/ amaran dihantar serta-merta mengikut SLA yang ditetapkan. Kandungan disesuaikan mengikut saluran dan jenis. Semua penghantaran direkod untuk audit",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-NT-PS-01-01",
+   "name": "Tentukan Pencetus (Event Trigger)",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem mengesan event yang berlaku dalam modul berkaitan.",
+    "Sistem rujuk senarai event trigger yang ditetapkan.",
+    "Sistem tentukan sama ada event wajib atau pilihan.",
+    "Event wajib – notifikasi dicetuskan serta-merta.",
+    "Event pilihan – semak tetapan PBT dan preferensi pengguna.",
+    "Sistem rekod event bersama tarikh, masa, jenis, saluran, dan penerima."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Event tidak dalam senarai – tiada notifikasi dicetuskan."
+    },
+    {
+     "id": "A2",
+     "text": "Event pilihan dimatikan oleh PBT – notifikasi tidak dihantar."
+    },
+    {
+     "id": "A3",
+     "text": "Preferensi pengguna menghalang – notifikasi ditangguhkan."
+    }
+   ],
+   "input": "Senarai event trigger, tetapan PBT, preferensi pengguna, jenis event (wajib/pilihan)",
+   "output": "Event dikenal pasti, keputusan pencetuskan notifikasi, log event direkod",
+   "uiRefs": [],
+   "integration": "Modul Permohonan, Modul Aduan dan Pertanyaan, Modul Pembaharuan Lesen.",
+   "notes": "<<include>> oleh PS-01. Event wajib: kelulusan lesen, penolakan aduan, tiket melepasi tarikh. Event pilihan: peringatan tidak kritikal, kemaskini minor. Event Trigger adalah proses backend. Ia berlaku apabila sistem kesan apa yang berlaku dalam modul seperti auth.login untuk log masuk, application.submitted bagi penghantaran permohonan, dan application.approved bagi permohonan diluluskan. Senarai lengkap adalah seperti di bawah: 1. application.submitted 2. application.payment_initiated 3. application.payment_success 4. application.approved 5. application.rejected 6. application.review_escalated 7. application.review_updated 8. license.issued 9. license.expired 10. license.renewal_escalated 11. account.registered 12. account.password_reset 13. account.password_expired 14. account.closure_requested 15. auth.login 16. auth.login_failed 17. system.smtp_test 18. system.kpi_threshold_breached 19. complaint.submitted 20. complaint.status_updated",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-01"
+  },
+  {
+   "id": "UC-PL-NT-PS-01-02",
+   "name": "Bina Payload Mesej",
+   "group": "Notifikasi",
+   "actors": [
+    "Pentadbir Sistem"
+   ],
+   "steps": [
+    "Pengguna memasukkan Kod Templat.",
+    "Pengguna memasukkan Nama Templat",
+    "Pengguna memasukkan Subjek E-mel.",
+    "Pengguna memasukkan Kandungan E-mel.",
+    "Pengguna memasukkan Penerangan templat, jika diperlukan",
+    "Pengguna menambah Pemegang Tempat Tersedia bagi data dinamik yang akan digunakan dalam kandungan atau subjek e-mel.",
+    "Pengguna menetapkan status Templat Aktif jika templat tersebut hendak diaktifkan.",
+    "Pengguna menekan butang Simpan Templat",
+    "Sistem mengesahkan maklumat templat dan menyimpan templat e-mel.",
+    "Sistem memaparkan mesej bahawa templat e-mel telah berjaya disimpan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Jika nilai placeholder tiada sistem akan memaparkan teks default (Ralat! Subjek wajib diisi)."
+    },
+    {
+     "id": "A2",
+     "text": "Templat tidak tersedia – sistem guna templat default."
+    },
+    {
+     "id": "A3",
+     "text": "Data tidak lengkap – notifikasi ditangguhkan untuk semakan."
+    }
+   ],
+   "input": "Templat mesej, data dinamik (nama_pemohon, status, tarikh, pautan), saluran, jenis notifikasi",
+   "output": "Payload mesej lengkap mengikut saluran (Emel/SMS/In-app), log payload direkod",
+   "uiRefs": [
+    "UI-PL-NT-PS-01-02"
+   ],
+   "integration": "Pangkalan Data, Modul Permohonan Lesen, Modul Aduan dan Pertanyaan",
+   "notes": "<<include>> oleh PS-01. Contoh: Emel: {nama_pemohon}, status tiket: {status}. SMS: Tiket {status} – tindakan sebelum {tarikh}. Emel pengirim: noreply@pbt.gov.my. Salinan disimpan di pelayan.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-01"
+  },
+  {
+   "id": "UC-PL-NT-PS-01-03",
+   "name": "Pilih Saluran (Emel/SMS/)",
+   "group": "Notifikasi",
+   "actors": [
+    "Pentadbir Sistem",
+    "Admin PBT",
+    "Admin JKT"
+   ],
+   "steps": [
+    "Pilih saluran preferensi notifikasi seperti (Email/SMS/In-App).",
+    "Pilihan dibuat dengan tik pada salah satu pilihan daripada 4 pilihan.",
+    "Empat pilihan termasuk Status Nyahaktifkan Semua, saluran Email sahaja, saluran SMS sahaja, dan saluran email & SMS.",
+    "Sistem format mesej mengikut saluran terpilih.",
+    "Sistem proses penghantaran melalui mail server/gateway.",
+    "Jika gagal, sistem guna mekanisme retry dan fallback."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Jika mana-mana medan wajib seperti Kod Templat, Nama Templat, Subjek E-mel atau Kandungan E-mel tidak lengkap, sistem memaparkan mesej ralat dan tidak menyimpan templat."
+    },
+    {
+     "id": "A2",
+     "text": "Jika Kod Templat telah digunakan, sistem memaparkan mesej bahawa kod templat telah wujud dan pengguna perlu memasukkan kod yang lain."
+    },
+    {
+     "id": "A3",
+     "text": "Jika format Kod Templat tidak mematuhi format yang ditetapkan, sistem memaparkan mesej ralat dan meminta pengguna membetulkan kod templat."
+    },
+    {
+     "id": "A4",
+     "text": "Jika placeholder yang digunakan dalam kandungan e-mel tidak sepadan dengan Pemegang Tempat Tersedia, sistem memaparkan mesej ralat dan tidak menyimpan templat."
+    },
+    {
+     "id": "A5",
+     "text": "Jika hanya satu templat aktif dibenarkan bagi setiap kod dan templat tersebut telah mempunyai templat aktif, sistem memaklumkan pengguna sebelum mengaktifkan templat baharu."
+    },
+    {
+     "id": "A6",
+     "text": "Jika berlaku kegagalan semasa proses penyimpanan, sistem memaparkan mesej ralat dan tidak menyimpan perubahan."
+    }
+   ],
+   "input": "Preferensi pengguna, dasar PBT, senarai saluran tersedia, status gateway",
+   "output": "Saluran dipilih, mesej diformat mengikut saluran, status penghantaran",
+   "uiRefs": [
+    "UI-PL-NT-PS-01-03"
+   ],
+   "integration": "SMTP Server, SMS Gateway API, Push Notification Service",
+   "notes": "<<include>> oleh PS-01. Emel diproses mengikut keutamaan. Mekanisme retry jika gagal. Fallback ke saluran alternatif.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-01"
+  },
+  {
+   "id": "UC-PL-NT-PS-01-04",
+   "name": "Hantar dan Jejak Penyampaian",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem memasukkan notifikasi ke dalam queue dengan status Queued. Sistem menghantar notifikasi melalui gateway/saluran yang ditetapkan dan mengemas kini status kepada Sent. Sistem menerima callback/webhook daripada gateway bagi mendapatkan status penghantaran. Sistem mengemas kini status penghantaran kepada Delivered atau Failed. Bagi notifikasi in-app, sistem menetapkan status Delivered apabila notifikasi dipaparkan kepada penerima. Sistem merekodkan perubahan status penghantaran dalam Log E-mel. Sistem memaparkan senarai log dengan maklumat Tarikh, Penerima, Subjek, Kategori, Status dan Ralat. Pengguna boleh memasukkan kata kunci pada medan Carian serta memilih Status dan Kategori sebagai kriteria carian. Pengguna menekan butang Cari dan sistem memaparkan rekod log berdasarkan kriteria yang dipilih. Pengguna boleh mengeksport rekod log menggunakan format Excel, CSV atau PDF."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Notifikasi dalam queue melebihi 24 jam – status tukar ke Expired."
+    },
+    {
+     "id": "A2",
+     "text": "Callback tidak diterima – sistem semak secara berkala."
+    },
+    {
+     "id": "A3",
+     "text": "Status Failed – trigger retry mechanism."
+    }
+   ],
+   "input": "Payload mesej, ID notifikasi, saluran, alamat penerima",
+   "output": "Status penghantaran (Queued/Sent/Delivered/Failed/Expired), log jejak lengkap",
+   "uiRefs": [
+    "UI-PL-NT-PS-01-04"
+   ],
+   "integration": "Gateway Emel/SMS, Webhook Endpoint, Sistem Queue",
+   "notes": "<<include>> oleh PS-01. Aliran: Queued > Sent > Delivered/Failed. Tempoh maks queue: 24 jam. Retention log: 7 tahun. (seperti yang ditetapkan di Parameter Am)",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-01"
+  },
+  {
+   "id": "UC-PL-NT-PS-01-05",
+   "name": "Fallback/Retry/Throttle",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem kesan penghantaran gagal.",
+    "Sistem semak bilangan retry (maksimum 3 kali).",
+    "Sistem laksana retry dengan sela masa berperingkat (1 min, 5 min, 15 min).",
+    "Jika masih gagal – sistem guna saluran alternatif (fallback).",
+    "Sistem pantau kadar penghantaran (throttle).",
+    "Semua percubaan direkod dalam log."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Melebihi 3 retry – notifikasi ditandakan gagal kekal."
+    },
+    {
+     "id": "A2",
+     "text": "Saluran alternatif juga gagal – eskalasi ke pegawai."
+    },
+    {
+     "id": "A3",
+     "text": "Throttle limit dicapai – notifikasi ditangguhkan ke batch seterusnya."
+    }
+   ],
+   "input": "Status penghantaran gagal, bilangan retry, konfigurasi throttle, senarai saluran alternatif",
+   "output": "Status retry (berjaya/gagal), log percubaan, status fallback, amaran throttle",
+   "uiRefs": [],
+   "integration": "Gateway Utama, Gateway Alternatif, Sistem Queue, Modul Pemantauan dan Penguatkuasaan",
+   "notes": "<<include>> PS-01. Retry: maks 3x, exponential backoff. Fallback: saluran alternatif. Throttle: kawalan kadar untuk elak overload. Use case ini berlaku secara server-side (backend)",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-01"
+  },
+  {
+   "id": "UC-PL-NT-PS-02",
+   "name": "Hantar Notifikasi Keputusan (Lulus/Gagal)",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "PPKT 1",
+    "PPKT2",
+    "PPSU",
+    "Pemohon"
+   ],
+   "steps": [
+    "Sistem terima keputusan yang disahkan (lulus/tolak)",
+    "Sistem tentukan jenis keputusan.",
+    "Sistem jana mesej keputusan dengan syarat/sebab.",
+    "Sistem hantar notifikasi kepada pemohon. 6. Sistem hantar notifikasi dalaman kepada pegawai berkaitan"
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Keputusan lulus – hantar arahan pembayaran."
+    }
+   ],
+   "input": "Keputusan permohonan, syarat kelulusan, sebab penolakan.",
+   "output": "Notifikasi keputusan dihantar dan notifikasi dalaman",
+   "uiRefs": [
+    "UI-PL-NT-PS-02"
+   ],
+   "integration": "Modul Permohonan, Modul Bayaran dan Pengeluaran Lesen, SMTP, Modul Pengurusan Dokumen",
+   "notes": "Notifikasi merangkumi status, tindakan susulan. Lulus: tempoh bayaran 30 hari. Tolak: Mohon semula. Notifikasi hanya menghantar keputusan LULUS ATAU GAGAL sahaja. Tiada keputusan penangguhan.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-NT-PS-02-01",
+   "name": "Hantar Notifikasi Keputusan (Lulus)",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "PPKT 1",
+    "PPKT2",
+    "PPSU",
+    "Pemohon"
+   ],
+   "steps": [
+    "Sistem sahkan keputusan lulus.",
+    "Sistem jana mesej kelulusan dengan arahan pembayaran. Contoh, ”Permohonan anda telah berjaya dihantar dan pembayaran telah diterima.”",
+    "Sistem sertakan dokumen sokongan. Arahan pembayaran dalam format PDF.",
+    "Sistem tetapkan tempoh bayaran (30 hari). Saluran dihantar melalui emel dan In-App.",
+    "Sistem hantar notifikasi kepada pemohon.",
+    "Sistem hantar notifikasi dalaman kepada PPSU/BTD."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tiada bayaran dalam tempoh – lesen tidak aktif, notifikasi susulan dihantar."
+    },
+    {
+     "id": "A2",
+     "text": "Dokumen sokongan belum sedia – notifikasi ditangguhkan."
+    },
+    {
+     "id": "A3",
+     "text": "Pemohon tidak dapat dihubungi – eskalasi ke pegawai."
+    },
+    {
+     "id": "A4",
+     "text": "Emel gagal; hantar melalui in-app."
+    }
+   ],
+   "input": "Keputusan lulus, arahan pembayaran, tempoh kelulusan (14 hari), dokumen sokongan",
+   "output": "Notifikasi Notifikasi kelulusan dihantar, arahan pembayaran diberikan, notifikasi dalaman",
+   "uiRefs": [
+    "UI-PL-NT-PS-02-01"
+   ],
+   "integration": "Modul Permohonan Lesen, Modul Bayaran dan Pengeluaran Lesen, SMTP",
+   "notes": "Tempoh kelulusan: 14 hari. Tempoh bayaran: 30 hari. Jika tiada bayaran, lesen tidak aktif.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-02"
+  },
+  {
+   "id": "UC-PL-NT-PS-02-01-01",
+   "name": "Jana Mesej Keputusan dan Syarat",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "PPKT 1",
+    "PPKT2",
+    "PPSU"
+   ],
+   "steps": [
+    "Sistem semak semua syarat kelulusan.",
+    "Sistem sahkan dokumen lengkap, bayaran diterima, tiada isu tertangguh.",
+    "Jika semua syarat dipenuhi – sistem jana mesej keputusan.",
+    "Sistem masukkan keputusan, syarat, dan arahan ke dalam mesej.",
+    "Mesej disediakan untuk penghantaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Syarat tidak dipenuhi – mesej tidak dijana, status dikemaskini."
+    },
+    {
+     "id": "A2",
+     "text": "Dokumen tidak lengkap – notifikasi permintaan dokumen tambahan."
+    },
+    {
+     "id": "A3",
+     "text": "Isu tertangguh – pegawai diminta ambil tindakan."
+    }
+   ],
+   "input": "Status syarat kelulusan, dokumen, bayaran, keputusan rasmi, sebab penolakan (jika ada)",
+   "output": "Mesej keputusan dijana, kandungan mengikut jenis keputusan (lulus/tolak/tangguh)",
+   "uiRefs": [
+    "UI-PL-NT-PS-02-01-01"
+   ],
+   "integration": "Modul Permohonan Lesen, Modul Pengurusan Dokumen, Modul Bayaran dan Pengeluaran Lesen",
+   "notes": "<<include>> oleh PS-02. Mesej tidak dijana jika syarat tidak dipenuhi.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-02-01"
+  },
+  {
+   "id": "UC-PL-NT-PS-02-01-02",
+   "name": "Notifikasi Dalaman (PPSU/BTD)",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "Pegawai PPSU",
+    "BTD"
+   ],
+   "steps": [
+    "Sistem kenal pasti pegawai dalaman berkaitan berdasarkan peranan. Sebagai contoh: Pegawai PBT",
+    "Sistem jana notifikasi dalaman dengan maklumat kritikal seperti No.Siri Permohonan, Pelanggan, Tarikh Permohonan, Risiko, Jenis Permohonan, Status dan Tindakan.",
+    "Sistem hantar melalui portal sistem atau aplikasi dalaman.",
+    "Pegawai terima notifikasi dalam panel tugas.",
+    "Sistem rekod penghantaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Pegawai tidak aktif – notifikasi dihantar ke pengganti."
+    },
+    {
+     "id": "A2",
+     "text": "Portal tidak tersedia – hantar melalui emel dalaman."
+    }
+   ],
+   "input": "Jenis keputusan, maklumat tiket/lesen, tindakan diperlukan, peranan pegawai",
+   "output": "Notifikasi dalaman dihantar, pegawai dimaklumkan",
+   "uiRefs": [
+    "UI-PL-NT-PS-02-01-02"
+   ],
+   "integration": "-",
+   "notes": "<<include>> oleh PS-02. Notifikasi berdasarkan peranan dan tanggungjawab. Maklumat kritikal mengenai tiket/lesen/tindakan.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-02-01"
+  },
+  {
+   "id": "UC-PL-NT-PS-02-01-03",
+   "name": "Notifikasi & Arahan Pembayaran",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "Pemohon"
+   ],
+   "steps": [
+    "1.Permohonan/pembaharuan diluluskan oleh pegawai. 2. Sistem jana notifikasi pembayaran. 3. Sistem sertakan arahan pembayaran (jumlah, kaedah, tarikh akhir). 4. Sistem hantar notifikasi kepada pemohon. 5. Pemohon terima arahan pembayaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Pemohon tidak membuat bayaran dalam tempoh – hantar peringatan."
+    },
+    {
+     "id": "A2",
+     "text": "Kaedah bayaran tidak tersedia – notifikasi kaedah alternatif."
+    }
+   ],
+   "input": "Keputusan kelulusan, jumlah bayaran, kaedah pembayaran, tarikh akhir",
+   "output": "Notifikasi pembayaran dihantar, arahan pembayaran diberikan",
+   "uiRefs": [
+    "UI-PL-NT-PS-02-01-03"
+   ],
+   "integration": "Modul Bayaran dan Pengeluaran Lesen, Payment Gateway, SMTP, Modul Permohonan Lesen",
+   "notes": "Tempoh bayaran selepas kelulusan: 30 hari. Jika tiada bayaran, lesen tidak aktif.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-02-01"
+  },
+  {
+   "id": "UC-PL-NT-PS-02-01-04",
+   "name": "Notifikasi Lesen Dikeluarkan",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "Pemohon",
+    "Pemilik Lesen"
+   ],
+   "steps": [
+    "Pemohon selesai membuat pembayaran.",
+    "Sistem sahkan pembayaran berjaya.",
+    "Sistem keluarkan lesen.",
+    "Sistem jana notifikasi lesen dikeluarkan.",
+    "Sistem hantar notifikasi kepada pemohon/pemilik lesen.",
+    "Pemohon boleh muat turun lesen dari portal."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Pembayaran gagal – notifikasi gagal bayar dihantar."
+    },
+    {
+     "id": "A2",
+     "text": "Lesen gagal dijana – eskalasi ke pegawai."
+    },
+    {
+     "id": "A3",
+     "text": "Dokumen lesen belum sedia – notifikasi ditangguhkan."
+    }
+   ],
+   "input": "Pengesahan pembayaran, maklumat lesen, dokumen lesen",
+   "output": "Notifikasi lesen dikeluarkan, pautan muat turun lesen",
+   "uiRefs": [
+    "UI-PL-NT-PS-02-01-04"
+   ],
+   "integration": "Modul Bayaran dan Pengeluaran Lesen, Modul Permohonan Lesen, Pengurusan Dokumen, SMTP",
+   "notes": "Notifikasi dihantar selepas pembayaran berjaya disahkan. Lesen boleh dimuat turun dari portal.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-02-01"
+  },
+  {
+   "id": "UC-PL-NT-PS-02-01-05",
+   "name": "Notifikasi Proses Lesen Selesai",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "Pemohon",
+    "Pemilik Lesen"
+   ],
+   "steps": [
+    "Proses permohonan/pembaharuan selesai sepenuhnya.",
+    "Sistem sahkan semua langkah telah dilengkapkan.",
+    "Sistem jana notifikasi proses selesai.",
+    "Sistem hantar notifikasi kepada pemohon/pemilik.",
+    "Tiket/permohonan ditutup dalam sistem."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Masih ada langkah belum selesai – notifikasi tidak dihantar."
+    },
+    {
+     "id": "A2",
+     "text": "Pemohon tidak dapat dihubungi – rekod dalam log."
+    }
+   ],
+   "input": "Status proses lengkap, maklumat permohonan/pembaharuan",
+   "output": "Notifikasi proses selesai dihantar, status permohonan dikemaskini ke 'Selesai'",
+   "uiRefs": [
+    "UI-PL-NT-PS-02-01-05"
+   ],
+   "integration": "Modul Permohonan Lesen, Modul Pembaharuan Lesen",
+   "notes": "Notifikasi akhir menandakan keseluruhan proses telah selesai.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-02-01"
+  },
+  {
+   "id": "UC-PL-NT-PS-02-02",
+   "name": "Hantar Notifikasi Keputusan (Tolak)",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "PPKT 1",
+    "PPKT2",
+    "PPSU",
+    "Pemohon"
+   ],
+   "steps": [
+    "Sistem sahkan keputusan tolak.",
+    "Sistem jana mesej penolakan dengan sebab.",
+    "Sistem hantar notifikasi kepada pemohon."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Data permohonan tidak lengkap."
+    },
+    {
+     "id": "A1",
+     "text": "Sistem akan hantar notifikasi ralat in-app kepada pemohon untuk melengkapkan maklumat."
+    },
+    {
+     "id": "A2",
+     "text": "Dokumen rujukan tidak tersedia – hantar notifikasi tanpa lampiran."
+    },
+    {
+     "id": "A3",
+     "text": "Pemohon tidak aktif – notifikasi disimpan dalam sistem."
+    }
+   ],
+   "input": "Keputusan tolak dan sebab penolakan.",
+   "output": "Notifikasi penolakan dihantar, sebab dinyatakan.",
+   "uiRefs": [
+    "UI-PL-NT-PS-02-02"
+   ],
+   "integration": "Modul Permohonan Lesen",
+   "notes": "Sistem tidak membenarkan rayuan. Pengguna boleh membuat permohonan baru.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-02"
+  },
+  {
+   "id": "UC-PL-NT-PS-02-02-01",
+   "name": "Jana Mesej Keputusan dan Syarat (Tolak)",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "PPKT 1",
+    "PPKT2",
+    "PPSU"
+   ],
+   "steps": [
+    "Sistem semak syarat dan keputusan tolak.",
+    "Sistem kenal pasti sebab penolakan.",
+    "Sistem jana mesej dengan sebab dan dokumen rujukan.",
+    "Mesej disediakan untuk penghantaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Sebab penolakan tidak dimasukkan pegawai – sistem minta pegawai lengkapkan."
+    },
+    {
+     "id": "A2",
+     "text": "Mesej melebihi had panjang – sistem ringkaskan."
+    }
+   ],
+   "input": "Sebab penolakan, dokumen rujukan.",
+   "output": "Mesej keputusan tolak dijana dengan sebab lengkap",
+   "uiRefs": [
+    "UI-PL-NT-PS-02-02-01"
+   ],
+   "integration": "Modul Permohonan Lesen, Modul Pengurusan Dokumen",
+   "notes": "<<include>> oleh PS-02. Sebab penolakan wajib dinyatakan oleh pegawai.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-02-02"
+  },
+  {
+   "id": "UC-PL-NT-PS-02-02-02",
+   "name": "Notifikasi Dalaman (PPSU/BTD)",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "Pegawai PPSU",
+    "BTD"
+   ],
+   "steps": [
+    "Sistem kenal pasti pegawai dalaman berkaitan.",
+    "Sistem jana notifikasi dalaman tentang penolakan.",
+    "Sistem hantar melalui portal/aplikasi dalaman.",
+    "Pegawai terima notifikasi.",
+    "Sistem rekod penghantaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Pegawai tidak aktif – hantar ke pengganti."
+    },
+    {
+     "id": "A2",
+     "text": "Portal tidak tersedia – guna emel dalaman."
+    }
+   ],
+   "input": "Maklumat penolakan, pegawai berkaitan, peranan",
+   "output": "Notifikasi dalaman dihantar kepada pegawai berkaitan",
+   "uiRefs": [
+    "UI-PL-NT-PS-02-02-02"
+   ],
+   "integration": "",
+   "notes": "<<include>> oleh PS-02. Notifikasi berdasarkan peranan. PPSU dan BTD.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-02-02"
+  },
+  {
+   "id": "UC-PL-NT-PS-03",
+   "name": "Peringatan Pembaharuan",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "Pemilik Lesen"
+   ],
+   "steps": [
+    "Sistem tentukan pegawai/unit berkaitan.",
+    "Sistem hantar notifikasi dalaman.",
+    "Sistem kenal pasti lesen yang hampir tamat.",
+    "Sistem tapis mengikut ambang (T-60/T-30/T-7/T-1 hari).",
+    "Sistem jana senarai lesen untuk peringatan.",
+    "Sistem jadualkan penghantaran peringatan.",
+    "Sistem hantar peringatan melalui saluran pilihan.",
+    "Jika melepasi tarikh – sistem eskalasi."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Pegawai tidak dijumpai."
+    },
+    {
+     "id": "A2",
+     "text": "Lesen sudah diperbaharui – peringatan dibatalkan."
+    },
+    {
+     "id": "A3",
+     "text": "Pemilik tidak dapat dihubungi – eskalasi ke pegawai."
+    }
+   ],
+   "input": "Senarai lesen, tarikh luput, ambang peringatan, preferensi saluran",
+   "output": "Peringatan pembaharuan dihantar, log peringatan direkod",
+   "uiRefs": [
+    "UI-PL-NT-PS-03"
+   ],
+   "integration": "Modul Permohonan Lesen, Modul Pembaharuan Lesen",
+   "notes": "Peringatan automatik: T-60, T-30, T-7, T-1 hari sebelum tamat. Contoh: 3 hari sebelum tamat",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-NT-PS-03-01",
+   "name": "Jana Senarai Lesen Hampir Tamat",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem (backend)"
+   ],
+   "steps": [
+    "Sistem jalankan proses berkala (scheduler).",
+    "Sistem tapis lesen mengikut ambang ditetapkan.",
+    "Sistem kenal pasti lesen T-60, T-30, T-7, T-1.",
+    "Sistem jana senarai lesen yang perlu peringatan.",
+    "Senarai diserahkan ke proses penghantaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tiada lesen hampir tamat – tiada peringatan dijana."
+    },
+    {
+     "id": "A2",
+     "text": "Lesen sudah diperbaharui – keluarkan dari senarai."
+    },
+    {
+     "id": "A3",
+     "text": "Lesen digantung/batal – tidak termasuk dalam senarai"
+    }
+   ],
+   "input": "Pangkalan data lesen, tarikh luput, ambang (T-60/T-30/T-7/T-1), status lesen",
+   "output": "Notifikasi melalui: Senarai lesen yang memerlukan peringatan mengikut ambang",
+   "uiRefs": [
+    "UI-PL-NT-PS-03-01"
+   ],
+   "integration": "Modul Permohonan Lesen, Modul Pembaharuan Lesen",
+   "notes": "<<include>> oleh PS-03. Tapis mengikut ambang. Hanya lesen aktif sahaja.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-03"
+  },
+  {
+   "id": "UC-PL-NT-PS-03-02",
+   "name": "Jadual dan Hantar Peringatan",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem (backend)"
+   ],
+   "steps": [
+    "Sistem menyemak maklumat penerima serta saluran notifikasi yang telah dikonfigurasi (contohnya E-mel, SMS atau Push Notification).",
+    "Sistem mendapatkan templat mesej peringatan yang berkaitan.",
+    "Sistem menjana kandungan mesej dengan memasukkan maklumat berkaitan seperti nombor lesen, nama pemohon dan tarikh tamat tempoh. Sistem menghantar notifikasi kepada penerima melalui saluran yang telah ditetapkan.",
+    "Sistem menerima status penghantaran daripada saluran notifikasi (berjaya atau gagal).",
+    "Sistem merekodkan maklumat penghantaran ke dalam Log Notifikasi/Log E-mel/Log SMS termasuk tarikh dan masa, penerima, subjek, kategori"
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Status tidak berubah."
+    },
+    {
+     "id": "A2",
+     "text": "Saluran gagal – guna saluran alternatif."
+    },
+    {
+     "id": "A3",
+     "text": "Penghantaran gagal – retry mengikut polisi."
+    },
+    {
+     "id": "A4",
+     "text": "Pemilik opt-out – peringatan tidak dihantar"
+    }
+   ],
+   "input": "Senarai lesen, interval peringatan, saluran pilihan, templat peringatan",
+   "output": "Notifikasi Peringatan dihantar, log penghantaran (tarikh, masa, penerima, saluran, status)",
+   "uiRefs": [
+    "UI-PL-NT-PS-03-02"
+   ],
+   "integration": "SMTP, SMS Gateway, Push Notification, Jadual/Scheduler/Cronjob",
+   "notes": "<<include>> oleh PS-03. Interval dan jenis peringatan boleh dikonfigurasi. Log untuk audit dan pemantauan SLA.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-03"
+  },
+  {
+   "id": "UC-PL-NT-PS-03-03",
+   "name": "Eskalasi Jika Melepasi Tarikh",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "Pegawai",
+    "Penyelia",
+    "Pentadbir"
+   ],
+   "steps": [
+    "Sistem detect lesen/tiket melepasi tarikh tanpa penyelesaian.",
+    "Sistem kenal pasti pihak dalaman untuk eskalasi.",
+    "Sistem hantar notifikasi eskalasi kepada: - Pegawai Bertanggungjawab - Penyelia Unit - Pentadbir Sistem",
+    "Sistem rekod eskalasi dalam log.",
+    "Pegawai atasan ambil tindakan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Agensi teknikal tidak aktif."
+    },
+    {
+     "id": "A2",
+     "text": "Pegawai ambil tindakan segera – eskalasi dibatalkan."
+    },
+    {
+     "id": "A3",
+     "text": "Penyelia tidak tersedia – eskalasi ke tahap seterusnya."
+    },
+    {
+     "id": "A4",
+     "text": "Semua pihak tidak respon – amaran kritikal dijana."
+    }
+   ],
+   "input": "Status lesen/tiket, tarikh akhir, hierarki pegawai, saluran eskalasi",
+   "output": "Notifikasi eskalasi dihantar, log eskalasi direkod (tarikh, masa, penerima, status)",
+   "uiRefs": [
+    "UI-PL-NT-PS-03-03"
+   ],
+   "integration": "Modul Permohonan Lesen, Modul Pembaharuan Lesen",
+   "notes": "<<include>> PS-03. Eskalasi automatik apabila melepasi tempoh. Direkod untuk pemantauan SLA dan audit.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-03"
+  },
+  {
+   "id": "UC-PL-NT-PS-04",
+   "name": "Pengurusan Templat Mesej",
+   "group": "Notifikasi",
+   "actors": [
+    "Pentadbir Sistem"
+   ],
+   "steps": [
+    "Pengguna dibenarkan cipta/kemaskini templat mesej.",
+    "Templat dibuat dalam pelbagai saluran (emel/SMS/in-app) dan bahasa.",
+    "Templat diterbitkan untuk digunakan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Pengguna tiada emel aktif."
+    },
+    {
+     "id": "A2",
+     "text": "Templat ditolak – dikembalikan kepada pencipta."
+    },
+    {
+     "id": "A3",
+     "text": "Perubahan minor – kemaskini tanpa kelulusan semula."
+    },
+    {
+     "id": "A4",
+     "text": "Templat lama perlu dipulihkan – ambil dari arkib."
+    }
+   ],
+   "input": "Kandungan templat, saluran, bahasa, placeholder, metadata versi",
+   "output": "Templat baharu/dikemaskini, versi diarkib, status kelulusan dikemaskini",
+   "uiRefs": [
+    "UI-PL-NT-PS-04"
+   ],
+   "integration": "Emel, SMTP, Modul Permohonan Lesen, Modul Pembaharuan Lesen, Modul Penyelenggaraan Sistem",
+   "notes": "Prinsip 4-mata: Creator tidak boleh menjadi Approver. Semua versi disimpan. Templat lama boleh diarkib/padam mengikut polisi.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-NT-PS-04-01",
+   "name": "Medan Placeholder dan Pratonton",
+   "group": "Notifikasi",
+   "actors": [
+    "Pentadbir Sistem"
+   ],
+   "steps": [
+    "Pentadbir akses editor templat.",
+    "Pentadbir tambah/kemaskini placeholder ({nama_pemohon}, {status}, dll).",
+    "Sistem papar senarai placeholder tersedia.",
+    "Pentadbir masukkan data palsu untuk ujian.",
+    "Sistem pratonton mesej dengan data palsu.",
+    "Pentadbir sahkan format dan kandungan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Placeholder tidak sah – sistem papar mesej ralat."
+    },
+    {
+     "id": "A2",
+     "text": "Data palsu tidak lengkap – guna data default."
+    },
+    {
+     "id": "A3",
+     "text": "Format rosak selepas pratonton – pentadbir betulkan."
+    }
+   ],
+   "input": "Senarai placeholder, data palsu untuk ujian, templat mesej",
+   "output": "Pratonton mesej lengkap dengan data palsu, pengesahan format",
+   "uiRefs": [
+    "UI-PL-NT-PS-04-01"
+   ],
+   "integration": "",
+   "notes": "<<include>> oleh PS-04. Placeholder standard: {nama_pemohon}, {no_rujukan}, {status}, {tarikh}, {pautan}.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-04"
+  },
+  {
+   "id": "UC-PL-NT-PS-05",
+   "name": "Konfigurasi Saluran dan Gateway",
+   "group": "Notifikasi",
+   "actors": [
+    "Pentadbir Sistem",
+    "Admin PBT"
+   ],
+   "steps": [
+    "Pentadbir akses panel konfigurasi saluran.",
+    "Pentadbir tetapkan SMTP/API SMS/Push Notification.",
+    "Pentadbir masukkan ID pengirim dan kunci API.",
+    "Pentadbir tetapkan rate limit.",
+    "Sistem sahkan konfigurasi (test connection).",
+    "Konfigurasi disimpan dan berkuat kuasa."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Test connection gagal – papar mesej ralat."
+    },
+    {
+     "id": "A2",
+     "text": "Kunci API tidak sah – tolak konfigurasi."
+    },
+    {
+     "id": "A3",
+     "text": "Rate limit terlalu rendah – amaran dipaparkan."
+    }
+   ],
+   "input": "Credential SMTP/API, URL endpoint, ID pengirim, kunci API, rate limit",
+   "output": "Konfigurasi saluran disimpan, status sambungan disahkan",
+   "uiRefs": [
+    "UI-PL-NT-PS-05"
+   ],
+   "integration": "Modul Penyelenggaraan Sistem",
+   "notes": "Proses penetapan dan pengurusan saluran serta gateway. Credential disimpan dengan encryption.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-NT-PS-05-01",
+   "name": "Daftar Kredensial dan Endpoint",
+   "group": "Notifikasi",
+   "actors": [
+    "Pentadbir Sistem"
+   ],
+   "steps": [
+    "Pentadbir akses panel pendaftaran credential.",
+    "Pentadbir masukkan kunci API/SMTP credential.",
+    "Pentadbir masukkan URL endpoint dan callback.",
+    "Sistem encrypt dan simpan credential.",
+    "Sistem uji sambungan ke endpoint.",
+    "Sistem rekod pendaftaran"
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Key tidak sah. Papar ralat tidak sah."
+    },
+    {
+     "id": "A2",
+     "text": "Credential tidak sah – test connection gagal."
+    },
+    {
+     "id": "A3",
+     "text": "Endpoint tidak boleh dicapai – papar mesej ralat."
+    },
+    {
+     "id": "A4",
+     "text": "Credential lama perlu dikemaskini – overwrite dengan yang baharu."
+    }
+   ],
+   "input": "Kunci API, SMTP credential, URL endpoint, URL callback",
+   "output": "Credential didaftarkan dan disimpan (encrypted), sambungan disahkan",
+   "uiRefs": [
+    "UI-PL-NT-PS-05-01"
+   ],
+   "integration": "SMTP Server",
+   "notes": "<<include>> oleh PS-06. Credential disimpan dengan encryption. Akses terhad kepada pentadbir sahaja.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-05"
+  },
+  {
+   "id": "UC-PL-NT-PS-06",
+   "name": "Audit dan Laporan Notifikasi",
+   "group": "Notifikasi",
+   "actors": [
+    "Pentadbir Sistem"
+   ],
+   "steps": [
+    "Pentadbir Sistem akses modul audit notifikasi.",
+    "Sistem papar log notifikasi (metadata + status).",
+    "Pegawai tapis log mengikut kriteria.",
+    "Pegawai semak butiran log (notification_id, tarikh, penerima, saluran, status).",
+    "Pegawai eksport laporan jika diperlukan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Log besar."
+    },
+    {
+     "id": "A1",
+     "text": "Log terlalu banyak – pagination dan penapisan diaktifkan."
+    },
+    {
+     "id": "A2",
+     "text": "Akses ditolak – pengguna tidak mempunyai peranan yang sesuai."
+    },
+    {
+     "id": "A3",
+     "text": "Log tidak ditemui – papar mesej 'Tiada rekod'."
+    }
+   ],
+   "input": "Kriteria penapisan (tarikh, status, saluran, unit), peranan pengguna",
+   "output": "Senarai log notifikasi, laporan audit, statistik penghantaran",
+   "uiRefs": [
+    "UI-PL-NT-PS-06"
+   ],
+   "integration": "Modul Penyelenggaraan Sistem, Modul Dashboard dan Pelaporan",
+   "notes": "Akses role-based. Log disimpan 7 tahun(seperti yang ditetapkan di Parameter Am) minimum. Metadata + kandungan (jika relevan). Penapisan mengikut tarikh, status, saluran, unit.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-NT-PS-06-01",
+   "name": "Carian dan Tapis Log",
+   "group": "Notifikasi",
+   "actors": [
+    "Pentadbir Sistem"
+   ],
+   "steps": [
+    "Admin akses panel carian log.",
+    "Admin masukkan kriteria penapisan (tarikh, pengguna, saluran, status).",
+    "Sistem cari rekod yang sepadan.",
+    "Sistem papar hasil carian.",
+    "Admin boleh klik untuk butiran lanjut."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Parameter tidak sah. Papar mesej ralat tidak sah."
+    },
+    {
+     "id": "A2",
+     "text": "Tiada hasil – papar 'Tiada rekod ditemui'."
+    },
+    {
+     "id": "A3",
+     "text": "Hasil terlalu banyak – sistem hadkan dan cadangkan tapisan lebih spesifik."
+    },
+    {
+     "id": "A4",
+     "text": "Kriteria tidak sah – papar mesej ralat."
+    }
+   ],
+   "input": "Kriteria carian (tarikh, pengguna, saluran, status, unit)",
+   "output": "Senarai log yang sepadan dengan tapisan",
+   "uiRefs": [
+    "UI-PL-NT-PS-06-01"
+   ],
+   "integration": "Pangkalan Data Log Notifikasi",
+   "notes": "<<include>> oleh PS-07. Penapisan mengikut tarikh, status, saluran, unit.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-06"
+  },
+  {
+   "id": "UC-PL-NT-PS-06-02",
+   "name": "Eksport Laporan",
+   "group": "Notifikasi",
+   "actors": [
+    "Pentadbir Sistem"
+   ],
+   "steps": [
+    "Pegawai pilih rekod/log untuk dieksport.",
+    "Pegawai pilih format (CSV/PDF).",
+    "Sistem jana fail laporan.",
+    "Sistem muat turun fail kepada pegawai.",
+    "Sistem rekod aktiviti eksport dalam log."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tiada data. Papar mesej ralat tiada data."
+    },
+    {
+     "id": "A2",
+     "text": "Data terlalu besar – sistem hadkan atau paginate."
+    },
+    {
+     "id": "A3",
+     "text": "Format tidak disokong – papar pilihan tersedia sahaja."
+    },
+    {
+     "id": "A4",
+     "text": "Eksport gagal – papar mesej ralat."
+    }
+   ],
+   "input": "Kriteria data, format eksport (CSV/PDF)",
+   "output": "Fail laporan (CSV/PDF) dimuat turun, log aktiviti eksport",
+   "uiRefs": [
+    "UI-PL-NT-PS-06-02"
+   ],
+   "integration": "Modul Dashboard dan Pelaporan",
+   "notes": "<<include>> PS-07. Format: CSV/PDF. Untuk tujuan audit. Aktiviti eksport direkod.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-06"
+  },
+  {
+   "id": "UC-PL-NT-PS-07",
+   "name": "Pemprosesan Balikan (Bounce/Reply)",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "Pentadbir Sistem"
+   ],
+   "steps": [
+    "Gateway hantar callback status (delivered/failed).",
+    "Sistem detect kegagalan penghantaran (bounce).",
+    "Sistem laksanakan auto-retry terkawal (maks 3x).",
+    "Jika masih gagal – notifikasi pegawai tentang kegagalan.",
+    "Sistem kemaskini status tiket/aduan (notification_failed).",
+    "Sistem simpan log penuh percubaan dan status bounce. 6. Alamat bermasalah ditambah ke suppression list."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Callback tidak sah. Papar mesej ralat."
+    },
+    {
+     "id": "A2",
+     "text": "Retry berjaya – status dikemaskini ke Delivered."
+    },
+    {
+     "id": "A3",
+     "text": "Kegagalan kekal (alamat tidak sah) – tiada retry."
+    },
+    {
+     "id": "A4",
+     "text": "Pemohon tidak terima maklumat penting – pegawai ambil tindakan manual."
+    }
+   ],
+   "input": "Status bounce, callback/webhook data, bilangan retry, polisi auto-retry",
+   "output": "Status log Status notifikasi dikemaskini, log kegagalan, suppression list dikemaskini, pegawai dimaklumkan",
+   "uiRefs": [],
+   "integration": "Gateway Emel/SMS (Webhook)",
+   "notes": "Impak: pemohon mungkin tidak terima maklumat penting. Auto-retry: maks 3x, sela berperingkat. Log disimpan untuk audit dan SLA. BACKEND PROCESS. Ia berlaku waktu kegagalan penghantaran - Sistem",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-NT-PS-07-01",
+   "name": "Terima Callback/Webhook",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem (Endpoint API)"
+   ],
+   "steps": [
+    "Sistem terima bounce emel.",
+    "Sistem tandakan emel tidak sah.",
+    "Gateway hantar callback/webhook ke endpoint sistem.",
+    "Sistem terima data (HTTPS POST, format JSON).",
+    "Sistem sahkan kesahihan sumber (token/tandatangan digital).",
+    "Sistem proses data (notification_id, status, timestamp, kod ralat).",
+    "Sistem kemaskini status notifikasi.",
+    "Sistem rekod dalam log."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Callback tidak sah (token salah) – tolak dan rekod percubaan."
+    },
+    {
+     "id": "A2",
+     "text": "Data tidak lengkap – rekod sebagai anomali."
+    },
+    {
+     "id": "A3",
+     "text": "Endpoint tidak tersedia – gateway retry penghantaran callback."
+    }
+   ],
+   "input": "Data webhook (JSON): notification_id, reference_no, status, timestamp, kod ralat",
+   "output": "Status notifikasi dikemaskini (Delivered/Failed/Bounced), log callback direkod",
+   "uiRefs": [
+    "UI-PL-NT-PS-07-01"
+   ],
+   "integration": "Gateway Emel/SMS (Callback/Webhook Provider), SMTP.",
+   "notes": "<<include>> oleh PS-08. Endpoint HTTPS POST. Data JSON. Pengesahan sumber wajib. Tujuan: jejak, retry, suppression, laporan prestasi, audit.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-07"
+  },
+  {
+   "id": "UC-PL-NT-PS-07-02",
+   "name": "Penggera KPI (Threshold Alert)",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "Pentadbir Sistem"
+   ],
+   "steps": [
+    "Sistem pantau metrik prestasi notifikasi secara berkala.",
+    "Sistem bandingkan metrik dengan ambang KPI yang ditetapkan.",
+    "Jika ambang dilanggar – sistem jana penggera.",
+    "Sistem hantar notifikasi penggera kepada pegawai/pentadbir.",
+    "Sistem rekod pelanggaran dalam log."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Metrik kembali normal – penggera dibatalkan."
+    },
+    {
+     "id": "A2",
+     "text": "Pelanggaran berterusan – eskalasi ke pihak atasan."
+    },
+    {
+     "id": "A3",
+     "text": "Ambang perlu disesuaikan – pentadbir kemaskini."
+    }
+   ],
+   "input": "Metrik prestasi (kadar berjaya, kadar gagal, masa tindak balas), ambang KPI",
+   "output": "Penggera dihantar, pelanggaran direkod, statistik prestasi dikemaskini",
+   "uiRefs": [],
+   "integration": "Modul Pemantauan dan Penguatkuasaan",
+   "notes": "Sistem memantau ambang KPI dan memaklumkan pelanggan/pegawai apabila dilanggar. PROSES BERKALA - CRONJOB UTK KIRA BERAPA HARI (BACKEND) TIBA MASA SISTEM BAGI PENGGERA JADI TIADA SKRIN SEBAB DALAM SERVER-SIDE",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-07"
+  },
+  {
+   "id": "UC-PL-NT-PS-07-02-01",
+   "name": "Tetapkan Ambang KPI",
+   "group": "Notifikasi",
+   "actors": [
+    "Pentadbir Sistem"
+   ],
+   "steps": [
+    "Pentadbir Sistem mengakses panel Tetapan SLA.",
+    "Sistem memaparkan konfigurasi Peringkat, Tempoh (Hari) dan Amaran (Hari) bagi setiap peringkat proses.",
+    "Pentadbir Sistem menetapkan nilai Tempoh (Hari) dan Amaran (Hari) bagi peringkat yang berkaitan.",
+    "Pentadbir Sistem menetapkan pilihan Eskalasi dan memilih penerima pada medan Eskalasi Kepada.",
+    "Pentadbir Sistem menyemak atau menetapkan Status konfigurasi.",
+    "Sistem menyimpan konfigurasi SLA yang ditetapkan.",
+    "Sistem mengemas kini maklumat Dicipta Pada/Dicipta Oleh atau Dikemaskini Pada/Dikemaskini Oleh bagi tujuan jejak audit.",
+    "Konfigurasi SLA berkuat kuasa selepas berjaya disimpan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tetapan terlalu rendah atau kosong. Sistem papar mesej ralat."
+    },
+    {
+     "id": "A2",
+     "text": "Ambang terlalu tinggi – pelanggaran tidak dikesan."
+    },
+    {
+     "id": "A3",
+     "text": "Peraturan bercanggah – sistem papar amaran."
+    }
+   ],
+   "input": "Nilai ambang KPI, peraturan amaran, penerima amaran, saluran amaran",
+   "output": "Konfigurasi ambang KPI dan peraturan amaran disimpan serta berkuat kuasa serta-merta, log perubahan konfigurasi direkod",
+   "uiRefs": [
+    "UI-PL-NT-PS-07-02-01"
+   ],
+   "integration": "Modul Pemantauan dan Penguatkuasaan",
+   "notes": "<<include>> PS-08. Tetapkan ambang dan peraturan amaran. Konfigurasi oleh pentadbir.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-07-02"
+  },
+  {
+   "id": "UC-PL-NT-PS-07-02-02",
+   "name": "Notifikasi Pelanggan KPI",
+   "group": "Notifikasi",
+   "actors": [
+    "Sistem",
+    "Pegawai",
+    "Pentadbir"
+   ],
+   "steps": [
+    "Pengguna memasukkan Maklumat Jenis Aduan - seperti Jenis Maklum Balas.",
+    "Pengguna memilih Jenis Maklum Balas - Seperti; Aduan, Pertanyaan, Penghargaan, Cadangan.",
+    "Pengguna memasukkan butiran aduan seperti keterangan, tahap keutamaan seperti kritikal, Tinggi, Sederhana, Rendah.",
+    "Isi Tempoh Matlamat (Hari) dan pilih status Aktif / Tidak Aktif."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Penerima tidak tersedia – hantar ke pengganti."
+    },
+    {
+     "id": "A2",
+     "text": "Amaran berulang – gabungkan dalam satu notifikasi digest."
+    },
+    {
+     "id": "A3",
+     "text": "Penghantaran gagal – retry mengikut polisi."
+    }
+   ],
+   "input": "Maklumat pelanggaran KPI, penerima amaran, saluran",
+   "output": "Notifikasi penggera dihantar kepada penerima amaran (emel/in-app), log penghantaran amaran direkod",
+   "uiRefs": [
+    "UI-PL-NT-PS-07-02-02"
+   ],
+   "integration": "SMTP, Modul Pemantauan dan Penguatkuasaan",
+   "notes": "<<extend>> PS-08. Hantar notifikasi bila ambang dilanggar. Melalui emel/in-app.",
+   "calls": [],
+   "parentId": "UC-PL-NT-PS-07-02"
+  }
+ ],
+ "screens": [
+  {
+   "title": "Skrin Hantar Notifikasi Status Proses",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Pemberitahuan (tajuk halaman)",
+     "objectType": "Label/Heading",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Statik, bukan dari DB"
+    },
+    {
+     "label": "32 Pemberitahuan",
+     "objectType": "Label (count)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Kiraan jumlah rekod (COUNT) berdasarkan notifiable_id pengguna semasa"
+    },
+    {
+     "label": "Cari...",
+     "objectType": "Input Box",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type",
+      "data"
+     ],
+     "crud": "R",
+     "note": "Carian berdasarkan jenis/kandungan notifikasi"
+    },
+    {
+     "label": "Application (dropdown filter)",
+     "objectType": "Dropdown/Button",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type"
+     ],
+     "crud": "R",
+     "note": "Penapis mengikut kategori (contoh: Application)"
+    },
+    {
+     "label": "Cari (button)",
+     "objectType": "Button",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Cetuskan query carian"
+    },
+    {
+     "label": "Bayaran dimulakan untuk permohonan #PH_MDB-B-2026-000008",
+     "objectType": "Label (mesej notifikasi)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "data"
+     ],
+     "crud": "R",
+     "note": "Kandungan mesej termasuk reference ID permohonan"
+    },
+    {
+     "label": "Application (badge kategori)",
+     "objectType": "Label/Badge",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type"
+     ],
+     "crud": "R",
+     "note": "Kategori/jenis notifikasi"
+    },
+    {
+     "label": "application.payment_initiated",
+     "objectType": "Label (kod event)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type"
+     ],
+     "crud": "R",
+     "note": "Kod event spesifik"
+    },
+    {
+     "label": "Permohonan #PK_MDTM26050056 berjaya dihantar",
+     "objectType": "Label (mesej notifikasi)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "data"
+     ],
+     "crud": "R",
+     "note": "Kandungan mesej"
+    },
+    {
+     "label": "application.submitted",
+     "objectType": "Label (kod event)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type"
+     ],
+     "crud": "R",
+     "note": "Kod event spesifik"
+    },
+    {
+     "label": "22/07/2026 22:55",
+     "objectType": "Label (tarikh/masa)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "created_at"
+     ],
+     "crud": "R",
+     "note": "Tarikh rekod dicipta"
+    },
+    {
+     "label": "10.42.0.165",
+     "objectType": "Label (IP address)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "data"
+     ],
+     "crud": "R",
+     "note": "Disimpan dalam medan JSON data"
+    },
+    {
+     "label": "ALI BIN ABU (nama pengguna)",
+     "objectType": "Label",
+     "tables": [
+      "osc_slg_user"
+     ],
+     "fields": [
+      "full_name"
+     ],
+     "crud": "R",
+     "note": "Pengguna sesi semasa (session login)"
+    },
+    {
+     "label": "Ikon loceng (bell icon) — badge \"56\"",
+     "objectType": "Icon/Button",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id",
+      "read_at"
+     ],
+     "crud": "R/U",
+     "note": "Bilangan belum dibaca; klik boleh kemaskini read_at"
+    },
+    {
+     "label": "Ikon notifikasi (info icon di setiap baris)",
+     "objectType": "Icon/Button",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id",
+      "read_at"
+     ],
+     "crud": "R/U",
+     "note": "Bila diklik, mungkin kemaskini read_at"
+    },
+    {
+     "label": "Senarai pemberitahuan (list keseluruhan)",
+     "objectType": "List/Table",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id",
+      "type",
+      "data",
+      "notifiable_id",
+      "notifiable_type",
+      "created_at"
+     ],
+     "crud": "R",
+     "note": "Papar senarai penuh mengikut notifiable_id = pengguna semasa"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Bina Payload Mesej",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-01-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Tajuk (Senarai Templat E-mel)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Statik, bukan dari DB"
+    },
+    {
+     "label": "Keterangan (Urus templat e-mel...)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    },
+    {
+     "label": "Butang <+ Tambah Templat E-mel Baharu>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [],
+     "crud": "C",
+     "note": "Buka skrin/form tambah templat baharu"
+    },
+    {
+     "label": "Field Carian (Cari mengikut nama atau kod)",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "code",
+      "name"
+     ],
+     "crud": "R",
+     "note": "Input carian, tidak simpan data"
+    },
+    {
+     "label": "Dropdown <Semua Status>",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "is_active"
+     ],
+     "crud": "R",
+     "note": "Tapis ikut status: Aktif/Tidak Aktif"
+    },
+    {
+     "label": "Butang <Cari>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Trigger carian/tapis senarai"
+    },
+    {
+     "label": "Butang <Set Semula>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Reset carian/tapisan ke default"
+    },
+    {
+     "label": "# (Bilangan)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Nombor turutan senarai"
+    },
+    {
+     "label": "Kod (contoh: account_closure_admin)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "code"
+     ],
+     "crud": "R",
+     "note": "Kod unik templat"
+    },
+    {
+     "label": "Nama Templat",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "name"
+     ],
+     "crud": "R",
+     "note": "-"
+    },
+    {
+     "label": "Keterangan Templat",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "description"
+     ],
+     "crud": "R",
+     "note": "Ringkasan penerangan templat"
+    },
+    {
+     "label": "Subjek",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Subjek e-mel, mengandungi placeholder"
+    },
+    {
+     "label": "Dicipta (Tarikh)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "created_at"
+     ],
+     "crud": "R",
+     "note": "Format: DD/MM/YYYY, HH:MM AM/PM"
+    },
+    {
+     "label": "Status",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "is_active"
+     ],
+     "crud": "R",
+     "note": "Nilai: Aktif/Tidak Aktif"
+    },
+    {
+     "label": "Ikon <Lihat>",
+     "objectType": "Ikon/butang",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "id",
+      "name",
+      "subject",
+      "body",
+      "description",
+      "available_placeholders"
+     ],
+     "crud": "R",
+     "note": "Papar butiran templat (read-only)"
+    },
+    {
+     "label": "Ikon <Edit>",
+     "objectType": "Ikon/butang",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "name",
+      "subject",
+      "body",
+      "description",
+      "available_placeholders",
+      "is_active"
+     ],
+     "crud": "U",
+     "note": "Buka skrin edit templat"
+    },
+    {
+     "label": "Ikon <Hantar Uji>",
+     "objectType": "Ikon/butang",
+     "tables": [
+      "osc_email_templates",
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body",
+      "subject (dari template) → recipient_email",
+      "status (log baharu)"
+     ],
+     "crud": "C",
+     "note": "Hantar e-mel ujian; jana rekod baharu dalam osc_email_logs"
+    },
+    {
+     "label": "Ikon <Padam",
+     "objectType": "Ikon/butang",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "id",
+      "is_active"
+     ],
+     "crud": "D/U",
+     "note": "Padam rekod atau nyahaktifkan (is_active = 0)"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Pilih Saluran (Emel/SMS)",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-01-03"
+   ],
+   "dataMap": [
+    {
+     "label": "Logo Jabatan",
+     "objectType": "Imej",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja, statik"
+    },
+    {
+     "label": "Nama Jabatan (Jabatan Kerajaan Tempatan)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/branding"
+    },
+    {
+     "label": "Menu Sidebar (Laporan, Pengurusan Aduan, dll)",
+     "objectType": "Menu/Navigasi",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi sahaja, tiada kaitan data"
+    },
+    {
+     "label": "Tab <Notifikasi>",
+     "objectType": "Tab",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Tab aktif semasa, navigasi UI"
+    },
+    {
+     "label": "Tab <Integrasi>",
+     "objectType": "Tab",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Versi>",
+     "objectType": "Tab",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Storan>",
+     "objectType": "Tab",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Direktori Fail>",
+     "objectType": "Tab",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tajuk (Preferensi Notifikasi)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Statik, bukan dari DB"
+    },
+    {
+     "label": "Ikon Kad (Nyahaktifkan Semua)",
+     "objectType": "Ikon",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Label Status (Nyahaktifkan Semua)",
+     "objectType": "Label",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [
+      "notification_channel"
+     ],
+     "crud": "R",
+     "note": "Pilihan nilai: none"
+    },
+    {
+     "label": "Ikon Kad (Email Sahaja)",
+     "objectType": "Ikon",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Label Channel (Email Sahaja)",
+     "objectType": "Label",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [
+      "notification_channel"
+     ],
+     "crud": "R",
+     "note": "Pilihan nilai: email"
+    },
+    {
+     "label": "Tanda Pilihan Aktif (Checkmark)",
+     "objectType": "Ikon/Penanda Status",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [
+      "notification_channel"
+     ],
+     "crud": "R",
+     "note": "Menunjukkan nilai semasa yang dipilih dalam medan notification_channel"
+    },
+    {
+     "label": "Ikon Kad (SMS Sahaja)",
+     "objectType": "Ikon",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Label Channel (SMS Sahaja)",
+     "objectType": "Label",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [
+      "notification_channel"
+     ],
+     "crud": "R",
+     "note": "Pilihan nilai: sms"
+    },
+    {
+     "label": "Ikon Kad (Email & SMS)",
+     "objectType": "Ikon",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Label Channel (Email & SMS)",
+     "objectType": "Label",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [
+      "notification_channel"
+     ],
+     "crud": "R",
+     "note": "Pilihan nilai: both"
+    },
+    {
+     "label": "Kad Pilihan Saluran (Keseluruhan)",
+     "objectType": "Kad Boleh Pilih",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [
+      "notification_channel",
+      "updated_by",
+      "updated_at"
+     ],
+     "crud": "U",
+     "note": "Klik untuk kemaskini medan notification_channel; turut kemaskini updated_by & updated_at"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Hantar dan Jejak Penyampaian",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-01-04"
+   ],
+   "dataMap": [
+    {
+     "label": "Logo Jabatan",
+     "objectType": "Imej",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Nama Jabatan (Jabatan Kerajaan Tempatan)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/branding"
+    },
+    {
+     "label": "Menu Sidebar (Papan Pemuka, Pengurusan Pengguna, dll)",
+     "objectType": "Menu/Navigasi",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi sahaja"
+    },
+    {
+     "label": "Breadcrumb (Penyelenggaraan > Log Sistem)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi sahaja"
+    },
+    {
+     "label": "Ikon Loceng + Kaunter",
+     "objectType": "Ikon/Penanda Status",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id",
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Papar jumlah notifikasi belum dibaca untuk pengguna semasa (contoh: 10)"
+    },
+    {
+     "label": "Tab <Log Audit>",
+     "objectType": "Tab",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Log E-mel>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Tab aktif semasa"
+    },
+    {
+     "label": "Tab <Log SMS>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_sms_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Log Pembayaran>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_trn_online"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain; modul bayaran dan pengeluaran lesen."
+    },
+    {
+     "label": "Tab <Notifikasi Sistem>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Penyelenggaraan Log>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_slg_menu"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain; modul penyelenggaraan system."
+    },
+    {
+     "label": "Mesej Pemberitahuan (Log sistem hanya memaparkan...)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/notis"
+    },
+    {
+     "label": "Field Carian",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "recipient_email",
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Input carian, tidak simpan data"
+    },
+    {
+     "label": "Menu Lungsur <Semua Status>",
+     "objectType": "Menu Lungsur",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "Tapis ikut status: Berjaya/Gagal (sent/failed)"
+    },
+    {
+     "label": "Menu Lungsur <Semua Kategori>",
+     "objectType": "Menu Lungsur",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "category"
+     ],
+     "crud": "R",
+     "note": "Tapis ikut kategori: Notifikasi/Maklumat"
+    },
+    {
+     "label": "Butang <Cari>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Trigger carian/tapis senarai"
+    },
+    {
+     "label": "Butang <Excel>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "(semua medan senarai)"
+     ],
+     "crud": "R",
+     "note": "Eksport data ke format Excel"
+    },
+    {
+     "label": "Butang <CSV>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "(semua medan senarai)"
+     ],
+     "crud": "R",
+     "note": "Eksport data ke format CSV"
+    },
+    {
+     "label": "Butang <PDF>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "(semua medan senarai)"
+     ],
+     "crud": "R",
+     "note": "Eksport data ke format PDF"
+    },
+    {
+     "label": "Tarikh",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "sent_at"
+     ],
+     "crud": "R",
+     "note": "Format: DD/MM/YYYY HH:MM"
+    },
+    {
+     "label": "Penerima",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "recipient_email"
+     ],
+     "crud": "R",
+     "note": "Alamat e-mel penerima"
+    },
+    {
+     "label": "Subjek",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Subjek e-mel dihantar"
+    },
+    {
+     "label": "Kategori",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "category"
+     ],
+     "crud": "R",
+     "note": "Nilai: Notifikasi/Maklumat"
+    },
+    {
+     "label": "Status",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "Nilai: Berjaya/Gagal"
+    },
+    {
+     "label": "Ralat",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "error_message"
+     ],
+     "crud": "R",
+     "note": "Mesej ralat jika penghantaran gagal"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Hantar Notifikasi Keputusan (Lulus/Gagal)",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Logo PBTBiz",
+     "objectType": "Imej",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Nama Sistem (Sistem PBTBiz)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/branding"
+    },
+    {
+     "label": "Sari Kata (Notifikasi Rasmi Sistem)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    },
+    {
+     "label": "Tajuk (Kelulusan Serahan Permohonan)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Subjek templat, mengandungi placeholder {{application_number}}"
+    },
+    {
+     "label": "No. Siri (PRK_MDTM26030017)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Nilai placeholder yang diisi semasa penghantaran sebenar"
+    },
+    {
+     "label": "Penanda Status (LULUS / GAGAL)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Bahagian templat (body), nilai diisi ikut status permohonan semasa hantar"
+    },
+    {
+     "label": "Mesej Utama",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Kandungan templat dengan placeholder"
+    },
+    {
+     "label": "No. Rujukan",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "No. Siri",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Jenis Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Jumlah Bayaran",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Format: RM 0.00; data sebenar diisi dalam rekod log"
+    },
+    {
+     "label": "Kod Kelulusan atau Kod Ralat",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "status",
+      "error_message"
+     ],
+     "crud": "R",
+     "note": "Contoh: E01; berkait dengan status penghantaran"
+    },
+    {
+     "label": "Mesej Kelulusan atau ralat",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "error_message"
+     ],
+     "crud": "R",
+     "note": "Penerangan sebab kegagalan (jika status = Gagal)"
+    },
+    {
+     "label": "Butang <Semak Status Permohonan>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "-",
+     "note": "Pautan (link) tertanam dalam templat body"
+    },
+    {
+     "label": "Notis Emel Automatik",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/makluman"
+    },
+    {
+     "label": "Hak Cipta (© 2026 Sistem PBTBiz)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Hantar Notifikasi Keputusan (Lulus)",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-02-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Logo PBTBiz",
+     "objectType": "Imej",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Nama Sistem (Sistem PBTBiz)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/branding"
+    },
+    {
+     "label": "Sari Kata (Notifikasi Rasmi Sistem)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    },
+    {
+     "label": "Tajuk (Kelulusan Serahan Permohonan)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Subjek templat, mengandungi placeholder {{application_number}}"
+    },
+    {
+     "label": "No. Siri (PRK_MDTM26030017)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Nilai placeholder yang diisi semasa penghantaran sebenar"
+    },
+    {
+     "label": "Penanda Status (LULUS)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Bahagian templat (body), nilai diisi ikut status permohonan semasa hantar"
+    },
+    {
+     "label": "Mesej Utama",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Kandungan templat dengan placeholder"
+    },
+    {
+     "label": "No. Rujukan",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "No. Siri",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Jenis Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Jumlah Bayaran",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Format: RM 0.00; data sebenar diisi dalam rekod log"
+    },
+    {
+     "label": "Kod Kelulusan atau Kod Ralat",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "status",
+      "error_message"
+     ],
+     "crud": "R",
+     "note": "Contoh: E01; berkait dengan status penghantaran"
+    },
+    {
+     "label": "Mesej Kelulusan atau ralat",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "error_message"
+     ],
+     "crud": "R",
+     "note": "Penerangan sebab kegagalan (jika status = Gagal)"
+    },
+    {
+     "label": "Butang <Semak Status Permohonan>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "-",
+     "note": "Pautan (link) tertanam dalam templat body"
+    },
+    {
+     "label": "Notis Emel Automatik",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/makluman"
+    },
+    {
+     "label": "Hak Cipta (© 2026 Sistem PBTBiz)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Jana Mesej Keputusan dan Syarat",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-02-01-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Logo PBTBiz",
+     "objectType": "Imej",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Nama Sistem (Sistem PBTBiz)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/branding"
+    },
+    {
+     "label": "Sari Kata (Notifikasi Rasmi Sistem)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    },
+    {
+     "label": "Tajuk (Pengesahan Serahan Permohonan)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Subjek templat, mengandungi placeholder {{application_number}}"
+    },
+    {
+     "label": "No. Siri (PRK_MDTM26030017)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Nilai placeholder yang diisi semasa penghantaran sebenar"
+    },
+    {
+     "label": "Mesej Utama (Permohonan anda telah berjaya dihantar...)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Kandungan templat dengan placeholder"
+    },
+    {
+     "label": "No. Rujukan",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "No. Siri",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Jenis Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Jumlah Bayaran",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Format: RM 0.00; data sebenar diisi dalam rekod log"
+    },
+    {
+     "label": "Butang <Semak Status Permohonan>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "-",
+     "note": "Pautan (link) tertanam dalam templat body"
+    },
+    {
+     "label": "Notis Emel Automatik",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/makluman"
+    },
+    {
+     "label": "Hak Cipta (© 2025 Sistem PBTBiz)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Notifikasi Dalaman (PPSU/BTD)",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-02-01-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Header gradien (branding)",
+     "objectType": "Imej/Latar",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Breadcrumb (Permohonan > Senarai Permohonan)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi sahaja"
+    },
+    {
+     "label": "Toast Notifikasi (Permohonan telah ditolak)",
+     "objectType": "Toast/Pop-up",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "data",
+      "type"
+     ],
+     "crud": "C/R",
+     "note": "Elemen berkait modul notifikasi — dijana selepas tindakan berjaya (event trigger), papar sekali sahaja secara sementara"
+    },
+    {
+     "label": "Field Carian",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_mhn_timeline"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Permohonan"
+    },
+    {
+     "label": "Dropdown <Semua Status> / <Semua Risiko> / <Semua Jenis Permohonan>",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_mhn_timeline"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Permohonan"
+    },
+    {
+     "label": "No. Siri Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_timeline"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Permohonan"
+    },
+    {
+     "label": "Pelanggan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Permohonan"
+    },
+    {
+     "label": "Tarikh Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_timeline"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Permohonan"
+    },
+    {
+     "label": "Risiko (Rendah/Tinggi)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Permohonan"
+    },
+    {
+     "label": "Jenis Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Permohonan"
+    },
+    {
+     "label": "Status (Lulus/Baharu/Ditolak/Menunggu Bayaran/Kelulusan Tahap 1)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_mhn_timeline"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Permohonan"
+    },
+    {
+     "label": "Ikon <Lihat>",
+     "objectType": "Ikon/Butang",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke Butiran Permohonan"
+    },
+    {
+     "label": "Row per page / Pagination",
+     "objectType": "UI Control",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Kawalan paparan sahaja"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Notifikasi & Arahan Pembayaran",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-02-01-03"
+   ],
+   "dataMap": [
+    {
+     "label": "Logo PBTBiz",
+     "objectType": "Imej",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Nama Sistem (Sistem PBTBiz)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/branding"
+    },
+    {
+     "label": "Sari Kata (Sistem Bayaran Dalam Talian)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    },
+    {
+     "label": "Tajuk (Arahan Pembayaran - APP-2024-601234)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Subjek templat, mengandungi placeholder {{application_number}}"
+    },
+    {
+     "label": "Mesej Utama (Arahan pembayaran ini telah dijana...)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Kandungan templat dengan placeholder"
+    },
+    {
+     "label": "Penerima (AHMAD BIN ABDULLAH)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Jenis pembayaran (Permohonan Lesen)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Saluran pembayaran (PBTPAY)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Jumlah (RM 150.00)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Format: RM 0.00; data sebenar diisi dalam rekod log"
+    },
+    {
+     "label": "Kaedah pembayaran (EFT / SI / QR Pay)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Tarikh dijana (25/06/2024 11:30)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "created_at"
+     ],
+     "crud": "R",
+     "note": "Tarikh/masa rekod log dicipta"
+    },
+    {
+     "label": "Tarikh akhir pembayaran (09/07/2024 23:59)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Catatan ((Tiada catatan))",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Placeholder catatan; kosong jika tiada input"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Notifikasi Lesen Dikeluarkan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-02-01-04"
+   ],
+   "dataMap": [
+    {
+     "label": "Logo PBTBiz",
+     "objectType": "Imej",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Nama Sistem (Sistem PBTBiz)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/branding"
+    },
+    {
+     "label": "Sari Kata (Sistem Bayaran Dalam Talian)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    },
+    {
+     "label": "Tajuk (Lesen Anda Telah Dikeluarkan)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Subjek templat"
+    },
+    {
+     "label": "No. Permohonan (APP-2024-601234)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Placeholder {{application_number}} dalam subjek"
+    },
+    {
+     "label": "Mesej Utama (Tahniah! Lesen anda...)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Kandungan templat dengan placeholder"
+    },
+    {
+     "label": "No. Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Jenis Lesen",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Nama Pemohon",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "No. Lesen",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Tarikh Dikeluarkan",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "sent_at"
+     ],
+     "crud": "R",
+     "note": "Tarikh/masa e-mel dihantar"
+    },
+    {
+     "label": "Tarikh Sah Sehingga",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Status (AKTIF)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Penutup (Terima kasih...)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Kandungan templat"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Notifikasi Proses Lesen Selesai",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-02-01-05"
+   ],
+   "dataMap": [
+    {
+     "label": "Logo/Jata (bahagian atas)",
+     "objectType": "Imej",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Tajuk (SIJIL LESEN)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Lesen/Pelesenan"
+    },
+    {
+     "label": "Maklumat Pemegang Lesen (Nama, No. K/P, Alamat)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Lesen/pelanggan"
+    },
+    {
+     "label": "No. Akaun / No. Ruj. / Tarikh",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Lesen"
+    },
+    {
+     "label": "Maklumat Perniagaan",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Lesen/pelanggan"
+    },
+    {
+     "label": "Maklumat Bayaran (Lesen Snooker, Patil, Jumlah)",
+     "objectType": "Jadual",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Lesen/Pembayaran"
+    },
+    {
+     "label": "Catatan (Sila perbaharui...)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Lesen"
+    },
+    {
+     "label": "QR Code",
+     "objectType": "Imej",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Lesen (untuk pengesahan)"
+    },
+    {
+     "label": "Sijil sebagai lampiran e-mel",
+     "objectType": "Fail Attachment",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body (rujukan",
+      "link fail)",
+      "template_code"
+     ],
+     "crud": "R",
+     "note": "Sijil PDF ini kemungkinan besar dilampirkan pada rekod e-mel yang dihantar melalui osc_email_logs, digunakan bersama templat notifikasi \"Proses Lesen Selesai\""
+    }
+   ]
+  },
+  {
+   "title": "Skrin Hantar Notifikasi Keputusan Ditolak",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-02-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Logo PBTBiz",
+     "objectType": "Imej",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Nama Sistem (Sistem PBTBiz)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/branding"
+    },
+    {
+     "label": "Sari Kata (Notifikasi Rasmi Sistem)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    },
+    {
+     "label": "Tajuk (Aduan Anda Telah Ditolak - No. Rujukan....)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Subjek templat, mengandungi placeholder {{application_number}}"
+    },
+    {
+     "label": "No. Rujukan (ADU-2026-0001)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Nilai placeholder yang diisi semasa penghantaran sebenar"
+    },
+    {
+     "label": "Penanda Status (DITOLAK)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Nilai status permohonan, diisi ikut hasil."
+    },
+    {
+     "label": "Mesej Utama (Aduan Anda Telah Ditolak oleh pihak PBT",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Bahagian templat (body), mesej berubah ikut status"
+    },
+    {
+     "label": "No. Rujukan",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Data sebenar diisi dalam rekod log penghantaran"
+    },
+    {
+     "label": "Tajuk",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Tajuk seperti Aduan Ditolak/ Pembatalan Lesen Ditolak/Pembatalan Akaun Ditolak"
+    },
+    {
+     "label": "Sebab Penolakan ({{reject_reason}})",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Sebab spesifik ditolak, diisi ikut input pegawai."
+    },
+    {
+     "label": "Tarikh Ditolak {{rejected_at}}",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Format Tarikh"
+    },
+    {
+     "label": "Butang <Lihat Senarai Aduan>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Pautan (link) tertanam dalam templat body"
+    },
+    {
+     "label": "Notis Emel Automatik",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/makluman"
+    },
+    {
+     "label": "Hak Cipta (© 2026 Sistem PBTBiz)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Peringatan Pembaharuan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-03"
+   ],
+   "dataMap": [
+    {
+     "label": "Logo PBTBiz",
+     "objectType": "Imej",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Nama Sistem (Sistem PBTBiz)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/branding"
+    },
+    {
+     "label": "Sari Kata (Notifikasi Rasmi Sistem)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    },
+    {
+     "label": "Tajuk (Peringatan Pembaharuan Lesen: LIC-2026-0001)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Subjek templat, mengandungi placeholder {{license_number}}"
+    },
+    {
+     "label": "Salam Pembuka (Assalamualaikum...)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Kandungan templat"
+    },
+    {
+     "label": "Mesej Pembuka (Ini adalah peringatan...)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Kandungan templat"
+    },
+    {
+     "label": "No. Lesen (LIC-2026-0001)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Placeholder {{license_number}} — nilai belum diisi"
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Placeholder {{business_name}} — nilai belum diisi"
+    },
+    {
+     "label": "Tarikh Tamat",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Placeholder {{expiry_date}} — nilai belum diisi"
+    },
+    {
+     "label": "Yuran Lesen (RM {{base_fee}})",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Placeholder belum diisi (masih paparkan tag mentah)"
+    },
+    {
+     "label": "Fi Pemprosesan (RM {{processing_fee}})",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Placeholder belum diisi"
+    },
+    {
+     "label": "Penalti Lewat (RM {{late_penalty}})",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Placeholder belum diisi"
+    },
+    {
+     "label": "Jumlah Anggaran (RM {{estimated_total}})",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Placeholder belum diisi"
+    },
+    {
+     "label": "Status Mesej ({{status_message}})",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "R",
+     "note": "Placeholder belum diisi"
+    },
+    {
+     "label": "Butang <Perbaharui Lesen Sekarang>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "-",
+     "note": "Pautan (link) tertanam dalam templat body"
+    },
+    {
+     "label": "Notis Emel Automatik",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/makluman"
+    },
+    {
+     "label": "Hak Cipta (© 2026 Sistem PBTBiz)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Jana Senarai Lesen Hampir Tamat",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-03-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Tajuk & keterangan laporan",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Statik"
+    },
+    {
+     "label": "Butang <Eksport>",
+     "objectType": "Butang",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Sumber data lesen dari osc_mhn_permohonan/modul Lesen"
+    },
+    {
+     "label": "Kad Ringkasan (Jumlah, Tamat<7hari, Sudah Tamat)",
+     "objectType": "Kad Metrik",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Kiraan dari modul Lesen"
+    },
+    {
+     "label": "Kad \"Peringatan dihantar\"",
+     "objectType": "Kad Metrik",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "id",
+      "status"
+     ],
+     "crud": "R",
+     "note": "COUNT rekod log dengan category = peringatan pembaharuan & status = sent"
+    },
+    {
+     "label": "Field Carian / Dropdown PBT / Tempoh",
+     "objectType": "Input/Filter",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Filter atas data lesen"
+    },
+    {
+     "label": "No. Lesen, Nama Perniagaan, PBT, Tarikh Tamat",
+     "objectType": "Kolum Jadual",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Data milik modul Lesen, bukan modul notifikasi"
+    },
+    {
+     "label": "Status Notifikasi (Dihantar/Menunggu/Sudah tamat)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_email_logs",
+      "osc_sms_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "Rujuk rekod log terkini bagi setiap lesen — sama ada peringatan berjaya dihantar"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Jadual dan Hantar Peringatan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-03-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Header gradien (branding)",
+     "objectType": "Imej/Latar",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Breadcrumb (Penyelenggaraan > Log Sistem)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi sahaja"
+    },
+    {
+     "label": "Ikon Loceng + Kaunter (3)",
+     "objectType": "Ikon/Penanda Status",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id",
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Papar jumlah notifikasi belum dibaca untuk pengguna semasa"
+    },
+    {
+     "label": "Tab <Log Audit>",
+     "objectType": "Tab",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Log E-mel>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Tab aktif semasa"
+    },
+    {
+     "label": "Tab <Log SMS>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_sms_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Log Pembayaran>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_bil_translesen"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain; modul bayaran dan pengeluaran lesen"
+    },
+    {
+     "label": "Tab <Notifikasi Sistem>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Penyelenggaraan Log>",
+     "objectType": "Tab",
+     "tables": [
+      "housekeeping_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain; modul penyelenggaraan"
+    },
+    {
+     "label": "Mesej Pemberitahuan (Log sistem hanya memaparkan...)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/notis"
+    },
+    {
+     "label": "Field Carian",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "recipient_email",
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Input carian, tidak simpan data"
+    },
+    {
+     "label": "Dropdown <Semua Status>",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "Tapis ikut status: Berjaya/Gagal"
+    },
+    {
+     "label": "Dropdown <Semua Kategori>",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "category"
+     ],
+     "crud": "R",
+     "note": "Tapis ikut kategori: Maklumat/Notifikasi"
+    },
+    {
+     "label": "Butang <Cari>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Trigger carian/tapis senarai"
+    },
+    {
+     "label": "Butang <Excel> / <CSV> / <PDF>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "(semua medan senarai)"
+     ],
+     "crud": "R",
+     "note": "Eksport data mengikut format"
+    },
+    {
+     "label": "Tarikh",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "sent_at"
+     ],
+     "crud": "R",
+     "note": "Format: DD/MM/YYYY HH:MM"
+    },
+    {
+     "label": "Penerima",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "recipient_email"
+     ],
+     "crud": "R",
+     "note": "Alamat e-mel penerima"
+    },
+    {
+     "label": "Subjek",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Subjek e-mel dihantar"
+    },
+    {
+     "label": "Kategori (Maklumat)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "category"
+     ],
+     "crud": "R",
+     "note": "Nilai: Notifikasi/Maklumat"
+    },
+    {
+     "label": "Status (Gagal)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "Nilai: Berjaya/Gagal"
+    },
+    {
+     "label": "Ralat (Connection could not be established...)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "error_message"
+     ],
+     "crud": "R",
+     "note": "Mesej ralat teknikal jika penghantaran gagal (contoh: SMTP DNS resolve error)"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Eskalasi Jika Melepasi Tarikh",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-03-03"
+   ],
+   "dataMap": [
+    {
+     "label": "Kad – Peringatan SLA (latar kuning)",
+     "objectType": "Warning Card (SLA Reminder)",
+     "tables": [
+      "notifications osc_adn_indaduan osc_adn_log"
+     ],
+     "fields": [
+      "notifications.id notifications.type = SLA_REMINDER notifications.data (JSON) notifications.read_at notifications.created_at osc_adn_indaduan.adn_noaduan osc_adn_indaduan.adn_sla_due_date osc_adn_log.log_tindakan = SLA_REMINDER"
+     ],
+     "crud": "R",
+     "note": "Kad notifikasi berwarna kuning muda dengan border oren. Paparkan apabila log_tindakan = SLA_REMINDER dalam osc_adn_log. Dijana apabila baki hari ≤ threshold yang dikonfigurasi (contoh: ≤ 2 hari)."
+    },
+    {
+     "label": "Tajuk Kad – 'Peringatan SLA: #PKMDTM20260700001'",
+     "objectType": "Card Title",
+     "tables": [
+      "notifications osc_adn_indaduan"
+     ],
+     "fields": [
+      "notifications.type notifications.data → JSON['no_aduan'] osc_adn_indaduan.adn_noaduan"
+     ],
+     "crud": "R",
+     "note": "Tajuk kad menggabungkan label 'Peringatan SLA:' dengan nombor aduan."
+    },
+    {
+     "label": "Badge – 'Hampir Tamat'",
+     "objectType": "Status Badge (Oren/Amber)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "notifications.type"
+     ],
+     "crud": "R",
+     "note": "Badge oren/amber dipapar apabila notifications.type = 'SLA_REMINDER'. Menunjukkan aduan hampir mencapai tarikh akhir SLA."
+    },
+    {
+     "label": "Deskripsi Peringatan",
+     "objectType": "Card Description",
+     "tables": [
+      "notifications osc_adn_indaduan"
+     ],
+     "fields": [
+      "notifications.data (JSON) osc_adn_indaduan.adn_namaplgn osc_adn_indaduan.adn_sla_due_date"
+     ],
+     "crud": "R",
+     "note": "Teks penerangan mengandungi: • Nama pengadu (adn_namaplgn) • Nama kategori aduan • Baki hari sebelum SLA tamat — dipapar oren dan tebal • Tarikh akhir SLA (adn_sla_due_date) — dipapar oren • Arahan tindakan: 'Sila ambil tindakan segera.'"
+    },
+    {
+     "label": "Tarikh Peringatan Dihantar",
+     "objectType": "Timestamp Label",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "notifications.created_at"
+     ],
+     "crud": "R",
+     "note": "Tarikh dan masa notifikasi SLA_REMINDER dijana. Contoh: 'Peringatan dihantar: 21/07/2026 08:00 PG'."
+    },
+    {
+     "label": "Tanda Dibaca (Kad SLA Reminder)",
+     "objectType": "Button (Biru)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "notifications.id notifications.read_at"
+     ],
+     "crud": "R,U",
+     "note": "Menandakan notifikasi SLA Reminder ini sebagai dibaca. Operasi: UPDATE notifications SET read_at = NOW() WHERE id = [uuid]"
+    },
+    {
+     "label": "Lihat Aduan (Kad SLA Reminder)",
+     "objectType": "Button (Oren Outline)",
+     "tables": [
+      "notifications osc_adn_indaduan"
+     ],
+     "fields": [
+      "notifications.data → JSON['url'] osc_adn_indaduan.adn_noaduan"
+     ],
+     "crud": "R",
+     "note": "Navigasi ke skrin Butiran Aduan. URL dari notifications.data JSON."
+    },
+    {
+     "label": "Padam (Kad SLA Reminder)",
+     "objectType": "Button (Merah)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "notifications.id"
+     ],
+     "crud": "D",
+     "note": "Memadam rekod notifikasi ini daripada senarai notifikasi secara hard delete. Pemadaman ini tidak dapat recover semula rekod di senarai notifikasi Operasi: DELETE notifications WHERE id = [uuid]"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Pengurusan Templat Mesej",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-04"
+   ],
+   "dataMap": [
+    {
+     "label": "Templat E-mel",
+     "objectType": "Page Title",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Tajuk skrin."
+    },
+    {
+     "label": "Cari templat e-mel...",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "code",
+      "name",
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Carian berdasarkan kod, nama atau subjek templat."
+    },
+    {
+     "label": "<Tambah Templat>",
+     "objectType": "Button",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [],
+     "crud": "C",
+     "note": "Membuka skrin tambah templat."
+    },
+    {
+     "label": "#",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Nombor turutan rekod."
+    },
+    {
+     "label": "Kod",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "code"
+     ],
+     "crud": "R",
+     "note": "Pengguna memasukkan secara manual untuk Kod Templat. Contoh: RENEWAL_OVERDUE_30D."
+    },
+    {
+     "label": "Nama Templat",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "name",
+      "description"
+     ],
+     "crud": "R",
+     "note": "Memaparkan nama dan penerangan ringkas templat."
+    },
+    {
+     "label": "Subjek",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Memaparkan subjek e-mel."
+    },
+    {
+     "label": "Dicipta",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "created_at"
+     ],
+     "crud": "R",
+     "note": "Format paparan: DD/MM/YYYY HH:MM AM/PM."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "is_active"
+     ],
+     "crud": "R",
+     "note": "Nilai DB: true = Aktif, false = Tidak Aktif."
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Icon Group",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Ikon lihat, kemaskini, uji e-mel dan padam."
+    },
+    {
+     "label": "Ikon Lihat",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Membuka paparan lihat templat."
+    },
+    {
+     "label": "Ikon Kemaskini",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "U",
+     "note": "Membuka skrin kemaskini templat."
+    },
+    {
+     "label": "Ikon E-mel",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "id",
+      "subject",
+      "body"
+     ],
+     "crud": "R",
+     "note": "Melaksanakan fungsi uji / hantar e-mel jika disediakan."
+    },
+    {
+     "label": "Ikon Padam",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "D",
+     "note": "Memadam rekod tertakluk kepada kawalan sistem."
+    },
+    {
+     "label": "Header gradien (branding)",
+     "objectType": "Imej/Latar",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Breadcrumb (Penyelenggaraan > Pengurusan Sistem > Templat E-mel)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi sahaja"
+    },
+    {
+     "label": "Ikon Loceng + Kaunter",
+     "objectType": "Ikon/Penanda Status",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id",
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Papar jumlah notifikasi belum dibaca untuk pengguna semasa"
+    },
+    {
+     "label": "Tajuk (Senarai Templat E-mel)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Statik"
+    },
+    {
+     "label": "Keterangan (Urus templat E-mel...)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    },
+    {
+     "label": "Butang <+ Tambah Templat E-mel Baharu>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_sms_templates"
+     ],
+     "fields": [],
+     "crud": "C",
+     "note": "Buka skrin/form tambah templat baharu"
+    },
+    {
+     "label": "Field Carian (Cari mengikut nama atau kod...)",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_sms_templates"
+     ],
+     "fields": [
+      "code",
+      "name"
+     ],
+     "crud": "R",
+     "note": "Input carian, tidak simpan data"
+    },
+    {
+     "label": "Dropdown <Semua Status>",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_sms_templates"
+     ],
+     "fields": [
+      "is_active"
+     ],
+     "crud": "R",
+     "note": "Tapis ikut status: Aktif/Tidak Aktif"
+    },
+    {
+     "label": "Butang <Cari>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_sms_templates"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Trigger carian/tapis senarai"
+    },
+    {
+     "label": "Butang <Set Semula>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_sms_templates"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Reset carian/tapisan ke default"
+    },
+    {
+     "label": "Nama Templat (Amaran Tamat Tempoh Lesen)",
+     "objectType": "Label",
+     "tables": [
+      "osc_sms_templates"
+     ],
+     "fields": [
+      "name"
+     ],
+     "crud": "R",
+     "note": "-"
+    },
+    {
+     "label": "Keterangan Templat (Dihantar apabila lesen...)",
+     "objectType": "Label",
+     "tables": [
+      "osc_sms_templates"
+     ],
+     "fields": [
+      "description"
+     ],
+     "crud": "R",
+     "note": "Ringkasan penerangan templat"
+    },
+    {
+     "label": "Kod Templat (LICENSE_EXPIRY_WARNING)",
+     "objectType": "Label",
+     "tables": [
+      "osc_sms_templates"
+     ],
+     "fields": [
+      "code"
+     ],
+     "crud": "R",
+     "note": "Kod unik templat"
+    },
+    {
+     "label": "Mesej (Lesen {{license_no}} bagi...)",
+     "objectType": "Label",
+     "tables": [
+      "osc_sms_templates"
+     ],
+     "fields": [
+      "message"
+     ],
+     "crud": "R",
+     "note": "Kandungan mesej dengan placeholder"
+    },
+    {
+     "label": "Aksara (141)",
+     "objectType": "Label",
+     "tables": [
+      "osc_sms_templates"
+     ],
+     "fields": [
+      "message"
+     ],
+     "crud": "R",
+     "note": "Kiraan panjang aksara — dikira dari LENGTH(message), bukan medan tersendiri"
+    },
+    {
+     "label": "Status (Aktif/Tidak Aktif)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_sms_templates"
+     ],
+     "fields": [
+      "is_active"
+     ],
+     "crud": "R",
+     "note": "Nilai: Aktif/Tidak Aktif"
+    },
+    {
+     "label": "Ikon <Edit>",
+     "objectType": "Ikon/Butang",
+     "tables": [
+      "osc_sms_templates"
+     ],
+     "fields": [
+      "name",
+      "message",
+      "description",
+      "available_placeholders",
+      "is_active"
+     ],
+     "crud": "U",
+     "note": "Buka skrin edit templat"
+    },
+    {
+     "label": "Ikon <Hantar Uji>",
+     "objectType": "Ikon/Butang",
+     "tables": [
+      "osc_sms_templates",
+      "osc_sms_logs"
+     ],
+     "fields": [
+      "message (dari template) → recipient_phone",
+      "status (log baharu)"
+     ],
+     "crud": "C",
+     "note": "Hantar SMS ujian; jana rekod baharu dalam osc_sms_logs"
+    },
+    {
+     "label": "Ikon <Kumpulan/Penerima>",
+     "objectType": "Ikon/Butang",
+     "tables": [
+      "osc_sms_templates"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Kemungkinan papar senarai penerima/kumpulan sasaran templat"
+    },
+    {
+     "label": "Ikon <Aktifkan/Nyahaktifkan>",
+     "objectType": "Ikon/Butang",
+     "tables": [
+      "osc_sms_templates"
+     ],
+     "fields": [
+      "is_active"
+     ],
+     "crud": "U",
+     "note": "Togol status aktif templat"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Medan Placeholder dan Pratonton",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-04-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Header gradien (branding)",
+     "objectType": "Imej/Latar",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Breadcrumb (Penyelenggaraan > Pengurusan Sistem > Templat E-mel > Edit Templat E-mel)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi sahaja"
+    },
+    {
+     "label": "Ikon Loceng + Kaunter",
+     "objectType": "Ikon/Penanda Status",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id",
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Papar jumlah notifikasi belum dibaca untuk pengguna semasa"
+    },
+    {
+     "label": "Maklumat Templat (Kod: account_closure_admin)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "code"
+     ],
+     "crud": "R",
+     "note": "Kod templat, read-only semasa edit"
+    },
+    {
+     "label": "Penerangan ringkas dalam kotak info",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "description"
+     ],
+     "crud": "R",
+     "note": "Paparan ringkas description sedia ada"
+    },
+    {
+     "label": "Nama Templat (Pembatalan Akaun Pengguna)",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "name"
+     ],
+     "crud": "U",
+     "note": "Boleh diedit"
+    },
+    {
+     "label": "Subjek E-mel",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "U",
+     "note": "Boleh diedit, mengandungi placeholder {{user_name}}"
+    },
+    {
+     "label": "Kandungan E-mel (rich text editor)",
+     "objectType": "Medan Input (Rich Text)",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "body"
+     ],
+     "crud": "U",
+     "note": "Boleh diedit, mengandungi placeholder dan jadual HTML"
+    },
+    {
+     "label": "Toolbar Editor (Paragraph, B, I, list, undo/redo)",
+     "objectType": "UI Control",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Kawalan format teks sahaja, bukan data"
+    },
+    {
+     "label": "Nota (Gunakan tag HTML...)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/panduan"
+    },
+    {
+     "label": "Penerangan (textarea)",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "description"
+     ],
+     "crud": "U",
+     "note": "Boleh diedit"
+    },
+    {
+     "label": "Pemegang Tempat Tersedia (senarai placeholder: sebab, tarikh, user_id, nama_pemohon, dll)",
+     "objectType": "Medan Input (Repeatable)",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "available_placeholders"
+     ],
+     "crud": "U",
+     "note": "Disimpan sebagai JSON; setiap baris mewakili satu pasangan kod dan label"
+    },
+    {
+     "label": "Ikon <X> (padam pemegang tempat)",
+     "objectType": "Ikon/Butang",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "available_placeholders"
+     ],
+     "crud": "U",
+     "note": "Buang satu entri dari JSON"
+    },
+    {
+     "label": "Butang <+ Tambah Pemegang Tempat>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "available_placeholders"
+     ],
+     "crud": "U",
+     "note": "Tambah entri baharu ke JSON"
+    },
+    {
+     "label": "Contoh Nama Pemegang Tempat (application_number)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/panduan"
+    },
+    {
+     "label": "Checkbox <Templat Aktif>",
+     "objectType": "Checkbox",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "is_active"
+     ],
+     "crud": "U",
+     "note": "Togol status aktif/tidak aktif"
+    },
+    {
+     "label": "Butang <Kembali>",
+     "objectType": "Butang",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi kembali tanpa simpan"
+    },
+    {
+     "label": "Butang <Simpan Templat>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_templates"
+     ],
+     "fields": [
+      "name",
+      "subject",
+      "body",
+      "description",
+      "available_placeholders",
+      "is_active",
+      "updated_at"
+     ],
+     "crud": "U",
+     "note": "Kemaskini rekod templat sedia ada"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Konfigurasi Saluran dan Gateway",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-05"
+   ],
+   "dataMap": [
+    {
+     "label": "Ikon & Tajuk (Konfigurasi SMTP)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Statik"
+    },
+    {
+     "label": "Pautan <Hantar Email Ujian>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_notification_settings",
+      "osc_email_logs"
+     ],
+     "fields": [
+      "smtp_host",
+      "smtp_port",
+      "smtp_encryption",
+      "smtp_username",
+      "smtp_password → recipient_email",
+      "status (log baharu)"
+     ],
+     "crud": "C",
+     "note": "Guna tetapan SMTP semasa untuk hantar e-mel ujian; jana rekod baharu dalam osc_email_logs"
+    },
+    {
+     "label": "SMTP Host",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [
+      "smtp_host"
+     ],
+     "crud": "U",
+     "note": "-"
+    },
+    {
+     "label": "SMTP Port",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [
+      "smtp_port"
+     ],
+     "crud": "U",
+     "note": "-"
+    },
+    {
+     "label": "Encryption",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [
+      "smtp_encryption"
+     ],
+     "crud": "U",
+     "note": "Nilai: none/tls/ssl"
+    },
+    {
+     "label": "Username",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [
+      "smtp_username"
+     ],
+     "crud": "U",
+     "note": "-"
+    },
+    {
+     "label": "Password",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [
+      "smtp_password"
+     ],
+     "crud": "U",
+     "note": "Disimpan dalam bentuk encrypted; kosong = kekalkan nilai sedia ada"
+    },
+    {
+     "label": "Email Penghantar",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [
+      "smtp_from_address"
+     ],
+     "crud": "U",
+     "note": "-"
+    },
+    {
+     "label": "Nama Penghantar",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [
+      "smtp_from_name"
+     ],
+     "crud": "U",
+     "note": "-"
+    },
+    {
+     "label": "Ikon & Tajuk (Konfigurasi SMS)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Statik"
+    },
+    {
+     "label": "Pautan <Hantar SMS Ujian>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_sms_settings",
+      "osc_sms_logs"
+     ],
+     "fields": [
+      "provider",
+      "api_url",
+      "api_key",
+      "api_secret",
+      "sender_id → recipient_phone",
+      "status (log baharu)"
+     ],
+     "crud": "C",
+     "note": "Guna tetapan SMS semasa untuk hantar SMS ujian; jana rekod baharu dalam osc_sms_logs"
+    },
+    {
+     "label": "SMS Provider",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_sms_settings"
+     ],
+     "fields": [
+      "provider"
+     ],
+     "crud": "U",
+     "note": "Contoh: anchor"
+    },
+    {
+     "label": "API URL",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_sms_settings"
+     ],
+     "fields": [
+      "api_url"
+     ],
+     "crud": "U",
+     "note": "-"
+    },
+    {
+     "label": "API Key",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_sms_settings"
+     ],
+     "fields": [
+      "api_key"
+     ],
+     "crud": "U",
+     "note": "Disimpan encrypted; kosong = kekalkan nilai sedia ada"
+    },
+    {
+     "label": "API Secret",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_sms_settings"
+     ],
+     "fields": [
+      "api_secret"
+     ],
+     "crud": "U",
+     "note": "Disimpan encrypted; kosong = kekalkan nilai sedia ada"
+    },
+    {
+     "label": "Sender ID",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_sms_settings"
+     ],
+     "fields": [
+      "sender_id"
+     ],
+     "crud": "U",
+     "note": "Contoh: OSCP"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Daftar Credential dan Endpoint",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-05-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Tajuk (Konfigurasi Sistem)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Statik"
+    },
+    {
+     "label": "Keterangan (Urus tetapan SMTP dan SMS...)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    },
+    {
+     "label": "Tab <Notifikasi>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_notification_settings"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Integrasi>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_integration_settings"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Tab aktif semasa"
+    },
+    {
+     "label": "Tab <Versi>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_app_versions"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain;"
+    },
+    {
+     "label": "Tab <Storan>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_storage_check_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain;"
+    },
+    {
+     "label": "Tab <Direktori Fail>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_kod_imej"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain;"
+    },
+    {
+     "label": "Tajuk (Integrasi Sistem Luaran)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Statik"
+    },
+    {
+     "label": "Keterangan (Konfigurasikan sambungan API...)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    },
+    {
+     "label": "Ikon & Nama Integrasi (Integrasi PBTPAY)",
+     "objectType": "Label",
+     "tables": [
+      "osc_trn_online"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul integrasi pembayaran"
+    },
+    {
+     "label": "Badge Status (AKTIF)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_trn_online"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Status integrasi PBTPAY"
+    },
+    {
+     "label": "Togol <Staging> / <Produksi>",
+     "objectType": "Togol",
+     "tables": [
+      "osc_trn_online"
+     ],
+     "fields": [],
+     "crud": "U",
+     "note": "Pilih persekitaran (environment)"
+    },
+    {
+     "label": "URL Base API",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_trn_online"
+     ],
+     "fields": [],
+     "crud": "U",
+     "note": "Konfigurasi integrasi PBTPAY"
+    },
+    {
+     "label": "Client Secret",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_trn_online"
+     ],
+     "fields": [],
+     "crud": "U",
+     "note": "Konfigurasi integrasi PBTPAY, disimpan encrypted"
+    },
+    {
+     "label": "Client ID",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_trn_online"
+     ],
+     "fields": [],
+     "crud": "U",
+     "note": "Konfigurasi integrasi PBTPAY"
+    },
+    {
+     "label": "Togol <Status Provider - Aktif>",
+     "objectType": "Togol",
+     "tables": [
+      "osc_trn_online"
+     ],
+     "fields": [],
+     "crud": "U",
+     "note": "Togol status aktif integrasi"
+    },
+    {
+     "label": "Butang <Uji Sambungan>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_trn_online"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Test koneksi API PBTPAY"
+    },
+    {
+     "label": "Butang <Simpan>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_trn_online"
+     ],
+     "fields": [],
+     "crud": "U",
+     "note": "Simpan tetapan integrasi PBTPAY"
+    },
+    {
+     "label": "Kemaskini Terakhir (09 Jul 2026, 17:13)",
+     "objectType": "Label",
+     "tables": [
+      "osc_trn_online"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Timestamp kemaskini rekod integrasi"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Audit dan Laporan Notifikasi",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-06"
+   ],
+   "dataMap": [
+    {
+     "label": "Header gradien (branding)",
+     "objectType": "Imej/Latar",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Breadcrumb (Penyelenggaraan > Log Sistem)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi sahaja"
+    },
+    {
+     "label": "Ikon Loceng + Kaunter",
+     "objectType": "Ikon/Penanda Status",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id",
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Papar jumlah notifikasi belum dibaca untuk pengguna semasa"
+    },
+    {
+     "label": "Tab <Log Audit>",
+     "objectType": "Tab",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Log E-mel>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Log SMS>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_sms_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Log Pembayaran>",
+     "objectType": "Tab",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Notifikasi Sistem>",
+     "objectType": "Tab",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Tab aktif semasa"
+    },
+    {
+     "label": "Tab <Penyelenggaraan Log>",
+     "objectType": "Tab",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Mesej Pemberitahuan (Log sistem hanya memaparkan...)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/notis"
+    },
+    {
+     "label": "Field Carian",
+     "objectType": "Medan Input",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type",
+      "data"
+     ],
+     "crud": "R",
+     "note": "Input carian, tidak simpan data"
+    },
+    {
+     "label": "Dropdown <Jenis - Maklumat>",
+     "objectType": "Dropdown",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type"
+     ],
+     "crud": "R",
+     "note": "Tapis ikut jenis notifikasi"
+    },
+    {
+     "label": "Dropdown <Semua Status Bacaan>",
+     "objectType": "Dropdown",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Tapis ikut status: Sudah Dibaca/Belum Dibaca"
+    },
+    {
+     "label": "Butang <Cari>",
+     "objectType": "Butang",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Trigger carian/tapis senarai"
+    },
+    {
+     "label": "Butang <Set Semula>",
+     "objectType": "Butang",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Reset carian/tapisan ke default"
+    },
+    {
+     "label": "Butang <Excel> / <CSV> / <PDF>",
+     "objectType": "Butang",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "(semua medan senarai)"
+     ],
+     "crud": "R",
+     "note": "Eksport data mengikut format"
+    },
+    {
+     "label": "Tajuk (Aduan Sedang Diproses, Ulasan Dikemaskini)",
+     "objectType": "Label",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "data"
+     ],
+     "crud": "R",
+     "note": "Tajuk mesej, disimpan dalam medan JSON data"
+    },
+    {
+     "label": "Mesej (Aduan anda PKMDTM20260700001 sedang...)",
+     "objectType": "Label",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "data"
+     ],
+     "crud": "R",
+     "note": "Kandungan mesej, disimpan dalam medan JSON data"
+    },
+    {
+     "label": "Jenis (Maklumat)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type"
+     ],
+     "crud": "R",
+     "note": "Kategori/jenis notifikasi"
+    },
+    {
+     "label": "Penerima (900010010001, 9, 128, 48)",
+     "objectType": "Label",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "notifiable_id"
+     ],
+     "crud": "R",
+     "note": "ID pengguna penerima (polymorphic reference)"
+    },
+    {
+     "label": "Status (Belum Dibaca)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Belum Dibaca jika read_at = NULL; Sudah Dibaca jika ada nilai"
+    },
+    {
+     "label": "Tarikh",
+     "objectType": "Label",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "created_at"
+     ],
+     "crud": "R",
+     "note": "Format: DD/MM/YYYY HH:MM"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Carian dan Tapis Log",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-06-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Field Carian (Cari...)",
+     "objectType": "Medan Input",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type",
+      "data"
+     ],
+     "crud": "R",
+     "note": "Input carian, tidak simpan data"
+    },
+    {
+     "label": "Dropdown <Jenis - Maklumat>",
+     "objectType": "Dropdown",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type"
+     ],
+     "crud": "R",
+     "note": "Tapis ikut jenis notifikasi (contoh: Maklumat, Amaran, Kritikal)"
+    },
+    {
+     "label": "Dropdown <Status Bacaan - Semua Status>",
+     "objectType": "Dropdown",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Tapis ikut status: Sudah Dibaca/Belum Dibaca (read_at NULL atau ada nilai)"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Eksport Laporan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-06-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Label (Eksport)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Statik, bukan dari DB"
+    },
+    {
+     "label": "Butang <Excel>",
+     "objectType": "Butang",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id",
+      "type",
+      "data",
+      "notifiable_id",
+      "read_at",
+      "created_at"
+     ],
+     "crud": "R",
+     "note": "Eksport senarai notifikasi mengikut hasil carian/tapisan semasa ke format Excel"
+    },
+    {
+     "label": "Butang <CSV>",
+     "objectType": "Butang",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id",
+      "type",
+      "data",
+      "notifiable_id",
+      "read_at",
+      "created_at"
+     ],
+     "crud": "R",
+     "note": "Eksport senarai notifikasi mengikut hasil carian/tapisan semasa ke format CSV"
+    },
+    {
+     "label": "Butang <PDF>",
+     "objectType": "Butang",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id",
+      "type",
+      "data",
+      "notifiable_id",
+      "read_at",
+      "created_at"
+     ],
+     "crud": "R",
+     "note": "Eksport senarai notifikasi mengikut hasil carian/tapisan semasa ke format PDF"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Terima Callback/Webhook",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-07-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Header gradien (branding)",
+     "objectType": "Imej/Latar",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Breadcrumb (Penyelenggaraan > Log Sistem)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi sahaja"
+    },
+    {
+     "label": "Tab <Log Audit>",
+     "objectType": "Tab",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Log E-mel>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Tab aktif semasa"
+    },
+    {
+     "label": "Tab <Log SMS>",
+     "objectType": "Tab",
+     "tables": [
+      "osc_sms_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Log Pembayaran>",
+     "objectType": "Tab",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Notifikasi Sistem>",
+     "objectType": "Tab",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Tab <Penyelenggaraan Log>",
+     "objectType": "Tab",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke tab lain"
+    },
+    {
+     "label": "Mesej Pemberitahuan (Log sistem hanya memaparkan...)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik/notis"
+    },
+    {
+     "label": "Field Carian",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "recipient_email",
+      "recipient_name",
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Input carian, tidak simpan data"
+    },
+    {
+     "label": "Dropdown <Status - Menunggu>",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "Tapis ikut status: Berjaya/Gagal/Menunggu"
+    },
+    {
+     "label": "Dropdown <Kategori - Notifikasi>",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "category"
+     ],
+     "crud": "R",
+     "note": "Tapis ikut kategori"
+    },
+    {
+     "label": "Butang <Cari>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Trigger carian/tapis senarai"
+    },
+    {
+     "label": "Butang <Set Semula>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Reset carian/tapisan ke default"
+    },
+    {
+     "label": "Butang <Excel> / <CSV> / <PDF>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "(semua medan senarai)"
+     ],
+     "crud": "R",
+     "note": "Eksport data mengikut format"
+    },
+    {
+     "label": "Tarikh",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "sent_at"
+     ],
+     "crud": "R",
+     "note": "Format: DD/MM/YYYY HH:MM"
+    },
+    {
+     "label": "Penerima (nama + email)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "recipient_name",
+      "recipient_email"
+     ],
+     "crud": "R",
+     "note": "Nama & alamat e-mel penerima"
+    },
+    {
+     "label": "Subjek (Ulasan Dikemaskini - PK_MDTM26060037)",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "R",
+     "note": "Subjek e-mel dihantar"
+    },
+    {
+     "label": "Kategori (Notifikasi)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "category"
+     ],
+     "crud": "R",
+     "note": "Nilai kategori mesej"
+    },
+    {
+     "label": "Status (Menunggu)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "Nilai: Berjaya/Gagal/Menunggu"
+    },
+    {
+     "label": "Ralat",
+     "objectType": "Label",
+     "tables": [
+      "osc_email_logs"
+     ],
+     "fields": [
+      "error_message"
+     ],
+     "crud": "R",
+     "note": "Mesej ralat jika penghantaran gagal; \"-\" jika tiada"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Tetapkan Ambang KPI",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-07-03-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Header gradien (branding)",
+     "objectType": "Imej/Latar",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Breadcrumb (Penyelenggaraan > Pengurusan Sistem > Tetapan SLA)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi sahaja"
+    },
+    {
+     "label": "Tajuk (Tetapan SLA)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Statik"
+    },
+    {
+     "label": "Keterangan (Konfigurasi tempoh SLA...)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Teks statik"
+    },
+    {
+     "label": "# (Bilangan)",
+     "objectType": "Label",
+     "tables": [
+      "(luar skop table notifikasi)"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Nombor turutan senarai"
+    },
+    {
+     "label": "Peringkat (Saringan Permohonan, dll)",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Alur Kerja/Workflow Permohonan"
+    },
+    {
+     "label": "Tempoh (Hari)",
+     "objectType": "Medan Input",
+     "tables": [
+      "(luar skop table notifikasi)"
+     ],
+     "fields": [],
+     "crud": "U",
+     "note": "Milik modul SLA/Workflow"
+    },
+    {
+     "label": "Amaran (Hari)",
+     "objectType": "Medan Input",
+     "tables": [
+      "(luar skop table notifikasi)"
+     ],
+     "fields": [],
+     "crud": "U",
+     "note": "Trigger notifikasi amaran — nilai ini tentukan bila osc_email_templates/osc_sms_templates (kod: warning/reminder) dihantar sebelum SLA tamat"
+    },
+    {
+     "label": "Checkbox <Eskalasi>",
+     "objectType": "Checkbox",
+     "tables": [
+      "(luar skop table notifikasi)"
+     ],
+     "fields": [],
+     "crud": "U",
+     "note": "Togol sama ada eskalasi diaktifkan"
+    },
+    {
+     "label": "Eskalasi Kepada (Pegawai Pelulus Tahap 1)",
+     "objectType": "Medan Input",
+     "tables": [
+      "(luar skop table notifikasi)"
+     ],
+     "fields": [],
+     "crud": "U",
+     "note": "Trigger notifikasi eskalasi —rujuk osc_slg_user atau roles untuk tentukan penerima"
+    },
+    {
+     "label": "Status (Aktif)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "(luar skop table notifikasi)"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Status konfigurasi SLA"
+    },
+    {
+     "label": "Dicipta Pada / Dicipta Oleh",
+     "objectType": "Label",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [
+      "created_at",
+      "performed_by"
+     ],
+     "crud": "R",
+     "note": "Jejak audit — sepadan dengan struktur audit_logs"
+    },
+    {
+     "label": "Dikemaskini Pada / Dikemaskini Oleh",
+     "objectType": "Label",
+     "tables": [
+      "audit_logs"
+     ],
+     "fields": [
+      "updated_at",
+      "performed_by"
+     ],
+     "crud": "R",
+     "note": "Jejak audit — sepadan dengan struktur audit_logs"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Notifikasi Pelanggan KPI",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Notifikasi",
+   "uiIds": [
+    "UI-PL-NT-PS-07-03-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Header gradien (branding)",
+     "objectType": "Imej/Latar",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Paparan visual sahaja"
+    },
+    {
+     "label": "Breadcrumb (Data Induk > Kod Jenis Aduan)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi sahaja"
+    },
+    {
+     "label": "Ikon Loceng",
+     "objectType": "Ikon",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id",
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Papar jumlah notifikasi belum dibaca (satu-satunya elemen berkait modul notifikasi)"
+    },
+    {
+     "label": "Field Carian (Kod atau keterangan...)",
+     "objectType": "Medan Input",
+     "tables": [
+      "osc_adn_indaduan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Pengurusan Aduan"
+    },
+    {
+     "label": "Butang <Set Semula>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_adn_indaduan"
+     ],
+     "fields": [],
+     "crud": "-",
+     "note": "Reset carian/tapisan"
+    },
+    {
+     "label": "Butang <Cetak Rekod>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_adn_indaduan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Eksport/cetak senarai"
+    },
+    {
+     "label": "Butang <Tambah Kod Jenis Aduan>",
+     "objectType": "Butang",
+     "tables": [
+      "osc_adn_indaduan"
+     ],
+     "fields": [],
+     "crud": "C",
+     "note": "Cipta rekod kod aduan baharu"
+    },
+    {
+     "label": "# (Bilangan)",
+     "objectType": "Label",
+     "tables": [
+      "osc_adn_indaduan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Nombor turutan senarai"
+    },
+    {
+     "label": "Kod Jenis Aduan (01-04)",
+     "objectType": "Label",
+     "tables": [
+      "osc_adn_indaduan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Pengurusan Aduan"
+    },
+    {
+     "label": "Keterangan (Lain-lain, Aduan Dalaman, dll)",
+     "objectType": "Label",
+     "tables": [
+      "osc_adn_indaduan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Pengurusan Aduan"
+    },
+    {
+     "label": "Jenis Maklum Balas",
+     "objectType": "Label",
+     "tables": [
+      "osc_adn_indaduan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Pengurusan Aduan"
+    },
+    {
+     "label": "Keutamaan (Sederhana)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_adn_indaduan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Pengurusan Aduan"
+    },
+    {
+     "label": "Kod Jabatan",
+     "objectType": "Label",
+     "tables": [
+      "osc_adn_indaduan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Pengurusan Aduan"
+    },
+    {
+     "label": "Tempoh (Hari)",
+     "objectType": "Label",
+     "tables": [
+      "osc_adn_indaduan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Berkemungkinan SLA aduan — mungkin trigger notifikasi peringatan (sama konsep dengan Tetapan SLA sebelum ni)"
+    },
+    {
+     "label": "Status (Aktif)",
+     "objectType": "Penanda Status",
+     "tables": [
+      "osc_adn_indaduan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Milik modul Pengurusan Aduan"
+    },
+    {
+     "label": "Ikon <Lihat> / <Edit> / <Statistik> / <Nyahaktifkan>",
+     "objectType": "Ikon/Butang",
+     "tables": [
+      "osc_adn_indaduan"
+     ],
+     "fields": [],
+     "crud": "R/U/D",
+     "note": "Milik modul Pengurusan Aduan"
+    }
+   ]
+  }
+ ],
+ "businessRules": [
+  {
+   "group": "Notifikasi",
+   "rules": [
+    {
+     "code": "Peraturan Asas Notifikasi",
+     "text": "Semua notifikasi mesti dihantar berdasarkan peraturan, event trigger, atau perubahan status dalam modul lain. Semua mesej mesti menggunakan template rasmi yang disahkan pentadbir. Notifikasi mesti dihantar menggunakan salah satu saluran rasmi: E-mel SMS In-App Push Notification (Realtime) Sistem mesti memastikan menggunakan preferensi pengguna (opt-in/opt-out) sebelum menghantar mesej. Semua template mesti menyokong Bahasa Melayu dan Bahasa Inggeris. Semua notifikasi yang dijana oleh sistem mesti direkod dan disimpan dalam bentuk log di lokasi simpanan yang ditetapkan seperti tempoh yang ditetapkan di Parameter Am - Retention log Semua notifikasi berkaitan status permohonan, kelulusan, penolakan, tugasan, SLA, dan mesyuarat mesti dihantar secara automatik tanpa campur tangan manual."
+    },
+    {
+     "code": "Peraturan Status Proses (PS-01)",
+     "text": "Setiap perubahan status (Contoh: Hantar, Semak, Lulus, Tolak, Batal) wajib mencetuskan notifikasi automatik. Payload mesej mesti dibina menggunakan placeholder yang sah (contoh: {{Nama}}, {{NoPermohonan}}, {{Status}}). Sistem mesti merekod status “Delivered”, “Failed”, atau “Pending” untuk setiap notifikasi."
+    },
+    {
+     "code": "Notifikasi Keputusan (PS-02)",
+     "text": "Pemohon wajib menerima notifikasi bagi: Pendaftaran akaun Penghantaran permohonan Kelulusan Penolakan (mesti termasuk sebab) Pengeluaran sijil/lesen Jika maklumat pemohon tidak lengkap, notifikasi tidak boleh dihantar."
+    },
+    {
+     "code": "Notifikasi Dalaman (Staff/PBT/Unit) — PS-03",
+     "text": "Notifikasi dalaman adalah untuk tugasan, semakan teknikal, SLA hampir tamat, rujukan teknikal, dan mesyuarat. Pegawai hanya menerima notifikasi jika mempunyai peranan dan akses kawasan yang sah."
+    },
+    {
+     "code": "Template Notifikasi — PS-04",
+     "text": "Semua template mesti wajib mempunyai: Subjek Isi mesej Placeholder dinamik Log audit perlu direkodkan bagi setiap aktiviti template notifikasi ini"
+    },
+    {
+     "code": "Gateway Komunikasi — PS-05",
+     "text": "Hanya pengguna yang mempunyai peranan pentadbir (Admin/System Administrator) dibenarkan menambah, mengemas kini atau memadam konfigurasi saluran. Hanya satu konfigurasi aktif dibenarkan bagi setiap jenis saluran Maklumat sensitif seperti API Key, Secret Key dan Password hendaklah dipaparkan secara bertopeng (masked) dan disimpan secara selamat."
+    },
+    {
+     "code": "Log & Analitik Notifikasi — PS-06",
+     "text": "Semua notifikasi mesti direkodkan dengan: Tarikh & masa Saluran Status penghantaran Modul punca Pentadbir boleh melihat analitik kadar berjaya/gagal notifikasi."
+    },
+    {
+     "code": "Callback Handling — PS-07",
+     "text": "Bounce email mesti menyebabkan status emel pengguna ditandakan “Invalid Email”. SMS undelivered mesti direkodkan untuk semakan teknikal. Auto-reply mesti direkodkan sebagai maklumat tambahan tetapi bukan ralat."
+    }
+   ]
+  }
+ ],
+ "sdsIssues": []
+}

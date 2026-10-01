@@ -1,0 +1,111 @@
+{
+  "id": "be0-utilities",
+  "name": "BE0 Utiliti",
+  "kind": "laravel",
+  "container": "be0-utilities",
+  "docsPage": "repo-osc-be0-utiliti",
+  "role": "Shared utilities, database migrations & seeders",
+  "stack": {
+    "framework": "Laravel",
+    "laravel": "^12.0",
+    "php": "^8.2",
+    "packages": [
+      "laravel/framework",
+      "laravel/tinker"
+    ]
+  },
+  "code": {
+    "controllers": [
+      "Controller"
+    ],
+    "models": [
+      {
+        "class": "Role",
+        "table": null,
+        "connection": null
+      },
+      {
+        "class": "InternalUser",
+        "table": "osc_slg_user",
+        "connection": null
+      },
+      {
+        "class": "Concerns/SerializesDatesInAppTimezone",
+        "table": null,
+        "connection": null
+      },
+      {
+        "class": "User",
+        "table": null,
+        "connection": null
+      },
+      {
+        "class": "Permission",
+        "table": null,
+        "connection": null
+      }
+    ],
+    "services": [
+      "SequenceGeneratorService"
+    ],
+    "requests": [],
+    "middleware": [],
+    "jobs": [],
+    "events": [],
+    "listeners": [],
+    "notifications": [],
+    "mail": [],
+    "commands": [
+      "RepriceAdjustedApprovalBillsCommand",
+      "BackfillRenewalDraftsCommand"
+    ]
+  },
+  "migrations": 450,
+  "routes": [
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/",
+      "name": null,
+      "controller": "Closure",
+      "action": null,
+      "middleware": [
+        "web"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/storage/{path}",
+      "name": "storage.local",
+      "controller": "Closure",
+      "action": null,
+      "middleware": [],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/up",
+      "name": null,
+      "controller": "Closure",
+      "action": null,
+      "middleware": [],
+      "routeLevelAuth": false
+    }
+  ],
+  "routesSource": "artisan route:list",
+  "routesError": null,
+  "status": "ok",
+  "git": {
+    "branch": "development",
+    "commit": "63b4953",
+    "commitDate": "2026-09-30T09:46:08+08:00",
+    "commitSubject": "Merge pull request #347 from censof/dev/fix/UAT-SR3/3098,3099/penyelenggaraan-kadar",
+    "remote": "https://github.com/censof/osc-be0-utiliti.git"
+  }
+}

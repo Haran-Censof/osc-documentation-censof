@@ -1,0 +1,413 @@
+{
+ "module": {
+  "id": "ai-chatbot",
+  "name": "AI Chatbot",
+  "code": "AC",
+  "version": "1.2",
+  "iteration": 1,
+  "sourceFile": "OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v1.2 - Printing Version - AI Chatbot.docx"
+ },
+ "functions": [
+  {
+   "id": "SF-PL-AC",
+   "name": "Jana AI Chatbot",
+   "actors": [
+    "1. Pengguna membuka chatbot. 2. Sistem memulakan sesi. 3. Teks ucapan",
+    "intro dipaparkan."
+   ]
+  },
+  {
+   "id": "SF-PL-AC-01",
+   "name": "Hantar Pertanyaan",
+   "actors": [
+    "1. Pengguna menaip pertanyaan. 2. Sistem menerima input. 3. Pertanyaan dihantar ke modul analisis."
+   ]
+  },
+  {
+   "id": "SF-PL-AC-02",
+   "name": "Kategorikan Pertanyaan",
+   "actors": [
+    "1. Sistem analisis kandungan. 2. Sistem menentukan kategori (lesen",
+    "teknikal",
+    "aduan",
+    "status",
+    "bayaran). 3. Chatbot pilih model",
+    "rujukan sesuai."
+   ]
+  },
+  {
+   "id": "SF-PL-AC-03",
+   "name": "Analisis Prestasi",
+   "actors": [
+    "1. Sistem log data interaksi. 2. Sistem analisis ketepatan jawapan. 3. Sistem jana metrik prestasi."
+   ]
+  },
+  {
+   "id": "SF-PL-AC-04",
+   "name": "Rujuk Pegawai",
+   "actors": [
+    "1. Sistem kesan chatbot tidak dapat beri jawapan. 2. Pertanyaan dirujuk kepada pegawai",
+    "agensi relevan. 3. Pengguna dimaklumkan."
+   ]
+  },
+  {
+   "id": "SF-PL-AC-05",
+   "name": "Simpan Kandungan & Rujukan",
+   "actors": [
+    "1. Sistem simpan soalan & jawapan relevan. 2. Data disimpan sebagai knowledge base."
+   ]
+  },
+  {
+   "id": "SF-PL-AC-05-01",
+   "name": "Analisis Prestasi",
+   "actors": [
+    "1. Sistem analisis trend pertanyaan. 2. Kenal pasti isu berulang",
+    "kekurangan maklumat."
+   ]
+  },
+  {
+   "id": "SF-PL-AC-05-02",
+   "name": "Jana Laporan Prestasi",
+   "actors": [
+    "1. Sistem jana laporan bulanan prestasi chatbot. 2. Paparkan kadar kejayaan",
+    "masa respons",
+    "top isu."
+   ]
+  },
+  {
+   "id": "SF-PL-AC-05-03",
+   "name": "Cadangan Penambahbaikan",
+   "actors": [
+    "1. Sistem beri cadangan (tambah rujukan",
+    "ubah template",
+    "tingkat model NLP). 2. Admin sahkan tindakan."
+   ]
+  }
+ ],
+ "useCases": [
+  {
+   "id": "SF-PL-AC",
+   "name": "Jana AI Chatbot",
+   "group": "Jana AI Chatbot",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna membuka chatbot.",
+    "Sistem memulakan sesi.",
+    "Teks ucapan/intro dipaparkan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Chatbot gagal dimuatkan."
+    }
+   ],
+   "input": "ID pengguna",
+   "output": "Sesi chatbot",
+   "uiRefs": [],
+   "integration": "Modul Profil",
+   "notes": "Chatbot berasaskan AI",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "SF-PL-AC-01",
+   "name": "Hantar Pertanyaan",
+   "group": "Jana AI Chatbot",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna menaip pertanyaan.",
+    "Sistem menerima input.",
+    "Pertanyaan dihantar ke modul analisis."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Input kosong.A2: Format tidak sah."
+    }
+   ],
+   "input": "Teks pertanyaan",
+   "output": "Respon chatbot",
+   "uiRefs": [],
+   "integration": "NLP Engine",
+   "notes": "Validasi input",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "SF-PL-AC-02",
+   "name": "Kategorikan Pertanyaan",
+   "group": "Jana AI Chatbot",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem analisis kandungan.",
+    "Sistem menentukan kategori (lesen, teknikal, aduan, status, bayaran).",
+    "Chatbot pilih model/rujukan sesuai."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tidak dapat dikategorikan.A2: Model NLP gagal."
+    }
+   ],
+   "input": "Teks pertanyaan",
+   "output": "Kategori",
+   "uiRefs": [],
+   "integration": "Modul Rujukan",
+   "notes": "Untuk routing",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "SF-PL-AC-03",
+   "name": "Analisis Prestasi",
+   "group": "Jana AI Chatbot",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem log data interaksi.",
+    "Sistem analisis ketepatan jawapan.",
+    "Sistem jana metrik prestasi."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Data tidak lengkap."
+    }
+   ],
+   "input": "Log interaksi",
+   "output": "Laporan metrik",
+   "uiRefs": [],
+   "integration": "Modul Pelaporan",
+   "notes": "KPI chatbot",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "SF-PL-AC-04",
+   "name": "Rujuk Pegawai",
+   "group": "Jana AI Chatbot",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem kesan chatbot tidak dapat beri jawapan.",
+    "Pertanyaan dirujuk kepada pegawai/agensi relevan.",
+    "Pengguna dimaklumkan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Pegawai tidak ditemukan.A2: Tiada SLA rujukan."
+    }
+   ],
+   "input": "Pertanyaan",
+   "output": "Tiket rujukan",
+   "uiRefs": [],
+   "integration": "Modul Aduan / Profil",
+   "notes": "Hybrid model (AI + manusia)",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "SF-PL-AC-05",
+   "name": "Simpan Kandungan & Rujukan",
+   "group": "Jana AI Chatbot",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem simpan soalan & jawapan relevan.",
+    "Data disimpan sebagai knowledge base."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Penyimpanan gagal."
+    }
+   ],
+   "input": "Data QA",
+   "output": "Rekod KB",
+   "uiRefs": [],
+   "integration": "KB Repo",
+   "notes": "Latihan masa depan",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "SF-PL-AC-05-01",
+   "name": "Analisis Prestasi",
+   "group": "Jana AI Chatbot",
+   "actors": [
+    "Sistem"
+   ],
+   "steps": [
+    "Sistem analisis trend pertanyaan.",
+    "Kenal pasti isu berulang/kekurangan maklumat."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Data kecil."
+    }
+   ],
+   "input": "Log chatbot",
+   "output": "Analisis",
+   "uiRefs": [],
+   "integration": "Modul Pelaporan",
+   "notes": "Insight AI",
+   "calls": [],
+   "parentId": "SF-PL-AC-05"
+  },
+  {
+   "id": "SF-PL-AC-05-02",
+   "name": "Jana Laporan Prestasi",
+   "group": "Jana AI Chatbot",
+   "actors": [
+    "Sistem",
+    "Admin"
+   ],
+   "steps": [
+    "Sistem jana laporan bulanan prestasi chatbot.",
+    "Paparkan kadar kejayaan, masa respons, top isu."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Log rosak."
+    }
+   ],
+   "input": "Data metrik",
+   "output": "Laporan",
+   "uiRefs": [],
+   "integration": "Modul Dashboard",
+   "notes": "SLA chatbot",
+   "calls": [],
+   "parentId": "SF-PL-AC-05"
+  },
+  {
+   "id": "SF-PL-AC-05-03",
+   "name": "Cadangan Penambahbaikan",
+   "group": "Jana AI Chatbot",
+   "actors": [
+    "Admin"
+   ],
+   "steps": [
+    "Sistem beri cadangan (tambah rujukan, ubah template, tingkat model NLP).",
+    "Admin sahkan tindakan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Cadangan tidak sah."
+    }
+   ],
+   "input": "Trend data",
+   "output": "Cadangan AI",
+   "uiRefs": [],
+   "integration": "Modul Admin",
+   "notes": "Pembelajaran berterusan",
+   "calls": [],
+   "parentId": "SF-PL-AC-05"
+  }
+ ],
+ "screens": [
+  {
+   "title": "Skrin Chatbot (Widget Chat Utama)",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul AI Chatbot",
+   "uiIds": [],
+   "dataMap": []
+  },
+  {
+   "title": "Skrin Chatbot – Jawapan AI",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul AI Chatbot",
+   "uiIds": [],
+   "dataMap": []
+  },
+  {
+   "title": "Skrin Chatbot – Log Interaksi",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul AI Chatbot",
+   "uiIds": [],
+   "dataMap": []
+  },
+  {
+   "title": "Skrin Chatbot – Flow Panduan “Semak Status Permohonan”",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul AI Chatbot",
+   "uiIds": [],
+   "dataMap": []
+  },
+  {
+   "title": "Skrin Chatbot – Flow Panduan “Cara Memohon Lesen Baharu”",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul AI Chatbot",
+   "uiIds": [],
+   "dataMap": []
+  },
+  {
+   "title": "Skrin Chatbot – Flow Panduan “Pembaharuan Lesen”",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul AI Chatbot",
+   "uiIds": [],
+   "dataMap": []
+  },
+  {
+   "title": "Skrin Chatbot – Knowledge Base (FAQ)",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul AI Chatbot",
+   "uiIds": [],
+   "dataMap": []
+  },
+  {
+   "title": "Skrin Chatbot – “Rujuk kepada Pegawai” (Live Chat / Ticket)",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul AI Chatbot",
+   "uiIds": [],
+   "dataMap": []
+  },
+  {
+   "title": "Skrin Chatbot – Penilaian Kepuasan Pengguna",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul AI Chatbot",
+   "uiIds": [],
+   "dataMap": []
+  },
+  {
+   "title": "4.13.10 Skrin Analitik Chatbot (Admin AI)",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul AI Chatbot",
+   "uiIds": [],
+   "dataMap": []
+  }
+ ],
+ "businessRules": [
+  {
+   "group": "Jana AI Chatbot",
+   "rules": [
+    {
+     "code": "Interaksi Chatbot & Pertanyaan Pengguna",
+     "text": "Pengguna mesti dapat memulakan interaksi chatbot pada bila-bila masa melalui UI yang disediakan. Semua pertanyaan pengguna mesti diproses oleh modul NLP (Natural Language Processing). Chatbot mesti menyokong input Bahasa Melayu dan Bahasa Inggeris. Chatbot mesti memberikan jawapan yang tepat berasaskan: Knowledge Base (KB) Rujukan Modul Data sistem Peraturan Pentadbiran Sistem Chatbot mesti mampu menjawab pertanyaan umum seperti: Status permohonan Dokumen diperlukan Panduan lesen Info PBT Proses aduan Pertanyaan yang terlalu teknikal, tidak relevan, atau tidak dapat dijawab mesti dirujuk secara automatik kepada pegawai."
+    },
+    {
+     "code": "Kategorisasi Pertanyaan (AC-02)",
+     "text": "Sistem mesti mengkategorikan pertanyaan ke dalam kategori utama seperti: Lesen Pendaftaran Pembaharuan Aduan Bayaran Penguatkuasaan Dokumen Jika kategori tidak dapat dikenal pasti, chatbot mesti meminta penjelasan tambahan atau terus merujuk kepada pegawai. Kategori menentukan model rujukan, SOP, dan tindakan seterusnya dalam respon chatbot."
+    },
+    {
+     "code": "Rujukan kepada Pegawai (AC-04)",
+     "text": "Sistem mesti merujuk pertanyaan kepada pegawai sekiranya: Chatbot tidak yakin dengan jawapan Pertanyaan memerlukan tindakan manusia Pertanyaan melibatkan maklumat sensitif Pertanyaan tergolong dalam kategori kompleks (contoh: isu teknikal, aduan rasmi) Semua rujukan mesti menghasilkan tiket dalam modul yang relevan (Modul Aduan dan Pertanyaan / Modul Pemantauan dan Penguatkuasaan / Modul Profail Pelanggan). Pengguna mesti menerima notifikasi apabila pertanyaan dirujuk."
+    },
+    {
+     "code": "Pengurusan Knowledge Base (AC-05)",
+     "text": "Sistem mesti menyimpan soalan lazim (FAQ) dan jawapan daripada interaksi harian. Admin boleh menyemak, mengesahkan, dan menambah maklumat pada KB. Data KB mesti menyokong: Pencarian berasaskan kata kunci Embedding semantik AI KB mesti dikemas kini secara berjadual berdasarkan: Analisis prestasi chatbot Trend pertanyaan Isu berulang Cadangan AI untuk penambahbaikan mesti dilihat oleh admin sebelum dilaksanakan."
+    },
+    {
+     "code": "Analisis Prestasi Chatbot",
+     "text": "Sistem mesti mengukur: Kadar kejayaan jawapan (Accuracy) Kadar rujukan ke pegawai Masa respons Top isu Trend pertanyaan Laporan prestasi mesti dijana sekurang-kurangnya sebulan sekali. Prestasi chatbot mesti mematuhi KPI minimum yang ditetapkan PBT."
+    }
+   ]
+  }
+ ],
+ "sdsIssues": [
+  "Use-case table under 'Jana AI Chatbot' has placeholder UI references (UI-XXXXX)",
+  "Use-case table under 'Jana AI Chatbot' uses non-UC identifiers (SF- prefix instead of UC-)"
+ ]
+}

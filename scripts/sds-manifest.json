@@ -1,0 +1,122 @@
+{
+  "base": "C:\\Users\\CSM-Nyaana\\OneDrive - Censof Holdings\\Desktop\\AI-Documentation",
+  "modules": [
+    {
+      "id": "profil-pelanggan",
+      "name": "Profil Pelanggan",
+      "iteration": 2,
+      "version": "2.0",
+      "file": "Iteration 2\\Module Profil Pelanggan\\OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v2.0 - printing version - Profil Pelanggan.docx",
+      "code": "PP",
+      "combined": false
+    },
+    {
+      "id": "permohonan-lesen",
+      "name": "Permohonan Lesen",
+      "iteration": 2,
+      "version": "2.0",
+      "file": "Iteration 2\\Module Permohonan Lesen\\OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) 2.0 - Permohonan Lesen Latest Final.docx",
+      "code": "LS",
+      "combined": false
+    },
+    {
+      "id": "pengurusan-dokumen",
+      "name": "Pengurusan Dokumen",
+      "iteration": 2,
+      "version": "2.0",
+      "file": "Iteration 2\\Module Pengurusan Dokumen\\OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v2.0 - printing version - Pengurusan Dokumen - latest.docx",
+      "code": "DK",
+      "combined": false
+    },
+    {
+      "id": "semakan-dan-ulasan",
+      "name": "Semakan dan Ulasan",
+      "iteration": 2,
+      "version": "2.0",
+      "file": "Iteration 2\\Module Semakan dan Ulasan\\OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v2.0 - Semakan dan Ulasan Latest Updated 17JUN2026.docx",
+      "code": "SM",
+      "combined": false
+    },
+    {
+      "id": "kelulusan-mesyuarat",
+      "name": "Kelulusan Mesyuarat",
+      "iteration": 2,
+      "version": "2.0",
+      "file": "Iteration 2\\Modul Kelulusan Mesyuarat\\OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v2.0 - printing version - Kelulusan Mesyuarat - latest.docx",
+      "code": "MO",
+      "combined": false
+    },
+    {
+      "id": "bayaran-dan-pengeluaran-lesen",
+      "name": "Bayaran dan Pengeluaran Lesen",
+      "iteration": 2,
+      "version": "2.0",
+      "file": "Iteration 2\\Module Bayaran dan Pengeluaran Lesen\\OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v2.0 Bayaran dan Pengeluaran Lesen.docx",
+      "code": "BY",
+      "combined": false
+    },
+    {
+      "id": "pembaharuan-lesen",
+      "name": "Pembaharuan Lesen",
+      "iteration": 2,
+      "version": "2.0",
+      "file": "Iteration 2\\Module Pembaharuan Lesen\\OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v2.0 - Pembaharuan Lesen.docx",
+      "code": "BL",
+      "combined": false
+    },
+    {
+      "id": "aduan-dan-pertanyaan",
+      "name": "Aduan dan Pertanyaan",
+      "iteration": 2,
+      "version": "1.2",
+      "file": "Iteration 2\\Module Aduan dan Pertanyaan\\SDS Feedback from CSM\\OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v1.2 - Aduan dan Pertanyaan-latest.docx",
+      "code": "AD",
+      "combined": false
+    },
+    {
+      "id": "notifikasi",
+      "name": "Notifikasi",
+      "iteration": 2,
+      "version": "2.0",
+      "file": "Iteration 2\\Module Notifikasi\\SDS Feedback from CSM\\OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v2.0 - Notifikasi_Idham.docx",
+      "code": "NT",
+      "combined": false
+    },
+    {
+      "id": "penyelenggaraan-sistem",
+      "name": "Penyelenggaraan Sistem",
+      "iteration": 2,
+      "version": "2.0",
+      "file": "Iteration 2\\Module Penyelenggaraan Sistem\\OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v2.0 - printing version - Penyelenggaraan Sistem.docx",
+      "code": "PT",
+      "combined": false
+    },
+    {
+      "id": "dashboard-dan-pelaporan",
+      "name": "Dashboard dan Pelaporan",
+      "iteration": 1,
+      "version": "1.2",
+      "file": "Iteration 1\\Module Dashboard dan Pelaporan\\OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v1.2 - printing version - Dashboard dan Pelaporan.docx",
+      "code": "DB",
+      "combined": true
+    },
+    {
+      "id": "pemantauan-dan-penguatkuasaan",
+      "name": "Pemantauan dan Penguatkuasaan",
+      "iteration": 1,
+      "version": "1.2",
+      "file": "Iteration 1\\Module Pemantauan dan Penguatkuasaan\\OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v1.2 - Printing Version - Pemantauan dan Penguatkuasaan.docx",
+      "code": "PA",
+      "combined": true
+    },
+    {
+      "id": "ai-chatbot",
+      "name": "AI Chatbot",
+      "iteration": 1,
+      "version": "1.2",
+      "file": "Iteration 1\\Module AI Chatbot\\OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v1.2 - Printing Version - AI Chatbot.docx",
+      "code": "AC",
+      "combined": true
+    }
+  ]
+}

@@ -1,0 +1,5014 @@
+{
+ "module": {
+  "id": "profil-pelanggan",
+  "name": "Profil Pelanggan",
+  "code": "PP",
+  "version": "2.0",
+  "iteration": 2,
+  "sourceFile": "OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v2.0 - printing version - Profil Pelanggan.docx"
+ },
+ "functions": [
+  {
+   "id": "SF-PL-PP-DA",
+   "name": "Daftar Akaun",
+   "actors": []
+  },
+  {
+   "id": "SF-PL-PP-DA-01",
+   "name": "Cipta Akaun Pemohon",
+   "actors": [
+    "Pemohon"
+   ]
+  },
+  {
+   "id": "SF-PL-PP-DA-02",
+   "name": "Sahkan OTP & Aktifkan Akaun",
+   "actors": [
+    "Pemohon"
+   ]
+  },
+  {
+   "id": "SF-PL-PP-PF",
+   "name": "Penyelenggaraan Profil",
+   "actors": []
+  },
+  {
+   "id": "SF-PL-PP-PF-01",
+   "name": "Kemas Kini Maklumat Profil",
+   "actors": [
+    "Pengguna"
+   ]
+  },
+  {
+   "id": "SF-PL-PP-PF-02",
+   "name": "Cipta Syarikat",
+   "actors": [
+    "Pengguna"
+   ]
+  },
+  {
+   "id": "SF-PL-PP-PF-03",
+   "name": "Kemas Kini Maklumat Syarikat",
+   "actors": [
+    "Pengguna"
+   ]
+  },
+  {
+   "id": "SF-PL-PP-PF-04",
+   "name": "Padam Syarikat",
+   "actors": [
+    "Pengguna"
+   ]
+  },
+  {
+   "id": "SF-PL-PP-PF-05",
+   "name": "Muat Naik Dokumen",
+   "actors": [
+    "Pengguna"
+   ]
+  },
+  {
+   "id": "SF-PL-PP-BA",
+   "name": "Pembatalan Akaun",
+   "actors": []
+  },
+  {
+   "id": "SF-PL-PP-BA-01",
+   "name": "Mohon Pembatalan Akaun",
+   "actors": [
+    "Pengguna"
+   ]
+  },
+  {
+   "id": "SF-PL-PP-BA-02",
+   "name": "Sahkan Pembatalan Akaun",
+   "actors": [
+    "Pentadbir Sistem JKT"
+   ]
+  },
+  {
+   "id": "SF-PL-PP-DM",
+   "name": "Daftar Masuk",
+   "actors": []
+  },
+  {
+   "id": "SF-PL-PP-DM-01",
+   "name": "Log Masuk",
+   "actors": [
+    "Pengguna"
+   ]
+  },
+  {
+   "id": "SF-PL-PP-DM-02",
+   "name": "Lupa Kata Laluan",
+   "actors": [
+    "Pengguna"
+   ]
+  },
+  {
+   "id": "SF-PL-PP-DM-03",
+   "name": "Aktifkan Semula Akaun Tidak Aktif",
+   "actors": [
+    "Pengguna"
+   ]
+  }
+ ],
+ "useCases": [
+  {
+   "id": "UC-PL-PP-DA-01",
+   "name": "Cipta akaun pemohon",
+   "group": "Daftar Akaun",
+   "actors": [
+    "Pemohon"
+   ],
+   "steps": [
+    "Pemohon membuka skrin “Daftar di sini” daripada skrin log masuk. Pemohon memasukkan No. MyKad dan Nama Penuh mengikut dokumen pengenalan. Pemohon klik butang “Sahkan Identiti”. Sistem menyemak format input dan melaksanakan pengesahan identiti (memanggil UC-PL-PP-DA-01-01) Sistem menyemak (memanggil UC-PL-PP-DA-01-02) sama ada rekod pemohon telah wujud dalam pangkalan data sistem. Jika pengesahan dan semakan rekod berjaya, sistem menjana ID pelanggan → NRIC dan membawa pemohon ke skrin Tambah Maklumat Pemohon (UI-PL-PP-DA-01-03). Sistem merekodkan audit trail cipta akaun bermula daripada pemohon memulakan pendaftaran, semakan identiti, semakan rekod sedia ada dalam pangkalan data sistem, dan juga status akaun baharu. Jika gagal atau dihalang, sistem merekodkan status ralat."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "IC/ID sudah wujud → papar mesej ralat “Pengguna telah berdaftar dalam sistem. Sila log masuk atau lupa kata laluan”."
+    },
+    {
+     "id": "A2",
+     "text": "Format input IC/ID tidak sah → papar mesej ralat “Sila masukkan nombor pengenalan 12 digit tanpa sempang”."
+    },
+    {
+     "id": "A3",
+     "text": "ID gagal/tidak ditemui dalam rekod JPN/MyIdentity → papar mesej ralat “Identiti yang dimasukkan tidak ditemui. Sila pastikan maklumat sepadan dengan MyKad anda”"
+    },
+    {
+     "id": "A4",
+     "text": "Sistem gagal simpan / capaian rekod pendaftaran pengguna gagal → papar mesej ralat “Gagal capaian data. Sila cuba semula”."
+    },
+    {
+     "id": "A5",
+     "text": "Medan wajib tidak diisi → Papar mesej “Medan [nama medan] wajib diisi”."
+    }
+   ],
+   "input": "Warganegara: No. Mykad / nama penuh mengikut dokumen pengenalan.",
+   "output": "Akaun baharu / rekod asas pemohon diwujudkan dalam status belum aktif dan sedia untuk proses tambah maklumat.",
+   "uiRefs": [
+    "UI-PL-PP-DA-01"
+   ],
+   "integration": "myIDENTITY / JPN API jika tersedia",
+   "notes": "No. MyKad / No. Pasport dan Nama Penuh adalah medan wajib. Pendaftaran tidak boleh diteruskan jika identiti tidak sah atau rekod telah wujud. Rekod disimpan dalam pangkalan data sistem selepas maklumat sah dan lengkap.",
+   "calls": [
+    "UC-PL-PP-DA-01-01",
+    "UC-PL-PP-DA-01-02"
+   ],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PP-DA-01-01",
+   "name": "Pengesahan Identiti (myIDENTITY /JPN)",
+   "group": "Daftar Akaun",
+   "actors": [
+    "Pemohon"
+   ],
+   "steps": [
+    "Pemohon mengisi No. MyKad / No. Pasport dan Nama Penuh. Pemohon klik “Sahkan Identiti”. Sistem menentukan kaedah semakan berdasarkan jenis pengenalan. Sistem hantar panggilan API ke myIDENTITY / JPN untuk proses pengesahan NRIC pemohon. Sistem menunggu maklum balas AIP dalam tempoh masa maksimum 1 minit. Jika pengesahan berjaya, proses diteruskan ke langkah seterusnya dalam UC-PL-PP-DA-01-03. Jika pengesahan gagal, sistem memaparkan mesej ralat umum (tanpa menyatakan sebab supaya dapat menjaga integriti data peribadi) dan pemohon dibenarkan mencuba semula."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Pengesahan identiti gagal/tidak ditemui dalam rekod JPN/MyIdentity → papar mesej ralat “Identiti yang dimasukkan tidak ditemui. Sila pastikan maklumat sepadan dengan MyKad/ pasport anda. Jika berterusan, sila hubungi pentadbir sistem”."
+    },
+    {
+     "id": "A2",
+     "text": "Integrasi tidak tersedia → Sistem memaparkan ralat teknikal “Servis tidak tersedia. Sila cuba sebentar lagi. Jika berterusan, sila hubungi pentadbir sistem.”"
+    },
+    {
+     "id": "A3",
+     "text": "Medan wajib tidak diisi → Papar mesej “Medan ini wajib diisi”."
+    },
+    {
+     "id": "A4",
+     "text": "API Timeout → Papar mesej ralat “Perkhidmatan semakan identiti sedang mengalami gangguan. Sila muat semula dan cuba sekali lagi. Jika berterusan, sila hubungi pentadbir sistem.”"
+    },
+    {
+     "id": "A5",
+     "text": "Rangkaian internet tidak tersedia → Papar mesej ralat “Gagal capaian data. Sila cuba semula.”"
+    }
+   ],
+   "input": "Pemohon mengisi No. MyKad / No. Pasport Pemohon mengisi Nama Penuh.",
+   "output": "Status pengesahan identiti berjaya atau gagal",
+   "uiRefs": [
+    "UI-PL-PP-DA-01-01"
+   ],
+   "integration": "myIDENTITY / JPN",
+   "notes": "Pengesahan wajib sebelum pemohon dibenarkan meneruskan pendaftaran. Dipanggil oleh UC-PL-PP-DA-01. Mesej ralat tidak perlu mendedahkan butiran sensitif secara terperinci. SSL/TLS; API Key; Sistem menyimpan Nama Penuh dan No. MyKad yang disahkan melalui / JPN sahaja. Tiada data peribadi lain disimpan.",
+   "calls": [
+    "UC-PL-PP-DA-01-03"
+   ],
+   "parentId": "UC-PL-PP-DA-01"
+  },
+  {
+   "id": "UC-PL-PP-DA-01-02",
+   "name": "Semakan Rekod Pemohon",
+   "group": "Daftar Akaun",
+   "actors": [
+    "Pemohon"
+   ],
+   "steps": [
+    "Pemohon mengisi No. MyKad / No. Pasport dan Nama Penuh. Sistem menyemak kewujudan rekod pemohon dalam pangkalan data sistem. Jika rekod tidak wujud, sistem membenarkan proses Tambah Maklumat Pemohon (UC-PL-PP-DA-01-03) diteruskan. Jika rekod wujud, sistem memaparkan mesej ralat, menghalang pendaftaran dan menyediakan pilihan navigasi ke Log Masuk atau Lupa Kata Laluan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Rekod pemohon telah wujud → Papar mesej ralat “Pengguna telah berdaftar dalam sistem. Sila log masuk atau lupa kata laluan”."
+    },
+    {
+     "id": "A2",
+     "text": "DB tidak dapat dicapai → Papar mesej “Servis tidak tersedia. Sila cuba sebentar lagi. Jika berterusan, sila hubungi pentadbir sistem.”"
+    },
+    {
+     "id": "A3",
+     "text": "Data input kosong → Papar mesej “Medan ini wajib diisi”, kekal di skrin pengesahan identiti."
+    }
+   ],
+   "input": "Pemohon mengisi No. MyKad / No. Pasport Pemohon mengisi Nama Penuh.",
+   "output": "Status semakan rekod telah wujud atau baharu. Sekiranya baharu, terus ke paparan skrin UC-PL-PP-DA-01-03",
+   "uiRefs": [
+    "UI-PL-PP-DA-01-02"
+   ],
+   "integration": "DB dalaman",
+   "notes": "Pengesahan wajib sebelum pemohon dibenarkan meneruskan pendaftaran Dipanggil oleh UC-PL-PP-DA-01",
+   "calls": [
+    "UC-PL-PP-DA-01-03"
+   ],
+   "parentId": "UC-PL-PP-DA-01"
+  },
+  {
+   "id": "UC-PL-PP-DA-01-03",
+   "name": "Tambah Maklumat Pemohon",
+   "group": "Daftar Akaun",
+   "actors": [
+    "Pemohon"
+   ],
+   "steps": [
+    "Pemohon berada di skrin Tambah Maklumat Pemohon selepas identiti disahkan. Pemohon mengisi medan wajib seperti e-mel, nombor telefon, kata laluan dan sahkan kata laluan. Pemohon wajib menanda persetujuan Terma dan Syarat untuk meneruskan proses. Pemohon klik “Daftar Akaun”. Sistem menyemak kelengkapan medan wajib, keunikan e-mel, padanan kata laluan dan polisi kata laluan. Sistem menyimpan maklumat pendaftaran dan memaparkan makluman pendaftaran berjaya dan arahan semak e-mel untuk OTP pengesahan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Medan wajib tidak diisi → Papar mesej ralat “Medan ini wajib diisi”."
+    },
+    {
+     "id": "A2",
+     "text": "Kata laluan tidak sepadan → Papar mesej ralat “Pendaftaran Gagal. Kata laluan tidak sepadan”."
+    },
+    {
+     "id": "A3",
+     "text": "E-mel telah digunakan → Papar mesej ralat “E-mel telah berdaftar. Sila log masuk menggunakan akaun sedia ada atau gunakan alamat e-mel yang berbeza.”"
+    },
+    {
+     "id": "A4",
+     "text": "Persetujuan Terma dan Syarat tidak ditanda → Papar mesej ralat “Medan ini wajib ditanda”."
+    },
+    {
+     "id": "A5",
+     "text": "Sistem gagal simpan rekod → Papar mesej ralat “Gagal capaian data. Sila cuba semula. Jika berterusan, sila hubungi pentadbir sistem.”"
+    },
+    {
+     "id": "A6",
+     "text": "Format e-mel tidak sah → Papar mesej ralat “Format e-mel tidak sah.”"
+    },
+    {
+     "id": "A7",
+     "text": "Format kata laluan tidak sah → Papar mesej ralat “Kata laluan mesti mempunyai gabungan sekurang-kurangnya satu huruf besar, huruf kecil dan nombor” atau “Kata laluan mesti mempunyai sekurang-kurangnya 8 aksara” atau “Kata laluan mesti mempunyai sekurang-kurangnya satu aksara khas”"
+    }
+   ],
+   "input": "Medan Wajib Emel No Telefon Kata Laluan Sahkan Kata Laluan Persetujuan Terma dan Syarat",
+   "output": "Rekod pendaftaran pemohon disimpan dalam DB sistem. Akaun baharu berstatus belum aktif OTP pengaktifan dijana dan dihantar ke e-mel pemohon.",
+   "uiRefs": [
+    "UI-PL-PP-DA-01-03"
+   ],
+   "integration": "Gateway e-mel",
+   "notes": "Kata laluan minimum 8 dan maksimum 12 aksara. Kata laluan perlu mengandungi gabungan sekurang-kurangnya satu huruf besar, huruf kecil, nombor, dan aksara khas. Kata laluan disimpan dalam bentuk hash di DB sistem.",
+   "calls": [],
+   "parentId": "UC-PL-PP-DA-01"
+  },
+  {
+   "id": "UC-PL-PP-DA-02",
+   "name": "Sahkan OTP dan Aktifkan Akaun",
+   "group": "Daftar Akaun",
+   "actors": [
+    "Pemohon"
+   ],
+   "steps": [
+    "Sistem paparkan skrin “Sahkan Akaun Anda” selepas pengguna klik butang “Sahkan”. Pemohon memasukkan kod OTP 6 digit yang diterima melalui e-mel yang didaftarkan. Pemohon klik “Sahkan OTP”. Sistem menyemak kesahikan dan tempoh sah OTP. Jika OTP sah, sistem mengaktifkan akaun dan menyimpan status pengaktifan. Sistem membawa pemohon ke paparan pemuka Profil Pelanggan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "OTP salah/ tidak dijumpai dalam rekod/ tidak sah → Papar mesej ralat “Kod OTP tidak sah. Sila pastikan OTP yang dimasukkan adalah betul”"
+    },
+    {
+     "id": "A2",
+     "text": "OTP tamat tempoh → Papar mesej ralat “Kod OTP telah tamat tempoh. Sila klik Hantar Semula untuk mendapatkan kod baharu.”"
+    },
+    {
+     "id": "A3",
+     "text": "Sistem gagal menghantar OTP ke e-mel pengguna / Pelayan emel tidak tersedia → Tiada mesej ralat dipaparkan. Sistem menyimpan e-mel dalam queue dan akan dihantar semula kepada pengguna apabila pelayan e-mel tersedia."
+    },
+    {
+     "id": "A4",
+     "text": "Pelayan e-mel kembali tersedia. → Sistem memproses semula e-mel dalam queue secara automatik dan menghantar OTP kepada penerima. Sekiranya OTP tamat tempoh, Pengguna boleh klik Hantar Semula untuk mendapatkan kod baharu."
+    },
+    {
+     "id": "A5",
+     "text": "Sistem gagal semak OTP → Papar mesej ralat ”Gagal capaian data. Sila cuba semula.”"
+    }
+   ],
+   "input": "6 Digit OTP",
+   "output": "Akaun Aktif",
+   "uiRefs": [
+    "UI-PL-PP-DA-02"
+   ],
+   "integration": "Gateway e-mel",
+   "notes": "Kod OTP adalah medan wajib diisi. OTP sah selama 10 minit daripada masa penghantaran Format OTP adalah nombor dan mestilah 6 digit. Tiada had maksimum untuk permintaan kod OTP.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PP-DA-02-01",
+   "name": "Hantar Notifikasi Pengaktifan",
+   "group": "Daftar Akaun",
+   "actors": [
+    "Pemohon"
+   ],
+   "steps": [
+    "Sistem mengesan akaun telah berjaya diaktifkan. Sistem menyediakan kandungan notifikasi pengaktifan merangkumi nama pemohon, tarikh permohonan diaktifkan, status, pautan log masuk sistem. Sistem menghantar notifikasi kepada pemohon melalui e-mel didaftarkan. Sistem merekod status penghantaran notifikasi dalam pangkalan data sistem dan audit trail."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Notifikasi gagal dihantar → Sistem merekod kegagalan penghantaran untuk semakan pentadbir / proses ulangan."
+    }
+   ],
+   "input": "Nama pemohon ID pemohon Tarikh pengaktifan Status pengaktifan Emel pemohon",
+   "output": "Notifikasi pengaktifan akaun dihantar pemohon melalui e-mel. Rekod notifikasi disimpan di dalam DB sistem.",
+   "uiRefs": [
+    "UI-PL-PP-DA-02-01"
+   ],
+   "integration": "Gateway e-mel",
+   "notes": "Kandungan notifikasi boleh merangkumi pautan log masuk ke sistem. Rekod penghantaran disimpan dalam audit trail DB sistem.",
+   "calls": [],
+   "parentId": "UC-PL-PP-DA-02"
+  },
+  {
+   "id": "UC-PL-PP-PF-01",
+   "name": "Kemas Kini Maklumat Profil",
+   "group": "Penyelenggaraan Profil",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna log masuk je sistem. Sistem papar dashboard “Profil Pelesen” Pengguna klik “Kemaskini” untuk membuka skrin Kemaskini Maklumat Profil. Pengguna memilih / memuat naik foto profil jika perlu (medan tidak wajib). Pengguna mengemaskini medan wajib “Maklumat Akaun” seperti No. Telefon dan Emel (tidak boleh dikemaskini secara terus, pengguna perlu menghubungi pentadbir). Pengguna mengemaskini medan wajib “Maklumat Alamat” seperti Alamat 1, Alamat 2, Poskod, Bandar, Negeri. Pengguna mengemaskini “Maklumat Peribadi” seperti Tarikh Lahir, Jantina, Bangsa, Agama, Status Perkahwinan dan status Warganegara. Pengguna klik “Kemaskini Profil.” Sistem menyemak medan wajib, format data dan menyimpan perubahan data dalam DB sistem."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Profil tidak dijumpai → papar mesej ralat “Ralat capaian data. Sila cuba semula”."
+    },
+    {
+     "id": "A2",
+     "text": "Akses tanpa log masuk → kembali semula ke skrin log masuk."
+    },
+    {
+     "id": "A3",
+     "text": "Medan wajib tidak lengkap → Papar mesej “Medan ini wajib diisi.”"
+    },
+    {
+     "id": "A4",
+     "text": "Format e-mel tidak sah → Papar mesej ralat “Format e-mel tidak sah. Contoh: example@gmail.com”"
+    },
+    {
+     "id": "A5",
+     "text": "Format no telefon tidak sah → Papar mesej ralat “Format nombor telefon tidak sah. Contoh: 01234567890”"
+    },
+    {
+     "id": "A6",
+     "text": "Format poskod tidak sah → Papar mesej ralat “Format poskod tidak sah. Contoh: 10101”"
+    },
+    {
+     "id": "A7",
+     "text": "Poskod tidak sah / tidak wujud → Papar mesej ralat “Poskod tidak dijumpai. Sila pastikan poskod yang dimasukkan adalah betul.”"
+    },
+    {
+     "id": "A8",
+     "text": "Foto profil tidak ikut format → Papar mesej ralat “Format diterima: JPG, PNG, dan WEBP.”"
+    },
+    {
+     "id": "A9",
+     "text": "Foto profil melebih had maksimum → Papar mesej ralat “Saiz maksimum dibenarkan adalah 5MB sahaja.”"
+    },
+    {
+     "id": "A10",
+     "text": "Sistem gagal simpan rekod → Papar mesej ralat “Gagal capaian data. Sila cuba semula”."
+    },
+    {
+     "id": "A11",
+     "text": "Bandar / Negeri tidak dijumpai → Papar mesej ralat “Bandar / Negeri tidak dijumpai. Sila pastikan Bandar / Negeri yang dimasukkan adalah betul.”"
+    }
+   ],
+   "input": "Foto Profil – Pilihan / tertakluk format dan saiz fail. ID Pengguna – Paparan Sahaja E-mel – Paparan sahaja / Kemaskini dibenarkan dengan cara menghubungi pentadbir sistem. No Telefon, Alamat 1, Alamat 2, Poskod, Bandar, Negeri, Tarikh Lahir, Jantina, Bangsa, Agama, Status Perkahwinan, Status Warganegara. – Medan Wajib",
+   "output": "Paparan maklumat profil untuk dikemaskini",
+   "uiRefs": [
+    "UI-PL-PP-PF-01"
+   ],
+   "integration": "-",
+   "notes": "ID Pengguna dan Nama Penuh adalah secara paparan sahaja dan tidak boleh dikemaskini Medan wajib ditandakan dengan simbol asterik * Foto profil diterima dalam format PNG/JPEG/WEBP dengan saiz maksimum 5MB mengikut pemetaan data.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PP-PF-01-01",
+   "name": "Tukar Kata Laluan",
+   "group": "Penyelenggaraan Profil",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna membuka Skrin Kemaskini Profil > Keselamatan > Tukar Kata Laluan. Pengguna memasukkan kata laluan semasa. Pengguna memasukkan kata laluan baru. Pengguna sahkan kata laluan baru. Pengguna klik butang “Tukar Kata Laluan”. Sistem mengesahkan semua medan dan polisi kata laluan baharu. Jika berjaya, sistem menyimpan kata laluan baharu dalam bentuk hash. Sistem keluarkan popup mesej “Berjaya! Kata laluan berjaya dikemaskini. Sila log masuk semula.” Pengguna terima notifikasi emel tentang pertukaran kata laluan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Format input tidak sah → Sistem memaparkan status kriteria kata laluan (simbol untuk medan tidak sah) tanpa mesej ralat."
+    },
+    {
+     "id": "A2",
+     "text": "Kata laluan semasa tidak sah → Papar mesej ralat “Kata laluan semasa tidak sah.”"
+    },
+    {
+     "id": "A3",
+     "text": "Format Kata Laluan Baru tidak sah → Sistem memaparkan status kriteria kata laluan (simbol untuk medan tidak sah) tanpa mesej ralat"
+    },
+    {
+     "id": "A4",
+     "text": "Kata Laluan Baru tidak sepadan → Mesej ralat “Kata laluan tidak sepadan” dipaparkan."
+    },
+    {
+     "id": "A5",
+     "text": "Kata laluan tidak berjaya dikemaskini → Tiada paparan mesej ralat untuk kata laluan yang tidak berjaya dikemaskini kerana mesej ralat telah dipaparkan pada setiap medan Tukar Kata Laluan. Penukaran tidak dibenarkan sekiranya format medan tidak sah."
+    },
+    {
+     "id": "A6",
+     "text": "Medan Wajib kosong → Papar mesej ralat “Medan ini wajib diisi.”"
+    },
+    {
+     "id": "A7",
+     "text": "Kata laluan baharu sama dengan kata lalauan lama → Papar mesej ralat “Kata laluan baharu adalah sama dengan kata laluan lama. Sila semak semula.”"
+    }
+   ],
+   "input": "Medan Wajib: Kata Laluan Semasa, Kata Laluan Baru, Sahkan Kata Laluan Baru",
+   "output": "Kata Laluan Baharu dikemaskini dan disimpan dalam bentuk hash",
+   "uiRefs": [
+    "UI-PL-PP-PF-01-01"
+   ],
+   "integration": "-",
+   "notes": "Polisi Kata Laluan PBT Kata laluan baharu minimum 8 dan maksimum 12 aksara. Perlu gabungan sekurang-kurangnya satu huruf besar, huruf kecil, nombor dan aksara khas. Ikon mata hanya memaparkan kata laluan di UI sebelum penyimpanan.",
+   "calls": [],
+   "parentId": "UC-PL-PP-PF-01"
+  },
+  {
+   "id": "UC-PL-PP-PF-02",
+   "name": "Cipta Syarikat",
+   "group": "Penyelenggaraan Profil",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna klik imej profil pengguna > Syarikat > + Syarikat.",
+    "Pengguna memasukkan No. Pendaftaran SSM dan Nama Syarikat seperti di dokumen SSM.",
+    "Pengguna klik “Sahkan Syarikat”",
+    "Sistem mengesahkan maklumat rasmi syarikat melalui integrasi SSM/KPKT HUB dengan memanggil UC-PL-PP-PF-02-01.",
+    "Sistem akan memaparkan skrin Tambah Butiran Syarikat selepas maklumat syarikat telah disahkan melalui integrasi SSM."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Semakan SSM gagal → Papar mesej ralat “Maklumat syarikat tidak ditemui. Sila semak nombor pendaftaran SSM atau nama syarikat”"
+    },
+    {
+     "id": "A2",
+     "text": "Medan wajib tidak lengkap → Papar mesej ralat “Medan ini wajib diisi”"
+    },
+    {
+     "id": "A3",
+     "text": "Sistem gagal integrasi → Papar mesej ralat “Servis tidak tersedia. Sila cuba sebentar lagi. Jika berterusan, sila hubungi pentadbir sistem.”"
+    }
+   ],
+   "input": "Medan wajib: Nombor pendaftaran SSM & Nama syarikat seperti yang berdaftar dengan SSM",
+   "output": "Rekod syarikat baharu dikaitkan dengan profil individu (status tidak aktif). Pengguna dinavigasi ke paparan skrin Tambah Butiran Syarikat.",
+   "uiRefs": [
+    "UI-PL-PP-PF-02"
+   ],
+   "integration": "SSM/KPKT Hub",
+   "notes": "Pengesahan syarikat adalah wajib sebelum pengguna dibenarkan untuk mendaftarkan syarikat.",
+   "calls": [
+    "UC-PL-PP-PF-02-01"
+   ],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PP-PF-02-01",
+   "name": "Semakan Syarikat (SSM/KPKT Hub)",
+   "group": "Penyelenggaraan Profil",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna memasukkan No. Pendaftaran SSM dan Nama Syarikat seperti di dokumen SSM.",
+    "Pengguna klik butang “Sahkan Syarikat”",
+    "Sistem menghantar panggilan API ke SSM / KPKT Hub untuk proses pengesahan dan semakan rekod syarikat pengguna.",
+    "Sistem menunggu maklum balas API dalam tempoh masa maksimum 1 minit.",
+    "Jika pengesahan berjaya dan syarikat belum berdaftar dalam sistem OSC, proses diteruskan ke langkah seterusnya dengan memanggil fungsi UC-PL-PP-02-02."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Semakan SSM / KPKT Hub gagal → Papar mesej ralat “Maklumat syarikat tidak ditemui. Sila semak nombor pendaftaran SSM atau nama syarikat”"
+    },
+    {
+     "id": "A2",
+     "text": "Medan wajib tidak lengkap → Papar mesej ralat “Medan ini wajib diisi”"
+    },
+    {
+     "id": "A3",
+     "text": "API Integrasi gagal → Papar mesej ralat teknikal atau “Servis tidak tersedia. Sila cuba sebentar lagi. Jika berterusan, sila hubungi pentadbir sistem.”"
+    },
+    {
+     "id": "A4",
+     "text": "Syarikat tidak aktif / tidak sah → Papar mesej ralat “Maklumat tidak ditemui. Sila pastikan syarikat anda berstatus aktif sebelum meneruskan proses pendaftaran. ”"
+    },
+    {
+     "id": "A5",
+     "text": "API Timeout → Papar mesej ralat “Perkhidmatan semakan SSM sedang mengalami gangguan. Sila muat semula. Jika berterusan, sila hubungi pentadbir sistem.”"
+    }
+   ],
+   "input": "Medan Wajib: 1. Nombor pendaftaran SSM 2. Nama Syarikat",
+   "output": "Status semakan syarikat No pendaftaran SSM dan Nama perundangan syarikat disahkan dan dipaparkan dalam mod read-only pada skrin seterusnya.",
+   "uiRefs": [
+    "UI-PL-PP-PF-02-01"
+   ],
+   "integration": "SSM/KPKT Hub",
+   "notes": "Semakan syarikat adalah wajib dan mandatori sebelum butiran syarikat boleh diisi. Maklumat rasmi iaitu nombor SSM dan nama syarikat tidak boleh dikemaskini oleh pengguna untuk proses seterusnya.",
+   "calls": [],
+   "parentId": "UC-PL-PP-PF-02"
+  },
+  {
+   "id": "UC-PL-PP-PF-02-02",
+   "name": "Tambah Butiran Syarikat",
+   "group": "Penyelenggaraan Profil",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna meneruskan selepas semakan syarikat berjaya. Pengguna mengisi butiran wajib syarikat seperti keluarga entiti, jenis entiti, peranan, nama perniagaan, dan tarikh mula pendaftaran berdasarkan maklumat SSM. Pengguna juga perlu memuat naik dokumen surat lantikan kuasa dan medan muat naik dokumen ini adalah mandatori. Pengguna seterusnya mengisi maklumat wajib person in charge (PIC) seperti nama penuh, nombor MyKad atau Pasport, jawatan, nombor telefon bimbit dan e-mel PIC. Pengguna juga boleh menambah maklumat cawangan dan maklumat PIC cawangan sekiranya syarikat pengguna mempunyai cawangan. Medan ini adalah pilihan. Sekiranya pengguna menambah cawangan, adalah mandatori untuk pengguna mengisi butiran cawangan termasuk, nama cawangan, kod cawangan, alamat 1, alamat 2, alamat 3, poskod, bandar, negeri, telefon pejabat, telefon bimbit, e-mel, maklumat PIC cawagan, serta checkbox cawangan lalai. No faks adalah medan pilihan. Pengguna klik butang “Cipta Syarikat” dan sistem akan menyemak kelengkapan medan. Sistem akan menyimpan butiran syarikat dalam DB sistem dan status syarikat dipaparkan sebagai “Aktif.”"
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Medan wajib tidak lengkap → Papar mesej ralat “Medan ini wajib diisi”"
+    },
+    {
+     "id": "A2",
+     "text": "Cawangan ditambah tetapi maklumat cawangan tidak lengkap → Papar mesej ralat “Medan ini wajib diisi”"
+    },
+    {
+     "id": "A3",
+     "text": "Dokumen tidak dimuat naik → Papar mesej ralat “Dokumen ini wajib dimuat naik.”"
+    },
+    {
+     "id": "A4",
+     "text": "Format e-mel tidak sah → Papar mesej ralat “Format e-mel tidak sah. Contoh: example@gmail.com”"
+    },
+    {
+     "id": "A5",
+     "text": "Format no telefon tidak sah → Papar mesej ralat “Format nombor telefon tidak sah. Contoh: 01234567890”"
+    },
+    {
+     "id": "A6",
+     "text": "Format poskod tidak sah → Papar mesej ralat “Format poskod tidak sah. Contoh: 10101”"
+    },
+    {
+     "id": "A7",
+     "text": "Poskod tidak sah / tidak wujud → Papar mesej ralat “Poskod tidak dijumpai.”"
+    },
+    {
+     "id": "A8",
+     "text": "Sistem gagal simpan rekod → Papar mesej ralat “Gagal capaian data. Sila cuba semula”."
+    },
+    {
+     "id": "A9",
+     "text": "Bandar / Negeri tidak dijumpai → Papar mesej ralat “Bandar / Negeri tidak dijumpai. Sila pastikan Bandar / Negeri yang dimasukkan adalah betul.”"
+    }
+   ],
+   "input": "Butiran Syarikat Keluarga entiti, jenis entiti, peranan, nama perniagaan, dan tarikh mula pendaftaran berdasarkan maklumat SSM. Maklumat PIC Nama penuh, nombor MyKad atau Pasport, jawatan, nombor telefon bimbit dan e-mel PIC. Maklumat Cawangan (Jika ditambah) Nama cawangan, kod cawangan, alamat 1, alamat 2, alamat 3, poskod, bandar, negeri, telefon pejabat, telefon bimbit, e-mel, maklumat PIC cawagan, serta checkbox cawangan lalai. No faks adalah medan pilihan. Dokumen Bukti Syarikat (Surat Wakil Syarikat)",
+   "output": "Butiran syarikat lengkap disimpan. Status syarikat dipaparkan sebagai Aktif",
+   "uiRefs": [
+    "UI-PL-PP-PF-02-02"
+   ],
+   "integration": "",
+   "notes": "Alamat 3 dan No Faks tidak wajib. Medan cawangan menjadi wajib apabila pengguna menambah cawangan. No pendaftaran SSM dan Nama perundangan syarikat adalah paparan sahaja / read-only kerana ia telah disahkan melalui proses semakan SSM.",
+   "calls": [],
+   "parentId": "UC-PL-PP-PF-02"
+  },
+  {
+   "id": "UC-PL-PP-PF-03",
+   "name": "Kemaskini Maklumat Syarikat",
+   "group": "Penyelenggaraan Profil",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna membuka senarai syarikat dalam Profil Pelanggan. Pengguna mencari / memilih syarikat dan klik ikon pensil. Sistem memaparkan rekod syarikat sedia ada. Pengguna mengemaskini medan yang dibenarkan termasuk butiran syarikat, PIC, cawangan dan dokumen terkini. Pengguna klik butang “Kemaskini”. Sistem menyemak validasi medan dan menyimpan perubahan dalam DB sistem."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Medan wajib tidak lengkap → Papar mesej ralat “Medan ini wajib diisi”"
+    },
+    {
+     "id": "A2",
+     "text": "Cawangan ditambah tetapi maklumat cawangan tidak lengkap → Papar mesej ralat “Medan ini wajib diisi”"
+    },
+    {
+     "id": "A3",
+     "text": "Dokumen wajib tidak dimuat naik → Papar mesej ralat “Dokumen ini wajib dimuat naik.”"
+    },
+    {
+     "id": "A4",
+     "text": "Format e-mel tidak sah → Papar mesej ralat “Format e-mel tidak sah. Contoh: example@gmail.com”"
+    },
+    {
+     "id": "A5",
+     "text": "Format no telefon tidak sah → Papar mesej ralat “Format nombor telefon tidak sah. Contoh: 01234567890”"
+    },
+    {
+     "id": "A6",
+     "text": "Format poskod tidak sah → Papar mesej ralat “Format poskod tidak sah. Contoh: 10101”"
+    },
+    {
+     "id": "A7",
+     "text": "Poskod tidak sah / tidak wujud → Papar mesej ralat “Poskod tidak dijumpai. Sila pastikan poskod yang dimasukkan adalah betul.”"
+    },
+    {
+     "id": "A8",
+     "text": "Sistem gagal simpan kemaskini → Papar mesej ralat “Gagal capaian data. Sila cuba semula”."
+    },
+    {
+     "id": "A9",
+     "text": "Bandar / Negeri tidak dijumpai → Papar mesej ralat “Bandar / Negeri tidak dijumpai. Sila pastikan Bandar / Negeri yang dimasukkan adalah betul.”"
+    }
+   ],
+   "input": "Butiran Syarikat (Medan Wajib) Keluarga entiti, jenis entiti, peranan, nama perniagaan, dan tarikh mula pendaftaran berdasarkan maklumat SSM. Maklumat PIC (Medan Wajib) Nama penuh, nombor MyKad atau Pasport, jawatan, nombor telefon bimbit dan e-mel PIC. Maklumat Cawangan (Jika ditambah) Nama cawangan, kod cawangan, alamat 1, alamat 2, alamat 3, poskod, bandar, negeri, telefon pejabat, telefon bimbit, e-mel, maklumat PIC cawagan, serta checkbox cawangan lalai. No faks adalah medan pilihan. Dokumen sokongan wajib/pilihan",
+   "output": "Maklumat syarikat dikemaskini dalam DB sistem.",
+   "uiRefs": [
+    "UI-PL-PP-PF-03"
+   ],
+   "integration": "",
+   "notes": "Alamat 3 dan No Faks adalah medan tidak wajib. Medan cawangan menjadi wajib apabila pengguna menambah cawangan. No pendaftaran SSM dan Nama perundangan syarikat adalah paparan sahaja / read-only dan tidak boleh dikemaskini kerana ia telah disahkan melalui proses semakan SSM.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PP-PF-04",
+   "name": "Padam Syarikat",
+   "group": "Penyelenggaraan Profil",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna membuka senarai syarikat dalam Profil Pelanggan. Pengguna klik ikon tong sampah pada syarikat yang ingin dipadam. Sistem memaparkan mesej pop up berkaitan kesan pemadaman rekod syarikat. Pengguna klik “Ya, Padam” untuk meneruskan proses padam syarikat. Sistem menyemak sama ada syarikat mempunyai rekod: a. Lesen aktif. b. Lesen dalam permohonan. c. Transaksi belum selesai. d. Rekod pemantauan masih aktif e. Kompaun masih aktif. Jika syarikat tersebut tidak mempunyai lesen aktif, tiada lesen dalam permohonan, tiada transaksi tertunggak, tiada rekod pemantauan serta kompuan aktif, sistem akan memanggil UC-PL-PP-PF-04-01 untuk pengesahan tindakan dan proses OTP padam syarikat. Selepas disahkan, sistem memadam syarikat daripada profil dan merekod audit trail."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Syarikat mempunyai rekod (lesen, permohonan, pemantauan, dan kompaun) yang masih aktif atau transaksi tertunggak → Papar mesej ralat “Syarikat tidak boleh dipadam kerana masih mempunyai rekod aktif atau transaksi tertunggak”"
+    },
+    {
+     "id": "A2",
+     "text": "Pengguna membatalkan tindakan → Tiada perubahan dibuat. Pengguna kembali ke paparan skrin Senarai Syarikat."
+    },
+    {
+     "id": "A3",
+     "text": "Sistem gagal padam →Papar mesej ralat “Servis tidak tersedia. Sila cuba sebentar lagi.”"
+    }
+   ],
+   "input": "Rekod syarikat yang dipilih",
+   "output": "Syarikat dipadam daripada profil pengguna. Rekod syarikat dipadam secara soft delete dalam DB sistem untuk tempoh masa yang ditetapkan oleh pentadbir sistem JKT. Rekod tindakan disimpan dalam audit trail DB sistem.",
+   "uiRefs": [
+    "UI-PL-PP-PF-04"
+   ],
+   "integration": "",
+   "notes": "Pemadaman syarikat tidak dilaksanan jika rekod berkaitan lesen, bayaran, permohonan, kompaun dan pemantauan masih aktif. Semakan rekod aktif wajib sebelum tindakan padam diteruskan.",
+   "calls": [
+    "UC-PL-PP-PF-04-01"
+   ],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PP-PF-04-01",
+   "name": "Sahkan OTP & Padam Syarikat",
+   "group": "Penyelenggaraan Profil",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna memilih kaedah pengesahan OTP melalui e-mel atau sms. Sistem menghantar kod OTP 6 digit ke saluran yang dipilih. Pengguna memasukkan kod OTP dan tekan butang “Sahkan” untuk pengesahan identiti pengguna. Jika OTP sah, sistem meneruskan proses pemadaman rekod syarikat dan memaparkan mesej “Syarikat berjaya dipadam”. Sistem merekod pemadaman syarikat dalam DB sistem."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "OTP salah/ tidak dijumpai dalam rekod/ tidak sah → Papar mesej ralat “Kod OTP tidak sah. Sila pastikan OTP yang dimasukkan adalah betul”"
+    },
+    {
+     "id": "A2",
+     "text": "OTP tamat tempoh → Papar mesej ralat “Kod OTP telah tamat tempoh. Sila klik Hantar Semula untuk mendapatkan kod baharu.”"
+    },
+    {
+     "id": "A3",
+     "text": "Sistem gagal menghantar OTP ke e-mel/sms pengguna → Papar mesej ralat “Servis tidak tersedia. Sila cuba sebentar lagi. Jika berterusan, sila hubungi pentadbir sistem.”"
+    },
+    {
+     "id": "A4",
+     "text": "Sistem gagal semak OTP → Papar mesej ralat “Gagal capaian data. Sila cuba semula.”"
+    }
+   ],
+   "input": "Kod OTP (Wajib) ID/ Rekod Syarikat",
+   "output": "Tindakan padam syarikat disahkan. Syarikat dipadam daripada profil pengguna.",
+   "uiRefs": [
+    "UI-PL-PP-PF-04-01"
+   ],
+   "integration": "Emel / SMS Gateway",
+   "notes": "OTP 6 digit nombor adalah wajib sebelum proses padam syarikat diteruskan. Tindakan tidak akan diteruskan sekiranya OTP tidak sah atau tamat tempoh.",
+   "calls": [],
+   "parentId": "UC-PL-PP-PF-04"
+  },
+  {
+   "id": "UC-PL-PP-PF-05",
+   "name": "Muat Naik Dokumen",
+   "group": "Penyelenggaraan Profil",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna memuatnaik dokumen yang diperlukan (jika ada). Dokumen bertanda asterik * adalah wajib dimuat naik. Pengguna klik pada ikon “Muatnaik” Sistem memanggil UC-PL-PP-05-01 untuk menyemak saiz dan format dokumen, dan memuat naik dokumen jika memenuhi syarat. Sistem simpan dokumen ke repositori. Sistem simpan metadata ke DB."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Sistem berjaya simpan dokumen → Mesej dipaparkan “Fail telah dipilih. Dokumen ini akan dimuat naik apabila rekod syarikat disimpan”"
+    },
+    {
+     "id": "A2",
+     "text": "Sistem tidak berjaya simpan dokumen → Mesej “Muat naik tidak berjaya. Sila cuba semula” dipaparkan."
+    },
+    {
+     "id": "A3",
+     "text": "Format dokumen tidak sah → Sistem menapis format fail sebelum dimuat naik pengguna."
+    },
+    {
+     "id": "A4",
+     "text": "Dokumen wajib belum dimuat naik → Papar mesej ralat “Dokumen ini adalah wajib dimuat naik”"
+    },
+    {
+     "id": "A5",
+     "text": "Dokumen hampir luput tempoh simpanan (dalam tempoh 30 hari sebelum 5 tahun) → Sistem menjana pemakluman secara automatik kepada pengguna melalui inbox aplikasi/e-mel/SMS dengan mesej “Dokumen [nama dokumen] akan luput pada [tarikh]. Sila muat naik semula dokumen terkini untuk mengelakkan gangguan akses.” (Saluran pemakluman tertakluk kepada persetujuan JKT dan PBT.)"
+    },
+    {
+     "id": "A6",
+     "text": "Tempoh simpanan 5 tahun dicapai → Sistem menyekat capaian dokumen secara automatik. Pengguna yang cuba mengakses akan menerima mesej ralat “Dokumen ini telah luput dan tidak lagi boleh dilihat atau dimuat turun.”"
+    }
+   ],
+   "input": "Fail dokumen sokongan",
+   "output": "Profil pengguna / Profil syarikat dikemaskini",
+   "uiRefs": [
+    "UI-PL-PP-PF-05"
+   ],
+   "integration": "-",
+   "notes": "Dokumen bertanda asterik * adalah wajib dimuat naik Format Dokumen adalah PDF, JPG, JPEG, PNG. Saiz maksimum dokumen adalah 5MB Metadata dokumen yang disimpan merangkumi nama fail asal, path/laluan fail, jenis fail/MIME type, saiz fail, jenis dokumen, ID pengguna yang memuat naik, tarikh dan masa muat naik serta versi/status dokumen. Sistem dicadangkan menyimpan maksimum 5 versi terkini bagi setiap dokumen. Versi yang melebihi had ini akan diarkibkan secara automatik dan tidak dapat diakses melalui sistem. Had tempoh penyimpanan versi dokumen dicadangkan adalah maksimum 5 tahun. Apabila had bilangan versi atau had tempoh masa dicapai, versi dokumen yang paling lama akan dipadam secara automatik oleh sistem.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PP-PF-05-01",
+   "name": "Semak Saiz/ Format Fail",
+   "group": "Penyelenggaraan Profil",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna memilih fail untuk dimuat naik. Sistem menyemak format fail. Sistem menyemak saiz fail Jika format dan saiz sah, sistem membenarkan fail dimuat naik. Jika tidak sah, sistem menghalang simpanan fail dan memaparkan mesej ralat."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Format fail tidak sah → Mesej ralat “Format fail tidak disokong. Dokumen mestilah dalam format PDF, JPG, JPEG, dan PNG)” / “Fail terlalu besar. Saiz maksimum dokumen adalah 5MB. “"
+    },
+    {
+     "id": "A2",
+     "text": "Fail rosak / tidak boleh dibaca → Papar mesej ralat “Fail tidak boleh diproses. Sila cuba semula atau muat naik fail lain”"
+    }
+   ],
+   "input": "Fail dokumen sokongan",
+   "output": "Status semakan fail berjaya / gagal Fail diterima untuk simpanan jika mematuhi syarat. Fail disimpan dalam bentuk path dalam DB sistem.",
+   "uiRefs": [
+    "UI-PL-PP-PF-05-01"
+   ],
+   "integration": "",
+   "notes": "Format fail dokumen mestilah PDF, JPG, JPEG, dan PNG. Saiz maksimum fail adalah 5MB Fail tidak dimuatnaik dan disimpan selagi syarat format dan saiz tidak dipenuhi.",
+   "calls": [],
+   "parentId": "UC-PL-PP-PF-05"
+  },
+  {
+   "id": "UC-PL-PP-BA-01",
+   "name": "Mohon Pembatalan Akaun",
+   "group": "Pembatalan Akaun",
+   "actors": [
+    "Pemohon"
+   ],
+   "steps": [
+    "Pengguna pilih menu Permohonan > Mohon Pembatalan > Pembatalan Akaun Pengguna. Pengguna masukkan sebab pembatalan (wajib diisi; maksimum 500 aksara). Pengguna klik butang “Hantar Permohonan Pembatalan”. Pengguna sahkan pop-up alert untuk penutupan akaun dengan klik butang “Ya, Hantar Permohonan” Pengguna memilih satu pilihan untuk pengesahan Identiti (emel atau sms) dan klik butang “Teruskan”. Sistem akan menghantar kod OTP 6 digit ke emel atau sms pengguna. Pengguna memasukkan kod OTP dan tekan butang “Sahkan” untuk pengesahan identiti pengguna. Sistem hantar permohonan dan paparkan popup mesej “Berjaya. Permohonan Berjaya Dihantar”. Sistem merekod permohonan pembatalan dalam DB. Sistem menukar status akaun pengguna kepada Menunggu Kelulusan. Status akaun berubah daripada Aktif kepada Menunggu Kelulusan selepas permohonan pembatalan akaun berjaya dihantar. Sistem menjana dan menghantar notifikasi kepada pengguna melalui e-mel/sms/in-app bagi memaklumkan bahawa permohonan pembatalan akaun telah berjaya dihantar dan sedang menunggu kelulusan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Pengguna tidak memberikan sebab pembatalan → mesej ralat “Medan ini adalah wajib. Sila masukkan sebab penutupan akaun sebelum menghantar permohonan”."
+    },
+    {
+     "id": "A2",
+     "text": "Sebab pembatalan melebihi had maksimum aksara → Sistem menyekat pengguna daripada menyambung penulisan sebab pembatalan."
+    },
+    {
+     "id": "A3",
+     "text": "Pengguna klik butang “Batal” → Sistem membatalkan proses penghantaran dan pengguna kekal di skrin permohonan pembatalan akaun. Mesej ralat tidak dipaparkan kerana tiada kegagalan sistem berlaku."
+    },
+    {
+     "id": "A4",
+     "text": "Pengguna tidak memilih kaedah pengesahan identiti → Sistem tidak membenarkan pengguna ke proses pengesahan OTP. Mesej ralat tidak dipaparkan kerana tiada kegagalan sistem berlaku."
+    },
+    {
+     "id": "A5",
+     "text": "OTP salah/ tidak dijumpai dalam rekod/ tidak sah → Papar mesej ralat “Kod OTP tidak sah. Sila pastikan OTP yang dimasukkan adalah betu”"
+    },
+    {
+     "id": "A6",
+     "text": "OTP tamat tempoh → Papar mesej ralat “Kod OTP telah tamat tempoh. Sila klik Hantar Semula untuk mendapatkan kod baharu.”"
+    },
+    {
+     "id": "A7",
+     "text": "Sistem gagal menghantar OTP ke e-mel/sms pengguna → Papar mesej ralat “Servis tidak tersedia. Sila cuba sebentar lagi. Jika berterusan, sila hubungi pentadbir sistem.”"
+    },
+    {
+     "id": "A8",
+     "text": "Sistem gagal semak OTP → Papar mesej ralat “Gagal capaian data. Sila cuba semula.”"
+    },
+    {
+     "id": "A9",
+     "text": "Sistem gagal menyimpan permohonan → mesej ralat “Gagal. Permohonan pembatalan akaun tidak berjaya dihantar. Sila cuba semula”. Sistem membatalkan proses penghantaran dan pengguna kekal di skrin permohonan pembatalan akaun."
+    }
+   ],
+   "input": "Sebab pembatalan",
+   "output": "Permohonan pembatalan direkod",
+   "uiRefs": [
+    "UI-PL-PP-BA-01"
+   ],
+   "integration": "Notifikasi (E-mel /SMS/ In-App)",
+   "notes": "Akaun tidak dipadam sehingga diluluskan oleh pegawai pentadbir JKT Notifikasi dihantar selepas permohonan pembatalan akaun berjaya direkodkan dan status permohonan dikemaskini kepada Menunggu Kelulusan. Semasa tempoh menunggu kelulusan ini, akaun pengguna akan disekat sementara secara penuh termasuk butang dan fungsi transaksi dibekukan (fungsi permohonan lesen baharu, pembaharuan lesen, sebarang tindakan kemaskini, dan sebagainya). Akaun pengguna masih berstatus “Aktif” pada papan pemuka, namun pengguna hanya boleh melihat dalam mod paparan sahaja (read only).",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PP-BA-02",
+   "name": "Sahkan Pembatalan Akaun",
+   "group": "Pembatalan Akaun",
+   "actors": [
+    "Pentadbir Sistem JKT"
+   ],
+   "steps": [
+    "Sistem menjana dan menghantar notifikasi kepada Pentadbir Sistem JKT melalui e-mel/ in-app notification bagi memaklumkan terdapat permohonan pembatalan akaun baharu yang memerlukan semakan dan tindakan kelulusan. Pegawai buka senarai permohonan pembatalan akaun. Pegawai semak sebab pembatalan & rekod audit. Pegawai klik Lulus atau Tolak. Jika lulus → Sistem menukar status akaun kepada Nyahaktif. Jika tolak → Sistem kekalkan akaun Aktif & hantar notifikasi kepada pemohon. Sistem simpan rekod keputusan pegawai."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Pegawai tidak mempunyai kebenaran akses → Sistem menghalang capaian ke fungsi semakan pembatalan akaun atau memaparkan mesej ralat “Anda tidak mempunyai kebenaran untuk mengakses fungsi ini.”"
+    },
+    {
+     "id": "A2",
+     "text": "Sistem gagal kemaskini status akaun → Sistem memaparkan mesej ralat “Status pembatalan akaun tidak berjaya dikemaskini. Sila cuba semula.” Status akaun tidak akan berubah sehingga proses kemaskini berjaya."
+    },
+    {
+     "id": "A3",
+     "text": "Paparan butiran permohonan gagal dimuatkan / data tidak dapat dicapai → Sistem memaparkan mesej ralat “Maklumat permohonan tidak dapat dipaparkan. Sila muat semula halaman atau cuba semula.” Tindakan Lulus/Tolak tidak dibenarkan sehingga maklumat permohonan berjaya dipaparkan."
+    }
+   ],
+   "input": "Keputusan (Lulus/Tolak)",
+   "output": "Akaun Nyahaktif atau Permohonan Ditolak",
+   "uiRefs": [
+    "UI-PL-PP-BA-02"
+   ],
+   "integration": "Notifikasi",
+   "notes": "Akses mesti berdasarkan peranan (role-based permission)",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PP-DM-01",
+   "name": "Log Masuk",
+   "group": "Daftar Masuk",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna membuka skrin Log Masuk. Pengguna memasukkan ID Pengguna. Pengguna memasukkan Kata Laluan. Pengguna memasukkan Kod Keselamatan / CAPTCHA. Pengguna klik \"Log Masuk\". Sistem mengesahkan ID, kata laluan, kod keselamatan dan status akaun. Jika akaun berdaftar dalam sistem dan masih aktif, sistem membenarkan akses ke sistem → paparan dashboard pengguna. Jika akaun pengguna berstatus Tidak Aktif, pengguna akan dinavigasikan ke fungsi Aktifkan Semula Akaun Tidak Aktif."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "ID Pengguna / Kata Laluan tidak sah → mesej ralat “ID pengguna atau kata laluan tidak sah”"
+    },
+    {
+     "id": "A2",
+     "text": "Kod Keselamatan / CAPTCHA tidak sah → mesej ralat “Kod keselamatan tidak sah”"
+    },
+    {
+     "id": "A3",
+     "text": "Akaun pengguna tidak aktif → mesej ralat “Log masuk tidak dibenarkan. Status akaun adalah Tidak Aktif. Sila aktifkan semula akaun anda.”"
+    },
+    {
+     "id": "A4",
+     "text": "Akaun belum diaktifkan melalui OTP → Papar mesej ralat “Akaun anda belum diaktifkan. Sila sahkan OTP untuk mengaktifkan akaun.”"
+    },
+    {
+     "id": "A5",
+     "text": "ID pengguna / Kata laluan / Kod keselamatan tidak diisi → Papar mesej ralat pada medan berkaitan “Sila masukkan ID Pengguna anda” / “Sila masukkan kata laluan” / “Medan ini wajib diisi”"
+    },
+    {
+     "id": "A6",
+     "text": "Akaun dikunci sementara kerana cubaan log masuk gagal maksimum 5 kali → Papar mesej ralat “Akaun anda telah dikunci sementara kerana cubaan log masuk melebihi had ditetapkan. Sila cuba semula atau Lupa Kata Laluan”"
+    }
+   ],
+   "input": "1. ID Pengguna – No. Mykad / No. Passport 2. Kata Laluan 3. Kod Keselamatan / CAPTCHA.",
+   "output": "1. Pengguna berjaya log masuk. 2. Sesi pengguna diwujudkan.",
+   "uiRefs": [
+    "UI-PL-PP-DM-01"
+   ],
+   "integration": "-",
+   "notes": "1. Medan ID Pengguna, Kata Laluan dan Kod Keselamatan / CAPTCHA adalah wajib diisi. 2. ID Pengguna merujuk kepada No. Kad Pengenalan / No. Pasport yang telah didaftarkan. 3. Kata laluan pengguna disemak dengan kata laluan yang disimpan dalam pangkalan data sistem secara hash. 4. Kod Keselamatan / CAPTCHA digunakan untuk pengesahan keselamatan semasa log masuk dan tidak disimpan sebagai rekod kekal. 5. Akaun mestilah berstatus Aktif untuk membolehkan pengguna mengakses sistem. 6. Sekiranya akaun dikenal pasti sebagai Tidak Aktif, sistem menyekat log masuk dan pengguna perlu melalui fungsi Aktifkan Semula Akaun Tidak Aktif. 7. Akaun pengguna akan dikenal pasti sebagai Tidak Aktif sekiranya semua syarat berikut dipenuhi: Tiada aktiviti log masuk melebihi tempoh 12 bulan; Pengguna tidak mempunyai lesen berstatus Aktif; Pengguna tidak mempunyai permohonan atau pembaharuan lesen berstatus Dalam Semakan/ Menunggu Ulasan/ Baharu Dihantar/ Perlu DiperbetulkanPengguna tidak mempunyai transaksi berstatus Belum Bayar.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PP-DM-02",
+   "name": "Lupa Kata Laluan",
+   "group": "Daftar Masuk",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Sistem menghantar pautan tetapan semula kata laluan kepada e-mel pengguna.",
+    "Pengguna membuka pautan yang diterima.",
+    "Sistem memaparkan skrin tetapan semula kata laluan.",
+    "Pengguna memasukkan Kata Laluan Baharu dan Sahkan Kata Laluan.",
+    "Pengguna klik \"Tetapkan Semula Kata Laluan\".",
+    "Sistem menyemak padanan dan polisi kata laluan sebelum menyimpan kata laluan baharu.",
+    "Pengguna kembali ke paparan log masuk."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Alamat e-mel tidak diisi → Papar mesej ralat “Alamat e-mel wajib diisi”"
+    },
+    {
+     "id": "A2",
+     "text": "E-mel tidak sah atau tidak berdaftar dalam sistem → Papar mesej ralat “Emel ini tidak sah atau tidak berdaftar dalam sistem. Sila semak semula atau Daftar Akaun."
+    },
+    {
+     "id": "A3",
+     "text": "Sistem gagal menjana pautan tetapan semula kata laluan → Papar mesej ralat “Gagal menjana pautan tetapan semula kata laluan. Sila cuba semula.”"
+    },
+    {
+     "id": "A4",
+     "text": "Sistem gagal menghantar notifikasi e-mel → Papar mesej ralat “Gagal capaian data. Sila cuba semula.”"
+    }
+   ],
+   "input": "Alamat emel berdaftar",
+   "output": "1. Pautan tetapan semula kata laluan dijana dan dihantar 2. Mesej makluman penghantaran dipaparkan",
+   "uiRefs": [
+    "UI-PL-PP-DM-02"
+   ],
+   "integration": "Notifikasi (E-mel /SMS)",
+   "notes": "1. Medan Alamat E-mel adalah wajib diisi. 2. Alamat e-mel yang dimasukkan mestilah e-mel yang telah berdaftar dalam pangkalan data sistem. 3. Pautan tetapan semula kata laluan mempunyai tempoh sah 10 minit dan boleh dijana semula sekiranya pautan terdahulu telah luput. 4. Kata laluan baharu minimum 8 dan maksimum 12 aksara. Perlu gabungan huruf besar, huruf kecil, nombor dan aksara khas.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PP-DM-02-01",
+   "name": "Notifikasi Lupa Kata Laluan",
+   "group": "Daftar Masuk",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Sistem menghantar pautan tetapan semula kata laluan kepada e-mel pengguna.",
+    "Pengguna membuka pautan yang diterima.",
+    "Sistem memaparkan skrin tetapan semula kata laluan.",
+    "Pengguna memasukkan Kata Laluan Baharu dan Sahkan Kata Laluan.",
+    "Pengguna klik \"Tetapkan Semula Kata Laluan\".",
+    "Sistem menyemak padanan dan polisi kata laluan sebelum menyimpan kata laluan baharu."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Pautan tetapan semula kata laluan tidak sah → Papar mesej ralat “Pautan tidak sah. Sila cuba semula permintaan Lupa Kata Laluan.”"
+    },
+    {
+     "id": "A2",
+     "text": "Pautan tetapan semula kata laluan tamat tempoh → Papar mesej ralat “Pautan telah tamat tempoh. Sila cuba semula permintaan Lupa Kata Laluan.”"
+    },
+    {
+     "id": "A3",
+     "text": "Kata Laluan Baharu tidak diisi → Papar mesej ralat “Medan ini wajib diisi.”"
+    },
+    {
+     "id": "A4",
+     "text": "Sahkan Kata Laluan tidak diisi → Papar mesej ralat “Medan ini wajib diisi.”"
+    },
+    {
+     "id": "A5",
+     "text": "Kata Laluan Baharu dan Sahkan Kata Laluan tidak sepadan → Papar mesej ralat “Kata laluan baharu tidak sepadan.”"
+    },
+    {
+     "id": "A6",
+     "text": "Format kata laluan tidak memenuhi polisi keselamatan → Papar mesej ralat “Kata laluan mesti mengandungi 8 hingga 12 aksara serta gabungan huruf besar, huruf kecil, nombor dan aksara khas.”"
+    },
+    {
+     "id": "A7",
+     "text": "Sistem gagal menyimpan kata laluan baharu → Papar mesej ralat “Gagal menyimpan kata laluan baharu. Sila semak kata laluan dan cuba semula. Jika berterusan, sila hubungi Pentadbir Sistem.”"
+    }
+   ],
+   "input": "Alamat emel berdaftar",
+   "output": "1. Pautan tetapan semula kata laluan dijana dan dihantar ke emel pengguna",
+   "uiRefs": [
+    "UI-PL-PP-DM-02-01"
+   ],
+   "integration": "Notifikasi (E-mel /SMS)",
+   "notes": "1. Medan Alamat E-mel adalah wajib diisi. 2. Alamat e-mel yang dimasukkan mestilah e-mel yang telah berdaftar dalam pangkalan data sistem. 3. Sistem akan menyemak kewujudan e-mel sebelum menjana pautan tetapan semula kata laluan. 4. Pautan tetapan semula kata laluan hanya akan dihantar kepada e-mel berdaftar pengguna. 5. Sekiranya e-mel tidak wujud atau tidak sah, proses tetapan semula kata laluan tidak akan diteruskan. 6. Fungsi ini hanya digunakan untuk pengguna yang telah mempunyai akaun berdaftar dalam sistem. 7. Pautan tetapan semula kata laluan mempunyai tempoh sah 10 minit dan boleh dijana semula sekiranya pautan terdahulu telah luput.",
+   "calls": [],
+   "parentId": "UC-PL-PP-DM-02"
+  },
+  {
+   "id": "UC-PL-PP-DM-03",
+   "name": "Aktifkan Semula Akaun Tidak Aktif",
+   "group": "Daftar Masuk",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Pengguna dinavigasi ke paparan skrin Pengaktifan Semula Akaun secara automatik.",
+    "Pengguna memasukkan alamat emel berdaftar.",
+    "Pengguna klik \"Hantar Pautan Pengaktifan” menjana pautan pengaktifan semula akaun dan menghantar pautan tersebut ke emel pengguna.",
+    "Sistem menyemak kewujudan emel dalam DB sistem dan menghantar pautan tersebut ke emel pengguna."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "E-mel tidak diisi → Papar mesej ralat “Medan ini wajib diisi.”"
+    },
+    {
+     "id": "A2",
+     "text": "E-mel tidak sah atau tidak berdaftar dalam sistem → Sistem menghantar pautan ke emel pengguna tanpa menyatakan mesej ralat meskipun emel tidak berdaftar untuk keselamatan maklumat pengguna."
+    },
+    {
+     "id": "A3",
+     "text": "Akaun masih aktif → Papar mesej ralat “Akaun masih aktif. Sila log masuk menggunakan ID Pengguna dan Kata Laluan berdaftar atau Lupa Kata Laluan.”"
+    },
+    {
+     "id": "A7",
+     "text": "Sistem gagal memproses permintaan pengaktifan semula > Papar mesej ralat “Gagal memproses pengaktifan semula akaun. Sila cuba semula sebentar lagi.”"
+    }
+   ],
+   "input": "Alamat emel pengguna.",
+   "output": "1. Pautan tetapan semula kata laluan dijana dan dihantar 2. Mesej makluman penghantaran dipaparkan",
+   "uiRefs": [
+    "UI-PL-PP-DM-03"
+   ],
+   "integration": "Notifikasi (E-mel /SMS)",
+   "notes": "1. Medan Alamat E-mel adalah wajib diisi. 2. Alamat e-mel yang dimasukkan mestilah e-mel yang telah berdaftar dalam pangkalan data sistem. 3. Hanya akaun tidak aktif yang layak boleh diaktifkan semula.",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-PP-DM-03-01",
+   "name": "Notifikasi Pengaktifan Semula Akaun Tidak Aktif",
+   "group": "Daftar Masuk",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Sistem menghantar pautan pengaktifan semula akaun ke emel pengguna.",
+    "Pengguna membuka pautan yang diterima.",
+    "Sistem memaparkan skrin tetapan semula kata laluan.",
+    "Pengguna memasukkan Kata Laluan Baharu dan Sahkan Kata Laluan.",
+    "Pengguna klik \"Aktifkan Semula Akaun”",
+    "Sistem menyemak padanan dan polisi kata laluan sebelum menyimpan kata laluan baharu.",
+    "Pengguna dibawa kembali ke paparan Log Masuk secara automatik selepas kata laluan berjaya disimpan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Pautan pengaktifan semula akaun tidak sah → Papar mesej ralat “Pautan tidak sah. Sila cuba semula permintaan Aktifkan Semula.”"
+    },
+    {
+     "id": "A2",
+     "text": "Pautan pengaktifan semula akaun tamat tempoh → Papar mesej ralat “Pautan telah tamat tempoh. Sila cuba semula permintaan Aktifkan Semula.”"
+    },
+    {
+     "id": "A3",
+     "text": "Kata Laluan Baharu tidak diisi → Papar mesej ralat “Medan ini wajib diisi.”"
+    },
+    {
+     "id": "A4",
+     "text": "Sahkan Kata Laluan tidak diisi → Papar mesej ralat “Medan ini wajib diisi.”"
+    },
+    {
+     "id": "A5",
+     "text": "Kata Laluan Baharu dan Sahkan Kata Laluan tidak sepadan → Papar mesej ralat “Kata laluan baharu tidak sepadan.”"
+    },
+    {
+     "id": "A6",
+     "text": "Format kata laluan tidak memenuhi polisi keselamatan → Papar mesej ralat “Kata laluan mesti mengandungi 8 hingga 12 aksara serta gabungan huruf besar, huruf kecil, nombor dan aksara khas.”"
+    },
+    {
+     "id": "A7",
+     "text": "Sistem gagal menyimpan kata laluan baharu → Papar mesej ralat “Gagal menyimpan kata laluan baharu. Sila semak kata laluan dan cuba semula. Jika berterusan, sila hubungi Pentadbir Sistem.”"
+    }
+   ],
+   "input": "Alamat emel pengguna.",
+   "output": "1. Pautan tetapan semula kata laluan dijana dan dihantar 2. Mesej makluman penghantaran dipaparkan",
+   "uiRefs": [
+    "UI-PL-PP-DM-03-01"
+   ],
+   "integration": "Notifikasi (E-mel /SMS)",
+   "notes": "1. Medan Alamat E-mel adalah wajib diisi. 2. Alamat e-mel yang dimasukkan mestilah e-mel yang telah berdaftar dalam pangkalan data sistem. Hanya akaun berstatus tidak aktif sahaja boleh diaktifkan semula. 3. Sistem akan menyemak kewujudan e-mel sebelum menjana pautan pengaktifan semula akaun. 4. Pautan pengaktifan semula akaun hanya akan dihantar kepada e-mel berdaftar pengguna. 5. Sekiranya e-mel tidak wujud atau tidak sah, proses pengaktifan semula akaun tidak akan diteruskan. 6. Fungsi ini hanya digunakan untuk pengguna yang telah mempunyai akaun berdaftar dalam sistem. 7. Pautan pengaktifan semula akaun mempunyai tempoh sah 10 minit dan boleh dijana semula sekiranya pautan terdahulu telah luput.",
+   "calls": [],
+   "parentId": "UC-PL-PP-DM-03"
+  },
+  {
+   "id": "UC-PL-PP-DM-03-02",
+   "name": "Penetapan Kata Laluan Baharu Akaun Tidak Aktif",
+   "group": "Daftar Masuk",
+   "actors": [
+    "Pengguna"
+   ],
+   "steps": [
+    "Sistem menghantar pautan pengaktifan semula akaun ke emel pengguna.",
+    "Pengguna membuka pautan yang diterima.",
+    "Sistem memaparkan skrin tetapan semula kata laluan.",
+    "Pengguna memasukkan Kata Laluan Baharu dan Sahkan Kata Laluan.",
+    "Pengguna klik \"Tetapkan Semula Kata Laluan\".",
+    "Sistem menyemak padanan dan polisi kata laluan sebelum menyimpan kata laluan baharu.",
+    "Pengguna dibawa kembali ke paparan Log Masuk secara automatik selepas kata laluan berjaya disimpan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Pautan pengaktifan semula akaun tidak sah → Papar mesej ralat “Pautan tidak sah. Sila cuba semula permintaan Aktifkan Semula.”"
+    },
+    {
+     "id": "A2",
+     "text": "Pautan pengaktifan semula akaun tamat tempoh → Papar mesej ralat “Pautan telah tamat tempoh. Sila cuba semula permintaan Aktifkan Semula.”"
+    },
+    {
+     "id": "A3",
+     "text": "Kata Laluan Baharu tidak diisi → Papar mesej ralat “Medan ini wajib diisi.”"
+    },
+    {
+     "id": "A4",
+     "text": "Sahkan Kata Laluan tidak diisi → Papar mesej ralat “Medan ini wajib diisi.”"
+    },
+    {
+     "id": "A5",
+     "text": "Kata Laluan Baharu dan Sahkan Kata Laluan tidak sepadan → Papar mesej ralat “Kata laluan baharu tidak sepadan.”"
+    },
+    {
+     "id": "A6",
+     "text": "Format kata laluan tidak memenuhi polisi keselamatan → Papar mesej ralat “Kata laluan mesti mengandungi 8 hingga 12 aksara serta gabungan huruf besar, huruf kecil, nombor dan aksara khas.”"
+    },
+    {
+     "id": "A7",
+     "text": "Sistem gagal menyimpan kata laluan baharu → Papar mesej ralat “Gagal menyimpan kata laluan baharu. Sila semak kata laluan dan cuba semula. Jika berterusan, sila hubungi Pentadbir Sistem.”"
+    }
+   ],
+   "input": "1. Pautan pengaktifan semula akaun 2. Kata laluan baharu 3. Maklumat sahkan kata laluan",
+   "output": "1. Akaun pengguna diaktifkan semula 2. Kata laluan baharu disimpan dalam bentuk hash dalam sistem.",
+   "uiRefs": [
+    "UI-PL-PP-DM-03-02"
+   ],
+   "integration": "Notifikasi (E-mel /SMS)",
+   "notes": "1. Medan Kata Laluan Baharu dan Sahkan Kata Laluan adalah wajib diisi. 2. Kata laluan mesti memenuhi polisi keselamatan sistem. Kata laluan baharu minimum 8 dan maksimum 12 aksara. Perlu gabungan huruf besar, huruf kecil, nombor dan aksara khas. 3. Kata laluan baharu yang berjaya disimpan akan direkodkan dalam pangkalan data sistem secara hash. 4. Setelah kata laluan baharu berjaya ditetapkan, sistem akan mengemaskini status akaun kepada Aktif. 5. Pengguna boleh log masuk semula menggunakan kata laluan yang baharu selepas akaun aktif.",
+   "calls": [],
+   "parentId": "UC-PL-PP-DM-03"
+  }
+ ],
+ "screens": [
+  {
+   "title": "Cipta Akaun Pemohon",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-DA-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Pengesahan Identiti",
+     "objectType": "Section Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan seksyen untuk pengesahan identiti pengguna sebelum proses pendaftaran diteruskan."
+    },
+    {
+     "label": "Nombor MyKad / Nombor Pasport",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile",
+      "osc_da_pelanggan",
+      "osc_da_individu"
+     ],
+     "fields": [
+      "pfile_plgid",
+      "plgn_idpelanggan",
+      "indv_idpelanggan"
+     ],
+     "crud": "C/R",
+     "note": "Medan mandatori. Pengguna memasukkan nombor MyKad / nombor pasport untuk semakan MyIdentity/JPN. Format MyKad: 12 digit tanpa sempang, contoh 901231141234."
+    },
+    {
+     "label": "Nama Penuh MyKad / Pasport",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile",
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "pfile_nama",
+      "plgn_pelanggannama"
+     ],
+     "crud": "C/R",
+     "note": "Medan mandatori. Nama penuh pengguna seperti dalam MyKad / Pasport. Digunakan untuk padanan semakan identiti dengan MyIdentity/JPN."
+    },
+    {
+     "label": "<Sahkan Identiti>",
+     "objectType": "Button",
+     "tables": [
+      "osc_da_individu",
+      "osc_usr_profile",
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "indv_jpnverified",
+      "indv_jpnverifiedat",
+      "indv_jpnverifyid",
+      "pfile_plgid",
+      "pfile_nama",
+      "plgn_idpelanggan",
+      "plgn_pelanggannama"
+     ],
+     "crud": "R/C",
+     "note": "Sistem menghantar maklumat untuk semakan MyIdentity/JPN. Jika berjaya, status pengesahan JPN dikemaskini, contohnya indv_jpnverified = 1, dan data asas pengguna/pelanggan digunakan untuk proses pendaftaran seterusnya."
+    },
+    {
+     "label": "Sudah ada akaun? Log Masuk",
+     "objectType": "Link",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke skrin UI-PL-PP-DM-01"
+    }
+   ]
+  },
+  {
+   "title": "Pengesahan Identiti (MyIdentity/JPN)",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-DA-01-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Pengesahan Identiti",
+     "objectType": "Section Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan seksyen untuk pengesahan identiti pengguna sebelum proses pendaftaran diteruskan."
+    },
+    {
+     "label": "Nombor MyKad / Nombor Pasport",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile",
+      "osc_da_pelanggan",
+      "osc_da_individu"
+     ],
+     "fields": [
+      "pfile_plgid",
+      "plgn_idpelanggan",
+      "indv_idpelanggan"
+     ],
+     "crud": "C/R",
+     "note": "Medan mandatori. Pengguna memasukkan nombor MyKad / nombor pasport untuk semakan MyIdentity/JPN. Format MyKad: 12 digit tanpa sempang, contoh 901231141234."
+    },
+    {
+     "label": "Nama Penuh MyKad / Pasport",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile",
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "pfile_nama",
+      "plgn_pelanggannama"
+     ],
+     "crud": "C/R",
+     "note": "Medan mandatori. Nama penuh pengguna seperti dalam MyKad / Pasport. Digunakan untuk padanan semakan identiti dengan MyIdentity/JPN."
+    },
+    {
+     "label": "<Sahkan Identiti>",
+     "objectType": "Button",
+     "tables": [
+      "osc_da_individu",
+      "osc_usr_profile",
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "indv_jpnverified",
+      "indv_jpnverifiedat",
+      "indv_jpnverifyid",
+      "pfile_plgid",
+      "pfile_nama",
+      "plgn_idpelanggan",
+      "plgn_pelanggannama"
+     ],
+     "crud": "R/C",
+     "note": "Sistem menghantar maklumat untuk semakan MyIdentity/JPN. Jika berjaya, status pengesahan JPN dikemaskini, contohnya indv_jpnverified = 1, dan data asas pengguna/pelanggan digunakan untuk proses pendaftaran seterusnya."
+    },
+    {
+     "label": "Identiti yang dimasukkan tidak ditemui. Sila pastikan maklumat sepadan dengan MyKad/Pasport anda. Jika berterusan, sila hubungi Pentadbir Sistem.",
+     "objectType": "Error Message",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Dipaparkan jika maklumat identiti tidak ditemui atau tidak sepadan semasa semakan MyIdentity/JPN. Tiada data pendaftaran disimpan sekiranya pengesahan gagal."
+    },
+    {
+     "label": "Sudah ada akaun? Log Masuk",
+     "objectType": "Link",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke skrin UI-PL-PP-DM-01. Tiada data disimpan."
+    }
+   ]
+  },
+  {
+   "title": "Semak Rekod Pemohon",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-DA-01-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Pengesahan Identiti",
+     "objectType": "Section Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan seksyen untuk pengesahan identiti pengguna sebelum proses pendaftaran diteruskan."
+    },
+    {
+     "label": "Nombor MyKad / Nombor Pasport",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile",
+      "osc_da_pelanggan",
+      "osc_da_individu"
+     ],
+     "fields": [
+      "pfile_plgid",
+      "plgn_idpelanggan",
+      "indv_idpelanggan"
+     ],
+     "crud": "C/R",
+     "note": "Medan mandatori. Pengguna memasukkan nombor MyKad / nombor pasport untuk semakan identiti dan semakan kewujudan akaun dalam sistem. Format MyKad: 12 digit tanpa sempang, contoh 901231141234."
+    },
+    {
+     "label": "Nama Penuh MyKad / Pasport",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile",
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "pfile_nama",
+      "plgn_pelanggannama"
+     ],
+     "crud": "C/R",
+     "note": "Medan mandatori. Nama penuh pengguna seperti dalam MyKad / Pasport. Digunakan untuk padanan semakan identiti dalam sistem."
+    },
+    {
+     "label": "<Sahkan Identiti>",
+     "objectType": "Button",
+     "tables": [
+      "osc_da_individu",
+      "osc_usr_profile",
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "indv_jpnverified",
+      "indv_jpnverifiedat",
+      "indv_jpnverifyid",
+      "pfile_plgid",
+      "pfile_nama",
+      "plgn_idpelanggan",
+      "plgn_pelanggannama"
+     ],
+     "crud": "R/C",
+     "note": "Sistem menyemak sama ada nombor MyKad/Pasport telah wujud dalam sistem. Jika akaun telah wujud, sistem memaparkan mesej ralat dan tidak membenarkan pendaftaran baharu diteruskan."
+    },
+    {
+     "label": "Pengguna telah berdaftar dalam sistem. Sila log masuk atau lupa kata laluan",
+     "objectType": "Error Message",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Dipaparkan apabila nombor MyKad/Pasport telah wujud dalam sistem. Sistem membuat semakan berdasarkan ID pengguna / ID pelanggan sedia ada. Tiada rekod pendaftaran baharu disimpan."
+    },
+    {
+     "label": "Sudah ada akaun? Log Masuk",
+     "objectType": "Link",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke skrin UI-PL-PP-DM-01. Tiada data disimpan."
+    }
+   ]
+  },
+  {
+   "title": "Tambah Maklumat Pemohon",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-DA-01-03"
+   ],
+   "dataMap": [
+    {
+     "label": "Emel",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_emel"
+     ],
+     "crud": "C",
+     "note": "Unik & mandatori. Digunakan untuk penghantaran OTP pengesahan akaun."
+    },
+    {
+     "label": "Nombor Telefon",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_nomhp"
+     ],
+     "crud": "C",
+     "note": "Digunakan untuk penghantaran notifikasi di dalam sistem pada modul lain."
+    },
+    {
+     "label": "Kata Laluan",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_kata_laluan"
+     ],
+     "crud": "C",
+     "note": "Medan ini adalah mandatori. Disimpan secara hashed. Pengguna menggunakan ikon mata untuk melihat semula kata laluan yang dimasukkan."
+    },
+    {
+     "label": "Sahkan Kata Laluan",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_sah_ktlaluan"
+     ],
+     "crud": "R",
+     "note": "Medan ini adalah mandatori . Validasi UI sahaja. Sistem akan membuat validasi di bahagian backend dan akan keluarkan popup jika tidak sama dengan kata laluan yang dimasukkan"
+    },
+    {
+     "label": "Persetujuan Terma dan Syarat",
+     "objectType": "Checkbox",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Wajib ditanda sebelum daftar. Pengguna tidak akan didaftarkan sekiranya checkbox ini tidak ditanda."
+    },
+    {
+     "label": "<Daftar Akaun>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Mencetus proses pendaftaran akaun"
+    },
+    {
+     "label": "Log Masuk",
+     "objectType": "Link",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke skrin UI-PL-PP-DM-01"
+    }
+   ]
+  },
+  {
+   "title": "Sahkan OTP dan Aktifkan Akaun",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-DA-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Kod OTP",
+     "objectType": "Textbox",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "otp_code"
+     ],
+     "crud": "R",
+     "note": "Pengguna akan mendapatkan kod OTP pada email pengguna. Kod 6 digit dimasukkan oleh pengguna. OTP akan tamat selepas 10 minit dari penghantaran email."
+    },
+    {
+     "label": "Sahkan OTP",
+     "objectType": "Button",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "user_id"
+     ],
+     "crud": "U",
+     "note": "Mengesahkan OTP dan mengaktifkan akaun. Pengguna yang berjaya diaktifkan akan dibawa ke paparan profil pelanggan."
+    },
+    {
+     "label": "Hantar Semula",
+     "objectType": "Link",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "user_id"
+     ],
+     "crud": "C",
+     "note": "Menjana dan menghantar OTP baharu kepada e-mel pengguna."
+    }
+   ]
+  },
+  {
+   "title": "Hantar Notifikasi Pengaktifan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-DA-02-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Pendaftaran Berjaya!",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Makluman kepada pengguna status pendaftaran."
+    },
+    {
+     "label": "Sila semak emel anda untuk kod pengesahan",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Arahan kepada pengguna untuk menyemak emel untuk proses pengesahan kod OTP."
+    },
+    {
+     "label": "<Sahkan>",
+     "objectType": "Button",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "user_id"
+     ],
+     "crud": "R",
+     "note": "Menutup pop-up dan menghantar pengesahan kod OTP melalui emel. Navigasi ke skrin UI-PL-PP-DA-02"
+    }
+   ]
+  },
+  {
+   "title": "Log Masuk",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-DM-01"
+   ],
+   "dataMap": [
+    {
+     "label": "<BM | EN>",
+     "objectType": "Button / Toggle",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Pertukaran bahasa paparan (UI sahaja)"
+    },
+    {
+     "label": "ID Pengguna",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid"
+     ],
+     "crud": "R",
+     "note": "No. Mykad/ No. Pasport Mandatori untuk log masuk"
+    },
+    {
+     "label": "Kata Laluan",
+     "objectType": "Password",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "user_password"
+     ],
+     "crud": "R",
+     "note": "Disemak dengan kata laluan yang disimpan secara hash."
+    },
+    {
+     "label": "Kod Keselamatan",
+     "objectType": "Textbox",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Kod CAPTCHA adalah secara rawak digunakan untuk pengesahan keselamatan (tidak disimpan)."
+    },
+    {
+     "label": "<Lupa Kata Laluan>",
+     "objectType": "Link",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke fungsi tetapan semula kata laluan"
+    },
+    {
+     "label": "<Log Masuk>",
+     "objectType": "Button",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "user_status"
+     ],
+     "crud": "R",
+     "note": "Mencetus proses pengesahan & semakan status akaun"
+    },
+    {
+     "label": "<Daftar di Sini>",
+     "objectType": "Link",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke skrin pendaftaran akaun"
+    }
+   ]
+  },
+  {
+   "title": "Lupa Kata Laluan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-DM-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Alamat Emel",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_emel"
+     ],
+     "crud": "R",
+     "note": "Pelanggan akan memasukkan alamat emel dan pautan set semula kata laluan akan dihantar pada emel tersebut."
+    },
+    {
+     "label": "Hantar Pautan Set Semula",
+     "objectType": "Button",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "user_id"
+     ],
+     "crud": "C",
+     "note": "Menjana dan menghantar pautan / OTP set semula kata laluan. Navigasi ke UI-PL-PP-DM-02-01"
+    },
+    {
+     "label": "Kembali ke Log Masuk",
+     "objectType": "Link",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke UI-PL-PP-DM-01"
+    },
+    {
+     "label": "Kata Laluan Baharu",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "user_password"
+     ],
+     "crud": "U",
+     "note": "Kata laluan baharu (disimpan dalam bentuk hash). Minimum 8 dan maksimum 12 aksara dengan kombinasi huruf besar, huruf kecil dan aksara khas. Pengguna menggunakan ikon mata untuk melihat semula kata laluan yang dimasukkan."
+    },
+    {
+     "label": "Sahkan Kata Laluan",
+     "objectType": "Textbox",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Pengesahan padanan kata laluan. Pengguna menggunakan ikon mata untuk melihat semula kata laluan yang dimasukkan."
+    },
+    {
+     "label": "Tetapkan Semula Kata Laluan",
+     "objectType": "Button",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "user_password"
+     ],
+     "crud": "U",
+     "note": "Mengesahkan format kata laluan dan menyimpan kata laluan baharu."
+    }
+   ]
+  },
+  {
+   "title": "Notifikasi Lupa Kata Laluan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-DM-02-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Kami telah menghantar pautan tetapan semula kata laluan anda melalui e-mel.",
+     "objectType": "Label/ Message",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Mesej makluman berjaya hantar pautan"
+    },
+    {
+     "label": "Alamat Emel",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_emel"
+     ],
+     "crud": "R",
+     "note": "Pelanggan akan memasukkan alamat emel dan pautan set semula kata laluan akan dihantar pada emel tersebut."
+    },
+    {
+     "label": "Hantar Pautan Set Semula",
+     "objectType": "Button",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "user_id"
+     ],
+     "crud": "C",
+     "note": "Menjana dan menghantar pautan / OTP set semula kata laluan"
+    },
+    {
+     "label": "Kembali ke Log Masuk",
+     "objectType": "Link",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke halaman log masuk"
+    }
+   ]
+  },
+  {
+   "title": "Aktifkan Semula Akaun Tidak Aktif",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-DM-03"
+   ],
+   "dataMap": [
+    {
+     "label": "Akaun anda tidak aktif. Sila masukkan alamat emel berdaftar untuk mengaktifkan semula akaun.",
+     "objectType": "Label/ Message",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Mesej makluman pengaktifan semula akaun"
+    },
+    {
+     "label": "Log masuk tidak dibenarkan. Status akaun adalah tidak aktif. Sila aktifkan semula akaun anda",
+     "objectType": "Label/ Message",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Mesej makluman log masuk pengguna tidak dibenarkan kerana akaun tidak aktif. Sistem menyemak status akaun pengguna berdasarkan tarikh log masuk terakhir serta maklumat pelesenan semasa proses daftar masuk. Akaun pengguna akan dikenal pasti sebagai Tidak Aktif sekiranya semua syarat berikut dipenuhi: 1. Tiada aktiviti log masuk melebihi tempoh 12 bulan 2. Pengguna tidak mempunyai lesen berstatus Aktif 3. Pengguna tidak mempunyai permohonan atau pembaharuan lesen berstatus Dalam Semakan/ Menunggu Ulasan/ Baharu Dihantar/ Perlu Diperbetulkan 4. Pengguna tidak mempunyai transaksi berstatus Belum Bayar."
+    },
+    {
+     "label": "Masukkan alamat emel yang didaftarkan dalam sistem. Pautan pengaktifan semula akan dihantar ke emel tersebut dan sah selama 10 minit.",
+     "objectType": "Label/ Message",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Mesej makluman pautan pengaktifan semula dihantar ke emel. Pengaktifan tersebut sah selama tempoh 10 minit."
+    },
+    {
+     "label": "Alamat Emel Berdaftar",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_emel"
+     ],
+     "crud": "R",
+     "note": "Pelanggan memasukkan alamat emel dan pautan aktifkan semula akaun yang mengandungi tetapan semula kata laluan akan dihantar pada emel tersebut. Mesej ralat “Emel ini tidak sah atau tidak berdaftar dalam sistem. Sila semak semula.” Akan dipaparkan sekiranya emel tidak dijumpai di dalam pangkalan data sistem."
+    },
+    {
+     "label": "<Hantar Pautan Pengaktifan>",
+     "objectType": "Button",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "user_id"
+     ],
+     "crud": "C",
+     "note": "Menjana dan menghantar pautan aktifkan semula akaun."
+    },
+    {
+     "label": "Kembali ke Log Masuk",
+     "objectType": "Link",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke skrin UI-PL-PP-DM-01"
+    }
+   ]
+  },
+  {
+   "title": "Notifikasi Pengaktifan Semula Akaun Tidak Aktif",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-DM-03-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Akaun anda tidak aktif. Sila masukkan alamat emel berdaftar untuk mengaktifkan semula akaun.",
+     "objectType": "Message",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Mesej makluman pengaktifan semula akaun"
+    },
+    {
+     "label": "Pautan pengaktifan semula telah dihantar ke emel anda. Pautan sah selama 10 minit.",
+     "objectType": "Message",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Mesej makluman berjaya hantar pautan. Pautan pengaktifan tersebut sah selama tempoh 10 minit."
+    },
+    {
+     "label": "Emel ini tidak sah atau tidak berdaftar dalam sistem. Sila semak semula.",
+     "objectType": "Error Message",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Mesej ralat tidak berjaya hantar pautan kerana format emel pengguna tidak sah atau emel pengguna tidak berdaftar dalam sistem."
+    },
+    {
+     "label": "Masukkan alamat emel yang didaftarkan dalam sistem. Pautan pengaktifan semula akan dihantar ke emel tersebut dan sah selama 10 minit.",
+     "objectType": "Message",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Mesej makluman pautan pengaktifan semula dihantar ke emel. Pengaktifan tersebut sah selama tempoh 10 minit."
+    },
+    {
+     "label": "Alamat Emel Berdaftar",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_emel"
+     ],
+     "crud": "R",
+     "note": "Pelanggan akan memasukkan alamat emel dan pautan aktifkan semula akaun akan dihantar pada emel tersebut."
+    },
+    {
+     "label": "<Hantar Pautan Pengaktifan>",
+     "objectType": "Button",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "user_id"
+     ],
+     "crud": "C",
+     "note": "Menjana dan menghantar pautan aktifkan semula akaun."
+    },
+    {
+     "label": "Kembali ke Log Masuk",
+     "objectType": "Link",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke UI-PL-PP-DM-01: Log Masuk"
+    }
+   ]
+  },
+  {
+   "title": "Tetap Kata Laluan Baharu Akaun Tidak Aktif",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-DM-03-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Polisi Kata Laluan Minimum 8 dan maksimum 12 aksara Sekurang-kurangnya satu huruf besar (A-Z) Sekurang-kurangnya satu huruf kecil (a-z) Sekurang-kurangnya satu nombor (0-9) Sekurang-kurangnya satu karakter unik (!@#$%^&*)",
+     "objectType": "Help Text",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan polisi kata laluan yang perlu dipatuhi oleh pengguna. Tiada data disimpan."
+    },
+    {
+     "label": "Kata Laluan Baharu",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "user_password"
+     ],
+     "crud": "U",
+     "note": "Kata laluan baharu (disimpan dalam bentuk hash). Minimum 8 dan maksimum 12 aksara dengan kombinasi huruf besar, huruf kecil dan aksara khas. Pengguna menggunakan ikon mata untuk melihat semula kata laluan yang dimasukkan."
+    },
+    {
+     "label": "Sahkan Kata Laluan",
+     "objectType": "Textbox",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Pengesahan padanan kata laluan. Pengguna menggunakan ikon mata untuk melihat semula kata laluan yang dimasukkan."
+    },
+    {
+     "label": "<Aktifkan Semula Akaun>",
+     "objectType": "Button",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "user_password"
+     ],
+     "crud": "U",
+     "note": "Mengesahkan format kata laluan dan menyimpan kata laluan baharu."
+    },
+    {
+     "label": "Kembali ke Log Masuk",
+     "objectType": "Link",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke UI-PL-PP-DM-01: Log Masuk"
+    }
+   ]
+  },
+  {
+   "title": "Profil Pelanggan (Papar)",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [],
+   "dataMap": [
+    {
+     "label": "Nama Pelanggan",
+     "objectType": "Label",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_nama"
+     ],
+     "crud": "R",
+     "note": "Paparan sahaja"
+    },
+    {
+     "label": "Kategori Pelanggan",
+     "objectType": "Label",
+     "tables": [
+      "osc_da_individu"
+     ],
+     "fields": [
+      "indv_idpelanggan"
+     ],
+     "crud": "R",
+     "note": "Individu / Syarikat"
+    },
+    {
+     "label": "Status Akaun",
+     "objectType": "Label",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "user_status"
+     ],
+     "crud": "R",
+     "note": "Aktif / Tidak Aktif"
+    },
+    {
+     "label": "No. Pelesen",
+     "objectType": "Label",
+     "tables": [
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "plgn_idpelanggan"
+     ],
+     "crud": "R",
+     "note": "ID pelanggan iaitu No. Mykad/ No. Pasport"
+    },
+    {
+     "label": "Jumlah Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Paparan jumlah sahaja"
+    },
+    {
+     "label": "Lesen Aktif",
+     "objectType": "Label",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Paparan jumlah sahaja"
+    },
+    {
+     "label": "Belum Bayar",
+     "objectType": "Label",
+     "tables": [
+      "osc_bil_translesen"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Paparan jumlah sahaja"
+    },
+    {
+     "label": "<Kemaskini>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke skrin kemaskini profil pelanggan."
+    }
+   ]
+  },
+  {
+   "title": "Kemaskini Maklumat Profil",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-PF-01",
+    "UI-PL-PP-PF-03"
+   ],
+   "dataMap": [
+    {
+     "label": "Foto Profil",
+     "objectType": "Image",
+     "tables": [
+      "osc_da_individu"
+     ],
+     "fields": [
+      "pp_idv_profilephoto"
+     ],
+     "crud": "R",
+     "note": "Foto semasa profil akaun pelanggan."
+    },
+    {
+     "label": "Pilih Foto",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "A",
+     "note": "Membuka dialog pemilihan fail"
+    },
+    {
+     "label": "Muat Naik Foto",
+     "objectType": "Button",
+     "tables": [
+      "osc_da_individu"
+     ],
+     "fields": [
+      "pp_idv_profilephoto"
+     ],
+     "crud": "U",
+     "note": "Menyimpan foto profil baharu (format PNG/JPEG/WEBP dengan size maksimum 5MB)"
+    },
+    {
+     "label": "ID Pengguna",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid"
+     ],
+     "crud": "R",
+     "note": "ID pelanggan iaitu No. Mykad/ No. Pasport. Paparan sahaja dan tidak boleh dikemaskini."
+    },
+    {
+     "label": "Emel",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_emel"
+     ],
+     "crud": "R",
+     "note": "Emel pengguna (kemas kini dibenarkan dengan menghubungi pentadbir sistem)"
+    },
+    {
+     "label": "No. Telefon",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_nomhp"
+     ],
+     "crud": "U",
+     "note": "No telefon pelanggan dan boleh dikemaskini."
+    },
+    {
+     "label": "Kategori Pemohon",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_individu"
+     ],
+     "fields": [
+      "indv_idpelanggan"
+     ],
+     "crud": "R",
+     "note": "Jenis pemohon (Individu/ Syarikat). Paparan sahaja dan tidak boleh dikemaskini."
+    },
+    {
+     "label": "Nama Penuh / Nama Syarikat",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_nama"
+     ],
+     "crud": "U",
+     "note": "Nama berdaftar pengguna. Paparan sahaja dan tidak boleh dikemaskini."
+    },
+    {
+     "label": "Alamat 1",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_alamat01"
+     ],
+     "crud": "U",
+     "note": "Alamat baris pertama. Paparan medan ini adalah blank dan alamat perlu dimasukkan secara manual oleh pengguna."
+    },
+    {
+     "label": "Alamat 2",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_alamat02"
+     ],
+     "crud": "U",
+     "note": "Alamat baris kedua. Paparan medan ini adalah blank dan alamat perlu dimasukkan secara manual oleh pengguna."
+    },
+    {
+     "label": "Poskod",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_poskod"
+     ],
+     "crud": "U",
+     "note": "Poskod alamat"
+    },
+    {
+     "label": "Bandar",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_alamat04"
+     ],
+     "crud": "U",
+     "note": "Nama bandar"
+    },
+    {
+     "label": "Negeri",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_alamat05"
+     ],
+     "crud": "U",
+     "note": "Nama negeri"
+    },
+    {
+     "label": "Tarikh Lahir",
+     "objectType": "Calendar",
+     "tables": [
+      "osc_da_individu"
+     ],
+     "fields": [
+      "indv_tarikhlahir"
+     ],
+     "crud": "U",
+     "note": "Tarikh lahir pelanggan."
+    },
+    {
+     "label": "Jantina",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_da_individu"
+     ],
+     "fields": [
+      "indv_jantina"
+     ],
+     "crud": "U",
+     "note": "Jantina pelanggan."
+    },
+    {
+     "label": "Bangsa",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_da_individu"
+     ],
+     "fields": [
+      "indv_bangsa"
+     ],
+     "crud": "U",
+     "note": "Bangsa pelanggan."
+    },
+    {
+     "label": "Agama",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_da_individu"
+     ],
+     "fields": [
+      "indv_agama"
+     ],
+     "crud": "U",
+     "note": "Agama pelanggan."
+    },
+    {
+     "label": "Status Perkahwinan",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_da_individu"
+     ],
+     "fields": [
+      "indv_stperkahwinan"
+     ],
+     "crud": "U",
+     "note": "Status perkahwinan pelanggan."
+    },
+    {
+     "label": "Warganegara",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_da_individu"
+     ],
+     "fields": [
+      "indv_warganegara"
+     ],
+     "crud": "U",
+     "note": "Status kewarganegaraan pelanggan."
+    },
+    {
+     "label": "<Kemaskini Profil>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Mencetus simpanan perubahan maklumat."
+    }
+   ]
+  },
+  {
+   "title": "Tukar Kata Laluan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-PF-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Kata Laluan Semasa (beserta ikon paparan “mata”)",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "user_password"
+     ],
+     "crud": "R",
+     "note": "Digunakan untuk pengesahan kata laluan sedia ada. Pelanggan menggunakan ikon mata untuk melihat semula kata laluan yang dimasukkan."
+    },
+    {
+     "label": "Kata Laluan Baharu (beserta ikon paparan “mata”)",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "user_password"
+     ],
+     "crud": "U",
+     "note": "Kata laluan baharu (disimpan dalam bentuk hash). Minimum 8 dan maksimum 12 aksara dengan kombinasi huruf besar, huruf kecil dan aksara khas. Pelanggan menggunakan ikon mata untuk melihat semula kata laluan yang dimasukkan."
+    },
+    {
+     "label": "Sahkan Kata Laluan Baharu (beserta ikon paparan “mata”)",
+     "objectType": "Textbox",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Pengesahan padanan kata laluan baharu. Pelanggan menggunakan ikon mata untuk melihat semula kata laluan yang dimasukkan."
+    },
+    {
+     "label": "Tukar Kata Laluan",
+     "objectType": "Button",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "user_password"
+     ],
+     "crud": "U",
+     "note": "Mencetus proses kemas kini kata laluan."
+    }
+   ]
+  },
+  {
+   "title": "Cipta Syarikat",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-PF-02"
+   ],
+   "dataMap": [
+    {
+     "label": "No. Pendaftaran SSM",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "plgn_idpelanggan"
+     ],
+     "crud": "C",
+     "note": "Nombor SSM syarikat"
+    },
+    {
+     "label": "Nama Syarikat",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "plgn_pelanggannama"
+     ],
+     "crud": "C",
+     "note": "Nama syarikat berdaftar dengan SSM"
+    },
+    {
+     "label": "Sahkan Syarikat",
+     "objectType": "Button",
+     "tables": [
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "plgn_idpelanggan"
+     ],
+     "crud": "R",
+     "note": "Pengesahan rekod syarikat dengan integrasi sistem SSM"
+    },
+    {
+     "label": "Kembali ke Senarai Syarikat",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke paparan skrin senarai syarikat."
+    }
+   ]
+  },
+  {
+   "title": "Skrin Semakan Syarikat (SSM/KPKT HUB)",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-PF-02-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Maklumat Syarikat Tidak Ditemui",
+     "objectType": "Modal Title / Error Message",
+     "tables": [],
+     "fields": [],
+     "crud": "",
+     "note": "Dipaparkan apabila nombor pendaftaran SSM atau nama syarikat tidak ditemui / tidak dapat disahkan melalui SSM/KPKT HUB. Tiada rekod syarikat baharu disimpan."
+    },
+    {
+     "label": "Sila semak nombor pendaftaran SSM atau nama syarikat dan cuba semula",
+     "objectType": "Error Message",
+     "tables": [],
+     "fields": [],
+     "crud": "",
+     "note": "Mesej ralat kepada pengguna supaya menyemak semula maklumat syarikat yang dimasukkan."
+    },
+    {
+     "label": "<OK>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "",
+     "note": "Menutup paparan mesej ralat dan kembali ke UI-PL-PP-PF-02: Cipta Syarikat"
+    }
+   ]
+  },
+  {
+   "title": "Tambah Butiran Syarikat",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-PF-02-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Kembali ke Senarai Syarikat",
+     "objectType": "Link",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi ke paparan sebelumnya."
+    },
+    {
+     "label": "Keluarga Entiti",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_kategori"
+     ],
+     "crud": "C",
+     "note": "Pilihan keluarga entiti sama ada Individu, Syarikat, Perkongsian Liabiliti Terhad (LLP), dan dsb."
+    },
+    {
+     "label": "Jenis Entiti",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_kategori"
+     ],
+     "crud": "C",
+     "note": "Pilihan jenis entiti seperti Enterprise, Sdn Bhd, Berhad, LLP, dsb."
+    },
+    {
+     "label": "No Pendaftaran SSM",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "plgn_idpelanggan"
+     ],
+     "crud": "R",
+     "note": "No pendaftaran yang didaftarkan dengan SSM. Textbox dikunci selepas pengesahan dan tidak boleh dikemaskini."
+    },
+    {
+     "label": "Peranan Pengesahan",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_verificationrole"
+     ],
+     "crud": "C",
+     "note": "Peranan Pengesahan seperti Pemilik/Pengarah/ Agent/ PIC, dsb."
+    },
+    {
+     "label": "Nama Perundangan",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "plgn_pelanggannama"
+     ],
+     "crud": "R",
+     "note": "Nama syarikat yang didaftarkan dengan SSM. Textbox dikunci selepas pengesahan dan tidak boleh dikemaskini."
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_nama"
+     ],
+     "crud": "C",
+     "note": "Nama paparan perniagaan (sekiranya ada). Medan ini dikemaskini."
+    },
+    {
+     "label": "Tarikh Mula Pendaftaran",
+     "objectType": "Calendar",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_tkhmulaniaga"
+     ],
+     "crud": "C",
+     "note": "Tarikh syarikat didaftarkan mengikut sijil SSM. Format tarikh (dd/mm/yyyy)"
+    },
+    {
+     "label": "Dokumen Bukti Syarikat",
+     "objectType": "Button",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "document_type"
+     ],
+     "crud": "C",
+     "note": "Dokumen sokongan syarikat seperti Surat Wakil Kuasa"
+    },
+    {
+     "label": "Ikon Muat Naik",
+     "objectType": "Icon Button",
+     "tables": [],
+     "fields": [],
+     "crud": "U",
+     "note": "Membuka dialog pemilihan fail dan fungsi muat naik dokumen."
+    },
+    {
+     "label": "Ikon Tong Sampah",
+     "objectType": "Icon Button",
+     "tables": [],
+     "fields": [],
+     "crud": "D",
+     "note": "Padam fail yang telah dimuat naik pengguna."
+    },
+    {
+     "label": "Nama PIC",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_contactnama"
+     ],
+     "crud": "C",
+     "note": "Nama penuh PIC mengikut Mykad/ Pasport"
+    },
+    {
+     "label": "No. IC / Passport PIC",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_idplgcontact"
+     ],
+     "crud": "C",
+     "note": "Nombor kad pengenalan pic / no passport pic"
+    },
+    {
+     "label": "Jawatan PIC",
+     "objectType": "Textbox",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Jawatan PIC"
+    },
+    {
+     "label": "Telefon Bimbit PIC",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_idplgcontact"
+     ],
+     "crud": "C",
+     "note": "Nombor telefon PIC"
+    },
+    {
+     "label": "Email PIC",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_emel"
+     ],
+     "crud": "C",
+     "note": "Emel PIC mengikut format emel sah."
+    },
+    {
+     "label": "+ Cawangan",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Menambah butiran cawangan (sekiranya ada)"
+    },
+    {
+     "label": "Padam Cawangan",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "D",
+     "note": "Padam cawangan semasa daripada pangkalan data sistem"
+    },
+    {
+     "label": "Alamat 1",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_alamat01"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk alamat baris 1"
+    },
+    {
+     "label": "Alamat 2",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_alamat02"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk alamat baris 2"
+    },
+    {
+     "label": "Alamat 3",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_alamat03"
+     ],
+     "crud": "C",
+     "note": "Alamat baris 3. Bukan Mandatori"
+    },
+    {
+     "label": "Poskod",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_poskod"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk poskod cawangan."
+    },
+    {
+     "label": "Bandar",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_alamat04"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk bandar cawangan."
+    },
+    {
+     "label": "Negeri",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_alamat05"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk negeri cawangan."
+    },
+    {
+     "label": "Telefon Pejabat",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_notelefon"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk telefon pejabat cawangan."
+    },
+    {
+     "label": "Telefon Bimbit",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_nomborhp"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk telefon bimbit cawangan."
+    },
+    {
+     "label": "No. Faks",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_nomborfax"
+     ],
+     "crud": "C",
+     "note": "No faks cawangan. Bukan Mandatori"
+    },
+    {
+     "label": "Emel",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_email"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk emel rasmi cawangan."
+    },
+    {
+     "label": "Nama PIC Cawangan",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_contactnama"
+     ],
+     "crud": "C",
+     "note": "Menyimpan nama PIC atau wakil yang bertanggungjawab."
+    },
+    {
+     "label": "No. IC / Passport PIC Cawangan",
+     "objectType": "Textbox",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Menyimpan No. Mykad/ No. Pasport PIC cawangan."
+    },
+    {
+     "label": "Jawatan PIC Cawangan",
+     "objectType": "Textbox",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Menyimpan jawatan PIC cawangan."
+    },
+    {
+     "label": "Telefon Bimbit PIC Cawangan",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_nomborhp"
+     ],
+     "crud": "C",
+     "note": "Menyimpan nombor telefon bimbit PIC cawangan."
+    },
+    {
+     "label": "Emel PIC Cawangan",
+     "objectType": "Textbox",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Menyimpan alamat e-mel PIC cawangan."
+    },
+    {
+     "label": "Cawangan Lalai",
+     "objectType": "Textbox",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Menandakan sama ada cawangan ini merupakan cawangan lalai."
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Membatalkan proses cipta syarikat dan kembali ke paparan UI-PL-PP-PF-02-01: Semakan Syarikat (SSM/KPKT HUB)"
+    },
+    {
+     "label": "<Cipta Syarikat>",
+     "objectType": "Button",
+     "tables": [
+      "osc_da_pelanggan",
+      "osc_da_syarikat",
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "Rujuk medan berkaitan syarikat",
+      "alamat",
+      "PIC"
+     ],
+     "crud": "C",
+     "note": "Menyimpan rekod syarikat/cawangan berdasarkan maklumat yang telah diisi."
+    }
+   ]
+  },
+  {
+   "title": "Kemaskini Maklumat Syarikat",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-PF-03"
+   ],
+   "dataMap": [
+    {
+     "label": "Aktif",
+     "objectType": "Label",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_verificationstatus"
+     ],
+     "crud": "R",
+     "note": "Status syarikat. Aktif atau Tidak Aktif"
+    },
+    {
+     "label": "Keluarga Entiti",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_kategori"
+     ],
+     "crud": "C",
+     "note": "Pilihan keluarga entiti sama ada Individu, Syarikat, Perkongsian Liabiliti Terhad (LLP), dan dsb."
+    },
+    {
+     "label": "Jenis Entiti",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_kategori"
+     ],
+     "crud": "C",
+     "note": "Pilihan jenis entiti seperti Enterprise, Sdn Bhd, Berhad, LLP, dsb."
+    },
+    {
+     "label": "No Pendaftaran SSM",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "plgn_idpelanggan"
+     ],
+     "crud": "R",
+     "note": "No pendaftaran yang didaftarkan dengan SSM. Textbox dikunci selepas pengesahan dan tidak boleh dikemaskini."
+    },
+    {
+     "label": "Peranan Pengesahan",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_verificationrole"
+     ],
+     "crud": "C",
+     "note": "Peranan Pengesahan seperti Pemilik/Pengarah/ Agent/ PIC, dsb."
+    },
+    {
+     "label": "Nama Perundangan",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_pelanggan"
+     ],
+     "fields": [
+      "plgn_pelanggannama"
+     ],
+     "crud": "R",
+     "note": "Nama syarikat yang didaftarkan dengan SSM. Textbox dikunci selepas pengesahan dan tidak boleh dikemaskini."
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_nama"
+     ],
+     "crud": "C",
+     "note": "Nama paparan perniagaan (sekiranya ada). Medan ini boleh dikemaskini."
+    },
+    {
+     "label": "Tarikh Mula Pendaftaran",
+     "objectType": "Calendar",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_tkhmulaniaga"
+     ],
+     "crud": "C",
+     "note": "Tarikh syarikat didaftarkan mengikut sijil SSM. Format tarikh (dd/mm/yyyy)"
+    },
+    {
+     "label": "Dokumen Sokongan",
+     "objectType": "Button",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "document_type"
+     ],
+     "crud": "C",
+     "note": "Dokumen sokongan syarikat seperti set penuh SSM, MOF, CIDB, dsb."
+    },
+    {
+     "label": "Ikon Muat Naik",
+     "objectType": "Icon Button",
+     "tables": [],
+     "fields": [],
+     "crud": "U",
+     "note": "Membuka dialog pemilihan fail dan fungsi muat naik dokumen."
+    },
+    {
+     "label": "Ikon Tong Sampah",
+     "objectType": "Icon Button",
+     "tables": [],
+     "fields": [],
+     "crud": "D",
+     "note": "Padam fail yang telah dimuat naik pengguna."
+    },
+    {
+     "label": "Nama PIC",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_contactnama"
+     ],
+     "crud": "C",
+     "note": "Nama penuh PIC mengikut Mykad/ Pasport."
+    },
+    {
+     "label": "No. IC / Passport PIC",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_idplgcontact"
+     ],
+     "crud": "C",
+     "note": "No. Mykad/ No. Pasport PIC"
+    },
+    {
+     "label": "Jawatan PIC",
+     "objectType": "Textbox",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Jawatan PIC"
+    },
+    {
+     "label": "Telefon Bimbit PIC",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_idplgcontact"
+     ],
+     "crud": "C",
+     "note": "Nombor telefon PIC"
+    },
+    {
+     "label": "Email PIC",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_emel"
+     ],
+     "crud": "C",
+     "note": "Emel PIC mengikut format emel sah."
+    },
+    {
+     "label": "+ Cawangan",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "C",
+     "note": "Menambah butiran cawangan (sekiranya ada)"
+    },
+    {
+     "label": "Padam Cawangan",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "D",
+     "note": "Padam cawangan semasa daripada pangkalan data sistem"
+    },
+    {
+     "label": "Alamat 1",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_alamat01"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk alamat baris 1"
+    },
+    {
+     "label": "Alamat 2",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_alamat02"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk alamat baris 2"
+    },
+    {
+     "label": "Alamat 3",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_alamat03"
+     ],
+     "crud": "C",
+     "note": "Alamat baris 3. Bukan Mandatori"
+    },
+    {
+     "label": "Poskod",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_poskod"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk poskod cawangan."
+    },
+    {
+     "label": "Bandar",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_alamat04"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk bandar cawangan."
+    },
+    {
+     "label": "Negeri",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_alamat05"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk negeri cawangan."
+    },
+    {
+     "label": "Telefon Pejabat",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_notelefon"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk telefon pejabat cawangan."
+    },
+    {
+     "label": "Telefon Bimbit",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_nomborhp"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk telefon bimbit cawangan."
+    },
+    {
+     "label": "No. Faks",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_nomborfax"
+     ],
+     "crud": "C",
+     "note": "No faks cawangan. Bukan Mandatori"
+    },
+    {
+     "label": "Emel",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_email"
+     ],
+     "crud": "C",
+     "note": "Sekiranya tambah cawangan, mandatori untuk emel rasmi cawangan."
+    },
+    {
+     "label": "Nama PIC Cawangan",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_contactnama"
+     ],
+     "crud": "C",
+     "note": "Menyimpan nama PIC atau wakil yang bertanggungjawab."
+    },
+    {
+     "label": "No. IC / Passport PIC Cawangan",
+     "objectType": "Textbox",
+     "tables": [
+      "TBC"
+     ],
+     "fields": [
+      "TBC"
+     ],
+     "crud": "C",
+     "note": "Menyimpan No. Mykad/ No. Pasport PIC cawangan."
+    },
+    {
+     "label": "Jawatan PIC Cawangan",
+     "objectType": "Textbox",
+     "tables": [
+      "TBC"
+     ],
+     "fields": [
+      "TBC"
+     ],
+     "crud": "C",
+     "note": "Menyimpan jawatan PIC cawangan."
+    },
+    {
+     "label": "Telefon Bimbit PIC Cawangan",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_nomborhp"
+     ],
+     "crud": "C",
+     "note": "Menyimpan nombor telefon bimbit PIC cawangan."
+    },
+    {
+     "label": "Emel PIC Cawangan",
+     "objectType": "Textbox",
+     "tables": [
+      "TBC"
+     ],
+     "fields": [
+      "TBC"
+     ],
+     "crud": "C",
+     "note": "Menyimpan alamat e-mel PIC cawangan."
+    },
+    {
+     "label": "Cawangan Lalai",
+     "objectType": "Textbox",
+     "tables": [
+      "TBC"
+     ],
+     "fields": [
+      "TBC"
+     ],
+     "crud": "C",
+     "note": "Menandakan sama ada cawangan ini merupakan cawangan lalai."
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Membatalkan proses cipta syarikat dan kembali ke paparan UI-PL-PP-PF-02-01: Semakan Syarikat (SSM/KPKT HUB)"
+    },
+    {
+     "label": "<Cipta Syarikat>",
+     "objectType": "Button",
+     "tables": [
+      "osc_da_pelanggan",
+      "osc_da_syarikat",
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "Rujuk medan berkaitan syarikat",
+      "alamat",
+      "PIC"
+     ],
+     "crud": "C",
+     "note": "Menyimpan rekod syarikat/cawangan berdasarkan maklumat yang telah diisi."
+    }
+   ]
+  },
+  {
+   "title": "Padam Syarikat",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-PF-04"
+   ],
+   "dataMap": [
+    {
+     "label": "Senarai Syarikat Berdaftar",
+     "objectType": "Section Label",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_idpelanggan",
+      "sykt_businessname",
+      "sykt_entitysubtype",
+      "sykt_verificationrole",
+      "sykt_verificationstatus"
+     ],
+     "crud": "R",
+     "note": "Memaparkan senarai syarikat yang telah didaftarkan di bawah akaun pengguna."
+    },
+    {
+     "label": "Cari no SSM, nama syarikat",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_idpelanggan",
+      "sykt_businessname",
+      "sykt_lhdnsstid"
+     ],
+     "crud": "R",
+     "note": "Membolehkan carian syarikat berdasarkan nombor pendaftaran SSM atau nama syarikat."
+    },
+    {
+     "label": "Jenis Syarikat",
+     "objectType": "Dropdown / Filter",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_entityfamily",
+      "sykt_entitysubtype",
+      "sykt_kategori"
+     ],
+     "crud": "R",
+     "note": "Menapis senarai syarikat berdasarkan jenis atau kategori syarikat. Contoh paparan: Perniagaan, Perniagaan / Enterprise, Syarikat / Sdn Bhd."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Dropdown / Filter",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_verificationrole"
+     ],
+     "crud": "R",
+     "note": "Menapis senarai syarikat berdasarkan peranan pengguna terhadap syarikat. Contoh paparan: Pemilik, PIC."
+    },
+    {
+     "label": "No.",
+     "objectType": "Text / Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan nombor turutan rekod syarikat dalam senarai."
+    },
+    {
+     "label": "Syarikat",
+     "objectType": "Text / Label",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_businessname",
+      "sykt_idpelanggan",
+      "sykt_lhdnsstid"
+     ],
+     "crud": "R",
+     "note": "Memaparkan nama syarikat dan nombor pendaftaran syarikat/SSM. Contoh: ABC MAJU ENTERPRISE, 202401000123."
+    },
+    {
+     "label": "Jenis Syarikat",
+     "objectType": "Text / Label",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_entityfamily",
+      "sykt_entitysubtype",
+      "sykt_kategori"
+     ],
+     "crud": "R",
+     "note": "Memaparkan jenis syarikat. Contoh: Perniagaan, Perniagaan / Enterprise, Syarikat / Sdn Bhd."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Text / Label",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_verificationrole"
+     ],
+     "crud": "R",
+     "note": "Memaparkan peranan pengguna terhadap syarikat. Contoh: Pemilik, PIC."
+    },
+    {
+     "label": "Status",
+     "objectType": "Badge / Label",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "sykt_verificationstatus"
+     ],
+     "crud": "R",
+     "note": "Memaparkan status syarikat pada senarai. Contoh paparan: Aktif, Tidak Aktif."
+    },
+    {
+     "label": "Cawangan",
+     "objectType": "Text / Label",
+     "tables": [
+      "osc_da_alamat"
+     ],
+     "fields": [
+      "almt_idpelanggan",
+      "almt_jenis",
+      "almt_branch_code"
+     ],
+     "crud": "R",
+     "note": "Memaparkan bilangan cawangan bagi syarikat. Bilangan boleh dijana berdasarkan kiraan rekod osc_da_alamat yang mempunyai almt_idpelanggan sama dengan sykt_idpelanggan dan jenis alamat/cawangan berkaitan."
+    },
+    {
+     "label": "Ikon Kemaskini",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "id",
+      "sykt_idpelanggan"
+     ],
+     "crud": "U",
+     "note": "Membuka skrin kemaskini syarikat yang dipilih."
+    },
+    {
+     "label": "Ikon Padam",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_da_syarikat"
+     ],
+     "fields": [
+      "id",
+      "sykt_idpelanggan",
+      "sykt_businessname"
+     ],
+     "crud": "D",
+     "note": "Membuka popup pengesahan padam bagi rekod syarikat yang dipilih."
+    },
+    {
+     "label": "Padam Syarikat?",
+     "objectType": "Modal Title",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan tajuk popup pengesahan sebelum rekod syarikat dipadam."
+    },
+    {
+     "label": "Adakah anda pasti mahu memadam rekod syarikat ini? Tindakan ini tidak boleh dipulihkan.",
+     "objectType": "Confirmation Message",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan mesej pengesahan kepada pengguna sebelum tindakan padam diteruskan."
+    },
+    {
+     "label": "<Ya, Padam>",
+     "objectType": "Button",
+     "tables": [
+      "osc_da_syarikat",
+      "osc_da_alamat",
+      "documents"
+     ],
+     "fields": [
+      "osc_da_syarikat.id",
+      "sykt_idpelanggan",
+      "osc_da_alamat.almt_idpelanggan",
+      "documents.user_id",
+      "doc_type"
+     ],
+     "crud": "D",
+     "note": "Mengesahkan tindakan padam syarikat. Sistem memadam rekod syarikat berdasarkan sykt_idpelanggan."
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Membatalkan tindakan padam dan menutup popup tanpa sebarang perubahan data."
+    }
+   ]
+  },
+  {
+   "title": "Sahkan OTP & Padam Syarikat",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-PF-04-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Pengesahan Identiti",
+     "objectType": "Modal Title",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Tajuk pop-up untuk pengesahan identiti sebelum proses pemadaman syarikat diteruskan."
+    },
+    {
+     "label": "OTP melalui Emel",
+     "objectType": "Radio Button",
+     "tables": [
+      "osc_usr_profile",
+      "otp_verifications"
+     ],
+     "fields": [
+      "pfile_emel",
+      "otp_purpose",
+      "otp_code",
+      "otp_expiresat",
+      "otp_attempts",
+      "otp_isused",
+      "otp_resendcount"
+     ],
+     "crud": "R / C",
+     "note": "Pengguna memilih saluran penghantaran OTP melalui emel. Emel penerima dirujuk daripada osc_usr_profile.pfile_emel. Rekod OTP dijana dan disimpan dalam otp_verifications."
+    },
+    {
+     "label": "Kod 6-digit dihantar ke emel anda.",
+     "objectType": "Text / Description",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_emel"
+     ],
+     "crud": "R",
+     "note": "Mesej penerangan bagi pilihan OTP melalui emel."
+    },
+    {
+     "label": "OTP melalui SMS",
+     "objectType": "Radio Button",
+     "tables": [
+      "osc_usr_profile",
+      "otp_verifications"
+     ],
+     "fields": [
+      "pfile_nomhp",
+      "otp_purpose",
+      "otp_code",
+      "otp_expiresat",
+      "otp_attempts",
+      "otp_isused",
+      "otp_resendcount"
+     ],
+     "crud": "R / C",
+     "note": "Pengguna memilih saluran penghantaran OTP melalui SMS. Nombor telefon bimbit dirujuk daripada osc_usr_profile.pfile_nomhp. Rekod OTP dijana dan disimpan dalam otp_verifications."
+    },
+    {
+     "label": "Kod 6-digit dihantar ke nombor bimbit anda.",
+     "objectType": "Text / Description",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_nomhp"
+     ],
+     "crud": "R",
+     "note": "Mesej penerangan bagi pilihan OTP melalui SMS."
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menutup pop-up tanpa meneruskan proses pengesahan OTP."
+    },
+    {
+     "label": "<Teruskan>",
+     "objectType": "Button",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "user_id",
+      "otp_code",
+      "otp_purpose",
+      "otp_attempts",
+      "otp_expiresat",
+      "otp_isused",
+      "otp_resendcount",
+      "otp_lastresent",
+      "created_at"
+     ],
+     "crud": "C",
+     "note": "Menjana dan menghantar OTP berdasarkan saluran yang dipilih. Rekod OTP disimpan dalam otp_verifications. user_id dipadankan dengan ID pengguna semasa."
+    },
+    {
+     "label": "Ikon Tutup (X)",
+     "objectType": "Icon Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menutup pop-up pengesahan identiti tanpa meneruskan proses."
+    },
+    {
+     "label": "Pengesahan Identiti",
+     "objectType": "Modal Title",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Tajuk pop-up untuk kemasukan kod OTP."
+    },
+    {
+     "label": "Masukkan Kod OTP",
+     "objectType": "Label",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "otp_code"
+     ],
+     "crud": "R / U",
+     "note": "Medan untuk pengguna memasukkan kod OTP 6 digit bagi tujuan pengesahan. Sistem akan menyemak padanan dengan kod yang disimpan."
+    },
+    {
+     "label": "Dihantar ke [emel/nombor telefon bertopeng]",
+     "objectType": "Text / Description",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_emel",
+      "pfile_nomhp"
+     ],
+     "crud": "R",
+     "note": "Memaparkan destinasi penghantaran OTP dalam format bertopeng berdasarkan saluran yang dipilih."
+    },
+    {
+     "label": "Kod OTP",
+     "objectType": "Textbox",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "otp_code"
+     ],
+     "crud": "U",
+     "note": "Pengguna memasukkan kod OTP untuk semakan. Sistem menyemak OTP aktif yang belum digunakan."
+    },
+    {
+     "label": "Hantar Semula (116s)",
+     "objectType": "Link",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "otp_code",
+      "otp_resendcount",
+      "otp_lastresent",
+      "last_resent_at",
+      "otp_expiresat",
+      "updated_at"
+     ],
+     "crud": "U",
+     "note": "Membolehkan OTP dijana/dihantar semula selepas tempoh yang ditetapkan, iaitu 10 minit. Sistem mengemaskini masa penghantaran semula."
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menutup pop-up OTP tanpa meneruskan semakan atau pemadaman syarikat."
+    },
+    {
+     "label": "<Sahkan>",
+     "objectType": "Button",
+     "tables": [
+      "otp_verifications",
+      "osc_da_syarikat",
+      "osc_da_alamat",
+      "audit_logs"
+     ],
+     "fields": [
+      "otp_code",
+      "otp_verifiedat",
+      "otp_isused",
+      "otp_attempts",
+      "sykt_idpelanggan",
+      "almt_idpelanggan",
+      "user_id",
+      "action",
+      "entity_type",
+      "entity_id",
+      "new_values",
+      "created_at"
+     ],
+     "crud": "U / D / C",
+     "note": "Sistem menyemak OTP yang dimasukkan. Jika sah, sistem menandakan OTP sebagai telah digunakan (otp_isused=1) dan merekod masa pengesahan (otp_verifiedat). Selepas itu, sistem memadam rekod syarikat dalam osc_da_syarikat dan rekod alamat/cawangan berkaitan dalam osc_da_alamat berdasarkan sykt_idpelanggan. Jejak audit direkodkan dalam audit_logs."
+    },
+    {
+     "label": "Ikon Tutup (X)",
+     "objectType": "Icon Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menutup pop-up OTP."
+    },
+    {
+     "label": "Syarikat berjaya dipadam.",
+     "objectType": "Success Message",
+     "tables": [
+      "osc_da_syarikat",
+      "osc_da_alamat",
+      "audit_logs"
+     ],
+     "fields": [
+      "sykt_idpelanggan",
+      "almt_idpelanggan",
+      "action",
+      "entity_type",
+      "entity_id"
+     ],
+     "crud": "R",
+     "note": "Mesej berjaya dipaparkan selepas proses pemadaman syarikat dan rekod berkaitan selesai dilaksanakan."
+    },
+    {
+     "label": "<OK>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menutup pop-up mesej berjaya dan membawa pengguna kembali ke senarai syarikat."
+    }
+   ]
+  },
+  {
+   "title": "Muat Naik Dokumen",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-PF-05"
+   ],
+   "dataMap": [
+    {
+     "label": "Dokumen Sokongan",
+     "objectType": "Section Label",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "doc_type",
+      "doc_originalname",
+      "doc_storagepath",
+      "doc_mimetype",
+      "doc_filesize",
+      "doc_version"
+     ],
+     "crud": "R",
+     "note": "Memaparkan seksyen senarai dokumen sokongan yang perlu dimuat naik oleh pengguna."
+    },
+    {
+     "label": "Wajib",
+     "objectType": "Badge / Label",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "doc_type"
+     ],
+     "crud": "R",
+     "note": "Menunjukkan dokumen yang wajib dimuat naik. Keperluan wajib adalah berdasarkan jenis dokumen yang ditetapkan oleh sistem."
+    },
+    {
+     "label": "Sila muat naik dokumen sokongan yang disenaraikan di bawah.",
+     "objectType": "Instruction Text",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Arahan kepada pengguna untuk memuat naik dokumen sokongan. Tiada data disimpan."
+    },
+    {
+     "label": "Perakuan Pemerbadanan Syarikat Awam / Borang 9",
+     "objectType": "Document Label",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "doc_type"
+     ],
+     "crud": "R/C",
+     "note": "Jenis dokumen sokongan yang perlu dimuat naik. Contoh nilai doc_type: kod dokumen yang ditetapkan sistem."
+    },
+    {
+     "label": "Profil Syarikat SSM",
+     "objectType": "Document Label",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "doc_type"
+     ],
+     "crud": "R/C",
+     "note": "Jenis dokumen sokongan yang perlu dimuat naik. Contoh nilai doc_type: dokumen yang ditetapkan sistem."
+    },
+    {
+     "label": "BUTIR-BUTIR PENGARAH / PEGAWAI / Borang 49",
+     "objectType": "Document Label",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "doc_type"
+     ],
+     "crud": "R/C",
+     "note": "Jenis dokumen sokongan yang perlu dimuat naik. Contoh nilai doc_type: kod dokumen yang ditetapkan sistem."
+    },
+    {
+     "label": "BUTIR-BUTIR PEMEGANG SYER / Borang 24",
+     "objectType": "Document Label",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "doc_type"
+     ],
+     "crud": "R/C",
+     "note": "Jenis dokumen sokongan yang perlu dimuat naik. Contoh nilai doc_type: kod dokumen yang ditetapkan sistem."
+    },
+    {
+     "label": "Nama Fail Dokumen",
+     "objectType": "Text / Label",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "doc_originalname"
+     ],
+     "crud": "R",
+     "note": "Memaparkan nama fail asal yang telah dimuat naik. Contoh: Perakuan_Pemerbadanan_Borang9.pdf, Profil_Syarikat_SSM.jpg."
+    },
+    {
+     "label": "Saiz Fail",
+     "objectType": "Text / Label",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "doc_filesize"
+     ],
+     "crud": "R",
+     "note": "Memaparkan saiz fail yang telah dimuat naik. Contoh paparan: 1.2 MB, 892 KB. Nilai DB disimpan dalam unit bytes."
+    },
+    {
+     "label": "Ikon Status Berjaya",
+     "objectType": "Status Icon",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "doc_storagepath",
+      "doc_originalname"
+     ],
+     "crud": "R",
+     "note": "Dipaparkan apabila dokumen berjaya dimuat naik dan rekod fail wujud dalam sistem."
+    },
+    {
+     "label": "Format diterima: PDF, JPG, JPEG, PNG",
+     "objectType": "Helper Text",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "doc_mimetype"
+     ],
+     "crud": "R/C",
+     "note": "Menyatakan format fail yang dibenarkan. Sistem menyemak MIME type fail semasa muat naik. Contoh: application/pdf, image/jpeg, image/png."
+    },
+    {
+     "label": "Saiz maksimum dokumen: 5MB",
+     "objectType": "Helper Text",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "doc_filesize"
+     ],
+     "crud": "R/C",
+     "note": "Menyatakan had maksimum saiz fail yang dibenarkan. Sistem menyemak saiz fail sebelum simpanan dibuat."
+    },
+    {
+     "label": "Ikon Muat Naik",
+     "objectType": "Icon Button / Upload Button",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "doc_id",
+      "user_id",
+      "doc_type",
+      "doc_originalname",
+      "doc_storagepath",
+      "doc_mimetype",
+      "doc_filesize",
+      "doc_version",
+      "doc_uploadedby",
+      "created_at",
+      "updated_at"
+     ],
+     "crud": "C/U",
+     "note": "Membuka fungsi pilihan fail dan menyimpan dokumen sokongan yang dimuat naik. Jika dokumen jenis sama dimuat naik semula, sistem boleh mengemaskini rekod sedia ada atau menambah versi dokumen melalui doc_version."
+    },
+    {
+     "label": "Ikon Padam",
+     "objectType": "Icon Button",
+     "tables": [
+      "documents"
+     ],
+     "fields": [
+      "doc_id",
+      "user_id",
+      "doc_type",
+      "doc_storagepath"
+     ],
+     "crud": "D",
+     "note": "Memadam dokumen sokongan yang telah dimuat naik. Sistem perlu memadam rekod dokumen dalam pangkalan data sistem."
+    }
+   ]
+  },
+  {
+   "title": "Semak Saiz dan Format Fail",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-PF-05-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Fail Terlalu Besar!",
+     "objectType": "Modal Title / Error Message",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Dipaparkan apabila saiz fail melebihi had maksimum yang dibenarkan. Tiada rekod fail disimpan dalam documents."
+    },
+    {
+     "label": "Saiz maksimum dokumen adalah 5MB.",
+     "objectType": "Error Message",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Mesej ralat untuk memaklumkan had saiz fail. Format saiz maksimum: 5MB."
+    },
+    {
+     "label": "Format Fail Tidak Disokong!",
+     "objectType": "Modal Title / Error Message",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Dipaparkan apabila format fail yang dimuat naik bukan dalam format yang dibenarkan. Tiada rekod fail disimpan dalam pangkalan data."
+    },
+    {
+     "label": "Dokumen mestilah dalam format PDF, JPG, JPEG, dan PNG.",
+     "objectType": "Error Message",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Mesej ralat untuk memaklumkan format fail yang diterima. Format dibenarkan: PDF, JPG, JPEG, PNG."
+    },
+    {
+     "label": "<OK>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menutup pop-up ralat dan kembali ke UI-PL-PP-PF-05: Muat Naik Dokumen. Tiada data disimpan."
+    }
+   ]
+  },
+  {
+   "title": "Mohon Pembatalan Akaun",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-BA-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Jenis Pembatalan",
+     "objectType": "Section Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Nilai pilihan jenis pembatalan yang dihantar semasa permohonan. Bagi skrin ini, nilai yang dipilih ialah PEMBATALAN_AKAUN_PENGGUNA."
+    },
+    {
+     "label": "Pembatalan Akaun Pengguna",
+     "objectType": "Selectable Card",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_statpemohon"
+     ],
+     "crud": "U",
+     "note": "Pilihan ini mewakili permohonan penutupan akaun pengguna. Hanya nilai pilihan yang disimpan."
+    },
+    {
+     "label": "Sebab Penutupan Akaun",
+     "objectType": "Text Area",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_statpemohon"
+     ],
+     "crud": "C",
+     "note": "Medan wajib. Menyimpan sebab pengguna memohon penutupan akaun. Jenis data: teks. Had input: maksimum 500 aksara."
+    },
+    {
+     "label": "<Hantar Permohonan Pembatalan>",
+     "objectType": "Button",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_statpemohon",
+      "pfile_update",
+      "pfile_uuser",
+      "updated_at"
+     ],
+     "crud": "U",
+     "note": "Apabila butang ditekan dan pengguna mengesahkan tindakan, sistem mencipta rekod permohonan pembatalan akaun. status_permohonan direkodkan sebagai Menunggu Kelulusan. id_pengguna dirujuk daripada profil pengguna log masuk."
+    },
+    {
+     "label": "<Kembali>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Kembali ke skrin sebelumnya. Tidak menyimpan data."
+    },
+    {
+     "label": "Sahkan Penutupan Akaun",
+     "objectType": "Label/ Message",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Tajuk pengesahan sebelum permohonan dihantar. Tidak disimpan dalam DB."
+    },
+    {
+     "label": "<Ya, Hantar Permohonan>",
+     "objectType": "Button",
+     "tables": [
+      "osc_usr_profile",
+      "audit_logs"
+     ],
+     "fields": [
+      "pfile_statpemohon",
+      "pfile_udate",
+      "pfile_uuser",
+      "updated_at",
+      "user_id",
+      "action",
+      "entity_type",
+      "entity_id",
+      "new_values",
+      "ip_address",
+      "user_agent",
+      "performed_by",
+      "pbt_code",
+      "created_at"
+     ],
+     "crud": "U/C",
+     "note": "Mengesahkan tindakan pengguna dan menghantar permohonan pembatalan akaun ke pangkalan data. status_permohonan awal ialah Menunggu Kelulusan."
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menutup pop-up tanpa menyimpan permohonan."
+    }
+   ]
+  },
+  {
+   "title": "Sahkan Identiti Pemohon",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-BA-01-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Pengesahan Identiti",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Tajuk untuk paparan skrin sahkan identiti pemohon pembatalan akaun."
+    },
+    {
+     "label": "<OTP melalui Emel>",
+     "objectType": "Radio Button",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "channel"
+     ],
+     "crud": "C",
+     "note": "OTP 6 digit dihantar ke emel berdaftar pengguna dan tempoh sah OTP adalah selama 10 minit."
+    },
+    {
+     "label": "<OTP melalui SMS>",
+     "objectType": "Radio Button",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "channel"
+     ],
+     "crud": "C",
+     "note": "OTP 6 digit dihantar ke nombor telefon bimbit berdaftar dan tempoh sah OTP adalah selama 10 minit."
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Menutup pop-up mesej tanpa meneruskan proses. Kembali ke paparan Mohon Pembatalan Akaun."
+    },
+    {
+     "label": "<Teruskan>",
+     "objectType": "Button",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "user_id",
+      "otp_code",
+      "otp_purpose",
+      "channel",
+      "otp_attempts",
+      "otp_expiresat",
+      "otp_resendcount",
+      "created_at"
+     ],
+     "crud": "C",
+     "note": "Meneruskan proses pengesahan berdasarkan kaedah dipilih."
+    },
+    {
+     "label": "Pengesahan Identiti",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Tajuk Paparan"
+    },
+    {
+     "label": "Masukkan Kod OTP",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Arahan kepada pengguna"
+    },
+    {
+     "label": "Kod OTP",
+     "objectType": "Textbox",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "otp_code"
+     ],
+     "crud": "R",
+     "note": "Input OTP 6 digit dihantar ke emel berdaftar pengguna. Ia perlu dimasukkan untuk pengesahan. Tempoh sah OTP adalah selama 10 minit."
+    },
+    {
+     "label": "Hantar semula (120s/ 9m 58s)",
+     "objectType": "Link",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "otp_lastresent",
+      "last_resent_at",
+      "otp_resendcount",
+      "otp_expiresat"
+     ],
+     "crud": "R",
+     "note": "Input OTP 6 digit dihantar ke emel berdaftar pengguna sekali lagi untuk pengesahan. Tempoh sah OTP adalah selama 10 minit. Paparan “(116s)” adalah contoh untuk menunjukkan baki masa pengguna untuk mengulangi proses hantar semula kod OTP."
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Menutup pop-up mesej tanpa meneruskan proses. Kembali ke paparan Mohon Pembatalan Akaun."
+    },
+    {
+     "label": "<Sahkan>",
+     "objectType": "Button",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "otp_code",
+      "otp_attempts",
+      "otp_verifiedat",
+      "otp_isused",
+      "updated_at"
+     ],
+     "crud": "R",
+     "note": "Mengesahkan identiti dan meneruskan proses pembatalan untuk kelulusan oleh Pentadbir Sistem JKT."
+    },
+    {
+     "label": "Pengesahan Identiti",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Tajuk Paparan"
+    },
+    {
+     "label": "Masukkan Kod OTP",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Arahan kepada pengguna"
+    },
+    {
+     "label": "Kod OTP",
+     "objectType": "Textbox",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "otp_code"
+     ],
+     "crud": "R",
+     "note": "Input OTP 6 digit dihantar ke nombor telefon berdaftar pengguna. Ia perlu dimasukkan untuk pengesahan. Tempoh sah OTP adalah selama 10 minit."
+    },
+    {
+     "label": "Hantar semula (120s/ 9m 58s)",
+     "objectType": "Link",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "otp_lastresent",
+      "last_resent_at",
+      "otp_resendcount",
+      "otp_expiresat"
+     ],
+     "crud": "R",
+     "note": "Input OTP 6 digit dihantar ke nombor telefon berdaftar pengguna sekali lagi untuk pengesahan. Tempoh sah OTP adalah selama 10 minit. Paparan “(116s)” adalah contoh untuk menunjukkan baki masa pengguna untuk mengulangi proses hantar semula kod OTP."
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Menutup pop-up mesej tanpa meneruskan proses. Kembali ke paparan Mohon Pembatalan Akaun."
+    },
+    {
+     "label": "<Sahkan>",
+     "objectType": "Button",
+     "tables": [
+      "otp_verifications"
+     ],
+     "fields": [
+      "otp_code",
+      "otp_attempts",
+      "otp_verifiedat",
+      "otp_isused",
+      "updated_at"
+     ],
+     "crud": "R",
+     "note": "Mengesahkan identiti dan meneruskan proses pembatalan untuk kelulusan oleh Pentadbir Sistem JKT."
+    },
+    {
+     "label": "Berjaya",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Tajuk untuk maklumkan proses permohonan pembatalan akaun berjaya."
+    },
+    {
+     "label": "Permohonan Pembatalan Akaun Berjaya Dihantar",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Mesej makluman status permohonan pembatalan akaun."
+    },
+    {
+     "label": "<Kembali ke Dashboard>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Navigasi kembali ke papan pemuka pengguna."
+    },
+    {
+     "label": "Selamat Datang, Pelesen",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Tajuk halaman papan pemuka"
+    },
+    {
+     "label": "Akaun anda berada dalam mod paparan sahaja (read only).",
+     "objectType": "Label",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_statpemohon"
+     ],
+     "crud": "R",
+     "note": "Status akaun semasa"
+    },
+    {
+     "label": "Semua fungsi transaksi dan pelesenan dibekukan sementara kerana permohonan pembatalan akaun anda sedang menunggu kelulusan.",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Makluman kesan permohonan pembatalan akaun terhadap fungsi sistem"
+    },
+    {
+     "label": "Ikon Kunci",
+     "objectType": "Icon",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Petunjuk visual semua fungsi transaksi dan pelesenan pengguna dibekukan sementara"
+    }
+   ]
+  },
+  {
+   "title": "Sahkan Pembatalan Akaun",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-BA-02"
+   ],
+   "dataMap": [
+    {
+     "label": "ID Pengguna",
+     "objectType": "Text / Label",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid"
+     ],
+     "crud": "R",
+     "note": "Memaparkan ID pengguna yang memohon pembatalan akaun. Format: nombor MyKad / ID pengguna. Contoh paparan: 800101019988."
+    },
+    {
+     "label": "Nama",
+     "objectType": "Text / Label",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_nama"
+     ],
+     "crud": "R",
+     "note": "Memaparkan nama penuh pengguna yang memohon pembatalan akaun. Contoh: TAN BENG HOCK."
+    },
+    {
+     "label": "E-mel",
+     "objectType": "Text / Label",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_emel"
+     ],
+     "crud": "R",
+     "note": "Memaparkan alamat e-mel pengguna. Format: alamat e-mel sah, contoh nama@domain.com."
+    },
+    {
+     "label": "No. Telefon",
+     "objectType": "Text / Label",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_nomhp"
+     ],
+     "crud": "R",
+     "note": "Memaparkan nombor telefon pengguna jika wujud. Jika tiada data, sistem memaparkan -. Format: nombor telefon bimbit."
+    },
+    {
+     "label": "Jenis Akaun",
+     "objectType": "Text / Label",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_jenis"
+     ],
+     "crud": "R",
+     "note": "Memaparkan jenis akaun pengguna. Nilai DB: I = Individu, S = Syarikat. Contoh paparan: Individu."
+    },
+    {
+     "label": "Tarikh Permohonan",
+     "objectType": "Text / Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Memaparkan tarikh dan masa permohonan pembatalan dihantar. Format paparan: DD/MM/YYYY HH:MM. Contoh: 21/05/2026 01:20."
+    },
+    {
+     "label": "Sebab Pembatalan",
+     "objectType": "Text / Read Only Box",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Memaparkan sebab pembatalan yang dimasukkan oleh pengguna semasa permohonan. Format: teks, maksimum 500 aksara. Contoh paparan: \"close account\"."
+    },
+    {
+     "label": "Senarai Lesen",
+     "objectType": "Section Label / List",
+     "tables": [
+      "Modul Pelesenan",
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid",
+      "pfile_statpemohon"
+     ],
+     "crud": "R",
+     "note": "Memaparkan senarai lesen aktif berkaitan pengguna sebelum pembatalan diluluskan. Jika tiada rekod, sistem memaparkan Tiada rekod lesen."
+    },
+    {
+     "label": "Bilangan Lesen",
+     "objectType": "Badge / Counter",
+     "tables": [
+      "Modul Pelesenan",
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid",
+      "pfile_statpemohon"
+     ],
+     "crud": "R",
+     "note": "Memaparkan jumlah lesen berkaitan pengguna. Contoh paparan: 0."
+    },
+    {
+     "label": "Senarai Permohonan",
+     "objectType": "Section Label / List",
+     "tables": [
+      "Modul Pelesenan",
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid",
+      "pfile_statpemohon"
+     ],
+     "crud": "R",
+     "note": "Memaparkan senarai permohonan aktif atau tertangguh berkaitan pengguna. Jika tiada rekod, sistem memaparkan Tiada rekod permohonan."
+    },
+    {
+     "label": "Bilangan Permohonan",
+     "objectType": "Badge / Counter",
+     "tables": [
+      "Modul Pelesenan",
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid",
+      "pfile_statpemohon"
+     ],
+     "crud": "R",
+     "note": "Memaparkan jumlah permohonan berkaitan pengguna. Contoh paparan: 0."
+    },
+    {
+     "label": "Senarai Aduan",
+     "objectType": "Section Label / List",
+     "tables": [
+      "Modul Aduan",
+      "Pertanyaan",
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid",
+      "pfile_statpemohon"
+     ],
+     "crud": "R",
+     "note": "Memaparkan senarai aduan berkaitan pengguna. Jika tiada rekod, sistem memaparkan Tiada rekod aduan."
+    },
+    {
+     "label": "Bilangan Aduan",
+     "objectType": "Badge / Counter",
+     "tables": [
+      "Modul Aduan",
+      "Pertanyaan",
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid",
+      "pfile_statpemohon"
+     ],
+     "crud": "R",
+     "note": "Memaparkan jumlah aduan berkaitan pengguna. Contoh paparan: 0."
+    },
+    {
+     "label": "Akaun layak untuk ditutup",
+     "objectType": "Status Message",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Dipaparkan apabila sistem mengesahkan tiada lesen aktif, permohonan tertangguh atau bayaran belum selesai. Nilai boleh dijana melalui semakan sistem."
+    },
+    {
+     "label": "Luluskan Pembatalan",
+     "objectType": "Radio Button",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid",
+      "pfile_statpemohon"
+     ],
+     "crud": "U",
+     "note": "Pilihan tindakan untuk meluluskan permohonan pembatalan akaun. Contoh nilai DB: APPROVED atau DILULUSKAN."
+    },
+    {
+     "label": "Tolak Permohonan",
+     "objectType": "Radio Button",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid",
+      "pfile_statpemohon"
+     ],
+     "crud": "U",
+     "note": "Pilihan tindakan untuk menolak permohonan pembatalan akaun. Contoh nilai DB: REJECTED atau DITOLAK."
+    },
+    {
+     "label": "Kelulusan akan menyahaktifkan akaun, mematikan semua sesi, dan membatalkan semua token akses.",
+     "objectType": "Warning Message",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Mesej amaran kepada pegawai sebelum meluluskan pembatalan. Tiada data disimpan."
+    },
+    {
+     "label": "Nota Kelulusan",
+     "objectType": "Text Area",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Medan pilihan untuk pegawai memasukkan nota kelulusan atau ulasan tindakan. Format: teks."
+    },
+    {
+     "label": "<Luluskan Pembatalan>",
+     "objectType": "Button",
+     "tables": [
+      "osc_usr_profile",
+      "personal_access_tokens",
+      "audit_logs"
+     ],
+     "fields": [
+      "pfile_statpemohon",
+      "pfile_udate",
+      "pfile_uuser",
+      "updated_at",
+      "token",
+      "expires_at",
+      "user_id",
+      "action",
+      "entity_type",
+      "entity_id",
+      "new_values",
+      "performed_by",
+      "pbt_code",
+      "created_at"
+     ],
+     "crud": "U/C",
+     "note": "Apabila ditekan, sistem meluluskan permohonan, mengemaskini status permohonan kepada DILULUSKAN, menyahaktifkan akaun pengguna, membatalkan token akses pengguna dan merekod audit trail."
+    },
+    {
+     "label": "<Kembali ke Senarai>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Kembali ke skrin senarai permohonan pembatalan akaun tanpa mengemaskini data."
+    }
+   ]
+  },
+  {
+   "title": "Nyahaktif Akses dan Token",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-BA-02-01"
+   ],
+   "dataMap": [
+    {
+     "label": "ID Pengguna",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid"
+     ],
+     "crud": "R",
+     "note": "Medan untuk pengguna memasukkan ID pengguna. Sistem menyemak kewujudan ID pengguna dalam rekod profil. Format: nombor MyKad / ID pengguna tanpa sempang."
+    },
+    {
+     "label": "Kata Laluan",
+     "objectType": "Password Field",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_kata_laluan"
+     ],
+     "crud": "R",
+     "note": "Medan untuk pengguna memasukkan kata laluan. Kata laluan disemak berdasarkan kata laluan yang disimpan dalam bentuk hash."
+    },
+    {
+     "label": "Ikon Mata",
+     "objectType": "Icon Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Digunakan untuk papar/sembunyi input kata laluan pada skrin. Tiada data disimpan."
+    },
+    {
+     "label": "Kod Keselamatan",
+     "objectType": "Image / CAPTCHA",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Memaparkan kod keselamatan CAPTCHA yang dijana oleh sistem untuk pengesahan log masuk. Tiada pemetaan terus kepada jadual profil pelanggan."
+    },
+    {
+     "label": "Masukkan kod di atas",
+     "objectType": "Textbox",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Medan untuk pengguna memasukkan kod keselamatan berdasarkan CAPTCHA yang dipaparkan. Format: aksara/nombor seperti imej CAPTCHA."
+    },
+    {
+     "label": "Ikon Muat Semula Kod Keselamatan",
+     "objectType": "Icon Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menjana semula kod keselamatan baharu. Tiada data disimpan."
+    },
+    {
+     "label": "ID Pengguna tiada dalam rekod. Sila daftar akaun untuk meneruskan proses pelesenan.",
+     "objectType": "Error Message",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid"
+     ],
+     "crud": "R",
+     "note": "Dipaparkan apabila ID pengguna yang dimasukkan tidak ditemui dalam rekod sistem atau akaun tidak lagi wujud selepas proses pembatalan akaun."
+    },
+    {
+     "label": "<Log Masuk>",
+     "objectType": "Button",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid",
+      "pfile_kata_laluan"
+     ],
+     "crud": "R",
+     "note": "Sistem menyemak ID pengguna dan kata laluan. Jika ID pengguna tiada dalam rekod, sistem memaparkan mesej ralat dan tidak membenarkan log masuk diteruskan."
+    },
+    {
+     "label": "<Lupa Kata Laluan?>",
+     "objectType": "Link",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Membawa pengguna ke UI-PL-PP-DM-02: Lupa Kata Laluan. Tiada data disimpan pada skrin ini."
+    },
+    {
+     "label": "<Daftar di sini>",
+     "objectType": "Link",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Membawa pengguna ke UI-PL-PP-DA-01: Cipta Akaun Pemohon. Tiada data disimpan pada skrin ini."
+    }
+   ]
+  },
+  {
+   "title": "Notifikasi Pembatalan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Profil Pelanggan",
+   "uiIds": [
+    "UI-PL-PP-BA-02-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Kepada",
+     "objectType": "Label / Dynamic Text",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_emel"
+     ],
+     "crud": "R",
+     "note": "Alamat e-mel penerima notifikasi. Dipaparkan pada bahagian penerima emel. Format: alamat e-mel yang sah."
+    },
+    {
+     "label": "Subjek",
+     "objectType": "Label / Dynamic Text",
+     "tables": [
+      "Template notifikasi sistem",
+      "konfigurasi emel"
+     ],
+     "fields": [
+      "subjek_templat",
+      "subjek notifikasi"
+     ],
+     "crud": "R",
+     "note": "Subjek emel notifikasi pembatalan akaun. Contoh: Sistem One Stop Centre (OSC) Pelesenan Pihak Berkuasa Tempatan – Status Permohonan Pembatalan Akaun."
+    },
+    {
+     "label": "Nama Penerima",
+     "objectType": "Label / Dynamic Text",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_nama"
+     ],
+     "crud": "R",
+     "note": "Nama penuh pengguna yang menerima notifikasi. Dipaparkan dalam salam pembuka emel. Format: teks nama penuh pengguna."
+    },
+    {
+     "label": "ID Pengguna",
+     "objectType": "Label / Dynamic Text",
+     "tables": [
+      "osc_usr_profile"
+     ],
+     "fields": [
+      "pfile_plgid"
+     ],
+     "crud": "R",
+     "note": "ID pengguna yang dirujuk dalam notifikasi."
+    },
+    {
+     "label": "Tarikh Permohonan Pembatalan Diluluskan",
+     "objectType": "Label / Dynamic Text",
+     "tables": [
+      "Rekod transaksi",
+      "kelulusan pembatalan akaun"
+     ],
+     "fields": [
+      "Tarikh kelulusan pembatalan"
+     ],
+     "crud": "R",
+     "note": "Tarikh permohonan pembatalan diluluskan oleh pentadbir. Format: DD Bulan YYYY / DD-MM-YYYY mengikut format paparan sistem."
+    },
+    {
+     "label": "Masa Pembatalan Akaun",
+     "objectType": "Label / Dynamic Text",
+     "tables": [
+      "Rekod transaksi",
+      "kelulusan pembatalan akaun"
+     ],
+     "fields": [
+      "Masa kelulusan",
+      "masa pembatalan"
+     ],
+     "crud": "R",
+     "note": "Masa akaun dibatalkan / permohonan diselesaikan. Format: HH:MM:SS mengikut konfigurasi paparan sistem."
+    },
+    {
+     "label": "Status Akaun",
+     "objectType": "Label / Dynamic Text",
+     "tables": [
+      "Rekod status akaun pengguna",
+      "transaksi pembatalan"
+     ],
+     "fields": [
+      "Status akaun"
+     ],
+     "crud": "R",
+     "note": "Status akhir akaun selepas pembatalan diluluskan. Nilai paparan: Dibatalkan."
+    },
+    {
+     "label": "Mesej Kelulusan Pembatalan",
+     "objectType": "Static Text / Template Text",
+     "tables": [
+      "Template notifikasi sistem"
+     ],
+     "fields": [
+      "Kandungan templat emel"
+     ],
+     "crud": "R",
+     "note": "Teks makluman bahawa permohonan pembatalan akaun telah diluluskan dan selesai diproses. Kandungan ini adalah teks templat notifikasi."
+    },
+    {
+     "label": "Maklumat Penggunaan Semula Akaun",
+     "objectType": "Static Text / Template Text",
+     "tables": [
+      "Template notifikasi sistem"
+     ],
+     "fields": [
+      "Kandungan templat emel"
+     ],
+     "crud": "R",
+     "note": "Teks penerangan bahawa pengguna perlu mendaftar semula sebagai pengguna baharu jika ingin menggunakan sistem semula pada masa hadapan."
+    },
+    {
+     "label": "Notis Akaun Tidak Boleh Diaktifkan Semula",
+     "objectType": "Static Text / Template Text",
+     "tables": [
+      "Template notifikasi sistem"
+     ],
+     "fields": [
+      "Kandungan templat emel"
+     ],
+     "crud": "R",
+     "note": "Teks peringatan bahawa akaun yang telah dibatalkan tidak boleh diaktifkan semula."
+    },
+    {
+     "label": "Mesej Bantuan / Sokongan",
+     "objectType": "Static Text / Template Text",
+     "tables": [
+      "Template notifikasi sistem"
+     ],
+     "fields": [
+      "Kandungan templat emel"
+     ],
+     "crud": "R",
+     "note": "Teks bantuan yang memaklumkan pengguna supaya menghubungi Pentadbir Sistem atau pasukan sokongan sekiranya tidak membuat permohonan tersebut atau memerlukan bantuan lanjut."
+    },
+    {
+     "label": "Nama Pasukan Penghantar",
+     "objectType": "Static Text / Template Text",
+     "tables": [
+      "Template notifikasi sistem",
+      "konfigurasi emel"
+     ],
+     "fields": [
+      "Nama penghantar"
+     ],
+     "crud": "R",
+     "note": "Nama pasukan/sistem yang dipaparkan pada penutup emel. Contoh: Pasukan Sistem One Stop Centre (OSC) Pelesenan Pihak Berkuasa Tempatan."
+    }
+   ]
+  }
+ ],
+ "businessRules": [
+  {
+   "group": "Daftar Akaun",
+   "rules": [
+    {
+     "code": "BR-DA-01",
+     "text": "No.SSM (Syarikat) atau IC (Individu) tidak boleh wujud dalam sistem sebelum akaun baharu dicipta."
+    },
+    {
+     "code": "BR-DA-02",
+     "text": "Semua akaun baharu mesti bermula dengan status Belum Aktif."
+    },
+    {
+     "code": "BR-DA-03",
+     "text": "Pengesahan identiti (MyIdentity/JPN) wajib untuk pemohon individu."
+    },
+    {
+     "code": "BR-DA-04",
+     "text": "OTP mesti mempunyai tempoh luput dan hanya sah untuk satu penggunaan."
+    },
+    {
+     "code": "BR-DA-05",
+     "text": "Semakan syarikat ke SSM hanya dibenarkan untuk kategori akaun syarikat sahaja."
+    }
+   ]
+  },
+  {
+   "group": "Penyelenggaraan Profil",
+   "rules": [
+    {
+     "code": "BR-PP-01",
+     "text": "Pengguna hanya boleh melihat dan mengemaskini profilnya sendiri."
+    },
+    {
+     "code": "BR-PP-02",
+     "text": "Nama, Kategori Pelanggan, ID (iaitu no kad pengenalan) tidak boleh diubah selepas pendaftaran. Emel tidak boleh dikemaskini secara terus dan haruslah menghubungi pentadbir"
+    },
+    {
+     "code": "BR-PP-03",
+     "text": "Perubahan profil mesti direkod dalam audit trail."
+    },
+    {
+     "code": "BR-PP-04",
+     "text": "Kata laluan baharu mesti mematuhi polisi keselamatan PBT."
+    },
+    {
+     "code": "BR-PP-05",
+     "text": "Kata laluan baharu mesti memenuhi kriteria: minimum 8 aksara, maksimum 12 aksara, dengan gabungan huruf besar, huruf kecil dan aksara khas."
+    },
+    {
+     "code": "BR-PP-06",
+     "text": "Format dokumen sokongan mesti dalam senarai yang dibenarkan (PDF/JPG/JPEG/PNG) dan saiz maksimum dokumen sokongan yang dimuat naik adalah 5MB."
+    },
+    {
+     "code": "BR-PP-07",
+     "text": "Sistem menyimpan maksimum 5 versi terkini (dicadangkan) bagi setiap dokumen sokongan yang dimuat naik. Versi yang melebihi had ini akan diarkibkan secara automatik dan tidak boleh diakses melalui sistem. Had tempoh penyimpanan versi dokumen adalah maksimum 5 tahun (dicadangkan). Apabila had bilangan versi atau had tempoh masa dicapai, versi dokumen yang paling lama akan dipadam secara automatik oleh sistem."
+    }
+   ]
+  },
+  {
+   "group": "Pembatalan Akaun",
+   "rules": [
+    {
+     "code": "BR-PA-01",
+     "text": "Pembatalan akaun mesti melalui kelulusan pegawai PBT."
+    },
+    {
+     "code": "BR-PA-02",
+     "text": "Akaun tidak boleh diakses selepas status bertukar kepada Nyahaktif."
+    },
+    {
+     "code": "BR-PA-03",
+     "text": "Permohonan pembatalan mesti disimpan bersama sebab pembatalan dan rekod audit."
+    },
+    {
+     "code": "BR-PA-04",
+     "text": "Pegawai hanya boleh mengurus permohonan berkaitan peranan/agensi mereka."
+    }
+   ]
+  },
+  {
+   "group": "Daftar Masuk",
+   "rules": [
+    {
+     "code": "BR-PA-01",
+     "text": "Pengguna mesti log masuk menggunakan ID Pengguna berdaftar, iaitu No. MyKad/No. Pasport"
+    },
+    {
+     "code": "BR-PA-02",
+     "text": "ID Pengguna, Kata Laluan dan Kod Keselamatan/CAPTCHA mesti diisi sebelum proses log masuk diteruskan."
+    },
+    {
+     "code": "BR-PA-03",
+     "text": "Sistem hanya membenarkan log masuk sekiranya ID Pengguna, Kata Laluan, Kod Keselamatan dan status akaun adalah sah."
+    },
+    {
+     "code": "BR-PA-04",
+     "text": "Akaun pengguna mestilah berstatus Aktif sebelum pengguna dibenarkan mengakses sistem. Akaun berstatus Tidak Aktif atau belum diaktifkan tidak dibenarkan log masuk."
+    },
+    {
+     "code": "BR-PA-05",
+     "text": "Pautan/OTP bagi lupa kata laluan dan pengaktifan semula akaun hanya sah selama 10 minit."
+    },
+    {
+     "code": "BR-PA-06",
+     "text": "Kata laluan baharu mesti mematuhi polisi keselamatan iaitu 8–12 aksara dengan gabungan huruf besar, huruf kecil, nombor dan aksara khas."
+    },
+    {
+     "code": "BR-PA-07",
+     "text": "Akaun dikategorikan Tidak Aktif sekiranya tiada log masuk melebihi 12 bulan serta tiada lesen aktif, permohonan/pembaharuan dalam proses dan transaksi belum bayar."
+    }
+   ]
+  }
+ ],
+ "sdsIssues": []
+}

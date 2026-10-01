@@ -1,39 +1,19 @@
 ---
 title: Use Cases
-description: Real-world use cases and examples of the OSC system in action.
+description: Every OSC use case, taken from the System Design Specification (SDS) of each module.
 ---
 
-# Use Cases
+Each module's SDS defines its use cases in a transaction table: ID, name, main flow, alternative scenarios, actor, input, output and UI reference. This section presents those tables as they are written. Nothing is summarised or inferred.
 
-Explore real-world scenarios and use cases demonstrating how the OSC system can be applied.
+Open a module to explore its use cases as an interactive flow. Each flow links to the screens the SDS maps to it, and every database table and field the SDS names is checked against the live `oscp` schema.
 
-## Business Use Cases
+<UseCaseModules />
 
-### License Management
+## How this page stays correct
 
-Organizations can efficiently manage software licenses:
-- Track license expiration
-- Monitor usage across departments
-- Automate renewal processes
-- Generate compliance reports
+| Source | Extracted by | Output |
+|---|---|---|
+| SDS Word documents (one per module) | `scripts/extract-sds.py`, `scripts/extract-usecases.py` | `data/usecases/` |
+| Running system (routes, database schema) | `scripts/extract-facts.mjs` | `data/facts/` |
 
-### User Access Control
-
-Control who has access to what:
-- Role-based access control
-- Department-based permissions
-- Time-based access restrictions
-- Audit trail for compliance
-
-## Technical Use Cases
-
-### Integration Scenarios
-
-- Third-party application integration
-- API-driven automation
-- Real-time data synchronization
-- Custom reporting
-
-## Implementation Examples
-
-Coming soon...
+Re-run the scripts when an SDS or the code changes; the pages update from the data.

@@ -1,0 +1,10 @@
+{
+  "id": "be5-enforcement",
+  "name": "BE5 Penguatkuasaan",
+  "kind": "laravel",
+  "container": "be5-enforcement",
+  "docsPage": "repo-osc-be5-enforcement",
+  "role": "Monitoring & enforcement",
+  "status": "not-available",
+  "note": "Repository folder is empty or missing locally."
+}

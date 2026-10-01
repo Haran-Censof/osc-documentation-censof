@@ -1,0 +1,6184 @@
+{
+  "id": "be2-licensing",
+  "name": "BE2 Pelesenan",
+  "kind": "laravel",
+  "container": "be2-licensing",
+  "docsPage": "repo-osc-be2-pelesenan",
+  "role": "Licence application, review, meeting, payment, issuance, renewal, cancellation",
+  "stack": {
+    "framework": "Laravel",
+    "laravel": "^12.0",
+    "php": "^8.2",
+    "packages": [
+      "barryvdh/laravel-dompdf",
+      "darkaonline/l5-swagger",
+      "endroid/qr-code",
+      "laravel/framework",
+      "laravel/sanctum",
+      "laravel/tinker",
+      "maatwebsite/excel",
+      "predis/predis",
+      "spatie/pdf-to-text",
+      "thiagoalessio/tesseract_ocr"
+    ]
+  },
+  "code": {
+    "controllers": [
+      "SiteVisitController",
+      "SearchController",
+      "LicenseQueryController",
+      "JanaSijil/SijilCancelController",
+      "JanaSijil/QrVerifyController",
+      "JanaSijil/SijilPreviewController",
+      "JanaSijil/JanaSijilController",
+      "JanaSijil/SijilDashboardController",
+      "JanaSijil/SijilAuditController",
+      "JanaSijil/SijilBatchController",
+      "Admin/EmailNotificationController",
+      "Admin/EmailTemplateController",
+      "Admin/EmailLogController",
+      "Admin/RolePermissionController",
+      "Admin/SmsTemplateController",
+      "Admin/SmsSettingController",
+      "Admin/AiReportController",
+      "Admin/NotificationController",
+      "Admin/TemplateParameterController",
+      "Admin/SyorKeputusanController",
+      "Admin/InternalUserController",
+      "Admin/ChatbotSettingController",
+      "Admin/CounterPayment/AdminCounterPaymentController",
+      "Admin/JernalResit/AdminJernalResitController",
+      "Admin/Application/ApplicationAdditionalChargeController",
+      "Admin/Application/ApplicationController",
+      "Admin/AppVersionController",
+      "Admin/BlacklistController",
+      "Admin/PbtPayLogController",
+      "Admin/IntegrationSettingController",
+      "Admin/NotificationSettingController",
+      "Admin/License/AdminLicenseController",
+      "Admin/Cagaran/AdminCagaranController",
+      "Admin/SlaEscalationController",
+      "MeetingController",
+      "MasterDataController",
+      "LicenseApplication/DocumentController",
+      "LicenseApplication/TransactionController",
+      "LicenseApplication/ApplicationController",
+      "LicenseApplication/AdvertisementController",
+      "HealthCheckController",
+      "BillController",
+      "LicenseStatusController",
+      "BulkOperationsController",
+      "MonitoringController",
+      "InternalUserController",
+      "PaymentController",
+      "Reports/StatistikController",
+      "Reports/AkaunController",
+      "Reports/MaklumatPelesenController",
+      "Customer/CagaranController",
+      "LicenseTypeController",
+      "PbtPayController",
+      "LicenseRenewal/RenewalController",
+      "LicenseRenewal/RenewalEntryController",
+      "LicenseRenewal/LicenseController",
+      "LicenseRenewal/RenewalDraftController",
+      "Controller",
+      "VerificationController",
+      "LicenseCancellation/AdminCancellationController",
+      "LicenseCancellation/CancellationController",
+      "ReviewController",
+      "BillingController"
+    ],
+    "models": [
+      {
+        "class": "CounterPayment",
+        "table": "osc_bil_bayaran_kaunter",
+        "connection": null
+      },
+      {
+        "class": "Meeting",
+        "table": "osc_smk_mesyuarat",
+        "connection": null
+      },
+      {
+        "class": "Recommendation",
+        "table": "recommendations",
+        "connection": null
+      },
+      {
+        "class": "DocumentVersion",
+        "table": "document_versions",
+        "connection": null
+      },
+      {
+        "class": "MhnUlasan",
+        "table": "osc_mhn_ulasan",
+        "connection": null
+      },
+      {
+        "class": "MhnUlasanReviewHistory",
+        "table": "osc_mhn_ulasan_review_history",
+        "connection": "mysql"
+      },
+      {
+        "class": "Cagaran",
+        "table": "osc_ind_cagaran",
+        "connection": null
+      },
+      {
+        "class": "OscIndTransbatal",
+        "table": "osc_ind_transbatal",
+        "connection": null
+      },
+      {
+        "class": "Application",
+        "table": "osc_mhn_permohonan",
+        "connection": null
+      },
+      {
+        "class": "IntegrationSetting",
+        "table": "osc_integration_settings",
+        "connection": null
+      },
+      {
+        "class": "LookupTable",
+        "table": "osc_slg_lookuptable",
+        "connection": null
+      },
+      {
+        "class": "MeetingDecision",
+        "table": "meeting_decisions",
+        "connection": null
+      },
+      {
+        "class": "BilTranslesen",
+        "table": "osc_bil_translesen",
+        "connection": null
+      },
+      {
+        "class": "Refund",
+        "table": "refunds",
+        "connection": null
+      },
+      {
+        "class": "BillReminder",
+        "table": null,
+        "connection": null
+      },
+      {
+        "class": "KodNiaga",
+        "table": "osc_kod_niaga",
+        "connection": null
+      },
+      {
+        "class": "ApplicationAdvertisement",
+        "table": "osc_mhn_iklan",
+        "connection": null
+      },
+      {
+        "class": "Role",
+        "table": null,
+        "connection": null
+      },
+      {
+        "class": "VerificationLog",
+        "table": "license_verification_logs",
+        "connection": null
+      },
+      {
+        "class": "AppVersion",
+        "table": "osc_app_versions",
+        "connection": null
+      },
+      {
+        "class": "DocumentType",
+        "table": "osc_kod_dokumen",
+        "connection": null
+      },
+      {
+        "class": "MeetingAgendaItem",
+        "table": "meeting_agenda_items",
+        "connection": null
+      },
+      {
+        "class": "CompanyProfile",
+        "table": "osc_da_syarikat",
+        "connection": null
+      },
+      {
+        "class": "ApplicationTimeline",
+        "table": "osc_mhn_timeline",
+        "connection": null
+      },
+      {
+        "class": "StatusHistory",
+        "table": "status_histories",
+        "connection": null
+      },
+      {
+        "class": "KodAktiviti",
+        "table": "osc_kod_aktiviti",
+        "connection": null
+      },
+      {
+        "class": "QRCode",
+        "table": "qr_codes",
+        "connection": null
+      },
+      {
+        "class": "MeetingMinuteAttachment",
+        "table": "meeting_minutes_attachments",
+        "connection": null
+      },
+      {
+        "class": "KodAgensi",
+        "table": "osc_kod_agensi",
+        "connection": null
+      },
+      {
+        "class": "SystemParameter",
+        "table": "osc_slg_sysparam",
+        "connection": null
+      },
+      {
+        "class": "CustomerAddress",
+        "table": "osc_da_alamat",
+        "connection": null
+      },
+      {
+        "class": "IndividualProfile",
+        "table": "osc_da_individu",
+        "connection": null
+      },
+      {
+        "class": "ApplicationWorker",
+        "table": "osc_mhn_lpekerja",
+        "connection": null
+      },
+      {
+        "class": "KodTranlesen",
+        "table": "osc_kod_tranlesen",
+        "connection": null
+      },
+      {
+        "class": "KodImage",
+        "table": "osc_kod_image",
+        "connection": null
+      },
+      {
+        "class": "KodSektor",
+        "table": "osc_kod_sektor",
+        "connection": null
+      },
+      {
+        "class": "MeetingMinute",
+        "table": "meeting_minutes",
+        "connection": null
+      },
+      {
+        "class": "Payment",
+        "table": "payments",
+        "connection": null
+      },
+      {
+        "class": "MeetingAgenda",
+        "table": "meeting_agendas",
+        "connection": null
+      },
+      {
+        "class": "BilVersi",
+        "table": "osc_bil_versi",
+        "connection": null
+      },
+      {
+        "class": "SyorKeputusan",
+        "table": "syor_keputusan",
+        "connection": null
+      },
+      {
+        "class": "KodPtjpk",
+        "table": "osc_kod_ptjpk",
+        "connection": null
+      },
+      {
+        "class": "EmailTemplate",
+        "table": "osc_email_templates",
+        "connection": "mysql"
+      },
+      {
+        "class": "Review",
+        "table": "osc_smk_semakan",
+        "connection": null
+      },
+      {
+        "class": "Penyata",
+        "table": "osc_pyt_penyata",
+        "connection": null
+      },
+      {
+        "class": "ChecklistItem",
+        "table": "checklist_items",
+        "connection": null
+      },
+      {
+        "class": "AnchorSms",
+        "table": "osc_sms_settings",
+        "connection": null
+      },
+      {
+        "class": "Customer",
+        "table": "osc_da_pelanggan",
+        "connection": null
+      },
+      {
+        "class": "AdvertisementImage",
+        "table": "osc_mhn_iklangambar",
+        "connection": null
+      },
+      {
+        "class": "SmsTemplate",
+        "table": "osc_sms_templates",
+        "connection": "mysql"
+      },
+      {
+        "class": "OnlineTransaction",
+        "table": "osc_trn_online",
+        "connection": null
+      },
+      {
+        "class": "SiteVisit",
+        "table": "site_visits",
+        "connection": null
+      },
+      {
+        "class": "KodMajlis",
+        "table": "osc_kod_majlis",
+        "connection": null
+      },
+      {
+        "class": "KodLokasi",
+        "table": "osc_kod_lokasi",
+        "connection": null
+      },
+      {
+        "class": "License",
+        "table": "osc_ind_induklesen",
+        "connection": null
+      },
+      {
+        "class": "Blacklist",
+        "table": "osc_da_listhitam",
+        "connection": null
+      },
+      {
+        "class": "TechnicalReview",
+        "table": "osc_mhn_ulasan",
+        "connection": null
+      },
+      {
+        "class": "ApplicationTransaction",
+        "table": "osc_mhn_transaksi",
+        "connection": null
+      },
+      {
+        "class": "BilTmphlesen",
+        "table": "osc_bil_tmphlesen",
+        "connection": null
+      },
+      {
+        "class": "ProcessingLog",
+        "table": "application_processing_logs",
+        "connection": null
+      },
+      {
+        "class": "InternalUser",
+        "table": "osc_slg_user",
+        "connection": null
+      },
+      {
+        "class": "Query",
+        "table": "queries",
+        "connection": null
+      },
+      {
+        "class": "Concerns/SerializesDatesInAppTimezone",
+        "table": null,
+        "connection": null
+      },
+      {
+        "class": "TemplateParameter",
+        "table": "osc_template_parameters",
+        "connection": null
+      },
+      {
+        "class": "User",
+        "table": "osc_usr_profile",
+        "connection": null
+      },
+      {
+        "class": "LicenseTypeVersion",
+        "table": "license_type_versions",
+        "connection": null
+      },
+      {
+        "class": "Bill",
+        "table": "osc_bil_bayaran",
+        "connection": null
+      },
+      {
+        "class": "Pbt",
+        "table": "osc_kod_majlis",
+        "connection": null
+      },
+      {
+        "class": "KodAktvtAgensi",
+        "table": "osc_kod_aktvtagensi",
+        "connection": null
+      },
+      {
+        "class": "SlaEscalation",
+        "table": "sla_escalations",
+        "connection": null
+      },
+      {
+        "class": "MeetingAttendee",
+        "table": "meeting_attendees",
+        "connection": null
+      },
+      {
+        "class": "NotificationSetting",
+        "table": "osc_notification_settings",
+        "connection": null
+      },
+      {
+        "class": "DocumentAccessLog",
+        "table": "document_access_logs",
+        "connection": null
+      },
+      {
+        "class": "Officer",
+        "table": "osc_slg_user",
+        "connection": null
+      },
+      {
+        "class": "Notification",
+        "table": "notifications",
+        "connection": null
+      },
+      {
+        "class": "KodUndang",
+        "table": "osc_kod_undang",
+        "connection": null
+      },
+      {
+        "class": "SlgSysparam",
+        "table": "osc_slg_sysparam",
+        "connection": null
+      },
+      {
+        "class": "KodJenis",
+        "table": "osc_kod_jenis",
+        "connection": null
+      },
+      {
+        "class": "Renewal",
+        "table": "renewals",
+        "connection": null
+      },
+      {
+        "class": "ChatbotSetting",
+        "table": "osc_chatbot_settings",
+        "connection": null
+      },
+      {
+        "class": "SyorAttachment",
+        "table": "osc_syor_attachments",
+        "connection": null
+      },
+      {
+        "class": "ApplicationImage",
+        "table": "osc_mhn_gambar",
+        "connection": null
+      },
+      {
+        "class": "Document",
+        "table": "osc_mhn_dokumen",
+        "connection": null
+      },
+      {
+        "class": "OnlineTransactionEvent",
+        "table": "osc_trn_online_events",
+        "connection": null
+      },
+      {
+        "class": "ActivityLog",
+        "table": "osc_activity_logs",
+        "connection": null
+      },
+      {
+        "class": "SyaratKelulusan",
+        "table": "osc_slg_lookuptable",
+        "connection": null
+      },
+      {
+        "class": "LicenseType",
+        "table": "license_types",
+        "connection": null
+      },
+      {
+        "class": "MhnUlasanDetail",
+        "table": "osc_mhn_ulasandetail",
+        "connection": null
+      }
+    ],
+    "services": [
+      "AgendaService",
+      "ApprovalBalanceBillEmailService",
+      "DecisionService",
+      "ApprovalPeriodNotificationService",
+      "QRCodeService",
+      "JanaSijil/PassportImageResolverService",
+      "JanaSijil/BatchProcessingService",
+      "JanaSijil/SijilEligibilityService",
+      "JanaSijil/QrCodeGeneratorService",
+      "JanaSijil/SijilPdfService",
+      "JanaSijil/SijilGeneratorService",
+      "PbtApplicationDecisionNotifier",
+      "EmailNotificationDispatchService",
+      "NotificationMailConfigurator",
+      "AccountStatementPostingService",
+      "ApplicationStateMachine",
+      "PermohonanLesenService",
+      "MonitoringCustomerNotificationService",
+      "RetryService",
+      "PbtPayService",
+      "BillService",
+      "ScreeningService",
+      "PbtPayEventLogger",
+      "PaymentPeriodNotificationService",
+      "SequenceGeneratorService",
+      "WorkflowEngine",
+      "TechnicalReviewService",
+      "ApprovalService",
+      "MonitoringKompaunSyncService",
+      "CagaranSettlementService",
+      "MinutesService",
+      "LicenseApplication/ApplicationListPriorityService",
+      "LicenseApplication/StatusTrackingService",
+      "LicenseApplication/DraftService",
+      "LicenseApplication/StepProgressService",
+      "LicenseApplication/ValidationService",
+      "LicenseApplication/ProcessingCountdownService",
+      "LicenseApplication/CompletenessCheckService",
+      "SuratKeputusanService",
+      "NotificationService",
+      "SearchService",
+      "ReviewAgencyNameResolver",
+      "EmailRetryService",
+      "AnchorSmsService",
+      "GracePeriodService",
+      "QueryService",
+      "TechnicalReviewSlaService",
+      "LicenseTypeService",
+      "BlacklistService",
+      "PpsuFinalPaperNotificationService",
+      "PaymentGatewayService",
+      "CertificateGenerator",
+      "CounterPaymentService",
+      "AuditLogService",
+      "MandatoryConditionService",
+      "RecommendationService",
+      "BulkOperationService",
+      "EmailTemplateService",
+      "Be1Client",
+      "Reports/BilLesenReportService",
+      "FeeLineSyncService",
+      "DocumentValidator",
+      "SmsService",
+      "VerificationService",
+      "PaymentService",
+      "ApplicationAgencyService",
+      "StateTransitionService",
+      "LicenseRenewal/LowRiskReviewPolicy",
+      "LicenseRenewal/LicenseService",
+      "LicenseRenewal/EligibilityService",
+      "LicenseRenewal/RenewalService",
+      "LicenseRenewal/FeeCalculatorService",
+      "LicenseRenewal/LowRiskRenewalPpsuNotifier",
+      "LicenseRenewal/RenewalEntryService",
+      "LicenseRenewal/FastTrackService",
+      "UnifiedSlaMonitoringService",
+      "SLAMonitorService",
+      "ReferenceNumberService",
+      "MeetingService",
+      "PatilSnapshotService",
+      "CircuitBreakerService",
+      "LicenseCancellation/CancellationService",
+      "LicenseCancellation/RefundCalculatorService",
+      "DynamicWorkflowService",
+      "SiteVisitService",
+      "KodNiagaSnapshotService",
+      "RenewalIssuedTransactionSyncService"
+    ],
+    "requests": [
+      "UpdateMeetingRequest",
+      "JanaSijil/JanaBatchRequest",
+      "JanaSijil/SenaraiLayakRequest",
+      "CreateMeetingRequest",
+      "LicenseApplication/StoreApplicationRequest",
+      "StoreLicenseTypeRequest",
+      "MonitoringRequest",
+      "NotificationSettingRequest",
+      "UpdateLicenseTypeRequest",
+      "QueryRequest",
+      "ScreeningRequest",
+      "TechnicalReviewRequest",
+      "SiteVisitRequest",
+      "LicenseRenewal/RenewalRequest",
+      "LicenseCancellation/StoreCancelAccountRequest",
+      "LicenseCancellation/StoreCancelTransactionsRequest"
+    ],
+    "middleware": [
+      "SetLocaleFromHeader",
+      "RequiresStepUpToken",
+      "AuthenticateServiceToken",
+      "ForceJsonResponse"
+    ],
+    "jobs": [
+      "TechnicalReviewSlaMonitoringJob",
+      "GenerateQrCodeJob",
+      "SLAMonitoringJob",
+      "CheckApplicationReviewCompletion",
+      "LicenseExpiryWarningJob",
+      "BillOverdueJob",
+      "QueryExpirationJob",
+      "GenerateBilLesenReportJob",
+      "RenewalReminderJob",
+      "GenerateSijilBatchJob",
+      "DraftExpirationJob",
+      "PaymentReminderJob"
+    ],
+    "events": [
+      "ApplicationEvents",
+      "ApplicationLicenseIssued",
+      "TechnicalReviewCompleted",
+      "ApplicationStatusChanged",
+      "QueryIssued",
+      "QueryResolved",
+      "DocumentExpired",
+      "DocumentMalwareDetected",
+      "SiteVisitScheduled",
+      "QueryExpired",
+      "SijilGenerated",
+      "QueryResponded",
+      "ApplicationPendingPayment",
+      "SiteVisitCompleted",
+      "ApplicationReadyForApproval",
+      "ApplicationQueryIssued",
+      "ApplicationApproved",
+      "ApplicationRejected",
+      "SiteVisitRescheduled",
+      "TechnicalReviewAssigned",
+      "DocumentUploaded",
+      "ScreeningCompleted",
+      "DocumentReplaced",
+      "ReviewConsolidated",
+      "ApplicationSubmitted"
+    ],
+    "listeners": [
+      "EmbedEmailLogo",
+      "PreventDisabledEmailNotifications",
+      "GenerateBillOnPendingPayment",
+      "LogQueuedEmail",
+      "SendLicenseIssuedNotification",
+      "LogFailedEmail",
+      "SendQueryIssuedNotification",
+      "SendStatusChangeNotification",
+      "SendPaymentReminderNotification",
+      "LogSentEmail",
+      "SendApplicationSubmittedNotification"
+    ],
+    "notifications": [
+      "RenewalReminderNotification",
+      "ApplicationSubmittedNotification"
+    ],
+    "mail": [
+      "ApplicationDecisionStaffNotification",
+      "TemplateEmail",
+      "FinalPaperEscalatedToSecretariatNotification",
+      "MonitoringSavedNotification",
+      "UlasanUpdatedNotification",
+      "AgencyReviewNotification",
+      "TestEmailNotification",
+      "MeetingReviewNotification",
+      "MeetingUpdateNotification",
+      "FinalPaperSubmittedNotification",
+      "TechnicalReviewNoResponseNotification",
+      "TemplatedEmail",
+      "ApplicationStatusNotification",
+      "SlaEscalationNotification",
+      "TechnicalReviewReminderNotification",
+      "ApplicationAssignedNotification"
+    ],
+    "commands": [
+      "ProcessMeetingTransitions",
+      "MonitorSLA",
+      "PrunePbtPayEventPayloads",
+      "RepairCertificateQrUrls",
+      "SendPaymentReminders",
+      "RepairRenewalIssuedTransactions",
+      "PostRestoreCleanup",
+      "SendLicenseExpiryWarnings",
+      "DispatchRenewalReminders",
+      "BackfillPbtPayAccountStatements",
+      "ProcessApprovalPeriodNotifications",
+      "ProcessPaymentPeriods",
+      "AuditPbtDisplayCodes",
+      "RetryFailedEmails"
+    ]
+  },
+  "migrations": 0,
+  "routes": [
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/",
+      "name": null,
+      "controller": "Closure",
+      "action": null,
+      "middleware": [
+        "web"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/account/check-eligibility",
+      "name": null,
+      "controller": "LicenseQueryController",
+      "action": "checkEligibility",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/ai-report/conversations",
+      "name": null,
+      "controller": "Admin\\AiReportController",
+      "action": "conversations",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/ai-report/feedback",
+      "name": null,
+      "controller": "Admin\\AiReportController",
+      "action": "feedback",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/ai-report/usage-stats",
+      "name": null,
+      "controller": "Admin\\AiReportController",
+      "action": "usageStats",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/app-versions",
+      "name": null,
+      "controller": "Admin\\AppVersionController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/app-versions",
+      "name": null,
+      "controller": "Admin\\AppVersionController",
+      "action": "store",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/app-versions/{id}/set-current",
+      "name": null,
+      "controller": "Admin\\AppVersionController",
+      "action": "setCurrent",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/applications",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/applications/bulk/final-paper",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "bulkSubmitFinalPapers",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/applications/bulk/final-paper/escalate",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "bulkEscalateFinalPapers",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/applications/bulk/final-paper/return",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "bulkReturnFinalPapers",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/applications/{id}",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/applications/{id}/additional-charges",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationAdditionalChargeController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/applications/{id}/additional-charges",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationAdditionalChargeController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/applications/{id}/checklist",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "getChecklist",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/applications/{id}/checklist",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "saveChecklist",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/applications/{id}/final-paper",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "getFinalPaper",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/applications/{id}/final-paper",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "submitFinalPaper",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/applications/{id}/final-paper/escalate",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "escalateFinalPaper",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/applications/{id}/final-paper/return",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "returnFinalPaper",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/applications/{id}/location",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "updateLocation",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/applications/{id}/mandatory-conditions",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "getMandatoryConditions",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/applications/{id}/reassign-meeting",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "reassignToMeeting",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/applications/{id}/remove-from-meeting",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "removeFromMeeting",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/applications/{id}/review",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "review",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/applications/{id}/review-agencies",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "getReviewAgencies",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/applications/{id}/surat-keputusan/download",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "downloadSuratKeputusan",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/applications/{id}/timeline",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "getTimeline",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/applications/{id}/ulasan-summary",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "getUlasanSummary",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/blacklist",
+      "name": null,
+      "controller": "Admin\\BlacklistController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/blacklist",
+      "name": null,
+      "controller": "Admin\\BlacklistController",
+      "action": "store",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/blacklist/ic-numbers",
+      "name": null,
+      "controller": "Admin\\BlacklistController",
+      "action": "getIcNumbers",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/blacklist/{id}",
+      "name": null,
+      "controller": "Admin\\BlacklistController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/blacklist/{id}",
+      "name": null,
+      "controller": "Admin\\BlacklistController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/blacklist/{id}",
+      "name": null,
+      "controller": "Admin\\BlacklistController",
+      "action": "destroy",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/blacklist/{id}/activate",
+      "name": null,
+      "controller": "Admin\\BlacklistController",
+      "action": "activate",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/blacklist/{id}/deactivate",
+      "name": null,
+      "controller": "Admin\\BlacklistController",
+      "action": "deactivate",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/cagaran",
+      "name": null,
+      "controller": "Admin\\Cagaran\\AdminCagaranController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/cagaran/{id}",
+      "name": null,
+      "controller": "Admin\\Cagaran\\AdminCagaranController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/cagaran/{id}",
+      "name": null,
+      "controller": "Admin\\Cagaran\\AdminCagaranController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/chatbot-settings",
+      "name": null,
+      "controller": "Admin\\ChatbotSettingController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/chatbot-settings",
+      "name": null,
+      "controller": "Admin\\ChatbotSettingController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/counter-payments/bills",
+      "name": null,
+      "controller": "Admin\\CounterPayment\\AdminCounterPaymentController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/counter-payments/bills/{billId}/confirm",
+      "name": null,
+      "controller": "Admin\\CounterPayment\\AdminCounterPaymentController",
+      "action": "confirm",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/counter-payments/history",
+      "name": null,
+      "controller": "Admin\\CounterPayment\\AdminCounterPaymentController",
+      "action": "history",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/counter-payments/payment-types",
+      "name": null,
+      "controller": "Admin\\CounterPayment\\AdminCounterPaymentController",
+      "action": "paymentTypes",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/counter-payments/{id}/cancel",
+      "name": null,
+      "controller": "Admin\\CounterPayment\\AdminCounterPaymentController",
+      "action": "cancel",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/email-logs",
+      "name": null,
+      "controller": "Admin\\EmailLogController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/email-logs/{id}",
+      "name": null,
+      "controller": "Admin\\EmailLogController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/email-notifications/send",
+      "name": null,
+      "controller": "Admin\\EmailNotificationController",
+      "action": "send",
+      "middleware": [
+        "api",
+        "AuthenticateServiceToken"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/email-templates",
+      "name": null,
+      "controller": "Admin\\EmailTemplateController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/email-templates",
+      "name": null,
+      "controller": "Admin\\EmailTemplateController",
+      "action": "store",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/email-templates/code/{code}",
+      "name": null,
+      "controller": "Admin\\EmailTemplateController",
+      "action": "getByCode",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/email-templates/{id}",
+      "name": null,
+      "controller": "Admin\\EmailTemplateController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/email-templates/{id}",
+      "name": null,
+      "controller": "Admin\\EmailTemplateController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/email-templates/{id}/preview",
+      "name": null,
+      "controller": "Admin\\EmailTemplateController",
+      "action": "preview",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/email-templates/{id}/test",
+      "name": null,
+      "controller": "Admin\\EmailTemplateController",
+      "action": "sendTest",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/email-templates/{id}/toggle",
+      "name": null,
+      "controller": "Admin\\EmailTemplateController",
+      "action": "toggle",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/integration-settings/{provider}",
+      "name": null,
+      "controller": "Admin\\IntegrationSettingController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/integration-settings/{provider}",
+      "name": null,
+      "controller": "Admin\\IntegrationSettingController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/integration-settings/{provider}/test",
+      "name": null,
+      "controller": "Admin\\IntegrationSettingController",
+      "action": "testConnection",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/jernal-resit/akaun-lesen",
+      "name": null,
+      "controller": "Admin\\JernalResit\\AdminJernalResitController",
+      "action": "getAkaunLesen",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/jernal-resit/jenis-bayaran",
+      "name": null,
+      "controller": "Admin\\JernalResit\\AdminJernalResitController",
+      "action": "getJenisBayaran",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/jernal-resit/penyata",
+      "name": null,
+      "controller": "Admin\\JernalResit\\AdminJernalResitController",
+      "action": "getPenyata",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/jernal-resit/store",
+      "name": null,
+      "controller": "Admin\\JernalResit\\AdminJernalResitController",
+      "action": "store",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/licenses",
+      "name": null,
+      "controller": "Admin\\License\\AdminLicenseController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/licenses/{id}",
+      "name": null,
+      "controller": "Admin\\License\\AdminLicenseController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/licenses/{id}/compounds",
+      "name": null,
+      "controller": "Admin\\License\\AdminLicenseController",
+      "action": "compounds",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/licenses/{id}/documents/{docId}/download",
+      "name": null,
+      "controller": "Admin\\License\\AdminLicenseController",
+      "action": "documentDownload",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/licenses/{id}/documents/{docId}/view",
+      "name": null,
+      "controller": "Admin\\License\\AdminLicenseController",
+      "action": "documentView",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/licenses/{id}/period",
+      "name": null,
+      "controller": "Admin\\License\\AdminLicenseController",
+      "action": "getPeriod",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/licenses/{id}/period",
+      "name": null,
+      "controller": "Admin\\License\\AdminLicenseController",
+      "action": "updatePeriod",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/licenses/{id}/transactions",
+      "name": null,
+      "controller": "Admin\\License\\AdminLicenseController",
+      "action": "getTransactions",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/licenses/{id}/transactions",
+      "name": null,
+      "controller": "Admin\\License\\AdminLicenseController",
+      "action": "updateTransactions",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/my-permissions",
+      "name": null,
+      "controller": "Admin\\RolePermissionController",
+      "action": "myPermissions",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/notification-settings",
+      "name": null,
+      "controller": "Admin\\NotificationSettingController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/notification-settings",
+      "name": null,
+      "controller": "Admin\\NotificationSettingController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/notification-settings/test-email",
+      "name": null,
+      "controller": "Admin\\NotificationSettingController",
+      "action": "testEmail",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/notification-settings/test-sms",
+      "name": null,
+      "controller": "Admin\\NotificationSettingController",
+      "action": "testSms",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/notifications",
+      "name": null,
+      "controller": "Admin\\NotificationController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/notifications",
+      "name": null,
+      "controller": "Admin\\NotificationController",
+      "action": "store",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/notifications/mark-all-read",
+      "name": null,
+      "controller": "Admin\\NotificationController",
+      "action": "markAllAsRead",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/notifications/mark-selected-read",
+      "name": null,
+      "controller": "Admin\\NotificationController",
+      "action": "markSelectedAsRead",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/notifications/unread-count",
+      "name": null,
+      "controller": "Admin\\NotificationController",
+      "action": "unreadCount",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/notifications/{id}",
+      "name": null,
+      "controller": "Admin\\NotificationController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/notifications/{id}",
+      "name": null,
+      "controller": "Admin\\NotificationController",
+      "action": "destroy",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/notifications/{id}/read",
+      "name": null,
+      "controller": "Admin\\NotificationController",
+      "action": "markAsRead",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/notifications/{id}/unread",
+      "name": null,
+      "controller": "Admin\\NotificationController",
+      "action": "markAsUnread",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/pbtpay/events",
+      "name": null,
+      "controller": "Admin\\PbtPayLogController",
+      "action": "events",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/pbtpay/events/{id}",
+      "name": null,
+      "controller": "Admin\\PbtPayLogController",
+      "action": "eventDetail",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/pbtpay/transactions",
+      "name": null,
+      "controller": "Admin\\PbtPayLogController",
+      "action": "transactions",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/pbtpay/transactions/{id}",
+      "name": null,
+      "controller": "Admin\\PbtPayLogController",
+      "action": "transactionDetail",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/pembatalan-transaksi",
+      "name": null,
+      "controller": "LicenseCancellation\\AdminCancellationController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/pembatalan-transaksi/{id}",
+      "name": null,
+      "controller": "LicenseCancellation\\AdminCancellationController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/pembatalan-transaksi/{id}/confirm",
+      "name": null,
+      "controller": "LicenseCancellation\\AdminCancellationController",
+      "action": "confirm",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/pembatalan-transaksi/{id}/reject",
+      "name": null,
+      "controller": "LicenseCancellation\\AdminCancellationController",
+      "action": "reject",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/pembatalan-transaksi/{induklesenId}/confirm-all",
+      "name": null,
+      "controller": "LicenseCancellation\\AdminCancellationController",
+      "action": "confirmAll",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/pembatalan-transaksi/{induklesenId}/reject-all",
+      "name": null,
+      "controller": "LicenseCancellation\\AdminCancellationController",
+      "action": "rejectAll",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/roles",
+      "name": null,
+      "controller": "Admin\\RolePermissionController",
+      "action": "roles",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/roles/{roleCode}/permissions",
+      "name": null,
+      "controller": "Admin\\RolePermissionController",
+      "action": "rolePermissions",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/settings/sms",
+      "name": null,
+      "controller": "Admin\\SmsSettingController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/settings/sms",
+      "name": null,
+      "controller": "Admin\\SmsSettingController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/settings/sms/test",
+      "name": null,
+      "controller": "Admin\\SmsSettingController",
+      "action": "testSms",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/sla-escalations",
+      "name": null,
+      "controller": "Admin\\SlaEscalationController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/sla-escalations/{id}",
+      "name": null,
+      "controller": "Admin\\SlaEscalationController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/sms-templates",
+      "name": null,
+      "controller": "Admin\\SmsTemplateController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/sms-templates",
+      "name": null,
+      "controller": "Admin\\SmsTemplateController",
+      "action": "store",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/sms-templates/code/{code}",
+      "name": null,
+      "controller": "Admin\\SmsTemplateController",
+      "action": "getByCode",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/sms-templates/{id}",
+      "name": null,
+      "controller": "Admin\\SmsTemplateController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/sms-templates/{id}",
+      "name": null,
+      "controller": "Admin\\SmsTemplateController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/sms-templates/{id}/bulk-send",
+      "name": null,
+      "controller": "Admin\\SmsTemplateController",
+      "action": "bulkSend",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/sms-templates/{id}/test",
+      "name": null,
+      "controller": "Admin\\SmsTemplateController",
+      "action": "sendTest",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/sms-templates/{id}/toggle",
+      "name": null,
+      "controller": "Admin\\SmsTemplateController",
+      "action": "toggle",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/syor-keputusan",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/syor-keputusan/application/{applicationId}/history",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "getApplicationHistory",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/syor-keputusan/attachment/{detailId}",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "deleteAttachment",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/syor-keputusan/attachment/{detailId}/serve",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "serveAttachment",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/syor-keputusan/comments-list",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "getCommentsList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/syor-keputusan/syor/{syorId}/attachments",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "viewAttachments",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/syor-keputusan/ulasan/{ulasanId}/escalate",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "escalate",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/syor-keputusan/ulasan/{ulasanId}/review",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "processReview",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/syor-keputusan/{applicationId}/syor/{syorId}",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "showSyor",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/syor-keputusan/{ulasanId}",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/syor-keputusan/{ulasanId}",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/syor-keputusan/{ulasanId}/attachments",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "getAttachments",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/syor-keputusan/{ulasanId}/attachments",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "uploadAttachment",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/syor-keputusan/{ulasanId}/attachments",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "deleteAllAttachments",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/syor-keputusan/{ulasanId}/details",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "showWithDetails",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/syor-keputusan/{ulasanId}/review",
+      "name": null,
+      "controller": "Admin\\SyorKeputusanController",
+      "action": "processReview",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/template-parameters",
+      "name": null,
+      "controller": "Admin\\TemplateParameterController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/template-parameters",
+      "name": null,
+      "controller": "Admin\\TemplateParameterController",
+      "action": "store",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/template-parameters/list",
+      "name": null,
+      "controller": "Admin\\TemplateParameterController",
+      "action": "list",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/template-parameters/{id}",
+      "name": null,
+      "controller": "Admin\\TemplateParameterController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/template-parameters/{id}",
+      "name": null,
+      "controller": "Admin\\TemplateParameterController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/template-parameters/{id}",
+      "name": null,
+      "controller": "Admin\\TemplateParameterController",
+      "action": "destroy",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/users/pbt-ppt",
+      "name": null,
+      "controller": "Admin\\InternalUserController",
+      "action": "getPbtPptUsers",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/advertisements/{id}",
+      "name": null,
+      "controller": "LicenseApplication\\AdvertisementController",
+      "action": "destroy",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/agenda-items/{id}/decision",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "recordDecision",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/ant-ai/application/search",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "searchApplications",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/ant-ai/licenses/search",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "searchLicenses",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/ant-ai/renewals/search",
+      "name": null,
+      "controller": "Admin\\Application\\ApplicationController",
+      "action": "searchRenewals",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/applications/bulk/assign",
+      "name": null,
+      "controller": "BulkOperationsController",
+      "action": "bulkAssign",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/applications/bulk/export",
+      "name": null,
+      "controller": "BulkOperationsController",
+      "action": "bulkExport",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/applications/bulk/update-status",
+      "name": null,
+      "controller": "BulkOperationsController",
+      "action": "bulkUpdateStatus",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/applications/bulk/validate",
+      "name": null,
+      "controller": "BulkOperationsController",
+      "action": "validateBulkOperation",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/customer/{customerId}",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "getByCustomer",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/applications/draft",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "saveDraft",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/draft/find",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "findDraftByType",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/draft/find-transfer",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "findTransferDraft",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/applications/draft/{id}",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "updateDraft",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/draft/{id}",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "showDraft",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/applications/draft/{id}",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "deleteDraftPublic",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/applications/draft/{id}/submit",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "submitDraftPublic",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/drafts/empty",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "findEmptyDraft",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/search",
+      "name": null,
+      "controller": "SearchController",
+      "action": "search",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/search/export",
+      "name": null,
+      "controller": "SearchController",
+      "action": "export",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/search/filters",
+      "name": null,
+      "controller": "SearchController",
+      "action": "getFilterOptions",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/search/recent",
+      "name": null,
+      "controller": "SearchController",
+      "action": "getRecentSearches",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/applications/search/recent",
+      "name": null,
+      "controller": "SearchController",
+      "action": "clearRecentSearches",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/short/search",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "search",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/track/{referenceNumber}",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "track",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/verify/{referenceNumber}",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "verify",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/{id}/advertisements",
+      "name": null,
+      "controller": "LicenseApplication\\AdvertisementController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/applications/{id}/advertisements/image",
+      "name": null,
+      "controller": "LicenseApplication\\AdvertisementController",
+      "action": "uploadImage",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/{id}/advertisements/image/{ref}",
+      "name": null,
+      "controller": "LicenseApplication\\AdvertisementController",
+      "action": "viewImage",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/applications/{id}/advertisements/image/{ref}",
+      "name": null,
+      "controller": "LicenseApplication\\AdvertisementController",
+      "action": "deleteImage",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/applications/{id}/advertisements/sync",
+      "name": null,
+      "controller": "LicenseApplication\\AdvertisementController",
+      "action": "sync",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/{id}/completeness-check",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "getCompletenessCheck",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/applications/{id}/completeness-check/confirm",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "confirmCompleteness",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/{id}/deposit-summary",
+      "name": null,
+      "controller": "LicenseApplication\\TransactionController",
+      "action": "getDepositSummary",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/{id}/details",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "showPublic",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/{id}/details/short",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "showPublicShort",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/{id}/document-requirements",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "getDocumentRequirements",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/{id}/documents",
+      "name": null,
+      "controller": "LicenseApplication\\DocumentController",
+      "action": "getPublicApplicationDocuments",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/applications/{id}/documents",
+      "name": null,
+      "controller": "LicenseApplication\\DocumentController",
+      "action": "uploadPublic",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/{id}/payment-data",
+      "name": null,
+      "controller": "BillingController",
+      "action": "getPaymentData",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/{id}/receipt-data",
+      "name": null,
+      "controller": "BillingController",
+      "action": "getReceiptData",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/applications/{id}/review/confirm",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "confirmReview",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/{id}/show-data",
+      "name": null,
+      "controller": "BillingController",
+      "action": "getShowData",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/applications/{id}/soft-delete",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "softDeleteApplication",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/{id}/step-progress",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "getStepProgress",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/applications/{id}/transactions",
+      "name": null,
+      "controller": "LicenseApplication\\TransactionController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/applications/{id}/transactions",
+      "name": null,
+      "controller": "LicenseApplication\\TransactionController",
+      "action": "store",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/applications/{id}/transactions/sync",
+      "name": null,
+      "controller": "LicenseApplication\\TransactionController",
+      "action": "sync",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/billing/application/{applicationId}",
+      "name": null,
+      "controller": "BillingController",
+      "action": "getBillByApplication",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/billing/application/{applicationId}/all",
+      "name": null,
+      "controller": "BillingController",
+      "action": "getAllBillsByApplication",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/billing/bill/{billId}",
+      "name": null,
+      "controller": "BillingController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/billing/customer/{customerId}",
+      "name": null,
+      "controller": "BillingController",
+      "action": "getCustomerBills",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/billing/customer/{customerId}/unpaid",
+      "name": null,
+      "controller": "BillingController",
+      "action": "getUnpaidBills",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/billing/generate/{applicationId}",
+      "name": null,
+      "controller": "BillingController",
+      "action": "generateBill",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/cancellation/accounts/{customerId}",
+      "name": null,
+      "controller": "LicenseCancellation\\CancellationController",
+      "action": "getAccounts",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/cancellation/cancel",
+      "name": null,
+      "controller": "LicenseCancellation\\CancellationController",
+      "action": "cancelTransactions",
+      "middleware": [
+        "api",
+        "RequiresStepUpToken:niaga_cancellation"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/cancellation/cancel-account",
+      "name": null,
+      "controller": "LicenseCancellation\\CancellationController",
+      "action": "cancelAccount",
+      "middleware": [
+        "api",
+        "RequiresStepUpToken:licence_cancellation"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/cancellation/history/{customerId}",
+      "name": null,
+      "controller": "LicenseCancellation\\CancellationController",
+      "action": "history",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/cancellation/license-info",
+      "name": null,
+      "controller": "LicenseCancellation\\CancellationController",
+      "action": "getLicenseInfo",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/cancellation/transaksi-lesen",
+      "name": null,
+      "controller": "LicenseCancellation\\CancellationController",
+      "action": "getTransaksiLesen",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/chatbot/config",
+      "name": null,
+      "controller": "Admin\\ChatbotSettingController",
+      "action": "publicConfig",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/company/branch/check-active-license",
+      "name": null,
+      "controller": "LicenseQueryController",
+      "action": "checkBranchActiveLicense",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/company/check-active-license",
+      "name": null,
+      "controller": "LicenseQueryController",
+      "action": "checkCompanyActiveLicense",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/customer-profile/{customerId}",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "getCustomerProfile",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/customer-profile/{customerId}",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "updateCustomerProfile",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/customer-profile/{customerId}/blacklist-status",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "getBlacklistStatus",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/customer-profile/{customerId}/companies",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "getCustomerCompanies",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/customer/cagaran",
+      "name": null,
+      "controller": "Customer\\CagaranController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/customer/cagaran/{id}",
+      "name": null,
+      "controller": "Customer\\CagaranController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/customer/cagaran/{id}/submit",
+      "name": null,
+      "controller": "Customer\\CagaranController",
+      "action": "submitRequest",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/customer/{customerId}/kompaun",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "getCustomerKompaun",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/customer/{customerId}/licenses/{licenseId}/account-statement",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "customerAccountStatement",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/customer/{customerId}/licenses/{licenseId}/monitoring-history",
+      "name": null,
+      "controller": "MonitoringController",
+      "action": "customerLicenseHistory",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/customer/{customerId}/renewal-summary",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "getCustomerRenewalSummary",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/dev/payment/simulate-success",
+      "name": null,
+      "controller": "Closure",
+      "action": null,
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/documentation",
+      "name": "l5-swagger.default.api",
+      "controller": "L5Swagger\\Http\\Controllers\\SwaggerController",
+      "action": "api",
+      "middleware": [
+        "Config"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/documents/types",
+      "name": null,
+      "controller": "LicenseApplication\\DocumentController",
+      "action": "getDocumentTypes",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/documents/validate",
+      "name": null,
+      "controller": "LicenseApplication\\DocumentController",
+      "action": "validateDocument",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/documents/{id}",
+      "name": null,
+      "controller": "LicenseApplication\\DocumentController",
+      "action": "deletePublic",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/documents/{id}/download",
+      "name": null,
+      "controller": "LicenseApplication\\DocumentController",
+      "action": "downloadPublic",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/documents/{id}/view",
+      "name": null,
+      "controller": "LicenseApplication\\DocumentController",
+      "action": "viewPublic",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/health",
+      "name": null,
+      "controller": "HealthCheckController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/health/live",
+      "name": null,
+      "controller": "HealthCheckController",
+      "action": "liveness",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/health/ready",
+      "name": null,
+      "controller": "HealthCheckController",
+      "action": "readiness",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/internal-users/potential-attendees",
+      "name": null,
+      "controller": "InternalUserController",
+      "action": "getPotentialAttendees",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/internal/applications/{id}/osc3plus-verification",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "saveOsc3PlusVerification",
+      "middleware": [
+        "api",
+        "AuthenticateServiceToken"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/license-types",
+      "name": null,
+      "controller": "LicenseTypeController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/license-types",
+      "name": null,
+      "controller": "LicenseTypeController",
+      "action": "store",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/license-types/pbt/{pbtCode}",
+      "name": null,
+      "controller": "LicenseTypeController",
+      "action": "getByPbt",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/license-types/public",
+      "name": null,
+      "controller": "LicenseTypeController",
+      "action": "publicIndex",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/license-types/{id}",
+      "name": null,
+      "controller": "LicenseTypeController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/license-types/{id}",
+      "name": null,
+      "controller": "LicenseTypeController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/license-types/{id}/activate",
+      "name": null,
+      "controller": "LicenseTypeController",
+      "action": "activate",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/license-types/{id}/deactivate",
+      "name": null,
+      "controller": "LicenseTypeController",
+      "action": "deactivate",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/license-types/{id}/document-requirements",
+      "name": null,
+      "controller": "LicenseTypeController",
+      "action": "getDocumentRequirements",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/license-types/{id}/form-fields",
+      "name": null,
+      "controller": "LicenseTypeController",
+      "action": "getFormFields",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/license-types/{id}/workflow-rules",
+      "name": null,
+      "controller": "LicenseTypeController",
+      "action": "getWorkflowRules",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/licenses",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/licenses/customer/{customerId}",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "getByCustomer",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/licenses/customer/{customerId}/transferable",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "getTransferableByCustomer",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/licenses/related-pbts",
+      "name": null,
+      "controller": "LicenseQueryController",
+      "action": "relatedPbts",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/licenses/senarai/{customerId}",
+      "name": null,
+      "controller": "JanaSijil\\JanaSijilController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/licenses/status/{idpbt}/{noAkaun}",
+      "name": null,
+      "controller": "LicenseStatusController",
+      "action": "statusByPbtAccount",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/licenses/status/{noAkaun}",
+      "name": null,
+      "controller": "LicenseStatusController",
+      "action": "statusByAccountNo",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/licenses/verify/qr",
+      "name": null,
+      "controller": "VerificationController",
+      "action": "verifyByQRCode",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/licenses/verify/{licenseNumber}",
+      "name": null,
+      "controller": "VerificationController",
+      "action": "verifyByLicenseNumber",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/licenses/{id}",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/licenses/{id}/details",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "showPublic",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/licenses/{id}/download",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "download",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/licenses/{id}/eligibility",
+      "name": null,
+      "controller": "LicenseRenewal\\RenewalController",
+      "action": "checkEligibility",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/licenses/{id}/reissue",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "reissue",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/licenses/{id}/renewal-draft",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "createRenewalDraft",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/licenses/{id}/renewal-eligibility",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "checkRenewalEligibility",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/licenses/{id}/renewal-fee",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "calculateRenewalFee",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/application-statuses",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getApplicationStatuses",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/application-types",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getApplicationTypes",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/iklan-kadar",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getIklanKadarList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/iklan-kadar/rate",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getIklanRate",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/lookup/{group}",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getLookupByGroup",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/patil-fee/{pbtId}",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getPatilFee",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/pbt",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getPbtList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/pbt/{pbtId}/aktiviti/{aktivitiCode}/documents",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getDocumentsByAktiviti",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/pbt/{pbtId}/aktiviti/{kodAktiviti}/niagas",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getNiagaByAktiviti",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/pbt/{pbtId}/aktivitis",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getAktivitisByPbt",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/pbt/{pbtId}/documents",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getDocumentsByPbt",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/pbt/{pbtId}/jenis/{kodJenis}/sektors",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getSektorsByPbtAndJenis",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/pbt/{pbtId}/letterhead",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getLetterheadByPbt",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/pbt/{pbtId}/license-types",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getLicenseTypesByPbt",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/pbt/{pbtId}/locations",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getLocationsByPbt",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/pbt/{pbtId}/sektor/{kodSektor}/aktivitis",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getAktivitiBySektor",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/states",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getStates",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/meetings",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/meetings",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "store",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/meetings/members/{member}",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "updateMember",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/meetings/members/{member}",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "destroyMember",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/meetings/members/{member}/status",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "updateMemberStatus",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/meetings/minutes/attachments/{attachment}",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "destroyMinuteAttachment",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/meetings/requiring-quorum",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "requiringQuorum",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/meetings/upcoming",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "upcoming",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/meetings/{number}",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "destroy",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/meetings/{number}",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/meetings/{number}",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/meetings/{number}/agenda",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "getAgenda",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/meetings/{number}/agenda",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "createAgenda",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/meetings/{number}/agenda-items",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "agendaItems",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/meetings/{number}/agenda/generate",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "generateAgenda",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/meetings/{number}/agenda/items",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "addAgendaItem",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/meetings/{number}/attendees",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "attendees",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/meetings/{number}/cancel",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "cancel",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/meetings/{number}/complete",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "complete",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/meetings/{number}/conduct",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "conduct",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/meetings/{number}/decisions",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "getDecisions",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/meetings/{number}/lock",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "lock",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/meetings/{number}/members",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "storeMember",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/meetings/{number}/minutes",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "getMinutes",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/meetings/{number}/minutes",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "updateMinutes",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/meetings/{number}/minutes",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "finalizeMinutes",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/meetings/{number}/minutes/attachments",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "getMinuteAttachments",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/meetings/{number}/minutes/attachments",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "storeMinuteAttachment",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/meetings/{number}/minutes/generate",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "generateMinutes",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/meetings/{number}/send-notification",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "sendLockedNotification",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/meetings/{number}/start",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "start",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/meetings/{number}/unlock",
+      "name": null,
+      "controller": "MeetingController",
+      "action": "unlock",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/monitoring",
+      "name": null,
+      "controller": "MonitoringController",
+      "action": "index",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/monitoring",
+      "name": null,
+      "controller": "MonitoringController",
+      "action": "store",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/monitoring/compounds",
+      "name": null,
+      "controller": "MonitoringController",
+      "action": "compounds",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/monitoring/kod-kesalahan",
+      "name": null,
+      "controller": "MonitoringController",
+      "action": "getKodKesalahan",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/monitoring/pbt-users/{pbtCode}",
+      "name": null,
+      "controller": "MonitoringController",
+      "action": "getPbtUsers",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/monitoring/public",
+      "name": null,
+      "controller": "MonitoringController",
+      "action": "publicStore",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/monitoring/search-licenses",
+      "name": null,
+      "controller": "MonitoringController",
+      "action": "searchLicenses",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/monitoring/upload-photo",
+      "name": null,
+      "controller": "MonitoringController",
+      "action": "uploadPhoto",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/monitoring/{id}",
+      "name": null,
+      "controller": "MonitoringController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/monitoring/{id}",
+      "name": null,
+      "controller": "MonitoringController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/monitoring/{id}",
+      "name": null,
+      "controller": "MonitoringController",
+      "action": "destroy",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/oauth2-callback",
+      "name": "l5-swagger.default.oauth2_callback",
+      "controller": "L5Swagger\\Http\\Controllers\\SwaggerController",
+      "action": "oauth2Callback",
+      "middleware": [
+        "Config"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/payments/callback/{paymentMethod}",
+      "name": null,
+      "controller": "PaymentController",
+      "action": "handleCallback",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/payments/methods",
+      "name": null,
+      "controller": "PaymentController",
+      "action": "getPaymentMethods",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/payments/otc/{billId}",
+      "name": null,
+      "controller": "PaymentController",
+      "action": "processOTCPayment",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/payments/status/{billId}",
+      "name": null,
+      "controller": "PaymentController",
+      "action": "getPaymentStatus",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/payments/verify/{transactionRef}",
+      "name": null,
+      "controller": "PaymentController",
+      "action": "verifyPayment",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/payments/{billId}/initiate",
+      "name": null,
+      "controller": "PaymentController",
+      "action": "initiatePayment",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/pbtpay/active-status",
+      "name": null,
+      "controller": "PbtPayController",
+      "action": "activeStatus",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/pbtpay/by-bill/{billId}",
+      "name": null,
+      "controller": "PbtPayController",
+      "action": "getByBill",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/pbtpay/callback",
+      "name": null,
+      "controller": "PbtPayController",
+      "action": "callback",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/pbtpay/initiate/{billId}",
+      "name": null,
+      "controller": "PbtPayController",
+      "action": "initiate",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/pbtpay/status/{refno}",
+      "name": null,
+      "controller": "PbtPayController",
+      "action": "status",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/pbtpay/sync/{billId}",
+      "name": null,
+      "controller": "PbtPayController",
+      "action": "syncByBill",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/poskod/{code}",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "lookupPoskod",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/public/app-version/{app}",
+      "name": null,
+      "controller": "Closure",
+      "action": null,
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/queries/{id}/respond",
+      "name": null,
+      "controller": "ReviewController",
+      "action": "respondToQuery",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/queries/{id}/review",
+      "name": null,
+      "controller": "ReviewController",
+      "action": "reviewQueryResponse",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/renewal/entry/{licenseId}",
+      "name": null,
+      "controller": "LicenseRenewal\\RenewalEntryController",
+      "action": "start",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/renewals",
+      "name": null,
+      "controller": "LicenseRenewal\\RenewalController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/renewals/draft/{id}",
+      "name": null,
+      "controller": "LicenseRenewal\\RenewalDraftController",
+      "action": "saveDraft",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/renewals/initiate",
+      "name": null,
+      "controller": "LicenseRenewal\\RenewalController",
+      "action": "initiate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/renewals/submit",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "submitRenewal",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/renewals/{id}",
+      "name": null,
+      "controller": "LicenseRenewal\\RenewalController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/renewals/{id}/advertisements/sync",
+      "name": null,
+      "controller": "LicenseRenewal\\RenewalDraftController",
+      "action": "syncAdvertisements",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/renewals/{id}/completeness-check",
+      "name": null,
+      "controller": "LicenseRenewal\\RenewalDraftController",
+      "action": "getCompletenessCheck",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/renewals/{id}/completeness-check/confirm",
+      "name": null,
+      "controller": "LicenseRenewal\\RenewalDraftController",
+      "action": "confirmCompleteness",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/renewals/{id}/details",
+      "name": null,
+      "controller": "LicenseRenewal\\RenewalDraftController",
+      "action": "details",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/renewals/{id}/fast-track",
+      "name": null,
+      "controller": "LicenseRenewal\\RenewalController",
+      "action": "fastTrack",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/renewals/{id}/fee-preview",
+      "name": null,
+      "controller": "LicenseRenewal\\LicenseController",
+      "action": "calculateDraftFee",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/renewals/{id}/review/confirm",
+      "name": null,
+      "controller": "LicenseRenewal\\RenewalDraftController",
+      "action": "confirmReview",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/renewals/{id}/submit",
+      "name": null,
+      "controller": "LicenseRenewal\\RenewalController",
+      "action": "submit",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/akaun/list",
+      "name": null,
+      "controller": "Reports\\AkaunController",
+      "action": "getAkaunList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/akaun/range",
+      "name": null,
+      "controller": "Reports\\AkaunController",
+      "action": "getAkaunRange",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/bangsa/list",
+      "name": null,
+      "controller": "Reports\\AkaunController",
+      "action": "getBangsaList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/kod-perniagaan/list",
+      "name": null,
+      "controller": "Reports\\AkaunController",
+      "action": "getKodPerniagaanList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/kod-perniagaan/range",
+      "name": null,
+      "controller": "Reports\\AkaunController",
+      "action": "getKodPerniagaanRange",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/kod-transaksi/list",
+      "name": null,
+      "controller": "Reports\\AkaunController",
+      "action": "getKodTransaksiList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/kod-transaksi/range",
+      "name": null,
+      "controller": "Reports\\AkaunController",
+      "action": "getKodTransaksiRange",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/lokasi/list",
+      "name": null,
+      "controller": "Reports\\AkaunController",
+      "action": "getLokasiList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/lokasi/range",
+      "name": null,
+      "controller": "Reports\\AkaunController",
+      "action": "getLokasiRange",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/akaun/list",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getAkaunList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/akaun/range",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getAkaunRange",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/bangsa/list",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getBangsaList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/bil-versi/akaun/list",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getBilVersiAkaunList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/bil-versi/akaun/range",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getBilVersiAkaunRange",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/induklesen/akaun/list",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getInduklLesenAkaunList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/induklesen/akaun/range",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getIndukLesenAkaunRange",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/jenis-lesen/list",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getJenisLesenList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/kod-perniagaan/list",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getKodPerniagaanList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/kod-perniagaan/range",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getKodPerniagaanRange",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/kod-transaksi/list",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getKodTransaksiList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/kod-transaksi/range",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getKodTransaksiRange",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/lokasi/list",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getLokasiList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/lokasi/range",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getLokasiRange",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/status-bil/list",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getStatusBilList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/status/list",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getStatusList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/maklumat-pelesen/tempoh/list",
+      "name": null,
+      "controller": "Reports\\MaklumatPelesenController",
+      "action": "getTempohList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/statistik/kaum-kawasan",
+      "name": null,
+      "controller": "Reports\\StatistikController",
+      "action": "kaumKawasan",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/statistik/kaum-lokasi",
+      "name": null,
+      "controller": "Reports\\StatistikController",
+      "action": "kaumLokasi",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/statistik/kaum-papan-iklan",
+      "name": null,
+      "controller": "Reports\\StatistikController",
+      "action": "kaumPapanIklan",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/statistik/kaum-perniagaan",
+      "name": null,
+      "controller": "Reports\\StatistikController",
+      "action": "kaumPerniagaan",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/statistik/kod-perniagaan",
+      "name": null,
+      "controller": "Reports\\StatistikController",
+      "action": "statistikKodPerniagaan",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/statistik/pelesen-kod-niaga",
+      "name": null,
+      "controller": "Reports\\StatistikController",
+      "action": "pelesenKodNiaga",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/statistik/pelesen-lokasi",
+      "name": null,
+      "controller": "Reports\\StatistikController",
+      "action": "pelesenLokasi",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/status/list",
+      "name": null,
+      "controller": "Reports\\AkaunController",
+      "action": "getStatusList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reports/tempoh/list",
+      "name": null,
+      "controller": "Reports\\AkaunController",
+      "action": "getTempohList",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reviews/{id}",
+      "name": null,
+      "controller": "ReviewController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reviews/{id}/checklist",
+      "name": null,
+      "controller": "ReviewController",
+      "action": "getChecklist",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/reviews/{id}/queries",
+      "name": null,
+      "controller": "ReviewController",
+      "action": "issueQuery",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reviews/{id}/queries",
+      "name": null,
+      "controller": "ReviewController",
+      "action": "getQueries",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/reviews/{id}/recommendation",
+      "name": null,
+      "controller": "ReviewController",
+      "action": "consolidateReview",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/reviews/{id}/screening/complete",
+      "name": null,
+      "controller": "ReviewController",
+      "action": "completeScreening",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/reviews/{id}/technical-referral",
+      "name": null,
+      "controller": "ReviewController",
+      "action": "assignTechnicalReview",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reviews/{id}/technical-reviews",
+      "name": null,
+      "controller": "ReviewController",
+      "action": "getTechnicalReviews",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/sijil/mod",
+      "name": null,
+      "controller": "JanaSijil\\JanaSijilController",
+      "action": "getMod",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/sijil/{idpbt}/dashboard-stats",
+      "name": null,
+      "controller": "JanaSijil\\JanaSijilController",
+      "action": "dashboardStats",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/sijil/{idpbt}/jana-batch",
+      "name": null,
+      "controller": "JanaSijil\\JanaSijilController",
+      "action": "janaBatch",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/sijil/{idpbt}/progress/{batchId}",
+      "name": null,
+      "controller": "JanaSijil\\JanaSijilController",
+      "action": "batchProgress",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/sijil/{idpbt}/reissue-batch",
+      "name": null,
+      "controller": "JanaSijil\\JanaSijilController",
+      "action": "reissueBatch",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/sijil/{idpbt}/senarai-layak",
+      "name": null,
+      "controller": "JanaSijil\\JanaSijilController",
+      "action": "senaraiLayak",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/sijil/{idpbt}/{noAkaun}/audit",
+      "name": null,
+      "controller": "JanaSijil\\JanaSijilController",
+      "action": "auditTrail",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/sijil/{idpbt}/{noAkaun}/cancel",
+      "name": null,
+      "controller": "JanaSijil\\JanaSijilController",
+      "action": "cancelSijil",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/sijil/{idpbt}/{noAkaun}/download",
+      "name": null,
+      "controller": "JanaSijil\\JanaSijilController",
+      "action": "downloadPdf",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/sijil/{idpbt}/{noAkaun}/preview",
+      "name": null,
+      "controller": "JanaSijil\\JanaSijilController",
+      "action": "preview",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/sijil/{idpbt}/{noAkaun}/qr-image",
+      "name": null,
+      "controller": "JanaSijil\\JanaSijilController",
+      "action": "qrImage",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/sijil/{idpbt}/{noAkaun}/qr-info",
+      "name": null,
+      "controller": "JanaSijil\\JanaSijilController",
+      "action": "qrInfo",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/site-visits/upcoming",
+      "name": null,
+      "controller": "SiteVisitController",
+      "action": "getUpcomingSiteVisits",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/site-visits/{id}",
+      "name": null,
+      "controller": "SiteVisitController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/site-visits/{id}/cancel",
+      "name": null,
+      "controller": "SiteVisitController",
+      "action": "cancelSiteVisit",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/site-visits/{id}/confirm",
+      "name": null,
+      "controller": "SiteVisitController",
+      "action": "confirmSiteVisit",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/site-visits/{id}/findings",
+      "name": null,
+      "controller": "SiteVisitController",
+      "action": "recordFindings",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/site-visits/{id}/follow-up",
+      "name": null,
+      "controller": "SiteVisitController",
+      "action": "scheduleFollowUp",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/site-visits/{id}/reschedule",
+      "name": null,
+      "controller": "SiteVisitController",
+      "action": "rescheduleSiteVisit",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/syarikat/register",
+      "name": null,
+      "controller": "LicenseApplication\\ApplicationController",
+      "action": "registerSyarikat",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/sysparam/{key}",
+      "name": null,
+      "controller": "MasterDataController",
+      "action": "getSystemParameter",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/technical-reviews/{id}/site-visit",
+      "name": null,
+      "controller": "SiteVisitController",
+      "action": "scheduleSiteVisit",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/technical-reviews/{id}/site-visits",
+      "name": null,
+      "controller": "SiteVisitController",
+      "action": "getSiteVisits",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/technical-reviews/{id}/submit",
+      "name": null,
+      "controller": "ReviewController",
+      "action": "submitTechnicalReview",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/test/renewal-reminder",
+      "name": null,
+      "controller": "Closure",
+      "action": null,
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/transactions/{id}",
+      "name": null,
+      "controller": "LicenseApplication\\TransactionController",
+      "action": "destroy",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/docs",
+      "name": "l5-swagger.default.docs",
+      "controller": "L5Swagger\\Http\\Controllers\\SwaggerController",
+      "action": "docs",
+      "middleware": [
+        "Config"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/docs/asset/{asset}",
+      "name": "l5-swagger.default.asset",
+      "controller": "L5Swagger\\Http\\Controllers\\SwaggerAssetController",
+      "action": "index",
+      "middleware": [
+        "Config"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/sanctum/csrf-cookie",
+      "name": "sanctum.csrf-cookie",
+      "controller": "Laravel\\Sanctum\\Http\\Controllers\\CsrfCookieController",
+      "action": "show",
+      "middleware": [
+        "web"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/storage/{path}",
+      "name": "storage.local",
+      "controller": "Closure",
+      "action": null,
+      "middleware": [],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/up",
+      "name": null,
+      "controller": "Closure",
+      "action": null,
+      "middleware": [],
+      "routeLevelAuth": false
+    }
+  ],
+  "routesSource": "artisan route:list",
+  "routesError": null,
+  "status": "ok",
+  "git": {
+    "branch": "dev/fix/3156/pembatalan-lesen-pbt-info",
+    "commit": "0f5e66e",
+    "commitDate": "2026-09-30T17:08:55+08:00",
+    "commitSubject": "fix(3156): pembatalan lesen - lookup license info by account + PBT",
+    "remote": "https://github.com/censof/osc-be2-pelesenan.git"
+  }
+}

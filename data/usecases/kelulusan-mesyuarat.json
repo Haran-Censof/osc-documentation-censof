@@ -1,0 +1,6336 @@
+{
+ "module": {
+  "id": "kelulusan-mesyuarat",
+  "name": "Kelulusan Mesyuarat",
+  "code": "MO",
+  "version": "2.0",
+  "iteration": 2,
+  "sourceFile": "OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v2.0 - printing version - Kelulusan Mesyuarat - latest.docx"
+ },
+ "functions": [
+  {
+   "id": "SF-PL-MO-PM",
+   "name": "Kelulusan Mesyuarat",
+   "actors": []
+  },
+  {
+   "id": "SF-PL-MO-PM-01",
+   "name": "Susun Agenda Mesyuarat",
+   "actors": [
+    "Urusetia"
+   ]
+  },
+  {
+   "id": "SF-PL-MO-PM-02",
+   "name": "Papar Kes & Ulasan",
+   "actors": [
+    "Urusetia"
+   ]
+  },
+  {
+   "id": "SF-PL-MO-PM-03",
+   "name": "Rekod Keputusan Mesyuarat",
+   "actors": [
+    "PPKT2",
+    "Jawatankuasa"
+   ]
+  },
+  {
+   "id": "SF-PL-MO-PM-04",
+   "name": "Kemas Kini Status & Ringkasan",
+   "actors": [
+    "Urusetia"
+   ]
+  }
+ ],
+ "useCases": [
+  {
+   "id": "UC-PL-MO-PM-01",
+   "name": "Susun Agenda Mesyuarat",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "Urusetia"
+   ],
+   "steps": [
+    "Urusetia membuka Modul Kelulusan Mesyuarat.",
+    "Sistem memaparkan senarai kes memenuhi kriteria pelesenan akan dibawa ke mesyuarat.",
+    "Urusetia akan menetapkan tarikh, masa & lokasi mengikut kesesuaian pada jadual.",
+    "Urusetia tambah kes ke agenda melalui UC-PL-MO-PM-01-02.",
+    "Sistem sediakan draf agenda selepas maklumat mesyuarat selesai dilengkapkan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tiada kes layak mesyuarat. Mesej “Tiada permohonan dalam senarai.”"
+    },
+    {
+     "id": "A2",
+     "text": "Tarikh tidak sah. Mesej ralat “Terdapat mesyuarat lain yang telah ditetapkan pada tarikh dan masa yang sama. Sila pilih slot masa yang berbeza.\""
+    },
+    {
+     "id": "A3",
+     "text": "Akses tidak dibenarkan. Mesej ralat \"Tindakan ini hanya boleh dilaksanakan oleh Urusetia Mesyuarat. Sila hubungi Pentadbir Sistem untuk maklumat lanjut.\""
+    }
+   ],
+   "input": "Tarikh, masa, lokasi mesyuarat, senarai kes. Sekiranya berlaku pertindihan tarikh atau mesyuarat perlu ditunda, Urusetia hendaklah memilih tarikh baharu berdasarkan slot yang tersedia dalam jadual mesyuarat OSC rasmi PBT dan mengemaskini maklumat tarikh, masa serta lokasi dalam sistem. Sistem akan menghantar semula notifikasi jemputan kepada semua peserta bagi memaklumkan perubahan tarikh.",
+   "output": "Draf agenda mesyuarat OSC Pelesenan PBT mengandungi pengepala dokumen yang memuatkan logo dan nama PBT, tajuk dokumen, no. mesyuarat, tarikh, masa, lokasi serta status dokumen sama ada Draf, Lengkap atau Dimuktamadkan. DRAF → Urusetia menyediakan agenda, maklumat boleh dikemaskini. LENGKAP → Semua maklumat lengkap, jemputan telah dihantar. DIMUKTAMADKAN → Agenda dikunci, mesyuarat sedia dilaksanaka. SELESAI → Pengerusi memuktamadkan keputusan mesyuarat",
+   "uiRefs": [
+    "UI-PL-MO-PM-01"
+   ],
+   "integration": "–",
+   "notes": "Agenda dianggap lengkap apabila semua medan dan dokumen mandatori telah dipenuhi serta lulus validasi sistem. Sistem akan menetapkan status agenda secara berperingkat iaitu Draf, Tidak Lengkap, Lengkap, Sedia Dikunci, Dikunci dan Dibatalkan, bagi memastikan proses penyediaan, semakan dan penguncian agenda dilaksanakan secara teratur, terkawal dan telus.",
+   "calls": [
+    "UC-PL-MO-PM-01-02"
+   ],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-MO-PM-01-01",
+   "name": "Pilih Tarikh, Masa, Lokasi, Peserta dan Delegasi Sementara (Acting)",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "Urusetia",
+    "PPSU",
+    "PPKT2",
+    "Jawatankuasa OSC",
+    "BTD",
+    "ATL",
+    "Agensi Teknikal serta Pengerusi Mesyuarat"
+   ],
+   "steps": [
+    "Urusetia pilih tarikh mesyuarat (DD/MM/YYYY), masa dan lokasi bagi mesyuarat.",
+    "Sistem papar senarai peserta daripada senarai permohonan berdasarkan permohonan (Urusetia, PPSU, PPKT2/Jawatankuasa OSC, BTD/ATL, Agensi Teknikal serta Pengerusi Mesyuarat).",
+    "Pentadbir Sistem pilih pengguna daripada senarai.",
+    "Tetapkan peranan utama atau delegasi sementara (acting role).",
+    "Sistem sahkan input dan simpan pemetaan peranan.",
+    "Sistem rekod audit trail pemetaan"
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tarikh bertembung dengan sesi lain. Mesej ralat \"Tempoh masa mesyuarat yang dipilih bertindih dengan sesi sedia ada. Sila laraskan masa mula atau tempoh mesyuarat untuk mengelakkan pertembungan.\""
+    },
+    {
+     "id": "A2",
+     "text": "Peserta tidak sah. Mesej ralat \"Peserta telah pun berada dalam senarai ahli mesyuarat ini. Sila elakkan pertindihan peserta dalam sesi yang sama.\""
+    }
+   ],
+   "input": "Medan Wajib & Format Input: - ID Pengguna: nombor unik. - Nama Pengguna: teks. - Peranan: dropdown senarai peranan sah (PPSU, PPKT1, PPKT2, Datuk Bandar, YDP, Setiausaha, ATL, BTD, Admin). - Status Peranan: Aktif/Tidak Aktif. - Tempoh Delegasi (jika acting role): tarikh mula & tarikh tamat.",
+   "output": "Status Kejayaan/Gagal: - “Peranan berjaya dipetakan kepada pengguna” jika sah. - “Gagal: Peranan tidak sah” jika peranan tidak wujud/nyahaktif. - “Gagal: Konflik hak akses dengan peranan lain” jika berlaku pertindihan. - “Delegasi sementara berjaya ditetapkan” jika acting role sah. Tetapan Mesyuarat",
+   "uiRefs": [
+    "UI-PL-MO-PM-01-01"
+   ],
+   "integration": "–",
+   "notes": "Peranan peserta mesyuarat ditentukan dalam Modul Pentadbiran Sistem oleh Urusetia berdasarkan fungsi, tanggungjawab dan keperluan mesyuarat yang ditetapkan. Urusetia akan mengurus maklumat peserta termasuk kategori pengguna, jawatan, jabatan, peranan mesyuarat dan tahap akses dalam sistem. Sistem hendaklah menyokong multi-role, di mana pengguna boleh mempunyai lebih daripada satu peranan dengan had maksimum tiga (3) peranan serentak. Sekiranya berlaku konflik hak akses antara peranan, sistem hendaklah memaparkan amaran dan membenarkan pentadbir menentukan hak akses dominan. Semua penetapan dan perubahan peranan hendaklah direkodkan dalam audit trail termasuk ID pengguna, peranan ditetapkan, tarikh, masa dan status tindakan.",
+   "calls": [],
+   "parentId": "UC-PL-MO-PM-01"
+  },
+  {
+   "id": "UC-PL-MO-PM-01-02",
+   "name": "Tambah Kes ke Agenda",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "Urusetia"
+   ],
+   "steps": [
+    "Sistem akan memaparkan senarai permohonan daripada Modul Semakan dan Ulasan selepas proses semakan dan ulasan selesai dilaksanakan. Hanya permohonan dengan status yang dibenarkan seperti ‘Sedia Mesyuarat’ atau ‘Menunggu Kelulusan Mesyuarat’ dipaparkan dalam Modul Kelulusan Mesyuarat. Sistem juga hendaklah menyokong integrasi automatik serta menyediakan fungsi penapisan dan pemilihan permohonan berdasarkan kriteria yang ditetapkan.",
+    "Urusetia akan memilih kes untuk dibawa ke mesyuarat hanya bagi permohonan yang melepasi proses validasi dokumen dan memenuhi kriteria kelayakan yang ditetapkan. Sistem juga hendaklah mengemaskini status permohonan secara automatik selepas pemilihan serta merekod semua tindakan pemilihan kes dalam audit trail bagi tujuan pemantauan dan pengesahan.",
+    "Sistem tambah kes ke agenda bagi permohonan yang tidak melepasi mesyuarat yang sepatutnya."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Kes tidak lengkap. Mesej ralat \"Kes ini tidak dapat ditambah ke agenda. Sila semak permohonan.\""
+    },
+    {
+     "id": "A2",
+     "text": "Kes sudah dibawa ke sesi lain. Mesej ralat \"Kes '{No. Siri Permohonan}' telah pun dimasukkan ke dalam agenda sesi mesyuarat '{Nama Sesi}' pada {tarikh}. Kes yang sama tidak boleh dibawa ke dua sesi mesyuarat serentak.\""
+    }
+   ],
+   "input": "Senarai kes",
+   "output": "Agenda dikemaskini",
+   "uiRefs": [],
+   "integration": "Modul Semakan dan Ulasan UI-PL-SM-KT-02-03 : Rujuk ke Mesyuarat OSC",
+   "notes": "Permohonan yang tidak melepasi mesyuarat disebabkan dengan beberapa perkara seperti permohonan gagal memenuhi syarat teknikal atau peraturan yang ditetapkan oleh PBT, ditolak secara rasmi oleh mesyuarat berdasarkan pelanggaran peraturan atau keputusan tidak dapat dibuat pada sesi semasa kerana maklumat tidak lengkap atau ulasan agensi teknikal belum diterima. Proses validasi dokumen dan semakan kriteria kelayakan berlaku secara manual.",
+   "calls": [],
+   "parentId": "UC-PL-MO-PM-01"
+  },
+  {
+   "id": "UC-PL-MO-PM-01-03",
+   "name": "Jemput Ahli Mesyuarat",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "Urusetia"
+   ],
+   "steps": [
+    "Urusetia sahkan jemputan setelah menyemak maklumat.",
+    "Sistem hantar notifikasi mesyuarat melalui portal sistem OSC (inbox), emel rasmi dan SMS ringkas."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Gagal hantar jemputan. Mesej ralat \"Jemputan gagal dihantar kepada {n} peserta. Sila cuba hantar semula atau hubungi pentadbir sistem untuk semakan konfigurasi emel.\""
+    },
+    {
+     "id": "A2",
+     "text": "E-mel ahli tidak sah. Mesej ralat \"Alamat emel '{emel}' tidak sah. Sila pastikan format emel adalah betul sebelum menyimpan maklumat peserta.\""
+    }
+   ],
+   "input": "Senarai peserta",
+   "output": "Notifikasi jemputan.",
+   "uiRefs": [
+    "UI-PL-MO-PM-01-03"
+   ],
+   "integration": "Modul Notifikasi",
+   "notes": "Proses mesyuarat fizikal bermula apabila Urusetia menetapkan tarikh, masa dan lokasi mesyuarat secara manual dengan merujuk jadual rasmi PBT di luar sistem OSCP, kemudian menyusun agenda mengikut prinsip FIFO dengan keutamaan kepada kes berisiko tinggi. Jemputan dihantar kepada peserta melalui emel dan notifikasi sistem, manakala dokumen agenda diedarkan sekurang-kurangnya 2 hari sebelum mesyuarat. Agenda dikunci melalui tindakan force lock sekurang-kurangnya 24 jam sebelum mesyuarat bermula. Semasa mesyuarat, Pengerusi mempengerusikan perbincangan bagi setiap kes dan merekodkan keputusan sama ada Lulus, Lulus Bersyarat, Tidak Lulus, Tangguh atau Rujuk Semula. Setelah semua keputusan direkodkan, Pengerusi mengesahkan keputusan melalui tandatangan digital dan minit mesyuarat diterbitkan kepada pihak berautoriti. Sistem kemudiannya mengemaskini status permohonan secara automatik dan menghantar notifikasi keputusan kepada pemohon, manakala semua tindakan direkodkan dalam log audit sistem.",
+   "calls": [],
+   "parentId": "UC-PL-MO-PM-01"
+  },
+  {
+   "id": "UC-PL-MO-PM-01-04",
+   "name": "Edar Dokumen Agenda",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "Urusetia"
+   ],
+   "steps": [
+    "Sistem akan menyediakan fungsi kompilasi dokumen kes termasuk ringkasan kes, syor pegawai, ulasan teknikal dan dokumen sokongan berkaitan untuk tujuan mesyuarat. Sistem juga hendaklah menyokong edaran dokumen melalui portal atau emel dengan kawalan akses berdasarkan peranan peserta serta merekod semua aktiviti penghantaran dan capaian dokumen dalam audit trail.",
+    "Sistem edarkan pek dokumen melalui e-mel atau portal.",
+    "Log penghantaran direkodkan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Dokumen hilang. Mesej ralat \"Pek dokumen agenda tidak lengkap. Terdapat {n} dokumen yang tidak dapat dijumpai dalam sistem. Sila semak senarai dokumen sebelum mengedarkan agenda.\""
+    },
+    {
+     "id": "A2",
+     "text": "Storan tidak respons. Mesej ralat \"Storan sistem tidak dapat dihubungi pada masa ini. Proses muat naik / muat turun dokumen tidak dapat dilaksanakan. Sila cuba sebentar lagi.\""
+    }
+   ],
+   "input": "Dokumen",
+   "output": "Pek dokumen diedar dalam bentuk PDF dan tidak melebihi daripada 5 MB.",
+   "uiRefs": [
+    "UI-PL-MO-PM-01-04"
+   ],
+   "integration": "Repositori Dokumen",
+   "notes": "Dokumen mesti versi terkini selepas semakan telah dibuat. Sistem menetapkan kawalan akses yang berbeza bagi setiap peranan peserta mesyuarat. PPKT1 (Pengerusi) mempunyai kuasa tertinggi dengan hak akses view-only terhadap semua dokumen kes dan kuasa eksklusif untuk memuktamadkan keputusan mesyuarat secara rasmi. PPKT2 (Ahli Jawatankuasa) pula boleh melihat semua dokumen kes, mengunci agenda melalui tindakan force lock dan merekodkan keputusan mesyuarat, namun tidak boleh memuktamadkan keputusan tanpa pengesahan PPKT1. Urusetia Mesyuarat mempunyai akses penuh terhadap semua fungsi pengurusan dokumen kes termasuk mengompilasi, menambah, mengemaskini dan memadam dokumen, mengurus senarai peserta serta mengkonfigurasi hak akses ahli mengikut keperluan sesi mesyuarat. Ahli Mesyuarat pula merupakan peranan yang boleh dikonfigurasi oleh Urusetia di mana secara default ahli hanya mempunyai akses view-only terhadap dokumen yang telah dikompilasi, namun Urusetia boleh mengaktifkan atau menyahaktifkan hak akses tertentu bagi setiap ahli bergantung kepada keperluan dan skop penglibatan mereka dalam sesi mesyuarat berkenaan. Maklumat yang direkodkan dalam audit trail seperti pengguna, tindakan, entiti, ID entiti, alamat IP dan tarikh.",
+   "calls": [],
+   "parentId": "UC-PL-MO-PM-01"
+  },
+  {
+   "id": "UC-PL-MO-PM-01-05",
+   "name": "Kunci Agenda Mesyuarat",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "Urusetia"
+   ],
+   "steps": [
+    "Urusetia klik “Kunci Agenda”. Sistem akan membenarkan urusetia mengunci agenda mesyuarat hanya selepas semua kes, dokumen dan jemputan memenuhi syarat yang ditetapkan. Setelah agenda dikunci, sistem hendaklah mengehadkan sebarang perubahan terhadap agenda dan merekod semua tindakan penguncian dalam audit trail termasuk tarikh, masa dan ID pengguna.",
+    "Sistem menutup akses untuk tambah/ubah kes.",
+    "Status agenda bertukar kepada “Dimuktamadkan”. Sistem akan merekodkan tindakan tersebut dalam audit trail."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Agenda belum lengkap. Mesej ralat \"Agenda mesyuarat belum lengkap dan tidak dapat dikunci. Pastikan sekurang-kurangnya satu kes telah dimasukkan ke dalam agenda sebelum mengunci.\""
+    },
+    {
+     "id": "A2",
+     "text": "Pengguna tiada kebenaran. Mesej ralat \"Anda tidak mempunyai kebenaran untuk melaksanakan tindakan ini. Fungsi kunci agenda hanya tersedia untuk pengguna dengan peranan Urusetia.\""
+    }
+   ],
+   "input": "Agenda lengkap",
+   "output": "Agenda dikunci melalui tindakan force lock oleh Urusetia. Status agenda mengikut peringkat: Draf (sedang disediakan) → Lengkap (maklumat telah dilengkapkan) → Dimuktamadkan (agenda telah disahkan secara rasmi dan tidak lagi boleh dikemaskini).",
+   "uiRefs": [
+    "UI-PL-MO-PM-01-05"
+   ],
+   "integration": "–",
+   "notes": "Selepas dikunci, hanya baca sahaja.",
+   "calls": [],
+   "parentId": "UC-PL-MO-PM-01"
+  },
+  {
+   "id": "UC-PL-MO-PM-02",
+   "name": "Papar Kes dan Ulasan",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "Urusetia"
+   ],
+   "steps": [
+    "Urusetia buka modul mesyuarat.",
+    "Sistem paparkan senarai nombor permohonan mengikut agenda.",
+    "Ahli pilih nombor permohonan untuk dibincang.",
+    "Sistem paparkan ringkasan kes + ulasan teknikal dari Modul Semakan dan Ulasan .",
+    "Sistem panggil UC-PL-MO-PM-02-01 dan UC-PL-MO- PM-02-02 untuk paparan penuh."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tiada ulasan teknikal diterima. Mesej ralat \"Ulasan teknikal bagi kes '{No. Siri Permohonan}' belum diterima daripada BTD/ATL. Paparan kes tidak lengkap sehingga semua ulasan teknikal dikemukakan.\""
+    },
+    {
+     "id": "A2",
+     "text": "Dokumen tidak dapat dibuka. Mesej ralat \"Dokumen '{nama_fail}' tidak dapat dibuka. Sila semak permohonan semula.\""
+    },
+    {
+     "id": "A3",
+     "text": "Kes tiada dalam agenda. Mesej ralat \"Kes '{No. Siri Permohonan}' tidak dijumpai dalam agenda mesyuarat ini. Kes mungkin belum dimasukkan atau telah dikeluarkan daripada agenda oleh Urusetia.\""
+    }
+   ],
+   "input": "Nombor permohonan dimasukkan. Nombor permohonan merupakan pengenalan unik yang dijana secara automatik bagi setiap kes yang didaftarkan.",
+   "output": "Paparan kes lengkap",
+   "uiRefs": [
+    "UI-PL-MO-PM-02"
+   ],
+   "integration": "Modul Semakan dan Ulasan",
+   "notes": "Hanya kes dalam agenda boleh dipapar",
+   "calls": [
+    "UC-PL-MO-PM-02-01",
+    "UC-PL-MO-PM-02-02"
+   ],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-MO-PM-02-01",
+   "name": "Konsolidasi Ulasan",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "Urusetia"
+   ],
+   "steps": [
+    "Sistem kumpulkan semua ulasan teknikal daripada agensi berkaitan dan menyimpan ulasan tersebut dalam bentuk data berstruktur serta dokumen sokongan bagi tujuan semakan, pembentangan mesyuarat dan rekod audit.",
+    "Sistem gabungkan ulasan ke dalam satu paparan konsolidasi.",
+    "Papar isu kritikal, syor teknikal & konflik ulasan. Sistem akan mengenal pasti dan memaparkan isu kritikal, syor teknikal serta konflik ulasan berdasarkan kriteria yang ditetapkan dan tindakan susulan untuk membantu keputusan mesyuarat."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Ulasan bercanggah. Mesej ralat \"Ulasan bercanggah dikesan bagi kes '{No. Siri Permohonan}'. Semakan dan penyelarasan diperlukan sebelum keputusan dibuat.\""
+    },
+    {
+     "id": "A2",
+     "text": "Tiada ulasan lengkap. Mesej ralat \"Paparan kes tidak dapat dimuatkan sepenuhnya. Tiada ulasan teknikal lengkap diterima daripada {n} agensi yang ditetapkan bagi kes ini.\""
+    }
+   ],
+   "input": "Ulasan teknikal",
+   "output": "Paparan konsolidasi ulasan. Contoh isu kritikal seperti bagi lesen tahap tinggi. Syor teknikal, seperti Lulus tanpa syarat - Semua dokumen lengkap, premis mematuhi semua keperluan teknikal. Bagi konflik ulasan pula, seperti Syor bertentangan antara agensi - Jabatan Bomba mengesyorkan Lulus tetapi Jabatan Kesihatan mengesyorkan Tolak bagi premis yang sama.",
+   "uiRefs": [
+    "UI-PL-MO-PM-02-01"
+   ],
+   "integration": "Modul Semakan dan Ulasan",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-MO-PM-02"
+  },
+  {
+   "id": "UC-PL-MO-PM-02-02",
+   "name": "Ringkasan Isu dan Syarat",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "Urusetia"
+   ],
+   "steps": [
+    "Sistem sediakan ringkasan isu utama (zon, keselamatan, teknikal). Contoh seperti zon, keselamatan dan teknikal serta mengenal pasti dan memaparkan isu kritikal berdasarkan ulasan agensi, syor teknikal dan tahap risiko bagi membantu keputusan mesyuarat.",
+    "Sistem paparkan syarat teknikal wajib (jika ada) berdasarkan SOP PBT, ulasan agensi teknikal dan konfigurasi sistem yang ditetapkan. Sistem juga akan melaksanakan validasi dan penapisan syarat bagi memastikan hanya syarat yang sah, aktif dan berkaitan dipaparkan dalam ringkasan mesyuarat.",
+    "Ahli mesyuarat guna maklumat untuk bincang."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tiada Ulasan Agensi Diterima. Mesej ralat “Tiada ulasan teknikal diterima daripada agensi yang ditetapkan. Sila semak permohonan semula.”"
+    },
+    {
+     "id": "A2",
+     "text": "Rujukan teknikal hilang. Mesej ralat \"Lampiran rujukan teknikal '{nama_fail}' tidak dapat diakses. Fail tidak dijumpai di laluan storan yang ditetapkan. Sila muat naik semula dokumen rujukan berkenaan.\""
+    }
+   ],
+   "input": "Data teknikal",
+   "output": "Ringkasan isu & syarat. Contoh syarat teknikal wajib seperti Cukai taksiran premis mestilah dijelaskan dan tidak mempunyai tunggakan, Sijil Layak Menduduki (CF/CCC) yang masih berkuat kuasa atau Sistem rawatan sisa industri (jika berkaitan) yang berdaftar dan berfungsi.",
+   "uiRefs": [
+    "UI-PL-MO-PM-02-02"
+   ],
+   "integration": "Modul Semakan dan Ulasan",
+   "notes": "Digunakan dalam proses keputusan UC-PL-MO-PM-03",
+   "calls": [],
+   "parentId": "UC-PL-MO-PM-02"
+  },
+  {
+   "id": "UC-PL-MO-PM-03",
+   "name": "Rekod Keputusan Mesyuarat",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "PPKT2",
+    "Jawatankuasa"
+   ],
+   "steps": [
+    "PPKT2 / Jawatankuasa buka kes dalam agenda.",
+    "PPKT2 / Jawatankuasa bincang isu & ulasan teknikal. Ahli mesyuarat boleh memberi pandangan atau cadangan serta membalas ulasan ahli lain bagi memudahkan proses semakan, perbincangan dan penyelesaian kes berkaitan.",
+    "Pengerusi pilih keputusan: Lulus / Bersyarat / Tidak Lulus / Tolak / Tangguh.",
+    "Sistem panggil UC-PL-MO-PM-03-01 untuk rekod keputusan.",
+    "Sistem panggil UC-PL-MO-PM-03-04 untuk sediakan minit."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Data kes tidak lengkap. Mesej ralat \"Maklumat permohonan tidak lengkap. Butiran berikut masih diperlukan: {senarai medan}. Sila kemaskini maklumat kes sebelum sesi mesyuarat bermula.\""
+    },
+    {
+     "id": "A2",
+     "text": "Tiada ulasan teknikal. Mesej ralat \"Paparan kes tidak lengkap. Ulasan teknikal daripada agensi BTD/ATL yang ditetapkan masih belum diterima. Senarai agensi tertunggak: {senarai agensi}.\""
+    },
+    {
+     "id": "A3",
+     "text": "Pengguna tiada peranan kelulusan. Mesej ralat \"Fungsi kelulusan tidak tersedia. Akaun anda tidak ditetapkan sebagai Pengerusi bagi sesi mesyuarat '{Nama Sesi}'. Sila hubungi Urusetia untuk pengesahan peranan.\""
+    }
+   ],
+   "input": "Ulasan teknikal, isu & syarat",
+   "output": "Keputusan mesyuarat = “Lulus / Bersyarat / Tidak Lulus / Tolak / Tangguh”",
+   "uiRefs": [
+    "UI-PL-MO-PM-03"
+   ],
+   "integration": "Modul Semakan dan Ulasan",
+   "notes": "Keputusan tertakluk kepada peranan Contoh : Pengerusi – Melulus atau membatalkan permohonan. Ahli majlis – mengulas atau memberi komen pada kes berkaitan.",
+   "calls": [
+    "UC-PL-MO-PM-03-01",
+    "UC-PL-MO-PM-03-04"
+   ],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-MO-PM-03-01",
+   "name": "Rakam Keputusan dan Catatan",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "PPKT2",
+    "Jawatankuasa"
+   ],
+   "steps": [
+    "Pengerusi pilih hasil keputusan.",
+    "Sistem rekod catatan mesyuarat (komen, syarat tambahan). Bagi keputusan akhir adalah ‘Lulus Bersyarat’, pengguna wajib mengisi catatan mesyuarat dan syarat tambahan dan bagi keputusan akhir adalah ‘Tidak Lulus’ pula, pengguna wajib mengisi catatan atau alasan berkaitan sebelum rekod keputusan dibenarkan disimpan. Hanya 500 aksara dibenarkan.",
+    "Sistem simpan dalam log rasmi."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Gagal simpan log. Mesej ralat \"Ralat jejak audit. Sistem tidak dapat merekodkan perubahan yang dibuat pada kes '{No. Siri Permohonan}'. Sila hubungi Pentadbir Sistem untuk semakan konfigurasi log.\""
+    },
+    {
+     "id": "A2",
+     "text": "Komen tidak sah. Mesej ralat \"Format komen tidak sah. Catatan yang dimasukkan tidak memenuhi format yang ditetapkan. Sila semak semula.”"
+    }
+   ],
+   "input": "Keputusan & catatan",
+   "output": "Keputusan direkod dan catatan . Lulus – Permohonan diluluskan, Lulus Bersyarat – Permohonan diluluskan dengan syarat tambahan, Tidak Lulus – Permohonan tidak diluluskan, Tangguh permohonan – Permohonan ditangguh Tolak – Permohonan ditolak.",
+   "uiRefs": [
+    "UI-PL-MO-PM-03-01"
+   ],
+   "integration": "–",
+   "notes": "Audit trail wajib. Sistem akan merekodkan semua tindakan berkaitan keputusan mesyuarat dalam log rasmi atau audit trail termasuk maklumat pengguna, jenis tindakan, keputusan mesyuarat, catatan, syarat tambahan, tarikh dan masa tindakan, status tindakan serta ID permohonan atau ID mesyuarat sebagai rujukan unik.",
+   "calls": [],
+   "parentId": "UC-PL-MO-PM-03"
+  },
+  {
+   "id": "UC-PL-MO-PM-03-02",
+   "name": "Tetapkan Syarat Kelulusan",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "PPKT2",
+    "Jawatankuasa"
+   ],
+   "steps": [
+    "Sistem paparkan syarat wajib berdasarkan rujukan teknikal yang ditetapkan dalam Modul Pentadbiran Sistem. Hanya syarat yang aktif, sah dan berkaitan dengan permohonan akan dipaparkan serta disimpan dalam pangkalan data bagi tujuan semakan, pengesahan dan audit.",
+    "Pengerusi tambah syarat tambahan (jika perlu penambahan maklumat/syarat. Sistem membenarkan pemambahan maklumat berdasarkan proses).",
+    "Sistem simpan syarat kelulusan ke rekod."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Senarai syarat hilang. Mesj ralat \"Senarai syarat tidak dapat dipaparkan. Sambungan ke pangkalan data terputus semasa proses muatan. Sila muat semula halaman atau hubungi Pentadbir Sistem.\""
+    },
+    {
+     "id": "A2",
+     "text": "Format syarat tidak sah. Mesej ralat \"Kod rujukan syarat '{kod_syarat}' tidak sah atau tidak wujud dalam jadual rujukan sistem. Sila pilih kod syarat yang sah daripada senarai yang disediakan.\""
+    }
+   ],
+   "input": "Syarat kelulusan mengikut proses validasi yang ditetapkan.",
+   "output": "Senarai syarat",
+   "uiRefs": [
+    "UI-PL-MO-PM-03-02"
+   ],
+   "integration": "Modul Semakan dan Ulasan",
+   "notes": "Syarat mesti dinyatakan dengan jelas",
+   "calls": [],
+   "parentId": "UC-PL-MO-PM-03"
+  },
+  {
+   "id": "UC-PL-MO-PM-03-03",
+   "name": "Tandatangan Digital Keputusan",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "PPKT2",
+    "Jawatankuasa"
+   ],
+   "steps": [
+    "Sistem sediakan dokumen kelulusan.",
+    "Pengerusi tandatangan secara digital.",
+    "Sistem simpan versi bertandatangan melalui kaedah kriptografi seperti penjanaan dan perbandingan nilai hash."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tandatangan gagal disahkan. Mesej ralat \"Pengesahan tandatangan gagal. Sijil digital yang digunakan telah tamat tempoh atau tidak lagi sah. Sila hubungi Pentadbir Sistem untuk pembaharuan sijil digital.\""
+    },
+    {
+     "id": "A2",
+     "text": "Token keselamatan tamat tempoh. Mesej ralat \"Token keselamatan anda telah tamat tempoh. Sesi log masuk tidak lagi sah. Sila log masuk semula untuk meneruskan tindakan dalam modul mesyuarat.\""
+    }
+   ],
+   "input": "",
+   "output": "Dokumen dalam format PDF",
+   "uiRefs": [],
+   "integration": "Sistem Tandatangan Digital",
+   "notes": "Use Case Tandatangan digital telah dikeluarkan daripada sistem kerana melibatkan kos.",
+   "calls": [],
+   "parentId": "UC-PL-MO-PM-03"
+  },
+  {
+   "id": "UC-PL-MO-PM-03-04",
+   "name": "Jana Minit Mesyuarat",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "PPKT2",
+    "Jawatankuasa"
+   ],
+   "steps": [
+    "Sistem jana minit lengkap (keputusan + syarat + catatan).",
+    "Sistem formatkan minit berdasarkan template PBT.",
+    "Urusetia semak & sahkan minit.",
+    "Sistem simpan dan sedia untuk diedar."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Template tidak dijumpai. Mesej ralat \"Templat dokumen '{nama_templat}' tidak dijumpai dalam sistem. Fail templat mungkin telah dipadam, dipindahkan atau belum dimuat naik oleh Pentadbir Sistem.\""
+    },
+    {
+     "id": "A2",
+     "text": "Dokumen gagal dijana. Mesej ralat \"Penjanaan surat keputusan bagi kes '{No. Siri Permohonan}' gagal. Pelayan penjanaan dokumen tidak dapat dihubungi pada masa ini. Sila cuba sebentar lagi.\""
+    },
+    {
+     "id": "A3",
+     "text": "Integriti data tidak sah. Mesej ralat \"Pemindahan data gagal semakan integriti. Data yang diterima dari pelayan tidak lengkap atau rosak semasa pemindahan. Sila muat semula halaman dan cuba lagi.\""
+    }
+   ],
+   "input": "Log keputusan",
+   "output": "Minit mesyuarat disediakan dalam format PDF",
+   "uiRefs": [
+    "UI-PL-MO-PM-03-04"
+   ],
+   "integration": "Repositori Dokumen",
+   "notes": "Template mengikut PBT boleh dikonfigurasi dalam Modul Pentadbiran Sistem",
+   "calls": [],
+   "parentId": "UC-PL-MO-PM-03"
+  },
+  {
+   "id": "UC-PL-MO-PM-04",
+   "name": "Kemas Kini Status dan Ringkasan",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "Urusetia"
+   ],
+   "steps": [
+    "Sistem kemas kini status permohonan berdasarkan keputusan mesyuarat.",
+    "Ringkasan keputusan disimpan ke rekod permohonan.",
+    "Sistem panggil UC-PL-MO-PM-04-01 & UC-PL-MO- PM-04-02.",
+    "Sistem rekod audit trail yang lengkap disimpan dalam pengkalan data dalam format JSON. Format audit trail merangkumi medan berikut: Pengguna, Tindakan, Entiti, ID Entiti, Alamat IP, dan Tarikh. -Medan Pengguna merekod ID pengguna yang melakukan tindakan - Tindakan merekod jenis tindakan/keputusan (cth. Kemaskini) - Entiti dan ID Entiti merujuk rekod/permohonan yang terlibat sebagai rujukan unik - Alamat IP merekod alamat capaian - Tarikh merekod tarikh dan masa tindakan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Status tidak dapat dikemaskini. Mesej ralat \"Kemaskini status gagal. Sila semak permohonan semula.\""
+    },
+    {
+     "id": "A2",
+     "text": "Data keputusan tidak lengkap. Seperti terdapat beberapa ruang atau kolum yang belum diisi. Mesej ralat \"Maklumat tidak lengkap. Sila lengkapkan maklumat sebelum keputusan mesyuarat boleh dimuktamadkan dan dokumen rasmi dijana.\""
+    },
+    {
+     "id": "A3",
+     "text": "Integriti maklumat tidak sah. Mesej ralat \"Pengesahan integriti maklumat mesyuarat gagal. Sila hubungi Pentadbir Sistem segera.\""
+    }
+   ],
+   "input": "Keputusan mesyuarat diambil daripada pengkalan data mangikut agenda yang ditetapkan.",
+   "output": "Status baharu permohonan",
+   "uiRefs": [
+    "UI-PL-MO-PM-04"
+   ],
+   "integration": "Modul Semakan dan Ulasan",
+   "notes": "Format Audit merangkumi: 1. Pengguna 2. Tindakan 3. Entiti 4. ID Entiti 5. Alamat IP 6. Tarikh.",
+   "calls": [
+    "UC-PL-MO-PM-04-01",
+    "UC-PL-MO-PM-04-02"
+   ],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-MO-PM-04-01",
+   "name": "Kemas Kini Status Permohonan",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "Urusetia"
+   ],
+   "steps": [
+    "Sistem ubah status permohonan kepada Lulus / Bersyarat / Tidak Lulus / Tolak / Tangguh.",
+    "Sistem simpan sejarah status."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Gagal simpan status. Mesej ralat \"Status mesyuarat gagal disimpan. Sila semak status semasa dan cuba lagi.\""
+    },
+    {
+     "id": "A2",
+     "text": "Status tidak sah untuk jenis lesen. Mesej ralat \"Status tidak sah untuk jenis lesen '{jenis_lesen}'. Jenis lesen ini hanya membenarkan status keputusan berikut: {senarai_status_sah}. Sila pilih status yang sesuai.\""
+    }
+   ],
+   "input": "Keputusan",
+   "output": "Status dikemaskini",
+   "uiRefs": [
+    "UI-PL-MO-PM-04"
+   ],
+   "integration": "Modul Semakan dan Ulasan",
+   "notes": "Audit trail disimpan dalam pengkalan data dalam format JSON",
+   "calls": [],
+   "parentId": "UC-PL-MO-PM-04"
+  },
+  {
+   "id": "UC-PL-MO-PM-04-02",
+   "name": "Notifikasi Keputusan",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "Urusetia"
+   ],
+   "steps": [
+    "Sistem hantar notifikasi keputusan kepada pemohon melalui email atau notifikasi dalam sistem.",
+    "Notifikasi kepada PPSU juga dihantar melalui notifikasi dalam sistem.",
+    "Sistem log waktu dan penerima."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Notifikasi gagal dihantar. Mesej ralat \"Notifikasi keputusan mesyuarat tidak dapat dihantar kepada ahli mesyuarat. Sila pastikan maklumat emel dan telefon semua ahli adalah tepat dan terkini dalam sistem.\""
+    },
+    {
+     "id": "A2",
+     "text": "Alamat e-mel tidak sah. Mesej ralat \"Alamat emel '{emel}' tidak sah. Format emel tidak betul atau domain tidak wujud. Sila kemaskini alamat emel yang sah sebelum menghantar notifikasi.\""
+    }
+   ],
+   "input": "Keputusan",
+   "output": "Notifikasi dihantar keputusan mesyuarat dimuktamadkan. Sistem akan menghantar notifikasi kepada pihak berkaitan serta merekod status penghantaran, penerimaan dan bacaan notifikasi sekiranya fungsi read receipt disokong oleh sistem.",
+   "uiRefs": [
+    "UI-PL-MO-PM-04-02",
+    "UI-PL-NT-PS-02"
+   ],
+   "integration": "Modul Notifikasi",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-MO-PM-04"
+  },
+  {
+   "id": "UC-PL-MO-PM-04-03",
+   "name": "Terbitkan Minit Mesyuarat",
+   "group": "elulusan Mesyuarat",
+   "actors": [
+    "Urusetia"
+   ],
+   "steps": [
+    "Sistem terbitkan minit mesyuarat dalam format PDF dan cetakan daripada sistem adalah tanpa tandatangan digital.",
+    "Sistem simpan versi rasmi ke repositori dokumen.",
+    "Urusetia edarkan minit kepada peserta melalui emel organisasi masing-masing (di luar skop OSCP)."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Dokumen tidak boleh disimpan. Mesej ralat \"Dokumen tidak dapat disimpan. Sila hubungi Pentadbir Sistem JKT untuk semakan.\""
+    },
+    {
+     "id": "A2",
+     "text": "Tandatangan tidak sah. Mesej ralat \"Tandatangan digital pada dokumen tidak sah. Sila semak dokumen semula.”"
+    },
+    {
+     "id": "A3",
+     "text": "Storan tidak respons. Mesej ralat \" Proses simpanan dokumen tidak dapat dilaksanakan pada masa ini. Sila cuba sebentar lagi atau hubungi Pentadbir Sistem JKT.\""
+    }
+   ],
+   "input": "Minit mesyuarat",
+   "output": "Minit rasmi",
+   "uiRefs": [
+    "UI-PL-MO-PM-04-03"
+   ],
+   "integration": "Repositori Dokumen seperti pelayan dalaman dalam format PDF. Hanya pengguna yang diberi kuasa dapat mengakses dokumen tersebut.",
+   "notes": "Minit mesyuarat adalah dokumen rasmi PBT.",
+   "calls": [],
+   "parentId": "UC-PL-MO-PM-04"
+  }
+ ],
+ "screens": [
+  {
+   "title": "Skrin Susun Agenda Mesyuarat",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Kelulusan Mesyuarat",
+   "uiIds": [
+    "UI-PL-MO-PM-01",
+    "UI-PL-MO-PM-01-03",
+    "UI-PL-MO-PM-01-04",
+    "UI-PL-MO-PM-01-05",
+    "UI-PL-PT-PG-02-04"
+   ],
+   "dataMap": [
+    {
+     "label": "Medan Carian",
+     "objectType": "Searchfield",
+     "tables": [
+      "osc_smk_mesyuarat",
+      "osc_kod_majlis"
+     ],
+     "fields": [
+      "msy_nama",
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "maj_namapbt",
+      "msy_tempat"
+     ],
+     "crud": "R",
+     "note": "Carian berdasarkan nama sesi atau lokasi mesyuarat"
+    },
+    {
+     "label": "Penapis Status",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Fungsi menapis senarai mesyuarat berdasarkan status. Contoh paparan: Selesai atau Belum Selesai."
+    },
+    {
+     "label": "Butang <Tambah Mesyuarat>",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "msy_nama",
+      "msy_tempat"
+     ],
+     "crud": "C",
+     "note": "Membuka skrin tambah mesyuarat baharu."
+    },
+    {
+     "label": "Nama Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "R",
+     "note": "Nama / tajuk sesi mesyuarat"
+    },
+    {
+     "label": "Tarikh & Masa",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Tarikh dan masa mesyuarat. Format: DD MMM YYYY, HH:MM AM/PM."
+    },
+    {
+     "label": "PBT",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_majlis"
+     ],
+     "fields": [
+      "maj_namapbt"
+     ],
+     "crud": "R",
+     "note": "Kod PBT"
+    },
+    {
+     "label": "Lokasi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Lokasi / tempat mesyuara"
+    },
+    {
+     "label": "Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_max_peserta"
+     ],
+     "crud": "R",
+     "note": "Bilangan kes / permohonan yang dimasukkan ke dalam agenda mesyuarat berkenaan."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Memaparkan status mesyuarat. Contoh: Selesai atau Belum Selesai."
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Memaparkan ikon tindakan bagi rekod mesyuarat seperti lihat butiran, kemaskini, dokumen dan padam."
+    },
+    {
+     "label": "Butang <Maklumat Mesyuarat>",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Butang untuk melihat maklumat mesyuarat"
+    },
+    {
+     "label": "Butang <Kemaskini Mesyuarat>",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama",
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "msy_tempat",
+      "msy_statf",
+      "msy_catatan"
+     ],
+     "crud": "U",
+     "note": "Butang untuk kemaskini maklumat mesyuarat"
+    },
+    {
+     "label": "Butang<Cipta Minit>",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Butang untuk meilhat dan kemaskini minit mesyuarat"
+    },
+    {
+     "label": "Butang<Padam>",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [],
+     "crud": "D",
+     "note": "Butang buang sesi mesyuarat"
+    },
+    {
+     "label": "Butang<Kembali>",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [],
+     "crud": "–",
+     "note": "Butang kembali ke skrin sebelumnya"
+    },
+    {
+     "label": "No. Mesyuarat",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_bilangan"
+     ],
+     "crud": "R",
+     "note": "Nombor rujukan mesyuarat (auto-generate). Format: M-[YYYY]-[M]-[NNN]."
+    },
+    {
+     "label": "Nama Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "R",
+     "note": "Nama sesi mesyuarat."
+    },
+    {
+     "label": "Tarikh & Masa",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Tarikh dan masa mesyuarat. Format: DD MMM YYYY, HH:MM AM/PM."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Status mesyuarat. Contoh: Selesai / Belum Selesai."
+    },
+    {
+     "label": "Lokasi Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tempat"
+     ],
+     "crud": "R",
+     "note": "Lokasi mesyuarat."
+    },
+    {
+     "label": "Catatan",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_catatan"
+     ],
+     "crud": "R",
+     "note": "Catatan berkaitan mesyuarat."
+    },
+    {
+     "label": "Bahagian: Senarai Ahli Mesyuarat",
+     "objectType": "Section Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Memaparkan senarai ahli / peserta mesyuarat."
+    },
+    {
+     "label": "Butang <Tambah Ahli>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran",
+      "att_emel_luaran",
+      "att_wakil_luaran",
+      "att_peranan",
+      "att_catatan"
+     ],
+     "crud": "C",
+     "note": "Membuka popup tambah ahli mesyuarat."
+    },
+    {
+     "label": "#",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Nombor turutan ahli mesyuarat."
+    },
+    {
+     "label": "Nama Ahli",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran"
+     ],
+     "crud": "R",
+     "note": "Nama ahli. Ahli dalaman dirujuk melalui user_id; ahli luar disimpan sebagai nama penuh. Contoh: Halilah binti Omar."
+    },
+    {
+     "label": "Emel",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_emel_luaran"
+     ],
+     "crud": "R",
+     "note": "Alamat emel ahli. Format: nama@domain.com."
+    },
+    {
+     "label": "Wakil",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_wakil_luaran"
+     ],
+     "crud": "R",
+     "note": "Wakil / agensi peserta. Contoh: MDTM."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_peranan"
+     ],
+     "crud": "R",
+     "note": "Peranan ahli. Contoh: SETIAUSAHA, PENGERUSI, AHLI."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_status"
+     ],
+     "crud": "R",
+     "note": "Status ahli. Nilai: JEMPUTAN, DISAHKAN, HADIR, TIDAK HADIR."
+    },
+    {
+     "label": "Tindakan (Ikon Kemaskini)",
+     "objectType": "Icon Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "U",
+     "note": "Kemaskini maklumat ahli mesyuarat."
+    },
+    {
+     "label": "Tindakan (Ikon Padam)",
+     "objectType": "Icon Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "D",
+     "note": "Padam ahli daripada senarai mesyuarat."
+    },
+    {
+     "label": "Bahagian: Senarai Permohonan",
+     "objectType": "Section Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Memaparkan senarai permohonan yang dikaitkan dengan mesyuarat."
+    },
+    {
+     "label": "Semua / Diluluskan / Ditolak / Ditangguh",
+     "objectType": "Tab / Filter",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_status"
+     ],
+     "crud": "R",
+     "note": "Menapis senarai permohonan mengikut status."
+    },
+    {
+     "label": "No. Rujukan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_norujukan"
+     ],
+     "crud": "R",
+     "note": "Nombor rujukan permohonan."
+    },
+    {
+     "label": "Pemohon",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_pemohon"
+     ],
+     "crud": "R",
+     "note": "Nama pemohon."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_status"
+     ],
+     "crud": "R",
+     "note": "Status permohonan."
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Icon Group",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Tindakan bagi setiap permohonan."
+    },
+    {
+     "label": "\"Tiada permohonan dalam senarai\"",
+     "objectType": "Message",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Dipaparkan apabila tiada permohonan dikaitkan."
+    },
+    {
+     "label": "Butang <Kembali ke Senarai>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Kembali ke skrin Senarai Mesyuarat."
+    },
+    {
+     "label": "Tambah Ahli Mesyuarat",
+     "objectType": "Modal Title",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan popup tambah ahli mesyuarat."
+    },
+    {
+     "label": "Jenis Ahli",
+     "objectType": "Radio Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memilih jenis ahli. Nilai contoh: DALAMAN atau LUAR."
+    },
+    {
+     "label": "Ahli Dalaman",
+     "objectType": "Radio Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Dipilih jika peserta adalah pengguna dalaman sistem. Nilai disimpan sebagai DALAMAN."
+    },
+    {
+     "label": "Ahli Luar / Jemputan",
+     "objectType": "Radio Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Dipilih jika peserta adalah pihak luar / jemputan. Nilai disimpan sebagai LUAR."
+    },
+    {
+     "label": "Pilih Ahli",
+     "objectType": "Dropdown",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser"
+     ],
+     "crud": "C",
+     "note": "Mandatori untuk ahli dalaman. Pengguna memilih nama pegawai dalaman daripada senarai pengguna sistem. Contoh paparan: Razak Bin Abu (ATL), Admin PBT Kuala Lumpur (PBT), BTD KETUA-JABATAN."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Dropdown",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_peranan"
+     ],
+     "crud": "C",
+     "note": "Mandatori. Memilih peranan peserta mesyuarat. Contoh paparan: PENGERUSI MESYUARAT, SETIAUSAHA, AHLI, PENCATAT, URUS SETIA."
+    },
+    {
+     "label": "Catatan",
+     "objectType": "Text Area",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_catatan"
+     ],
+     "crud": "C",
+     "note": "Pilihan. Memasukkan catatan tambahan berkaitan ahli mesyuarat."
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menutup popup tanpa menyimpan maklumat ahli."
+    },
+    {
+     "label": "<Tambah Ahli>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_peranan",
+      "att_status",
+      "att_catatan",
+      "created_at"
+     ],
+     "crud": "C",
+     "note": "Menyimpan ahli dalaman ke dalam senarai ahli mesyuarat. meeting_id merujuk kepada rekod osc_smk_mesyuarat.id. Status default boleh ditetapkan sebagai Jemputan."
+    },
+    {
+     "label": "Jenis Ahli",
+     "objectType": "Radio Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memilih jenis ahli luar / jemputan. Nilai disimpan sebagai LUAR."
+    },
+    {
+     "label": "Nama Penuh",
+     "objectType": "Textbox",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_nama_luaran"
+     ],
+     "crud": "C",
+     "note": "Mandatori. Memasukkan nama penuh wakil luar."
+    },
+    {
+     "label": "Alamat Emel",
+     "objectType": "Textbox",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_emel_luaran"
+     ],
+     "crud": "C",
+     "note": "Mandatori. Memasukkan alamat emel wakil luar. Format: nama@domain.com."
+    },
+    {
+     "label": "Agensi / Organisasi",
+     "objectType": "Textbox",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_wakil_luaran"
+     ],
+     "crud": "C",
+     "note": "Memasukkan nama agensi atau organisasi wakil luar. Contoh: KPDN, DBKL, JAS."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Dropdown",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_peranan"
+     ],
+     "crud": "C",
+     "note": "Mandatori. Memilih peranan ahli luar dalam mesyuarat. Contoh: PENGERUSI MESYUARAT, SETIAUSAHA, AHLI, PENCATAT, URUS SETIA."
+    },
+    {
+     "label": "Catatan",
+     "objectType": "Text Area",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_catatan"
+     ],
+     "crud": "C",
+     "note": "Pilihan. Memasukkan catatan tambahan berkaitan ahli luar / jemputan."
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menutup popup tanpa menyimpan maklumat ahli luar."
+    },
+    {
+     "label": "<Tambah Ahli>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_nama_luaran",
+      "att_emel_luaran",
+      "att_wakil_luaran",
+      "att_peranan",
+      "att_status",
+      "att_catatan",
+      "created_at"
+     ],
+     "crud": "C",
+     "note": "Menyimpan ahli luar / jemputan ke dalam senarai ahli mesyuarat. meeting_id merujuk kepada osc_smk_mesyuarat.id. Status default dipaparkan sebagai Jemputan."
+    },
+    {
+     "label": "Row per page",
+     "objectType": "Dropdown",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pilihan bilangan rekod dipapar per halaman."
+    },
+    {
+     "label": "Butang Navigasi Halaman",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Navigasi muka surat dengan butang anak panah kiri/kanan dan nombor halaman."
+    },
+    {
+     "label": "Nama Sesi *",
+     "objectType": "Text Input",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "C",
+     "note": "Nama / tajuk sesi mesyuarat. Wajib diisi."
+    },
+    {
+     "label": "Tarikh *",
+     "objectType": "Date Picker",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat"
+     ],
+     "crud": "C",
+     "note": "Tarikh mesyuarat. Format: DD MMM YYYY. Wajib diisi."
+    },
+    {
+     "label": "Nota Tarikh Cuti Umum",
+     "objectType": "Info Text",
+     "tables": [
+      "osc_kod_kalendarcuti"
+     ],
+     "fields": [
+      "kct_tarikh"
+     ],
+     "crud": "R",
+     "note": "Penanda warna merah pada date picker. Teks: \"Tarikh merah ialah cuti umum — tidak boleh dipilih\". Validasi semakan terhadap kct_tarikh."
+    },
+    {
+     "label": "Masa *",
+     "objectType": "Time Picker",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_masa"
+     ],
+     "crud": "C",
+     "note": "Masa mesyuarat. Format: HH:MM AM/PM. Wajib diisi."
+    },
+    {
+     "label": "Lokasi Sesi *",
+     "objectType": "Text Input",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tempat"
+     ],
+     "crud": "C",
+     "note": "Lokasi mesyuarat diadakan. Wajib diisi."
+    },
+    {
+     "label": "Catatan",
+     "objectType": "Text Area",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_catatan"
+     ],
+     "crud": "C",
+     "note": "Memaparkan catatan berkaitan mesyuarat. Tidak wajib."
+    },
+    {
+     "label": "Butang Batal",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menutup skrin tambah sesi dah Kembali ke senarai mesyuarat."
+    },
+    {
+     "label": "Butang Simpan",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [
+      "msy_nama",
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "msy_tempat",
+      "msy_statf",
+      "msy_catatan"
+     ],
+     "crud": "C",
+     "note": "Hantar borang dan simpan rekod mesyuarat Baharu."
+    },
+    {
+     "label": "Nama Sesi *",
+     "objectType": "Text Input",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "U",
+     "note": "Nama / tajuk sesi mesyuarat. Wajib diisi."
+    },
+    {
+     "label": "Tarikh *",
+     "objectType": "Date Picker",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat"
+     ],
+     "crud": "U",
+     "note": "Tarikh mesyuarat. Format: DD MMM YYYY. Wajib diisi."
+    },
+    {
+     "label": "Nota Tarikh Cuti Umum",
+     "objectType": "Info Text",
+     "tables": [
+      "osc_kod_kalendarcuti"
+     ],
+     "fields": [
+      "kct_tarikh"
+     ],
+     "crud": "R",
+     "note": "Penanda warna merah pada date picker. Teks: \"Tarikh merah ialah cuti umum — tidak boleh dipilih\". Validasi semakan terhadap kct_tarikh."
+    },
+    {
+     "label": "Masa *",
+     "objectType": "Time Picker",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_masa"
+     ],
+     "crud": "U",
+     "note": "Masa mesyuarat. Format: HH:MM AM/PM. Wajib diisi."
+    },
+    {
+     "label": "Status *",
+     "objectType": "Drop down",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "U",
+     "note": "Wajib dipilih. Nilai semasa: Belum Selesai. Pilihan: Belum Selesai / Selesai / Batal."
+    },
+    {
+     "label": "Lokasi Sesi *",
+     "objectType": "Text Input",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tempat"
+     ],
+     "crud": "U",
+     "note": "Lokasi mesyuarat diadakan. Wajib diisi."
+    },
+    {
+     "label": "Catatan",
+     "objectType": "Text Area",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_catatan"
+     ],
+     "crud": "U",
+     "note": "Memaparkan catatan berkaitan mesyuarat. Tidak wajib."
+    },
+    {
+     "label": "DICIPTA OLEH",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_iuser"
+     ],
+     "crud": "R",
+     "note": "Auto-papar ID pengguna yang mencipta rekod mesyuarat. Contoh: USR000000001. Tidak boleh diedit."
+    },
+    {
+     "label": "TARIKH CIPTA",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_idate"
+     ],
+     "crud": "R",
+     "note": "Auto-papar tarikh rekod mesyuarat dicipta. Format: YYYY-MM-DD. Contoh: 2026-05-21. Tidak boleh diedit."
+    },
+    {
+     "label": "DIKEMASKINI OLEH",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_uuser"
+     ],
+     "crud": "R",
+     "note": "Auto-papar ID pengguna yang terakhir mengemaskini rekod. Dikemaskini automatik oleh sistem selepas simpan."
+    },
+    {
+     "label": "TARIKH KEMASKINI",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_udate"
+     ],
+     "crud": "R",
+     "note": "Auto-papar tarikh rekod terakhir dikemaskini. Format: YYYY-MM-DD. Dikemaskini automatik oleh sistem."
+    },
+    {
+     "label": "Butang Kembali ke Senarai",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke skrin Senarai Mesyuarat tanpa menyimpan perubahan."
+    },
+    {
+     "label": "Butang Kemaskini",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [
+      "msy_nama",
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "msy_tempat",
+      "msy_statf",
+      "msy_catatan"
+     ],
+     "crud": "U",
+     "note": "Simpan perubahan maklumat mesyuarat sahaja tanpa menghantar jemputan."
+    },
+    {
+     "label": "Butang Kemaskini & Hantar",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama",
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "msy_tempat",
+      "msy_statf",
+      "msy_catatan"
+     ],
+     "crud": "U",
+     "note": "Simpan perubahan DAN hantar semula jemputan mesyuarat kepada semua ahli yang disenaraikan."
+    },
+    {
+     "label": "Ikon Amaran",
+     "objectType": "Icon Model",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Menunjukkan tindakan memerlukan pengesahan pengguna."
+    },
+    {
+     "label": "Tajuk Modal: Pengesahan",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tajuk modal pengesahan padam. Teks: \"Pengesahan\"."
+    },
+    {
+     "label": "Teks Soalan Pengesahan",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Teks: \"Adakah anda pasti ingin memadam mesyuarat ini?\" Papar no. mesyuarat sebagai rujukan."
+    },
+    {
+     "label": "Butang Ya, Padam",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_bilangan"
+     ],
+     "crud": "D",
+     "note": "Sahkan dan laksanakan pemadaman rekod mesyuarat. Warna merah. Rekod berkaitan (ahli, agenda) turut dipadam mengikut ON DELETE CASCADE."
+    },
+    {
+     "label": "Butang Batal",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tutup modal tanpa sebarang tindakan. Kembali ke skrin Senarai Mesyuarat."
+    },
+    {
+     "label": "← (Butang Kembali)",
+     "objectType": "Navigation Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Butang kembali ke halaman sebelum. Tiada operasi data."
+    },
+    {
+     "label": "Notifikasi (Tajuk)",
+     "objectType": "Page Title",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Tajuk halaman statik: 'Notifikasi'. Tiada operasi data."
+    },
+    {
+     "label": "Badge Kiraan (103)",
+     "objectType": "Count Badge",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "notifiable_id"
+     ],
+     "crud": "R",
+     "note": "Kiraan notifikasi belum dibaca bagi Admin PBT. Contoh: badge '103' dipapar di sudut kanan atas."
+    },
+    {
+     "label": "Ikon Loceng",
+     "objectType": "Icon",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Ikon loceng di bar atas. Diklik untuk kembali ke halaman ini."
+    },
+    {
+     "label": "Cari notifikasi...",
+     "objectType": "Text Input (Search)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "data",
+      "type"
+     ],
+     "crud": "R",
+     "note": "Carian teks bebas dalam senarai notifikasi. Mencari dalam notifications.data (JSON) dan notifications.type."
+    },
+    {
+     "label": "✓ TANDA SEMUA DIBACA",
+     "objectType": "Button (Biru)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Menandakan SEMUA notifikasi pengguna semasa sebagai dibaca. Badge kiraan dikemaskini kepada 0 selepas operasi."
+    },
+    {
+     "label": "Semua 104",
+     "objectType": "Tab (Aktif)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "notifiable_id"
+     ],
+     "crud": "R",
+     "note": "Tab aktif — papar semua notifikasi."
+    },
+    {
+     "label": "Belum Dibaca 104",
+     "objectType": "Tab",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Menapis notifikasi yang belum ditanda dibaca."
+    },
+    {
+     "label": "Kritikal 0",
+     "objectType": "Tab",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Menapis notifikasi kritikal."
+    },
+    {
+     "label": "Maklumat 104",
+     "objectType": "Tab",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Menapis notifikasi jenis maklumat umum."
+    },
+    {
+     "label": "Kad Jemputan Mesyuarat",
+     "objectType": "Highlighted Card (Mesyuarat)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id",
+      "type",
+      "read_at",
+      "created_at"
+     ],
+     "crud": "R",
+     "note": "Kad notifikasi jemputan mesyuarat dengan border ungu dan latar ungu muda.Merupakan notifikasi terbaharu — dipapar di bahagian paling atas senarai."
+    },
+    {
+     "label": "✓ Terima Jemputan",
+     "objectType": "Button (Ungu)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "Id",
+      "read_at",
+      "data"
+     ],
+     "crud": "R",
+     "note": "Menandakan jemputan mesyuarat sebagai diterima. Sistem juga merekodkan respons kehadiran dalam modul mesyuarat. Navigasi ke halaman butiran mesyuarat."
+    },
+    {
+     "label": "Tanda Dibaca (Kad Mesyuarat)",
+     "objectType": "Button (Biru)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "Id",
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Menandakan notifikasi jemputan ini sebagai dibaca tanpa menerima/menolak jemputan."
+    },
+    {
+     "label": "Padam (Kad Mesyuarat)",
+     "objectType": "Button (Merah)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Memadam/menyembunyikan notifikasi jemputan mesyuarat ini."
+    },
+    {
+     "label": "Kad Permohonan Baharu",
+     "objectType": "List Item Card",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id",
+      "type",
+      "read_at",
+      "created_at"
+     ],
+     "crud": "R",
+     "note": "Kad notifikasi permohonan lesen baharu."
+    },
+    {
+     "label": "Tanda Dibaca (Kad Permohonan)",
+     "objectType": "Button (Biru)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "Id",
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Baca notifikasi"
+    },
+    {
+     "label": "Padam (Kad Permohonan)",
+     "objectType": "Button (Merah)",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Buang notifikasi"
+    },
+    {
+     "label": "Penanda Medan Wajib (*)",
+     "objectType": "UI Indicator",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menunjukkan medan yang wajib diisi. Mesej ralat “Medan ini wajib diisi” akan dipaparkan sekiranya data/ pilihan tidak dimasukkan."
+    },
+    {
+     "label": "Carian",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_smk_mesyuarat",
+      "osc_kod_majlis"
+     ],
+     "fields": [
+      "msy_nama",
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "maj_namapbt",
+      "msy_tempat"
+     ],
+     "crud": "R",
+     "note": "Membolehkan carian rekod mesyuarat berdasarkan nombor mesyuarat, nama sesi, lokasi atau kod PBT."
+    },
+    {
+     "label": "Penapis Status",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Fungsi menapis senarai mesyuarat berdasarkan status. Contoh paparan: Selesai atau Belum Selesai."
+    },
+    {
+     "label": "<Tambah Mesyuarat>",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "msy_nama",
+      "msy_tempat"
+     ],
+     "crud": "C",
+     "note": "Membuka skrin tambah mesyuarat baharu."
+    },
+    {
+     "label": "PBT",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_majlis"
+     ],
+     "fields": [
+      "maj_namapbt"
+     ],
+     "crud": "R",
+     "note": "Memaparkan kod PBT bagi mesyuarat. Contoh paparan: PK_MDTM, N/A."
+    },
+    {
+     "label": "Lokasi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tempat"
+     ],
+     "crud": "R",
+     "note": "Memaparkan lokasi mesyuarat. Contoh: MITEC, Mid Valley, Dewan Serbaguna Putrajaya Presint 2, Century Room."
+    },
+    {
+     "label": "Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_max_peserta"
+     ],
+     "crud": "R",
+     "note": "Memaparkan bilangan permohonan yang dikaitkan dengan mesyuarat. Jika medan ini tidak disimpan secara fizikal, nilai boleh dijana melalui kiraan rekod permohonan berkaitan."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Memaparkan status mesyuarat. Contoh: Selesai atau Belum Selesai."
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Icon Group",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Memaparkan ikon tindakan bagi rekod mesyuarat seperti lihat butiran, kemaskini, dokumen dan padam."
+    },
+    {
+     "label": "Ikon Manusia / Butiran Mesyuarat",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Membuka skrin butiran mesyuarat termasuk maklumat sesi dan senarai ahli mesyuarat."
+    },
+    {
+     "label": "Ikon Kemaskini",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id",
+      "msy_bilangan"
+     ],
+     "crud": "U",
+     "note": "Membuka skrin kemaskini mesyuarat yang dipilih."
+    },
+    {
+     "label": "Ikon Dokumen",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Membuka paparan dokumen atau maklumat berkaitan mesyuarat jika disediakan."
+    },
+    {
+     "label": "Ikon Padam",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "D",
+     "note": "Memadam rekod mesyuarat tertakluk kepada kawalan sistem."
+    },
+    {
+     "label": "Row per page",
+     "objectType": "Dropdown",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menentukan bilangan rekod mesyuarat yang dipaparkan dalam satu halaman."
+    },
+    {
+     "label": "<",
+     "objectType": "Pagination Control",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke halaman sebelumnya."
+    },
+    {
+     "label": ">",
+     "objectType": "Pagination Control",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke halaman seterusnya."
+    },
+    {
+     "label": "Mesyuarat > M-2026-2-004",
+     "objectType": "Pautan Navigasi",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan lokasi semasa pengguna pada skrin butiran mesyuarat."
+    },
+    {
+     "label": "Maklumat Sesi",
+     "objectType": "Section Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan bahagian maklumat asas mesyuarat."
+    },
+    {
+     "label": "No. Mesyuarat",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_bilangan"
+     ],
+     "crud": "R",
+     "note": "Memaparkan nombor rujukan mesyuarat. Contoh paparan: M-2026-2-004."
+    },
+    {
+     "label": "Nama Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "R",
+     "note": "Memaparkan nama sesi mesyuarat. Jika tiada nilai, paparan menunjukkan N/A."
+    },
+    {
+     "label": "Tarikh & Masa",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Memaparkan tarikh dan masa mesyuarat. Contoh paparan: 17 Dec 2026 04:38 AM."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Memaparkan status mesyuarat. Contoh: Selesai atau Belum Selesai."
+    },
+    {
+     "label": "Lokasi Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tempat"
+     ],
+     "crud": "R",
+     "note": "Memaparkan lokasi mesyuarat. Contoh: MITEC, Mid Valley."
+    },
+    {
+     "label": "Catatan",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_catatan"
+     ],
+     "crud": "R",
+     "note": "Memaparkan catatan berkaitan mesyuarat. Contoh: terima notifikasi."
+    },
+    {
+     "label": "Senarai Ahli Mesyuarat",
+     "objectType": "Section Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan senarai ahli atau peserta mesyuarat yang dikaitkan dengan rekod mesyuarat."
+    },
+    {
+     "label": "<Tambah Ahli>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran",
+      "att_emel_luaran",
+      "att_wakil_luaran",
+      "att_wakil_luaran",
+      "att_peranan",
+      "att_catatan"
+     ],
+     "crud": "C",
+     "note": "Membuka popup tambah ahli mesyuarat."
+    },
+    {
+     "label": "#",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan nombor turutan ahli mesyuarat."
+    },
+    {
+     "label": "Nama Ahli",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran"
+     ],
+     "crud": "R",
+     "note": "Memaparkan nama ahli mesyuarat. Untuk ahli dalaman, nama boleh dirujuk melalui pengguna sistem berdasarkan user_id. Untuk ahli luar, nama disimpan terus sebagai full_name."
+    },
+    {
+     "label": "Emel",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_emel_luaran"
+     ],
+     "crud": "R",
+     "note": "Memaparkan alamat emel ahli mesyuarat. Contoh: lela@gmail.com, admin.pbt@sample.com."
+    },
+    {
+     "label": "Wakil",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_wakil_luaran"
+     ],
+     "crud": "R",
+     "note": "Memaparkan wakil atau agensi peserta. Contoh: MDTM, PK_MDTM."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_peranan"
+     ],
+     "crud": "R",
+     "note": "Memaparkan peranan ahli dalam mesyuarat. Contoh: SETIAUSAHA, PENGERUSI, AHLI."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_status"
+     ],
+     "crud": "R",
+     "note": "Memaparkan status ahli mesyuarat. Untuk delegasi sementara / acting, status dipaparkan sebagai Jemputan. Status : JEMPUTAN, DISAHKAN, HADIR, TIDAK_HADIR"
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Icon Group",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Memaparkan tindakan bagi ahli mesyuarat seperti kemaskini dan padam."
+    },
+    {
+     "label": "Ikon Kemaskini Ahli",
+     "objectType": "Icon Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "U",
+     "note": "Membuka fungsi kemaskini maklumat ahli mesyuarat."
+    },
+    {
+     "label": "Ikon Padam Ahli",
+     "objectType": "Icon Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "D",
+     "note": "Memadam ahli mesyuarat daripada senarai mesyuarat."
+    },
+    {
+     "label": "Senarai Permohonan",
+     "objectType": "Section Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan senarai permohonan yang dikaitkan dengan mesyuarat."
+    },
+    {
+     "label": "Semua",
+     "objectType": "Tab / Filter",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Menapis senarai permohonan berdasarkan semua status."
+    },
+    {
+     "label": "Diluluskan",
+     "objectType": "Tab / Filter",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Menapis senarai permohonan yang berstatus diluluskan."
+    },
+    {
+     "label": "Ditolak",
+     "objectType": "Tab / Filter",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Menapis senarai permohonan yang berstatus ditolak."
+    },
+    {
+     "label": "Ditangguh",
+     "objectType": "Tab / Filter",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Menapis senarai permohonan yang berstatus ditangguh."
+    },
+    {
+     "label": "Tiada permohonan dalam senarai",
+     "objectType": "Empty State Message",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Dipaparkan apabila tiada permohonan dikaitkan dengan mesyuarat."
+    },
+    {
+     "label": "<Kembali ke Senarai>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Mengembalikan pengguna ke skrin Senarai Mesyuarat."
+    },
+    {
+     "label": "Tambah Ahli Mesyuarat",
+     "objectType": "Modal Title",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan popup tambah ahli mesyuarat."
+    },
+    {
+     "label": "Jenis Ahli",
+     "objectType": "Radio Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memilih jenis ahli. Nilai contoh: DALAMAN atau LUAR."
+    },
+    {
+     "label": "Ahli Dalaman",
+     "objectType": "Radio Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Dipilih jika peserta adalah pengguna dalaman sistem. Nilai disimpan sebagai DALAMAN."
+    },
+    {
+     "label": "Ahli Luar / Jemputan",
+     "objectType": "Radio Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Dipilih jika peserta adalah pihak luar / jemputan. Nilai disimpan sebagai LUAR."
+    },
+    {
+     "label": "Pilih Ahli",
+     "objectType": "Dropdown",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser"
+     ],
+     "crud": "C",
+     "note": "Mandatori untuk ahli dalaman. Pengguna memilih nama pegawai dalaman daripada senarai pengguna sistem. Contoh paparan: Razak Bin Abu (ATL), Admin PBT Kuala Lumpur (PBT), BTD KETUA-JABATAN."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Dropdown",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_peranan"
+     ],
+     "crud": "C",
+     "note": "Mandatori. Memilih peranan peserta mesyuarat. Contoh paparan: PENGERUSI MESYUARAT, SETIAUSAHA, AHLI, PENCATAT, URUS SETIA."
+    },
+    {
+     "label": "Catatan",
+     "objectType": "Text Area",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_catatan"
+     ],
+     "crud": "C",
+     "note": "Pilihan. Memasukkan catatan tambahan berkaitan ahli mesyuarat."
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menutup popup tanpa menyimpan maklumat ahli."
+    },
+    {
+     "label": "<Tambah Ahli>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_peranan",
+      "att_status",
+      "att_catatan",
+      "created_at"
+     ],
+     "crud": "C",
+     "note": "Menyimpan ahli dalaman ke dalam senarai ahli mesyuarat. meeting_id merujuk kepada rekod osc_smk_mesyuarat.id. Status default boleh ditetapkan sebagai Jemputan."
+    },
+    {
+     "label": "Jenis Ahli",
+     "objectType": "Radio Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memilih jenis ahli luar / jemputan. Nilai disimpan sebagai LUAR."
+    },
+    {
+     "label": "Nama Penuh",
+     "objectType": "Textbox",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_nama_luaran"
+     ],
+     "crud": "C",
+     "note": "Mandatori. Memasukkan nama penuh wakil luar."
+    },
+    {
+     "label": "Alamat Emel",
+     "objectType": "Textbox",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_emel_luaran"
+     ],
+     "crud": "C",
+     "note": "Mandatori. Memasukkan alamat emel wakil luar. Format: nama@domain.com."
+    },
+    {
+     "label": "Agensi / Organisasi",
+     "objectType": "Textbox",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_wakil_luaran"
+     ],
+     "crud": "C",
+     "note": "Memasukkan nama agensi atau organisasi wakil luar. Contoh: KPDN, DBKL, JAS."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Dropdown",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_peranan"
+     ],
+     "crud": "C",
+     "note": "Mandatori. Memilih peranan ahli luar dalam mesyuarat. Contoh: PENGERUSI MESYUARAT, SETIAUSAHA, AHLI, PENCATAT, URUS SETIA."
+    },
+    {
+     "label": "Catatan",
+     "objectType": "Text Area",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_catatan"
+     ],
+     "crud": "C",
+     "note": "Pilihan. Memasukkan catatan tambahan berkaitan ahli luar / jemputan."
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menutup popup tanpa menyimpan maklumat ahli luar."
+    },
+    {
+     "label": "<Tambah Ahli>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_nama_luaran",
+      "att_emel_luaran",
+      "att_wakil_luaran",
+      "att_peranan",
+      "att_status",
+      "att_catatan",
+      "created_at"
+     ],
+     "crud": "C",
+     "note": "Menyimpan ahli luar / jemputan ke dalam senarai ahli mesyuarat. meeting_id merujuk kepada osc_smk_mesyuarat.id. Status default dipaparkan sebagai Jemputan."
+    },
+    {
+     "label": "<",
+     "objectType": "Pagination Control",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Butang navigasi ke halaman sebelumnya dalam senarai rekod."
+    },
+    {
+     "label": ">",
+     "objectType": "Pagination Control",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Butang navigasi ke halaman seterusnya dalam senarai rekod"
+    },
+    {
+     "label": "Mesyuarat > M-2026-2-004",
+     "objectType": "Pautan Navigasi",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan lokasi semasa pengguna pada skrin butiran mesyuarat."
+    },
+    {
+     "label": "Maklumat Sesi",
+     "objectType": "Section Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan bahagian maklumat asas mesyuarat."
+    },
+    {
+     "label": "No. Mesyuarat",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_bilangan"
+     ],
+     "crud": "R",
+     "note": "Memaparkan nombor rujukan mesyuarat. Contoh paparan: M-2026-2-004."
+    },
+    {
+     "label": "Nama Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "R",
+     "note": "Memaparkan nama sesi mesyuarat. Jika tiada nilai, paparan menunjukkan N/A."
+    },
+    {
+     "label": "Tarikh & Masa",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Memaparkan tarikh dan masa mesyuarat. Contoh paparan: 17 Dec 2026 04:38 AM."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Memaparkan status mesyuarat. Contoh: Selesai atau Belum Selesai."
+    },
+    {
+     "label": "Lokasi Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tempat"
+     ],
+     "crud": "R",
+     "note": "Memaparkan lokasi mesyuarat. Contoh: MITEC, Mid Valley."
+    },
+    {
+     "label": "Catatan",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_catatan"
+     ],
+     "crud": "R",
+     "note": "Memaparkan catatan berkaitan mesyuarat. Contoh: terima notifikasi."
+    },
+    {
+     "label": "Senarai Ahli Mesyuarat",
+     "objectType": "Section Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan senarai ahli atau peserta mesyuarat yang dikaitkan dengan rekod mesyuarat."
+    },
+    {
+     "label": "<Tambah Ahli>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran",
+      "att_emel_luaran",
+      "att_wakil_luaran",
+      "att_wakil_luaran",
+      "att_peranan",
+      "att_catatan"
+     ],
+     "crud": "C",
+     "note": "Membuka popup tambah ahli mesyuarat."
+    },
+    {
+     "label": "#",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan nombor turutan ahli mesyuarat."
+    },
+    {
+     "label": "Nama Ahli",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran"
+     ],
+     "crud": "R",
+     "note": "Memaparkan nama ahli mesyuarat. Untuk ahli dalaman, nama boleh dirujuk melalui pengguna sistem berdasarkan user_id. Untuk ahli luar, nama disimpan terus sebagai full_name."
+    },
+    {
+     "label": "Emel",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_emel_luaran"
+     ],
+     "crud": "R",
+     "note": "Memaparkan alamat emel ahli mesyuarat. Contoh: lela@gmail.com, admin.pbt@sample.com."
+    },
+    {
+     "label": "Wakil",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_wakil_luaran"
+     ],
+     "crud": "R",
+     "note": "Memaparkan wakil atau agensi peserta. Contoh: MDTM, PK_MDTM."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_peranan"
+     ],
+     "crud": "R",
+     "note": "Memaparkan peranan ahli dalam mesyuarat. Contoh: SETIAUSAHA, PENGERUSI, AHLI."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_status"
+     ],
+     "crud": "R",
+     "note": "Memaparkan status ahli mesyuarat. Untuk delegasi sementara / acting, status dipaparkan sebagai Jemputan. Status : JEMPUTAN, DISAHKAN, HADIR, TIDAK_HADIR"
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Icon Group",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Memaparkan tindakan bagi ahli mesyuarat seperti kemaskini dan padam."
+    },
+    {
+     "label": "Ikon Kemaskini Ahli",
+     "objectType": "Icon Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "U",
+     "note": "Membuka fungsi kemaskini maklumat ahli mesyuarat."
+    },
+    {
+     "label": "Ikon Padam Ahli",
+     "objectType": "Icon Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "D",
+     "note": "Memadam ahli mesyuarat daripada senarai mesyuarat."
+    },
+    {
+     "label": "Senarai Permohonan",
+     "objectType": "Section Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Memaparkan senarai permohonan yang dikaitkan dengan mesyuarat."
+    },
+    {
+     "label": "Semua",
+     "objectType": "Tab / Filter",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Menapis senarai permohonan berdasarkan semua status."
+    },
+    {
+     "label": "Diluluskan",
+     "objectType": "Tab / Filter",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Menapis senarai permohonan yang berstatus diluluskan."
+    },
+    {
+     "label": "Ditolak",
+     "objectType": "Tab / Filter",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Menapis senarai permohonan yang berstatus ditolak."
+    },
+    {
+     "label": "Ditangguh",
+     "objectType": "Tab / Filter",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Menapis senarai permohonan yang berstatus ditangguh."
+    },
+    {
+     "label": "Tiada permohonan dalam senarai",
+     "objectType": "Empty State Message",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Dipaparkan apabila tiada permohonan dikaitkan dengan mesyuarat."
+    },
+    {
+     "label": "<Kembali ke Senarai>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Mengembalikan pengguna ke skrin Senarai Mesyuarat."
+    },
+    {
+     "label": "Penanda Medan Wajib (*)",
+     "objectType": "UI Indicator",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menunjukkan medan yang wajib diisi. Mesej ralat “Medan ini wajib diisi” akan dipaparkan sekiranya data/ pilihan tidak dimasukkan."
+    },
+    {
+     "label": "Carian",
+     "objectType": "Textbox",
+     "tables": [
+      "osc_smk_mesyuarat",
+      "osc_kod_majlis"
+     ],
+     "fields": [
+      "msy_nama",
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "maj_namapbt",
+      "msy_tempat"
+     ],
+     "crud": "R",
+     "note": "Membolehkan carian rekod mesyuarat berdasarkan nombor mesyuarat, nama sesi, lokasi atau kod PBT."
+    },
+    {
+     "label": "Penapis Status",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Fungsi menapis senarai mesyuarat berdasarkan status. Contoh paparan: Selesai atau Belum Selesai."
+    },
+    {
+     "label": "<Tambah Mesyuarat>",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "msy_nama",
+      "msy_tempat"
+     ],
+     "crud": "C",
+     "note": "Membuka skrin tambah mesyuarat baharu."
+    },
+    {
+     "label": "PBT",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_majlis"
+     ],
+     "fields": [
+      "maj_namapbt"
+     ],
+     "crud": "R",
+     "note": "Memaparkan kod PBT bagi mesyuarat. Contoh paparan: PK_MDTM, N/A."
+    },
+    {
+     "label": "Lokasi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tempat"
+     ],
+     "crud": "R",
+     "note": "Memaparkan lokasi mesyuarat. Contoh: MITEC, Mid Valley, Dewan Serbaguna Putrajaya Presint 2, Century Room."
+    },
+    {
+     "label": "Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_max_peserta"
+     ],
+     "crud": "R",
+     "note": "Memaparkan bilangan permohonan yang dikaitkan dengan mesyuarat. Jika medan ini tidak disimpan secara fizikal, nilai boleh dijana melalui kiraan rekod permohonan berkaitan."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Memaparkan status mesyuarat. Contoh: Selesai atau Belum Selesai."
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Icon Group",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Memaparkan ikon tindakan bagi rekod mesyuarat seperti lihat butiran, kemaskini, dokumen dan padam."
+    },
+    {
+     "label": "Ikon Manusia / Butiran Mesyuarat",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Membuka skrin butiran mesyuarat termasuk maklumat sesi dan senarai ahli mesyuarat."
+    },
+    {
+     "label": "Ikon Kemaskini",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id",
+      "msy_bilangan"
+     ],
+     "crud": "U",
+     "note": "Membuka skrin kemaskini mesyuarat yang dipilih."
+    },
+    {
+     "label": "Ikon Dokumen",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Membuka paparan dokumen atau maklumat berkaitan mesyuarat jika disediakan."
+    },
+    {
+     "label": "Ikon Padam",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "D",
+     "note": "Memadam rekod mesyuarat tertakluk kepada kawalan sistem."
+    },
+    {
+     "label": "Ikon Kunci Agenda Mesyuarat",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "D",
+     "note": "Mengunci agenda mesyuarat setelah maklumat mesyuarat di muktamadkan."
+    },
+    {
+     "label": "Row per page",
+     "objectType": "Dropdown",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Menentukan bilangan rekod mesyuarat yang dipaparkan dalam satu halaman."
+    },
+    {
+     "label": "<",
+     "objectType": "Pagination Control",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke halaman sebelumnya."
+    },
+    {
+     "label": ">",
+     "objectType": "Pagination Control",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Navigasi ke halaman seterusnya."
+    }
+   ]
+  },
+  {
+   "title": "Skrin Papar Kes dan Ulasan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Kelulusan Mesyuarat",
+   "uiIds": [
+    "UI-PL-MO-PM-02",
+    "UI-PL-MO-PM-02-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Mesyuarat",
+     "objectType": "Pautan Navigasi",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pautan kembali ke skrin Senarai Mesyuarat."
+    },
+    {
+     "label": "M-2026-6-004",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_bilangan"
+     ],
+     "crud": "R",
+     "note": "No. mesyuarat semasa."
+    },
+    {
+     "label": "Tarikh & Masa",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Auto-papar tarikh dan masa mesyuarat. Format: DD MMM YYYY, HH:MM AM/PM."
+    },
+    {
+     "label": "Nama Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "R",
+     "note": "Auto-papar nama / tajuk sesi mesyuarat."
+    },
+    {
+     "label": "No. Mesyuarat",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_bilangan"
+     ],
+     "crud": "R",
+     "note": "Auto-papar no. rujukan mesyuarat. Contoh: M-2026-6-004."
+    },
+    {
+     "label": "Status",
+     "objectType": "Badge",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Memaparkan status mesyuarat. Contoh: Selesai atau Belum Selesai."
+    },
+    {
+     "label": "Lokasi Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tempat"
+     ],
+     "crud": "R",
+     "note": "Auto-papar lokasi mesyuarat."
+    },
+    {
+     "label": "Butang Tambah Ahli",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "C",
+     "note": "Butang tambah ahli mesyuarat baharu. Papar borang tambah ahli."
+    },
+    {
+     "label": "Nama Ahli",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran"
+     ],
+     "crud": "R",
+     "note": "Nama ahli mesyuarat"
+    },
+    {
+     "label": "Emel",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_emel_luaran"
+     ],
+     "crud": "R",
+     "note": "Alamat emel ahli. Contoh: razak1@pdrm.com.my."
+    },
+    {
+     "label": "Wakil",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_wakil_luaran"
+     ],
+     "crud": "R",
+     "note": "Nama agensi / organisasi wakil. Contoh: PDRM, MDTM."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_peranan"
+     ],
+     "crud": "R",
+     "note": "Badge peranan ahli. Contoh: PENGERUSI / SETIAUSAHA / AHLI / PENCATAT / URUS SETIA."
+    },
+    {
+     "label": "Status",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_status"
+     ],
+     "crud": "R",
+     "note": "Status kehadiran ahli. Contoh: Jemputan. Nilai: JEMPUTAN / DISAHKAN / HADIR / TIDAK HADIR."
+    },
+    {
+     "label": "Ikon Kemaskini",
+     "objectType": "Icon Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "Id",
+      "att_peranan",
+      "att_catatan"
+     ],
+     "crud": "U",
+     "note": "Ikon pensel. Buka borang kemaskini maklumat ahli mesyuarat."
+    },
+    {
+     "label": "Ikon Padam",
+     "objectType": "Icon Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "D",
+     "note": "Padam rekod ahli mesyuarat (dengan pengesahan)."
+    },
+    {
+     "label": "# (Bilangan Permohonan)",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Nombor bilangan baris permohonan."
+    },
+    {
+     "label": "Tab Semua",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Papar semua permohonan dalam agenda. Tab aktif default."
+    },
+    {
+     "label": "Tab Diluluskan",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Penapis permohonan dengan keputusan Diluluskan."
+    },
+    {
+     "label": "Tab Ditolak",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Penapis permohonan dengan keputusan Ditolak."
+    },
+    {
+     "label": "Tab Ditangguh",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Penapis permohonan dengan keputusan Ditangguh."
+    },
+    {
+     "label": "No. Rujukan",
+     "objectType": "Label",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_application_reference"
+     ],
+     "crud": "R",
+     "note": "No. rujukan fail permohonan."
+    },
+    {
+     "label": "Pemohon",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nama"
+     ],
+     "crud": "R",
+     "note": "Nama pemohon / nama perniagaan."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Status permohonan. Status : LULUS / LULUS BERSYARAT / TANGGUH / TOLAK"
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Butang untuk melihat permohonan"
+    },
+    {
+     "label": "Butang <Mata>",
+     "objectType": "Button",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nosiri"
+     ],
+     "crud": "R",
+     "note": "Melihat maklumat permohonan yang dipilih"
+    },
+    {
+     "label": "Butang Kembali ke Senarai",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke skrin Senarai Mesyuarat. Ikon anak panah kiri."
+    },
+    {
+     "label": "Tiada permohonan dalam senarai",
+     "objectType": "Empty State Message",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Dipaparkan apabila tiada permohonan dikaitkan dengan mesyuarat."
+    },
+    {
+     "label": "Butang Kembali ke Senarai",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke skrin Senarai Mesyuarat. Ikon anak panah kiri."
+    },
+    {
+     "label": "Mesyuarat",
+     "objectType": "Pautan Navigasi",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pautan kembali ke skrin Senarai Mesyuarat."
+    },
+    {
+     "label": "M-2026-6-004",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_bilangan"
+     ],
+     "crud": "R",
+     "note": "No. mesyuarat semasa."
+    },
+    {
+     "label": "Tarikh & Masa",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Auto-papar tarikh dan masa mesyuarat. Format: DD MMM YYYY, HH:MM AM/PM."
+    },
+    {
+     "label": "Nama Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "R",
+     "note": "Auto-papar nama / tajuk sesi mesyuarat."
+    },
+    {
+     "label": "No. Mesyuarat",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_bilangan"
+     ],
+     "crud": "R",
+     "note": "Auto-papar no. rujukan mesyuarat. Contoh: M-2026-6-004."
+    },
+    {
+     "label": "Status",
+     "objectType": "Badge",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Memaparkan status mesyuarat. Contoh: Selesai atau Belum Selesai."
+    },
+    {
+     "label": "Lokasi Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tempat"
+     ],
+     "crud": "R",
+     "note": "Auto-papar lokasi mesyuarat."
+    },
+    {
+     "label": "Butang Tambah Ahli",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "C",
+     "note": "Butang tambah ahli mesyuarat baharu. Papar borang tambah ahli."
+    },
+    {
+     "label": "Nama Ahli",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran"
+     ],
+     "crud": "R",
+     "note": "Nama ahli mesyuarat"
+    },
+    {
+     "label": "Emel",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_emel_luaran"
+     ],
+     "crud": "R",
+     "note": "Alamat emel ahli. Contoh: razak1@pdrm.com.my."
+    },
+    {
+     "label": "Wakil",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_wakil_luaran"
+     ],
+     "crud": "R",
+     "note": "Nama agensi / organisasi wakil. Contoh: PDRM, MDTM."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_peranan"
+     ],
+     "crud": "R",
+     "note": "Badge peranan ahli. Contoh: PENGERUSI / SETIAUSAHA / AHLI / PENCATAT / URUS SETIA."
+    },
+    {
+     "label": "Status",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_status"
+     ],
+     "crud": "R",
+     "note": "Status kehadiran ahli. Contoh: Jemputan. Nilai: JEMPUTAN / DISAHKAN / HADIR / TIDAK HADIR."
+    },
+    {
+     "label": "Ikon Kemaskini",
+     "objectType": "Icon Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "Id",
+      "att_peranan",
+      "att_catatan"
+     ],
+     "crud": "U",
+     "note": "Ikon pensel. Buka borang kemaskini maklumat ahli mesyuarat."
+    },
+    {
+     "label": "Ikon Padam",
+     "objectType": "Icon Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "D",
+     "note": "Padam rekod ahli mesyuarat (dengan pengesahan)."
+    },
+    {
+     "label": "# (Bilangan Permohonan)",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Nombor bilangan baris permohonan."
+    },
+    {
+     "label": "Tab Semua",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Papar semua permohonan dalam agenda. Tab aktif default."
+    },
+    {
+     "label": "Tab Diluluskan",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Penapis permohonan dengan keputusan Diluluskan."
+    },
+    {
+     "label": "Tab Ditolak",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Penapis permohonan dengan keputusan Ditolak."
+    },
+    {
+     "label": "Tab Ditangguh",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Penapis permohonan dengan keputusan Ditangguh."
+    },
+    {
+     "label": "No. Rujukan",
+     "objectType": "Label",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_application_reference"
+     ],
+     "crud": "R",
+     "note": "No. rujukan fail permohonan."
+    },
+    {
+     "label": "Pemohon",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nama"
+     ],
+     "crud": "R",
+     "note": "Nama pemohon / nama perniagaan."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Status permohonan. Status : LULUS / LULUS BERSYARAT / TANGGUH / TOLAK"
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Butang untuk melihat permohonan"
+    },
+    {
+     "label": "Butang <Mata>",
+     "objectType": "Button",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nosiri"
+     ],
+     "crud": "R",
+     "note": "Melihat maklumat permohonan yang dipilih"
+    },
+    {
+     "label": "Butang Kembali ke Senarai",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke skrin Senarai Mesyuarat. Ikon anak panah kiri."
+    },
+    {
+     "label": "Tiada permohonan dalam senarai",
+     "objectType": "Empty State Message",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Dipaparkan apabila tiada permohonan dikaitkan dengan mesyuarat."
+    },
+    {
+     "label": "Butang Kembali ke Senarai",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke skrin Senarai Mesyuarat. Ikon anak panah kiri."
+    }
+   ]
+  },
+  {
+   "title": "Skrin Rekod Keputusan Mesyuarat",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Kelulusan Mesyuarat",
+   "uiIds": [
+    "UI-PL-MO-PM-03",
+    "UI-PL-MO-PM-03-04"
+   ],
+   "dataMap": [
+    {
+     "label": "Medan Carian",
+     "objectType": "Searchfield",
+     "tables": [
+      "osc_smk_mesyuarat",
+      "osc_kod_majlis"
+     ],
+     "fields": [
+      "msy_nama",
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "maj_namapbt",
+      "msy_tempat"
+     ],
+     "crud": "R",
+     "note": "Carian berdasarkan nama sesi atau lokasi mesyuarat"
+    },
+    {
+     "label": "Penapis Status",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Penapis mengikut status mesyuarat. Contoh: Selesai atau Belum Selesai"
+    },
+    {
+     "label": "Butang Tambah Mesyuarat",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "msy_nama",
+      "msy_tempat"
+     ],
+     "crud": "C",
+     "note": "Membuka skrin tambah mesyuarat baharu."
+    },
+    {
+     "label": "Nama Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "R",
+     "note": "Nama / tajuk sesi mesyuarat"
+    },
+    {
+     "label": "Tarikh & Masa",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Tarikh dan masa mesyuarat. Format: DD MMM YYYY, HH:MM AM/PM."
+    },
+    {
+     "label": "PBT",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_majlis"
+     ],
+     "fields": [
+      "maj_namapbt"
+     ],
+     "crud": "R",
+     "note": "Kod PBT"
+    },
+    {
+     "label": "Lokasi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Lokasi / tempat mesyuara"
+    },
+    {
+     "label": "Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_max_peserta"
+     ],
+     "crud": "R",
+     "note": "Bilangan kes / permohonan yang dimasukkan ke dalam agenda mesyuarat berkenaan."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Memaparkan status mesyuarat. Contoh: Selesai atau Belum Selesai."
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Memaparkan butang Maklumat Mesyuarat, Kemaskini Mesyuarat, Cipta Minit dan Padam"
+    },
+    {
+     "label": "Ikon <Maklumat Mesyuarat>",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Butang untuk melihat maklumat mesyuarat"
+    },
+    {
+     "label": "Ikon <Kemaskini Mesyuarat>",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama",
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "msy_tempat",
+      "msy_statf",
+      "msy_catatan"
+     ],
+     "crud": "U",
+     "note": "Butang untuk kemaskini maklumat mesyuarat"
+    },
+    {
+     "label": "Ikon <Cipta Minit>",
+     "objectType": "Icon Button",
+     "tables": [
+      "meeting_minutes"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Butang untuk meilhat minit mesyuarat"
+    },
+    {
+     "label": "Ikon <Padam>",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "D",
+     "note": "Butang buang sesi mesyuarat"
+    },
+    {
+     "label": "Butang<Kembali>",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [],
+     "crud": "–",
+     "note": "Butang kembali ke skrin sebelumnya"
+    },
+    {
+     "label": "Row per page",
+     "objectType": "Dropdown",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pilihan bilangan rekod dipapar per halaman."
+    },
+    {
+     "label": "Butang Navigasi Halaman",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Navigasi muka surat dengan butang anak panah kiri/kanan dan nombor halaman."
+    },
+    {
+     "label": "Tarikh & Masa",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Format: DD MMM YYYY, HH:MM AM/PM. Contoh: 09 Oct 2026 11:00 AM."
+    },
+    {
+     "label": "Nama Sesi",
+     "objectType": "Label",
+     "tables": [
+      "msy_nama"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "R",
+     "note": "Nama / tajuk sesi mesyuarat."
+    },
+    {
+     "label": "No. Mesyuarat",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_bilangan"
+     ],
+     "crud": "R",
+     "note": "No. rujukan mesyuarat dijana automatik. Contoh: M-2026-3-003."
+    },
+    {
+     "label": "Status",
+     "objectType": "Badge",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Status mesyuarat. Contoh: Selesai atau Belum Selesai"
+    },
+    {
+     "label": "Lokasi Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Lokasi / tempat mesyuara"
+    },
+    {
+     "label": "Butang <Tambah Ahli>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "C",
+     "note": "Buka modal Tambah Ahli Mesyuarat."
+    },
+    {
+     "label": "Nama Ahli",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran"
+     ],
+     "crud": "R",
+     "note": "Nama ahli dengan avatar inisial. Ahli dalaman = osc_slg_user."
+    },
+    {
+     "label": "Emel",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_emel_luaran"
+     ],
+     "crud": "R",
+     "note": "Alamat emel ahli untuk penghantaran jemputan."
+    },
+    {
+     "label": "Wakil",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_wakil_luaran"
+     ],
+     "crud": "R",
+     "note": "Nama agensi / organisasi wakil. Contoh: MDTM."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_peranan"
+     ],
+     "crud": "R",
+     "note": "Badge peranan. Contoh: URUS_SETIA, PENGERUSI, AHLI."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_status"
+     ],
+     "crud": "R",
+     "note": "Status kehadiran ahli. Contoh: Jemputan. Nilai: JEMPUTAN / DISAHKAN / HADIR / TIDAK HADIR."
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Label untuk tindakan. Butang Kemaskini dan Padam."
+    },
+    {
+     "label": "Butang <Kemaskini Ahli>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran"
+     ],
+     "crud": "U",
+     "note": "Butang untuk kemaskini ahli mesyuarat"
+    },
+    {
+     "label": "Butang <Padam>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran"
+     ],
+     "crud": "D",
+     "note": "Butang untuk buang ahli mesyuarat daripada senarai"
+    },
+    {
+     "label": "# (Bilangan Permohonan)",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Nombor bilangan baris permohonan."
+    },
+    {
+     "label": "Tab Semua",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Papar semua permohonan dalam agenda. Tab aktif default."
+    },
+    {
+     "label": "Tab Diluluskan",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Penapis permohonan dengan keputusan Diluluskan."
+    },
+    {
+     "label": "Tab Ditolak",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Penapis permohonan dengan keputusan Ditolak."
+    },
+    {
+     "label": "Tab Ditangguh",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Penapis permohonan dengan keputusan Ditangguh."
+    },
+    {
+     "label": "No. Rujukan",
+     "objectType": "Label",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_application _reference"
+     ],
+     "crud": "R",
+     "note": "No. rujukan fail permohonan. Baris 2 papar jenis permohonan."
+    },
+    {
+     "label": "Pemohon",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nama"
+     ],
+     "crud": "R",
+     "note": "Nama pemohon / nama perniagaan."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Status permohonan. Status : LULUS / LULUS BERSYARAT / TANGGUH / TOLAK"
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Butang untuk melihat permohonan"
+    },
+    {
+     "label": "Butang <Mata>",
+     "objectType": "Button",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nosiri"
+     ],
+     "crud": "R",
+     "note": "Melihat maklumat permohonan yang dipilih"
+    },
+    {
+     "label": "Butang Kembali ke Senarai",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke skrin Senarai Mesyuarat. Ikon anak panah kiri."
+    },
+    {
+     "label": "Pautan Navigasi",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Mesyuarat > Ringkasan Lesen BTD/ATL."
+    },
+    {
+     "label": "Butang <Kembali ke Senarai Mesyuarat>",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Ikon anak panah kiri. Kembali ke skrin senarai mesyuarat."
+    },
+    {
+     "label": "Tajuk Halaman",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "'Ringkasan Permohonan untuk Ulasan BTD/ATL'."
+    },
+    {
+     "label": "No. Rujukan Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_norujukan"
+     ],
+     "crud": "R",
+     "note": "Contoh: PRK_MDTM/APP/2026/ 000000000015."
+    },
+    {
+     "label": "Penanda Status Permohonan",
+     "objectType": "Badge",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Status Permohonan. Status : LULUS / LULUS BERSYARAT / TANGGUH / TOLAK"
+    },
+    {
+     "label": "Tarikh Hantar",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_tkmohon"
+     ],
+     "crud": "R",
+     "note": "Tarikh permohonan dikemukakan. Format: DD MMMM YYYY."
+    },
+    {
+     "label": "No. Siri",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nosiri"
+     ],
+     "crud": "R",
+     "note": "Contoh: PRK_MDTM26020043."
+    },
+    {
+     "label": "Nama Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nama"
+     ],
+     "crud": "R",
+     "note": "Nama pemohon. Contoh: ALI BIN ABU."
+    },
+    {
+     "label": "Jenis Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_jenismhn"
+     ],
+     "crud": "R",
+     "note": "Contoh: Baharu, Pembaharuan, Pindaan."
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_namaperniagaan"
+     ],
+     "crud": "R",
+     "note": "Nama perniagaan yang dilesenkan."
+    },
+    {
+     "label": "Tarikh Mohon",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_tkmohon"
+     ],
+     "crud": "R",
+     "note": "Format: DD/MM/YYYY."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_statl"
+     ],
+     "crud": "R",
+     "note": "Status Kelulusan Permohonan. Status : LULUS / LULUS BERSYARAT / TANGGUH / TOLAK"
+    },
+    {
+     "label": "Butang <Lihat Lebih Terperinci>",
+     "objectType": "Button",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Pautan ke skrin butiran penuh permohonan."
+    },
+    {
+     "label": "Nama Agensi",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_agensi"
+     ],
+     "fields": [
+      "agn_namaagensi"
+     ],
+     "crud": "R",
+     "note": "Nama penuh agensi teknikal. Contoh: JABATAN BOMBA DAN PENYELAMAT MALAYSIA."
+    },
+    {
+     "label": "Kod Ringkas Agensi",
+     "objectType": "Badge",
+     "tables": [
+      "osc_kod_agensi"
+     ],
+     "fields": [
+      "agn_namargks"
+     ],
+     "crud": "R",
+     "note": "Penanda kod ringkas agensi. Contoh: JPBM."
+    },
+    {
+     "label": "No. Rujukan Ulasan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_ulasan"
+     ],
+     "fields": [
+      "uls_ulsiri"
+     ],
+     "crud": "R",
+     "note": "No. rujukan / siri ulasan agensi. Contoh: 990101010007."
+    },
+    {
+     "label": "Tarikh Ulasan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_ulasan"
+     ],
+     "fields": [
+      "uls_tkhulas"
+     ],
+     "crud": "R",
+     "note": "Tarikh ulasan dikemukakan. Contoh: 2026-05-06."
+    },
+    {
+     "label": "Penanda Keputusan Ulasan",
+     "objectType": "Badge",
+     "tables": [
+      "osc_mhn_ulasan"
+     ],
+     "fields": [
+      "uls_status"
+     ],
+     "crud": "R",
+     "note": "Status ulasan. Status : SOKONG"
+    },
+    {
+     "label": "Teks Ulasan Dokumen Lampiran",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_ulasan"
+     ],
+     "fields": [
+      "uls_ulasan"
+     ],
+     "crud": "R",
+     "note": "Kandungan ulasan teknikal agensi dalam kotak teks."
+    },
+    {
+     "label": "Butang <Lulus Permohonan> <Lulus Bersyarat>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "U",
+     "note": "Rekod keputusan = Lulus."
+    },
+    {
+     "label": "Butang Tangguh Permohonan",
+     "objectType": "Button",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "U",
+     "note": "Rekod keputusan = Tangguh."
+    },
+    {
+     "label": "Butang Tolak Permohonan",
+     "objectType": "Button",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "U",
+     "note": "Rekod keputusan = Tolak."
+    },
+    {
+     "label": "Butang Kembali ke Senarai Mesyuarat",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke skrin butiran mesyuarat. Ikon anak panah kiri."
+    },
+    {
+     "label": "Ikon Soal Selidik",
+     "objectType": "Icon",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Ikon bulatan kelabu dengan tanda soal (?). Menunjukkan tindakan memerlukan pengesahan pengguna."
+    },
+    {
+     "label": "Tajuk Modal: Lulus Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tajuk modal pengesahan tindakan kelulusan permohonan."
+    },
+    {
+     "label": "Teks Soalan Pengesahan",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Teks: \"Adakah anda pasti untuk meluluskan permohonan ini?\""
+    },
+    {
+     "label": "Butang Ya, Lulus",
+     "objectType": "Button",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "U",
+     "note": "Sahkan dan simpan keputusan Lulus. Warna hijau (utama). Status permohonan dikemaskini kepada Diluluskan. Notifikasi dihantar kepada pemohon."
+    },
+    {
+     "label": "Butang Batal",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tutup modal tanpa sebarang tindakan. Warna kelabu gelap. Kembali ke skrin Ringkasan Permohonan BTD/ATL."
+    },
+    {
+     "label": "Ikon Soal Selidik",
+     "objectType": "Icon",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Ikon bulatan kelabu dengan tanda soal (?). Menunjukkan tindakan memerlukan pengesahan pengguna sebelum dilaksanakan."
+    },
+    {
+     "label": "Tajuk Modal: Lulus Bersyarat",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tajuk modal pengesahan tindakan lulus bersyarat. Berbeza daripada modal Lulus — menandakan syarat tambahan akan dikenakan."
+    },
+    {
+     "label": "Teks Soalan Pengesahan",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Teks: \"Adakah anda pasti untuk meluluskan permohonan ini secara bersyarat?\""
+    },
+    {
+     "label": "Butang Ya, Lulus Bersyarat",
+     "objectType": "Button",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "U",
+     "note": "Sahkan dan simpan keputusan Lulus Bersyarat. Warna hijau tua (utama). Status permohonan dikemaskini kepada Diluluskan Bersyarat. Sistem akan meminta input syarat tambahan selepas pengesahan. Notifikasi dihantar kepada pemohon."
+    },
+    {
+     "label": "Butang Batal",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tutup modal tanpa sebarang tindakan. Warna kelabu gelap. Kembali ke skrin Ringkasan Permohonan BTD/ATL."
+    },
+    {
+     "label": "Ikon Amaran",
+     "objectType": "Icon",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": ""
+    },
+    {
+     "label": "Tajuk Modal : Tangguh Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": ""
+    },
+    {
+     "label": "Sebab Penangguhan*",
+     "objectType": "Text area",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_rationale"
+     ],
+     "crud": "U",
+     "note": "Catatan justifikasi penangguhan permohonan."
+    },
+    {
+     "label": "Butang Hantar",
+     "objectType": "Button",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type",
+      "decision_rationale"
+     ],
+     "crud": "U",
+     "note": "Simpan keputusan Tangguh dan rekod sebab penangguhan."
+    },
+    {
+     "label": "Butang Batal",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tutup modal tanpa menyimpan. Kembali ke skrin Ringkasan Permohonan BTD/ATL."
+    },
+    {
+     "label": "Ikon Amaran",
+     "objectType": "Icon",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": ""
+    },
+    {
+     "label": "Tajuk Modal : Tolak Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": ""
+    },
+    {
+     "label": "Sebab Tolak*",
+     "objectType": "Text area",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_rationale"
+     ],
+     "crud": "U",
+     "note": "Catatan justifikasi penolakan permohonan."
+    },
+    {
+     "label": "Butang Hantar",
+     "objectType": "Button",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type",
+      "decision_rationale"
+     ],
+     "crud": "U",
+     "note": "Simpan keputusan Tolak dan rekod sebab penolakan."
+    },
+    {
+     "label": "Butang Batal",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tutup modal tanpa menyimpan. Kembali ke skrin Ringkasan Permohonan BTD/ATL."
+    },
+    {
+     "label": "Medan Carian",
+     "objectType": "Searchfield",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama",
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "maj_namapbt",
+      "msy_tempat"
+     ],
+     "crud": "R",
+     "note": "Carian berdasarkan nama sesi atau lokasi mesyuarat"
+    },
+    {
+     "label": "Penapis Status",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Fungsi menapis senarai mesyuarat berdasarkan status. Contoh paparan: Selesai atau Belum Selesai."
+    },
+    {
+     "label": "Butang Tambah Mesyuarat",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "msy_nama",
+      "msy_tempat"
+     ],
+     "crud": "C",
+     "note": "Membuka skrin tambah mesyuarat baharu."
+    },
+    {
+     "label": "Nama Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "R",
+     "note": "Nama / tajuk sesi mesyuarat"
+    },
+    {
+     "label": "Tarikh & Masa",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Tarikh dan masa mesyuarat. Format: DD MMM YYYY, HH:MM AM/PM."
+    },
+    {
+     "label": "PBT",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_majlis"
+     ],
+     "fields": [
+      "maj_namapbt"
+     ],
+     "crud": "R",
+     "note": "Kod PBT"
+    },
+    {
+     "label": "Lokasi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Lokasi / tempat mesyuara"
+    },
+    {
+     "label": "Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_max_peserta"
+     ],
+     "crud": "R",
+     "note": "Bilangan kes / permohonan yang dimasukkan ke dalam agenda mesyuarat berkenaan."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Status mesyuarat. Contoh: Selesai atau Belum Selesai"
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "Memaparkan butang Maklumat Mesyuarat, Kemaskini Mesyuarat, Cipta Minit dan Padam"
+    },
+    {
+     "label": "Butang <Maklumat Mesyuarat>",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Butang untuk melihat maklumat mesyuarat"
+    },
+    {
+     "label": "Butang <Kemaskini Mesyuarat>",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama",
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "msy_tempat",
+      "msy_statf",
+      "msy_catatan"
+     ],
+     "crud": "U",
+     "note": "Butang untuk kemaskini maklumat mesyuarat"
+    },
+    {
+     "label": "Butang<Cipta Minit>",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Butang untuk meilhat minit mesyuarat"
+    },
+    {
+     "label": "Butang<Padam>",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [],
+     "crud": "D",
+     "note": "Butang buang sesi mesyuarat"
+    },
+    {
+     "label": "Butang<Kembali>",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [],
+     "crud": "–",
+     "note": "Butang kembali ke skrin sebelumnya"
+    },
+    {
+     "label": "Row per page",
+     "objectType": "Dropdown",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pilihan bilangan rekod dipapar per halaman."
+    },
+    {
+     "label": "Butang Navigasi Halaman",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Navigasi muka surat dengan butang anak panah kiri/kanan dan nombor halaman."
+    },
+    {
+     "label": "Mesyuarat",
+     "objectType": "Pautan Navigasi",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pautan kembali ke skrin Senarai Mesyuarat."
+    },
+    {
+     "label": "Kemaskini Mesyuarat",
+     "objectType": "Label Statik",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_bilangan"
+     ],
+     "crud": "R",
+     "note": "Halaman semasa. Papar nama skrin aktif."
+    },
+    {
+     "label": "TARIKH *",
+     "objectType": "Date Picker",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat"
+     ],
+     "crud": "U",
+     "note": "Wajib diisi. Format: DD/MM/YYYY. Ikon kalendar di sebelah kanan. Contoh: 30/05/2026. Tarikh merah = cuti umum tidak boleh dipilih."
+    },
+    {
+     "label": "MASA *",
+     "objectType": "Time Picker",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_masa"
+     ],
+     "crud": "U",
+     "note": "Wajib diisi. Format: HH:MM AM/PM. Ikon jam di sebelah kanan. Contoh: 10:00 AM."
+    },
+    {
+     "label": "NAMA SESI *",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "U",
+     "note": "Wajib diisi. Diisi dengan nama / tajuk sesi mesyuarat. Contoh: Mesyuarat for snooker rata."
+    },
+    {
+     "label": "STATUS *",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "U",
+     "note": "Wajib dipilih. Pilihan: -- Sila Pilih --, Belum Selesai, Selesai, Batal. Default semasa kemaskini: Belum Selesai."
+    },
+    {
+     "label": "LOKASI SESI",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tempat"
+     ],
+     "crud": "U",
+     "note": "Medan lokasi mesyuarat (sebahagian tersembunyi di sebalik dropdown status). Memaparkan lokasi mesyuarat."
+    },
+    {
+     "label": "CATATAN",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_catatan"
+     ],
+     "crud": "U",
+     "note": "Tidak wajib. Placeholder: 'Catatan tambahan (pilihan)'. Boleh diubah saiz (resizable)."
+    },
+    {
+     "label": "DICIPTA OLEH",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_iuser"
+     ],
+     "crud": "R",
+     "note": "Auto-papar ID pengguna yang mencipta rekod mesyuarat. Contoh: USR000000001. Tidak boleh diedit."
+    },
+    {
+     "label": "TARIKH CIPTA",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_idate"
+     ],
+     "crud": "R",
+     "note": "Auto-papar tarikh rekod mesyuarat dicipta. Format: YYYY-MM-DD. Contoh: 2026-05-21. Tidak boleh diedit."
+    },
+    {
+     "label": "DIKEMASKINI OLEH",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_uuser"
+     ],
+     "crud": "R",
+     "note": "Auto-papar ID pengguna yang terakhir mengemaskini rekod. Dikemaskini automatik oleh sistem selepas simpan."
+    },
+    {
+     "label": "TARIKH KEMASKINI",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_udate"
+     ],
+     "crud": "R",
+     "note": "Auto-papar tarikh rekod terakhir dikemaskini. Format: YYYY-MM-DD. Dikemaskini automatik oleh sistem."
+    },
+    {
+     "label": "Butang Kembali ke Senarai",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke skrin Senarai Mesyuarat tanpa menyimpan perubahan."
+    },
+    {
+     "label": "Butang Kemaskini",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "msy_nama",
+      "msy_statf msy_tempat",
+      "msy_catatan"
+     ],
+     "crud": "U",
+     "note": "Simpan perubahan maklumat mesyuarat sahaja tanpa menghantar jemputan. Warna biru."
+    },
+    {
+     "label": "Butang Kemaskini & Hantar",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "msy_nama",
+      "msy_statf msy_tempat",
+      "msy_catatan"
+     ],
+     "crud": "U",
+     "note": "Simpan perubahan DAN hantar semula jemputan mesyuarat kepada semua ahli yang disenaraikan. Warna biru gelap."
+    },
+    {
+     "label": "Tajuk: Minit Mesyuarat",
+     "objectType": "Label Statik",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tajuk skrin halaman."
+    },
+    {
+     "label": "Butang <Cetak / Muat Turun>",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_bilangan",
+      "msy_nama"
+     ],
+     "crud": "R",
+     "note": "Jana dan muat turun dokumen minit mesyuarat dalam format PDF mengikut mesyuarat yang dipilih. Ikon pencetak."
+    },
+    {
+     "label": "Butang <Kembali>",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke skrin butiran / senarai mesyuarat. Ikon anak panah kiri."
+    },
+    {
+     "label": "Tajuk Dokumen: MINIT MESYUARAT",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tajuk tetap dokumen minit. Teks tebal, tengah."
+    },
+    {
+     "label": "No. Mesyuarat",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_bilangan"
+     ],
+     "crud": "R",
+     "note": "Auto-papar no. rujukan mesyuarat. Contoh: M-2026-5-002."
+    },
+    {
+     "label": "Tarikh",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat"
+     ],
+     "crud": "R",
+     "note": "Auto-papar tarikh mesyuarat. Format: DD/MM/YYYY. Contoh: 16/06/2026."
+    },
+    {
+     "label": "Masa",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Auto-papar masa mesyuarat. Format: HH:MM AM/PM. Contoh: 01:00 PM."
+    },
+    {
+     "label": "Nama Mesyuarat",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "R",
+     "note": "Auto-papar nama sesi mesyuarat. Contoh: Mesyuarat for snooker rata."
+    },
+    {
+     "label": "Lokasi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tempat"
+     ],
+     "crud": "R",
+     "note": "Auto-papar lokasi mesyuarat. Contoh: Putrajaya."
+    },
+    {
+     "label": "Catatan",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_catatan"
+     ],
+     "crud": "R",
+     "note": "Auto-papar catatan sesi mesyuarat (jika ada)."
+    },
+    {
+     "label": "Perutusan Pengerusi",
+     "objectType": "Rich Text Editor",
+     "tables": [
+      "meeting_minutes"
+     ],
+     "fields": [
+      "mnt_kandungan"
+     ],
+     "crud": "R",
+     "note": "Editor teks kaya (Rich Text). Toolbar: format teks (Normal), Bold, Italic, Underline, senarai bernombor/poin, rata, clear format. Pengerusi memasukkan ucapan/perutusan."
+    },
+    {
+     "label": "Pengesahan Minit Sebelumnya",
+     "objectType": "Rich Text Editor",
+     "tables": [
+      "meeting_minutes"
+     ],
+     "fields": [
+      "mnt_kandungan"
+     ],
+     "crud": "R",
+     "note": "Editor teks kaya. Catatan pengesahan minit sesi mesyuarat yang lepas."
+    },
+    {
+     "label": "No. (Bil.)",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "R",
+     "note": "Nombor giliran ahli. Auto-papar dari senarai ahli mesyuarat."
+    },
+    {
+     "label": "Nama",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran"
+     ],
+     "crud": "R",
+     "note": "Nama penuh ahli mesyuarat."
+    },
+    {
+     "label": "Emel",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_emel_luaran"
+     ],
+     "crud": "R",
+     "note": "Alamat emel ahli mesyuarat."
+    },
+    {
+     "label": "Wakil",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_wakil_luaran"
+     ],
+     "crud": "R",
+     "note": "Nama agensi / organisasi wakil. Contoh: BOMBA, Staf Dalaman."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_peranan"
+     ],
+     "crud": "R",
+     "note": "Peranan ahli dalam mesyuarat. Contoh: PENCATAT, PENGERUSI, SETIAUSAHA."
+    },
+    {
+     "label": "Status",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_status"
+     ],
+     "crud": "R",
+     "note": "Status kehadiran ahli. Contoh: Jemputan. Nilai: JEMPUTAN / DISAHKAN / HADIR / TIDAK HADIR."
+    },
+    {
+     "label": "Ikon Cetak Senarai",
+     "objectType": "Icon Button",
+     "tables": [
+      "osc_mhn_permohonan",
+      "meeting_decisions"
+     ],
+     "fields": [
+      "mhn_nosiri",
+      "mhn_nama",
+      "mhn_idpelanggan",
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Ikon pencetak di bahagian atas senarai. Jana cetakan senarai permohonan yang dibincangkan."
+    },
+    {
+     "label": "No. (Bil.)",
+     "objectType": "Grid Column",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Nombor giliran baris permohonan."
+    },
+    {
+     "label": "No. Siri",
+     "objectType": "Grid Column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nosiri"
+     ],
+     "crud": "R",
+     "note": "No. siri permohonan. Contoh: PK_MDTM26050092."
+    },
+    {
+     "label": "Nama Pemohon",
+     "objectType": "Grid Column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nama"
+     ],
+     "crud": "R",
+     "note": "Nama penuh pemohon. Contoh: Ahmad Bin Abdullah HAkim."
+    },
+    {
+     "label": "No. K/P",
+     "objectType": "Grid Column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_idpelanggan"
+     ],
+     "crud": "R",
+     "note": "No. Kad Pengenalan pemohon. Contoh: 900101011234."
+    },
+    {
+     "label": "Keputusan",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Keputusan mesyuarat bagi permohonan. Keputusan : APPROVED / REJECTED / DEFERRED / REFERRED BACK"
+    },
+    {
+     "label": "Hal-hal Lain",
+     "objectType": "Rich Text Editor",
+     "tables": [
+      "meeting_minutes"
+     ],
+     "fields": [
+      "mnt_kandungan"
+     ],
+     "crud": "R",
+     "note": "Editor teks kaya. Catatan perbincangan hal-hal lain yang tidak dalam agenda utama."
+    },
+    {
+     "label": "Penutup",
+     "objectType": "Rich Text Editor",
+     "tables": [
+      "meeting_minutes"
+     ],
+     "fields": [
+      "mnt_kandungan"
+     ],
+     "crud": "R",
+     "note": "Editor teks kaya. Catatan penutup mesyuarat. Toolbar sama seperti bahagian lain."
+    },
+    {
+     "label": "No. (Bil.)",
+     "objectType": "Grid Column",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Nombor giliran dokumen sokongan."
+    },
+    {
+     "label": "Nama Fail",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_minutes_attachments"
+     ],
+     "fields": [
+      "file_asal"
+     ],
+     "crud": "R",
+     "note": "Nama fail dokumen yang dimuat naik."
+    },
+    {
+     "label": "Keterangan",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_minutes_attachments"
+     ],
+     "fields": [
+      "keterangan"
+     ],
+     "crud": "R",
+     "note": "Keterangan dokumen sokongan."
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Grid Column",
+     "tables": [
+      "meeting_minutes_attachments"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "D",
+     "note": "Ikon padam untuk memadam dokumen sokongan. Hanya untuk memadam dokumen."
+    },
+    {
+     "label": "Mesej Senarai Kosong",
+     "objectType": "Label Statik",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Papar 'Tiada dokumen sokongan dimuat naik.' apabila senarai kosong."
+    },
+    {
+     "label": "Butang <Tambah Dokumen>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_minutes_attachments"
+     ],
+     "fields": [
+      "id",
+      "keterangan",
+      "file_asal"
+     ],
+     "crud": "C",
+     "note": "Muat naik dokumen sokongan baharu ke minit mesyuarat."
+    },
+    {
+     "label": "Tarikh Minit Disediakan",
+     "objectType": "Date Picker",
+     "tables": [
+      "osc_smk_minit"
+     ],
+     "fields": [
+      "minit_tarikh_sedia"
+     ],
+     "crud": "C, R, U",
+     "note": "Tarikh minit mesyuarat disediakan. Format: dd/mm/yyyy. Wajib diisi sebelum simpan."
+    },
+    {
+     "label": "Nama & Peranan Pencatat",
+     "objectType": "Label Statik",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_nama_luaran",
+      "att_peranan"
+     ],
+     "crud": "R",
+     "note": "Auto-papar nama pencatat dan jawatan. Contoh: (JAMIL BIN ALI) — Pencatat."
+    },
+    {
+     "label": "Nama & Peranan Pengerusi",
+     "objectType": "Label Statik",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_nama_luaran",
+      "att_peranan"
+     ],
+     "crud": "R",
+     "note": "Auto-papar nama pengerusi dan jawatan. Contoh: (SITI NUR AQILAH BINTI JAMIL) — Pengerusi."
+    },
+    {
+     "label": "Butang <Batal>",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke senarai mesyuarat tanpa menyimpan perubahan minit mesyuarat. Tiada mesej ralat."
+    },
+    {
+     "label": "Butang <Simpan Minit>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_minutes"
+     ],
+     "fields": [
+      "id"
+     ],
+     "crud": "U",
+     "note": "Simpan semua kandungan minit mesyuarat yang telah ditambah atau diubah. Notifikasi Berjaya disimpan."
+    }
+   ]
+  },
+  {
+   "title": "Skrin Kemaskini Status & Ringkasan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Kelulusan Mesyuarat",
+   "uiIds": [
+    "UI-PL-MO-PM-04",
+    "UI-PL-MO-PM-04-01",
+    "UI-PL-MO-PM-04-02",
+    "UI-PL-MO-PM-04-03"
+   ],
+   "dataMap": [
+    {
+     "label": "Butang <Tambah Ahli>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "C",
+     "note": "Buka modal Tambah Ahli Mesyuarat."
+    },
+    {
+     "label": "Nama Ahli",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran"
+     ],
+     "crud": "R",
+     "note": "Nama ahli dengan avatar inisial. Ahli dalaman = osc_slg_user."
+    },
+    {
+     "label": "Emel",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_emel_luaran"
+     ],
+     "crud": "R",
+     "note": "Alamat emel ahli untuk penghantaran jemputan."
+    },
+    {
+     "label": "Wakil",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_wakil_luaran"
+     ],
+     "crud": "R",
+     "note": "Nama agensi / organisasi wakil. Contoh: MDTM."
+    },
+    {
+     "label": "Peranan",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_peranan"
+     ],
+     "crud": "R",
+     "note": "Badge peranan. Contoh: URUS_SETIA, PENGERUSI, AHLI."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_status"
+     ],
+     "crud": "R",
+     "note": "Status kehadiran ahli. Contoh: Jemputan. Nilai: JEMPUTAN / DISAHKAN / HADIR / TIDAK HADIR."
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Label untuk tindakan. Butang Kemaskini dan Padam."
+    },
+    {
+     "label": "Butang <Kemaskini Ahli>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran"
+     ],
+     "crud": "U",
+     "note": "Butang untuk kemaskini ahli mesyuarat"
+    },
+    {
+     "label": "Butang <Padam>",
+     "objectType": "Button",
+     "tables": [
+      "meeting_attendees"
+     ],
+     "fields": [
+      "att_iduser",
+      "att_nama_luaran"
+     ],
+     "crud": "D",
+     "note": "Butang untuk buang ahli mesyuarat daripada senarai"
+    },
+    {
+     "label": "# (Bilangan Permohonan)",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "R",
+     "note": "Nombor bilangan baris permohonan."
+    },
+    {
+     "label": "Tab Semua",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Papar semua permohonan dalam agenda. Tab aktif default."
+    },
+    {
+     "label": "Tab Diluluskan",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Penapis permohonan dengan keputusan Diluluskan."
+    },
+    {
+     "label": "Tab Ditolak",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Penapis permohonan dengan keputusan Ditolak."
+    },
+    {
+     "label": "Tab Ditangguh",
+     "objectType": "Tab",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Penapis permohonan dengan keputusan Ditangguh."
+    },
+    {
+     "label": "No. Rujukan",
+     "objectType": "Label",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_application _reference"
+     ],
+     "crud": "R",
+     "note": "No. rujukan fail permohonan. Baris 2 papar jenis permohonan."
+    },
+    {
+     "label": "Pemohon",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nama"
+     ],
+     "crud": "R",
+     "note": "Nama pemohon / nama perniagaan."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "meeting_decisions"
+     ],
+     "fields": [
+      "decision_type"
+     ],
+     "crud": "R",
+     "note": "Status permohonan. Status daripada Menunggu Mesyuarat bertukar kepada Lulus"
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Butang untuk melihat permohonan"
+    },
+    {
+     "label": "Butang <Mata>",
+     "objectType": "Button",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nosiri"
+     ],
+     "crud": "R",
+     "note": "Melihat maklumat permohonan yang dipilih"
+    },
+    {
+     "label": "Butang Kembali ke Senarai",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke skrin Senarai Mesyuarat. Ikon anak panah kiri."
+    },
+    {
+     "label": "Papan Pemuka",
+     "objectType": "Pautan Navigasi",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Pautan kembali ke skrin utama Papan Pemuka."
+    },
+    {
+     "label": "Pemberitahuan",
+     "objectType": "Label Statik",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Halaman semasa. Menunjukkan skrin Senarai Pemberitahuan."
+    },
+    {
+     "label": "Ikon Loceng",
+     "objectType": "Ikon Panel",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Ikon loceng biru. Menunjukkan panel pemberitahuan. Bertukar warna / badge apabila terdapat pemberitahuan belum dibaca (read_at IS NULL)."
+    },
+    {
+     "label": "Tajuk: Pemberitahuan",
+     "objectType": "Label Statik",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tajuk panel pemberitahuan."
+    },
+    {
+     "label": "Bilangan Pemberitahuan",
+     "objectType": "Label Statik",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "COUNT(id)"
+     ],
+     "crud": "R",
+     "note": "Papar jumlah keseluruhan pemberitahuan. Contoh: '271 Pemberitahuan'. Dikira automatik oleh sistem."
+    },
+    {
+     "label": "Medan Carian",
+     "objectType": "Search Input",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "data",
+      "type"
+     ],
+     "crud": "R",
+     "note": "Carian berdasarkan kandungan atau jenis pemberitahuan. Placeholder: 'Cari...' Ikon kanta di kiri."
+    },
+    {
+     "label": "Butang Tapis",
+     "objectType": "Button",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type",
+      "read_at"
+     ],
+     "crud": "R",
+     "note": "Buka pilihan penapis pemberitahuan mengikut jenis atau status (Dibaca / Belum Dibaca). Warna putih (secondary)."
+    },
+    {
+     "label": "Butang Cari",
+     "objectType": "Button",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "data",
+      "type"
+     ],
+     "crud": "R",
+     "note": "Laksanakan carian berdasarkan kata kunci yang dimasukkan. Warna biru (utama)."
+    },
+    {
+     "label": "Ikon Jenis Pemberitahuan",
+     "objectType": "Ikon Item",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type"
+     ],
+     "crud": "R",
+     "note": "Ikon bulatan biru dengan simbol maklumat (!). Menunjukkan jenis / kategori pemberitahuan."
+    },
+    {
+     "label": "Tajuk Pemberitahuan",
+     "objectType": "List Item",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "data"
+     ],
+     "crud": "R, U",
+     "note": "Tajuk / mesej utama pemberitahuan. Contoh: 'Pengguna berjaya log masuk', 'Log masuk gagal untuk pengguna 888888088888'. Klik untuk tandakan sebagai dibaca (read_at dikemaskini)."
+    },
+    {
+     "label": "Badge Jenis / Kategori",
+     "objectType": "Badge",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type"
+     ],
+     "crud": "R",
+     "note": "Badge biru menunjukkan kategori pemberitahuan. Contoh: 'Auth' bagi tindakan pengesahan log masuk / keluar."
+    },
+    {
+     "label": "Nama Kelas / Tindakan",
+     "objectType": "Label Statik",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type"
+     ],
+     "crud": "R",
+     "note": "Nama kelas atau jenis tindakan pemberitahuan. Contoh: auth.login, auth.logout. Dipapar di bawah tajuk pemberitahuan."
+    },
+    {
+     "label": "Tarikh & Masa",
+     "objectType": "Label Statik",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "created_at"
+     ],
+     "crud": "R",
+     "note": "Cap masa pemberitahuan dicipta. Format: DD/MM/YYYY HH:MM. Contoh: 15/07/2026 11:05."
+    },
+    {
+     "label": "Alamat IP",
+     "objectType": "Label Statik",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "data"
+     ],
+     "crud": "R",
+     "note": "Alamat IP pengguna semasa tindakan dilaksanakan. Diambil daripada medan data (JSON). Contoh: 10.42.0.1."
+    },
+    {
+     "label": "Medan Carian",
+     "objectType": "Searchfield",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama",
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "maj_namapbt",
+      "msy_tempat"
+     ],
+     "crud": "R",
+     "note": "Carian berdasarkan nama sesi atau lokasi mesyuarat"
+    },
+    {
+     "label": "Penapis Status",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Fungsi menapis senarai mesyuarat berdasarkan status. Contoh paparan: Selesai atau Belum Selesai."
+    },
+    {
+     "label": "Butang Tambah Mesyuarat",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa",
+      "msy_nama",
+      "msy_tempat"
+     ],
+     "crud": "C",
+     "note": "Membuka skrin tambah mesyuarat baharu."
+    },
+    {
+     "label": "Nama Sesi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "R",
+     "note": "Nama / tajuk sesi mesyuarat"
+    },
+    {
+     "label": "Tarikh & Masa",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat",
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Tarikh dan masa mesyuarat. Format: DD MMM YYYY, HH:MM AM/PM."
+    },
+    {
+     "label": "PBT",
+     "objectType": "Label",
+     "tables": [
+      "osc_kod_majlis"
+     ],
+     "fields": [
+      "maj_namapbt"
+     ],
+     "crud": "R",
+     "note": "Kod PBT"
+    },
+    {
+     "label": "Lokasi",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Lokasi / tempat mesyuara"
+    },
+    {
+     "label": "Permohonan",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_max_peserta"
+     ],
+     "crud": "R",
+     "note": "Bilangan kes / permohonan yang dimasukkan ke dalam agenda mesyuarat berkenaan."
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_statf"
+     ],
+     "crud": "R",
+     "note": "Status mesyuarat. Contoh: Selesai atau Belum Selesai"
+    },
+    {
+     "label": "Tajuk: Minit Mesyuarat",
+     "objectType": "Label Statik",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tajuk skrin halaman."
+    },
+    {
+     "label": "Butang <Cetak / Muat Turun>",
+     "objectType": "Button",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_bilangan",
+      "msy_nama"
+     ],
+     "crud": "R",
+     "note": "Jana dan muat turun dokumen minit mesyuarat dalam format PDF mengikut mesyuarat yang dipilih. Ikon pencetak."
+    },
+    {
+     "label": "Butang <Kembali>",
+     "objectType": "Button",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Kembali ke skrin butiran / senarai mesyuarat. Ikon anak panah kiri."
+    },
+    {
+     "label": "Tajuk Dokumen: MINIT MESYUARAT",
+     "objectType": "Label",
+     "tables": [
+      "—"
+     ],
+     "fields": [
+      "—"
+     ],
+     "crud": "—",
+     "note": "Tajuk tetap dokumen minit. Teks tebal, tengah."
+    },
+    {
+     "label": "No. Mesyuarat",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_bilangan"
+     ],
+     "crud": "R",
+     "note": "Auto-papar no. rujukan mesyuarat. Contoh: M-2026-5-002."
+    },
+    {
+     "label": "Tarikh",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_tkhmesyuarat"
+     ],
+     "crud": "R",
+     "note": "Auto-papar tarikh mesyuarat. Format: DD/MM/YYYY. Contoh: 16/06/2026."
+    },
+    {
+     "label": "Masa",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_masa"
+     ],
+     "crud": "R",
+     "note": "Auto-papar masa mesyuarat. Format: HH:MM AM/PM. Contoh: 01:00 PM."
+    },
+    {
+     "label": "Nama Mesyuarat",
+     "objectType": "Label",
+     "tables": [
+      "osc_smk_mesyuarat"
+     ],
+     "fields": [
+      "msy_nama"
+     ],
+     "crud": "R",
+     "note": "Auto-papar nama sesi mesyuarat. Contoh: Mesyuarat for snooker rata."
+    },
+    {
+     "label": "Perutusan Pengerusi",
+     "objectType": "Rich Text Editor",
+     "tables": [
+      "meeting_minutes"
+     ],
+     "fields": [
+      "mnt_kandungan"
+     ],
+     "crud": "R",
+     "note": "Editor teks kaya (Rich Text). Toolbar: format teks (Normal), Bold, Italic, Underline, senarai bernombor/poin, rata, clear format. Pengerusi memasukkan ucapan/perutusan."
+    }
+   ]
+  }
+ ],
+ "businessRules": [
+  {
+   "group": "elulusan Mesyuarat",
+   "rules": [
+    {
+     "code": null,
+     "text": "Mesyuarat hanya boleh dijadualkan oleh Urusetia yang sah dalam modul ini."
+    },
+    {
+     "code": null,
+     "text": "Semua kes yang dibawa ke mesyuarat mestilah telah melalui proses lengkap, validasi dokumen di Modul 5 (Semakan & Kelulusan Tahap 1)."
+    },
+    {
+     "code": null,
+     "text": "Agenda mesyuarat wajib dikunci sebelum tarikh mesyuarat untuk mengelakkan perubahan tidak dibenarkan."
+    },
+    {
+     "code": null,
+     "text": "Jemputan mesyuarat dan dokumen agenda mesti diedarkan terlebih dahulu kepada semua ahli mesyuarat."
+    },
+    {
+     "code": null,
+     "text": "Tarikh mesyuarat tidak boleh bertembung dengan sesi mesyuarat OSC lain atau jadual rasmi PBT."
+    },
+    {
+     "code": null,
+     "text": "Semua ulasan teknikal dari agensi wajib ditarik terus dari Modul 5 dan dipaparkan tanpa suntingan."
+    },
+    {
+     "code": null,
+     "text": "Sistem mesti menjana ringkasan isu dan syarat teknikal secara automatik berdasarkan data rujukan teknikal."
+    },
+    {
+     "code": null,
+     "text": "Ahli mesyuarat tidak dibenarkan mengubah maklumat atau dokumen permohonan secara langsung dalam modul ini."
+    },
+    {
+     "code": null,
+     "text": "Keputusan mesyuarat hanya boleh dibuat oleh Pengerusi OSC atau pegawai yang mempunyai mandat kelulusan."
+    },
+    {
+     "code": null,
+     "text": "Semua keputusan mesti direkodkan bersama catatan rasmi dan syarat kelulusan jika berkaitan."
+    },
+    {
+     "code": null,
+     "text": "Syarat kelulusan mesti berdasarkan ulasan teknikal atau hasil perbincangan yang direkodkan."
+    },
+    {
+     "code": null,
+     "text": "Tandatangan digital adalah wajib bagi mengesahkan keputusan mesyuarat."
+    },
+    {
+     "code": null,
+     "text": "Sistem mesti menjana minit mesyuarat automatik berdasarkan keputusan dan catatan perbincangan."
+    },
+    {
+     "code": null,
+     "text": "Status permohonan (Lulus / Tidak Lulus / Tangguh) mesti dikemas kini serta-merta selepas mesyuarat."
+    },
+    {
+     "code": null,
+     "text": "Notifikasi keputusan wajib dihantar kepada pemohon dan pegawai PPSU."
+    },
+    {
+     "code": null,
+     "text": "Versi rasmi minit mesyuarat mesti diterbitkan dan disimpan dalam repositori dokumen."
+    },
+    {
+     "code": null,
+     "text": "Semua tindakan selepas mesyuarat—status, keputusan, notifikasi, penerbitan minit—wajib direkodkan dalam audit trail dalam format JSON dan disimpan dalam pengkalan data."
+    }
+   ]
+  }
+ ],
+ "sdsIssues": []
+}

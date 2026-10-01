@@ -1,0 +1,944 @@
+{
+  "id": "be3-complaints-notif",
+  "name": "BE3 Aduan & Notifikasi",
+  "kind": "laravel",
+  "container": "be3-complaints-notif",
+  "docsPage": "repo-osc-be3-aduan-dan-notifikasi",
+  "role": "Complaints, inquiries & notifications",
+  "stack": {
+    "framework": "Laravel",
+    "laravel": "^12.0",
+    "php": "^8.2",
+    "packages": [
+      "laravel/framework",
+      "laravel/sanctum",
+      "laravel/tinker"
+    ]
+  },
+  "code": {
+    "controllers": [
+      "OfficerController",
+      "AduanController",
+      "DashboardController",
+      "Controller"
+    ],
+    "models": [
+      {
+        "class": "OscAduanIndaduan",
+        "table": "osc_adn_indaduan",
+        "connection": null
+      },
+      {
+        "class": "KodJenisAduan",
+        "table": "osc_kod_jenisaduan",
+        "connection": null
+      },
+      {
+        "class": "Role",
+        "table": null,
+        "connection": null
+      },
+      {
+        "class": "Aduan",
+        "table": "osc_adn_indaduan",
+        "connection": null
+      },
+      {
+        "class": "OscAduanCsat",
+        "table": "osc_adn_csat",
+        "connection": null
+      },
+      {
+        "class": "OscAduanGbraduan",
+        "table": "osc_adn_gbraduan",
+        "connection": null
+      },
+      {
+        "class": "EmailTemplate",
+        "table": "osc_email_templates",
+        "connection": "mysql"
+      },
+      {
+        "class": "InternalUser",
+        "table": "osc_slg_user",
+        "connection": null
+      },
+      {
+        "class": "Concerns/SerializesDatesInAppTimezone",
+        "table": null,
+        "connection": null
+      },
+      {
+        "class": "User",
+        "table": null,
+        "connection": null
+      },
+      {
+        "class": "OscKodMajlis",
+        "table": "osc_kod_majlis",
+        "connection": null
+      },
+      {
+        "class": "AduanAgihan",
+        "table": "osc_adn_agihan",
+        "connection": null
+      },
+      {
+        "class": "AduanGambar",
+        "table": "osc_adn_gbraduan",
+        "connection": null
+      },
+      {
+        "class": "NotificationSetting",
+        "table": "osc_notification_settings",
+        "connection": "mysql"
+      },
+      {
+        "class": "Notification",
+        "table": "notifications",
+        "connection": "mysql"
+      },
+      {
+        "class": "Permission",
+        "table": null,
+        "connection": null
+      },
+      {
+        "class": "OscAduanAgihan",
+        "table": "osc_adn_agihan",
+        "connection": null
+      },
+      {
+        "class": "OscAduanLog",
+        "table": "osc_adn_log",
+        "connection": null
+      },
+      {
+        "class": "OscKodJenisaduan",
+        "table": "osc_kod_jenisaduan",
+        "connection": null
+      }
+    ],
+    "services": [
+      "OfficerAuthService",
+      "NotificationMailConfigurator",
+      "OfficerService",
+      "DashboardService",
+      "NotificationService",
+      "PermissionService",
+      "InAppNotificationService",
+      "EmailTemplateService",
+      "AttachmentStorageService",
+      "AduanService"
+    ],
+    "requests": [
+      "HantarAduanRequest"
+    ],
+    "middleware": [
+      "CheckPermission",
+      "Authenticate"
+    ],
+    "jobs": [],
+    "events": [],
+    "listeners": [
+      "EmbedEmailLogo",
+      "PreventDisabledEmailNotifications",
+      "LogQueuedEmail",
+      "LogFailedEmail",
+      "LogSentEmail"
+    ],
+    "notifications": [
+      "ComplaintStatusUpdatedNotification",
+      "ComplaintReceivedNotification",
+      "ComplaintReceivedAdminNotification",
+      "ComplaintReassignedNotification",
+      "SuggestionReceivedAdminNotification",
+      "ComplaintRepliedNotification",
+      "AppreciationReceivedAdminNotification",
+      "ComplaintCancelledNotification",
+      "ComplaintReopenedNotification",
+      "InquiryReceivedAdminNotification",
+      "SlaBreachNotification",
+      "ComplaintRejectedNotification",
+      "SlaReminderNotification",
+      "AdminResetPasswordNotification",
+      "ComplaintClosedNotification"
+    ],
+    "mail": [
+      "TemplateEmail"
+    ],
+    "commands": [
+      "CheckSlaCommand",
+      "GenerateSampleComplaintNotifications"
+    ]
+  },
+  "migrations": 0,
+  "routes": [
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/",
+      "name": null,
+      "controller": "Closure",
+      "action": null,
+      "middleware": [
+        "web"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/ant-ai/complaints/search",
+      "name": null,
+      "controller": "AduanController",
+      "action": "antAiSearch",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/complaints",
+      "name": null,
+      "controller": "AduanController",
+      "action": "senarai",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/complaints",
+      "name": null,
+      "controller": "AduanController",
+      "action": "hantar",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/complaints/attachments/{id}/download",
+      "name": null,
+      "controller": "AduanController",
+      "action": "downloadPublicAttachment",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/complaints/attachments/{id}/stream",
+      "name": null,
+      "controller": "AduanController",
+      "action": "streamAttachment",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/complaints/form-data",
+      "name": null,
+      "controller": "AduanController",
+      "action": "cipta",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/complaints/upload",
+      "name": null,
+      "controller": "AduanController",
+      "action": "uploadFile",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/complaints/verify-attachment",
+      "name": null,
+      "controller": "AduanController",
+      "action": "verifyAttachment",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/complaints/verify-file-exists",
+      "name": null,
+      "controller": "AduanController",
+      "action": "verifyFileExists",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/complaints/{id}",
+      "name": null,
+      "controller": "AduanController",
+      "action": "show",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/complaints/{id}",
+      "name": null,
+      "controller": "AduanController",
+      "action": "update",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/complaints/{id}",
+      "name": null,
+      "controller": "AduanController",
+      "action": "deleteDraft",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/complaints/{id}/cancel",
+      "name": null,
+      "controller": "AduanController",
+      "action": "cancelComplaint",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/complaints/{id}/csat",
+      "name": null,
+      "controller": "AduanController",
+      "action": "submitCsat",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/complaints/{id}/csat/validate",
+      "name": null,
+      "controller": "AduanController",
+      "action": "validateCsatForForm",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/complaints/{id}/lampiran",
+      "name": null,
+      "controller": "AduanController",
+      "action": "uploadLampiran",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/complaints/{id}/reopen",
+      "name": null,
+      "controller": "AduanController",
+      "action": "reopenComplaint",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/dashboard/csat",
+      "name": null,
+      "controller": "DashboardController",
+      "action": "csat",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPermission:M8,statistics"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/dashboard/csat-category",
+      "name": null,
+      "controller": "DashboardController",
+      "action": "csatCategory",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPermission:M8,statistics"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/dashboard/csat-recent",
+      "name": null,
+      "controller": "DashboardController",
+      "action": "csatRecent",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPermission:M8,statistics"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/dashboard/csat-trend",
+      "name": null,
+      "controller": "DashboardController",
+      "action": "csatTrend",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPermission:M8,statistics"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/dashboard/kategori",
+      "name": null,
+      "controller": "DashboardController",
+      "action": "kategori",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPermission:M8,statistics"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/dashboard/piagam",
+      "name": null,
+      "controller": "DashboardController",
+      "action": "piagam",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPermission:M8,statistics"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/dashboard/ringkasan",
+      "name": null,
+      "controller": "DashboardController",
+      "action": "ringkasan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPermission:M8,statistics"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/dashboard/trend",
+      "name": null,
+      "controller": "DashboardController",
+      "action": "trend",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPermission:M8,statistics"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/dashboard/urgent",
+      "name": null,
+      "controller": "DashboardController",
+      "action": "urgent",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPermission:M8,statistics"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/health",
+      "name": null,
+      "controller": "Closure",
+      "action": null,
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/officer/complaints",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "listComplaints",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/officer/complaints/attachments/{id}/download",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "downloadOfficerAttachment",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/officer/complaints/categories",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "getCategories",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/officer/complaints/export",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "exportCsv",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/officer/complaints/jenis-tindakan",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "getJenisTindakan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/officer/complaints/statistics",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "getStatistics",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/officer/complaints/unassigned",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "getUnassignedList",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/officer/complaints/{id}",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/officer/complaints/{id}/accept",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "accept",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/officer/complaints/{id}/approve-reopen",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "approveReopen",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/officer/complaints/{id}/assign",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "manualAssign",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/officer/complaints/{id}/assign-options",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "getAssignmentDropdowns",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/officer/complaints/{id}/close",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "close",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/officer/complaints/{id}/documents",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "uploadDocument",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/officer/complaints/{id}/passback",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "passback",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/officer/complaints/{id}/reassign",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "reassign",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/officer/complaints/{id}/reject",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "reject",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/officer/complaints/{id}/reject-reopen",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "rejectReopen",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/officer/complaints/{id}/reply/draft",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "saveDraft",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/officer/complaints/{id}/reply/send",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "sendReply",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/officer/complaints/{id}/tindakan",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "getTindakan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/officer/complaints/{id}/tindakan",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "storeTindakan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/officer/dashboard",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "dashboard",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/officer/master-data/departments",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "getDepartmentsList",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/officer/master-data/officers",
+      "name": null,
+      "controller": "OfficerController",
+      "action": "getOfficersList",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/sanctum/csrf-cookie",
+      "name": "sanctum.csrf-cookie",
+      "controller": "Laravel\\Sanctum\\Http\\Controllers\\CsrfCookieController",
+      "action": "show",
+      "middleware": [
+        "web"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/up",
+      "name": null,
+      "controller": "Closure",
+      "action": null,
+      "middleware": [],
+      "routeLevelAuth": false
+    }
+  ],
+  "routesSource": "artisan route:list",
+  "routesError": null,
+  "status": "ok",
+  "git": {
+    "branch": "development",
+    "commit": "a713670",
+    "commitDate": "2026-09-09T20:30:24+08:00",
+    "commitSubject": "Merge pull request #103 from censof/dev/fix/2622/dashboard-of-feedback",
+    "remote": "https://github.com/censof/osc-be3-aduan-dan-notifikasi.git"
+  }
+}

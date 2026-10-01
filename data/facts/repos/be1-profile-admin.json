@@ -1,0 +1,6810 @@
+{
+  "id": "be1-profile-admin",
+  "name": "BE1 Profil & Pentadbiran",
+  "kind": "laravel",
+  "container": "be1-profile-admin",
+  "docsPage": "repo-osc-be1-admin-profile",
+  "role": "Customer profile, authentication & system administration",
+  "stack": {
+    "framework": "Laravel",
+    "laravel": "^12.0",
+    "php": "^8.2",
+    "packages": [
+      "dedoc/scramble",
+      "dompdf/dompdf",
+      "laravel/framework",
+      "laravel/sanctum",
+      "laravel/tinker",
+      "opcodesio/log-viewer",
+      "owen-it/laravel-auditing",
+      "phpoffice/phpspreadsheet",
+      "predis/predis"
+    ]
+  },
+  "code": {
+    "controllers": [
+      "Api/MyDigitalIdAuthController",
+      "Api/JamOperasiController",
+      "Api/PbtConfigurationController",
+      "Api/StorageSettingController",
+      "Api/StorageInformationController",
+      "Api/PermissionController",
+      "Api/BulkImportController",
+      "Api/DocumentController",
+      "Api/KalendarCutiController",
+      "Api/AddressController",
+      "Api/AccountReactivationController",
+      "Api/MasterDataController",
+      "Api/AuthController",
+      "Api/AdminAccountController",
+      "Api/IntegrationConfigurationController",
+      "Api/HousekeepingController",
+      "Api/AuditLogController",
+      "Api/KubernetesOperationsController",
+      "Api/ImpersonateController",
+      "Api/SlaConfigController",
+      "Api/MonitoringController",
+      "Api/NotificationController",
+      "Api/RejectionReasonController",
+      "Api/ApprovalConditionController",
+      "Api/UserManagementController",
+      "Api/ApiKeyController",
+      "Api/CustomerCompanyController",
+      "Api/ProfileController",
+      "Api/DashboardController",
+      "Api/AdminAuthController",
+      "Api/LicenseTypeController",
+      "Api/SystemParameterController",
+      "Api/RoleController",
+      "Api/AdminProfileController",
+      "Api/UserRoleController",
+      "Internal/CompanyDocumentController",
+      "Internal/StepUpInternalController",
+      "Internal/NotificationDispatchController",
+      "Auth/StepUpController",
+      "Controller"
+    ],
+    "models": [
+      {
+        "class": "Ptjpk",
+        "table": "osc_kod_ptjpk",
+        "connection": null
+      },
+      {
+        "class": "Address",
+        "table": "osc_da_alamat",
+        "connection": null
+      },
+      {
+        "class": "AktaKompaun",
+        "table": "osc_kod_aktakompaun",
+        "connection": null
+      },
+      {
+        "class": "UserPbt",
+        "table": "osc_slg_userpbt",
+        "connection": null
+      },
+      {
+        "class": "Facility",
+        "table": "osc_da_kemudahan",
+        "connection": null
+      },
+      {
+        "class": "KodNiaga",
+        "table": "osc_kod_niaga",
+        "connection": null
+      },
+      {
+        "class": "KodAktivitiDokumen",
+        "table": "osc_kod_aktivtdokumen",
+        "connection": null
+      },
+      {
+        "class": "KodJenisAduan",
+        "table": "osc_kod_jenisaduan",
+        "connection": null
+      },
+      {
+        "class": "Role",
+        "table": null,
+        "connection": null
+      },
+      {
+        "class": "KodZon",
+        "table": "osc_kod_zon",
+        "connection": null
+      },
+      {
+        "class": "DocumentType",
+        "table": "osc_kod_dokumen",
+        "connection": null
+      },
+      {
+        "class": "CompanyProfile",
+        "table": "osc_da_syarikat",
+        "connection": null
+      },
+      {
+        "class": "StorageSetting",
+        "table": "osc_storage_settings",
+        "connection": null
+      },
+      {
+        "class": "UserGroup",
+        "table": "osc_slg_usergrp",
+        "connection": null
+      },
+      {
+        "class": "Jenis",
+        "table": "osc_kod_jenis",
+        "connection": null
+      },
+      {
+        "class": "KodAktiviti",
+        "table": "osc_kod_aktiviti",
+        "connection": null
+      },
+      {
+        "class": "SystemParameter",
+        "table": "osc_slg_sysparam",
+        "connection": null
+      },
+      {
+        "class": "IndividualProfile",
+        "table": "osc_da_individu",
+        "connection": null
+      },
+      {
+        "class": "JamOperasi",
+        "table": "osc_kod_jamoperasi",
+        "connection": null
+      },
+      {
+        "class": "KodImage",
+        "table": "osc_kod_image",
+        "connection": null
+      },
+      {
+        "class": "EmailTemplate",
+        "table": "osc_email_templates",
+        "connection": "mysql"
+      },
+      {
+        "class": "ParameterHistory",
+        "table": "parameter_history",
+        "connection": null
+      },
+      {
+        "class": "KalendarCuti",
+        "table": "osc_kod_kalendarcuti",
+        "connection": null
+      },
+      {
+        "class": "OtpVerification",
+        "table": "otp_verifications",
+        "connection": null
+      },
+      {
+        "class": "Customer",
+        "table": "osc_da_pelanggan",
+        "connection": null
+      },
+      {
+        "class": "KodLokasi",
+        "table": "osc_kod_lokasi",
+        "connection": null
+      },
+      {
+        "class": "Agency",
+        "table": "osc_kod_agensi",
+        "connection": null
+      },
+      {
+        "class": "KodJadualKadar",
+        "table": "osc_kod_jadualkadar",
+        "connection": null
+      },
+      {
+        "class": "HousekeepingLog",
+        "table": "housekeeping_logs",
+        "connection": null
+      },
+      {
+        "class": "InternalUser",
+        "table": "osc_slg_user",
+        "connection": null
+      },
+      {
+        "class": "Concerns/SerializesDatesInAppTimezone",
+        "table": null,
+        "connection": null
+      },
+      {
+        "class": "User",
+        "table": "osc_usr_profile",
+        "connection": null
+      },
+      {
+        "class": "KodPoskod",
+        "table": "osc_kod_poskod",
+        "connection": null
+      },
+      {
+        "class": "HousekeepingFailure",
+        "table": "housekeeping_failures",
+        "connection": null
+      },
+      {
+        "class": "KubernetesOperationJob",
+        "table": null,
+        "connection": null
+      },
+      {
+        "class": "Pbt",
+        "table": "osc_kod_majlis",
+        "connection": null
+      },
+      {
+        "class": "KodDokumen",
+        "table": "osc_kod_dokumen",
+        "connection": null
+      },
+      {
+        "class": "NotificationSetting",
+        "table": "osc_notification_settings",
+        "connection": null
+      },
+      {
+        "class": "ApprovalConditionSelection",
+        "table": "osc_syarat_kelulusan_permohonan",
+        "connection": null
+      },
+      {
+        "class": "RejectionReasonTemplate",
+        "table": "osc_kod_sebabpenolakan",
+        "connection": null
+      },
+      {
+        "class": "MyDigitalIdIdentity",
+        "table": "osc_usr_sso_identities",
+        "connection": null
+      },
+      {
+        "class": "KodKawasan",
+        "table": "osc_kod_kawasan",
+        "connection": null
+      },
+      {
+        "class": "KodUndang",
+        "table": "osc_kod_undang",
+        "connection": null
+      },
+      {
+        "class": "ApiKey",
+        "table": "api_keys",
+        "connection": null
+      },
+      {
+        "class": "Permission",
+        "table": null,
+        "connection": null
+      },
+      {
+        "class": "KodListHitam",
+        "table": "osc_kod_listhitam",
+        "connection": null
+      },
+      {
+        "class": "AuditLog",
+        "table": "audit_logs",
+        "connection": null
+      },
+      {
+        "class": "Sektor",
+        "table": "osc_kod_sektor",
+        "connection": null
+      },
+      {
+        "class": "Document",
+        "table": "documents",
+        "connection": null
+      },
+      {
+        "class": "ImpersonationRequest",
+        "table": "impersonation_requests",
+        "connection": null
+      },
+      {
+        "class": "ActivityLog",
+        "table": "osc_activity_logs",
+        "connection": null
+      },
+      {
+        "class": "ControlCode",
+        "table": "osc_slg_lookuptable",
+        "connection": null
+      },
+      {
+        "class": "KodKesalahan",
+        "table": "osc_kod_kesalahan",
+        "connection": null
+      },
+      {
+        "class": "ApprovalConditionTemplate",
+        "table": "osc_kod_syaratkelulusan",
+        "connection": null
+      },
+      {
+        "class": "KodIklanKadar",
+        "table": "osc_kod_iklankadar",
+        "connection": null
+      }
+    ],
+    "services": [
+      "MyDigitalIdSecretCipher",
+      "AuditLogger",
+      "UserImportService",
+      "LoginAttemptTracker",
+      "KubernetesOperationsInventory",
+      "StorageInformationService",
+      "BulkImportService",
+      "SystemParameterService",
+      "PasswordPolicyService",
+      "NotificationMailConfigurator",
+      "AuditTrailService",
+      "OtpVerificationService",
+      "AccountReactivationService",
+      "ApprovalConditionService",
+      "UserManagementService",
+      "RoleService",
+      "NotificationService",
+      "IcValidator",
+      "ApiKeyService",
+      "ImpersonationService",
+      "PermissionService",
+      "HousekeepingService",
+      "AnchorSmsService",
+      "BulkImportTemplateService",
+      "LicenseTypeService",
+      "SsmValidator",
+      "KubernetesOperationsGatewayClient",
+      "PbtConfigurationService",
+      "SsmApiClient",
+      "SessionManager",
+      "EmailTemplateService",
+      "AuditLogViewService",
+      "CalendarManagementService",
+      "UserExportService",
+      "JpnApiClient",
+      "AccountClosureService",
+      "SmsService",
+      "MasterDataService",
+      "AuditLogExportService",
+      "IdentityVerificationService",
+      "StorageAlertEmailService",
+      "CompanyRegistrationService",
+      "MonitoringService",
+      "IndividualRegistrationService",
+      "ParameterValidationService"
+    ],
+    "requests": [
+      "UpdateContactRequest",
+      "UploadProfilePhotoRequest",
+      "UpdatePermissionRequest",
+      "ApproveAccountClosureRequest",
+      "UpdateUserRequest",
+      "StoreKodImageRequest",
+      "StoreUserRequest",
+      "StoreKodPoskodRequest",
+      "UpdateAddressRequest",
+      "BulkImportValidateRequest",
+      "AssignRoleRequest",
+      "SaveKalendarCutiRequest",
+      "SaveJamOperasiRequest",
+      "UpdateRoleRequest",
+      "ReviewCustomerCompanyRequest",
+      "UpdateKodImageRequest",
+      "VerifyContactOtpRequest",
+      "StoreKodDokumenRequest",
+      "RegisterRequest",
+      "RegisterCompanyRequest",
+      "UpdateKodDokumenRequest",
+      "StoreLicenseTypeRequest",
+      "Internal/ConsumeStepUpRequest",
+      "CloseAccountRequest",
+      "StoreKodJenisRequest",
+      "LoginRequest",
+      "StoreAddressRequest",
+      "ChangePasswordRequest",
+      "UpdateKodPoskodRequest",
+      "UpdateKodJenisRequest",
+      "StoreCustomerCompanyRequest",
+      "StoreKodMajlisRequest",
+      "AssignPermissionsRequest",
+      "UpdateLicenseTypeRequest",
+      "VerifyOtpRequest",
+      "UploadDocumentRequest",
+      "UpdateParameterRequest",
+      "Auth/InitiateStepUpRequest",
+      "Auth/VerifyStepUpRequest",
+      "StoreRoleRequest",
+      "ResendOtpRequest",
+      "RejectAccountClosureRequest",
+      "BulkImportConfirmRequest",
+      "UpdateKodMajlisRequest",
+      "BulkImportUsersRequest",
+      "RegisterIndividualRequest",
+      "UpdateCustomerCompanyRequest",
+      "StorePermissionRequest",
+      "UpdateProfileRequest"
+    ],
+    "middleware": [
+      "DebugAuth",
+      "SetLocaleFromHeader",
+      "CheckRole",
+      "TrackApiMetrics",
+      "CheckPbtAccess",
+      "CheckPermission",
+      "AuthInternal",
+      "CheckPasswordExpiry"
+    ],
+    "jobs": [
+      "ExecuteKubernetesOperation"
+    ],
+    "events": [],
+    "listeners": [
+      "EmbedEmailLogo",
+      "PreventDisabledEmailNotifications",
+      "LogQueuedEmail",
+      "LogFailedEmail",
+      "LogSentEmail"
+    ],
+    "notifications": [
+      "StepUpOtpNotification",
+      "CustomerResetPasswordNotification",
+      "Channels/SmsAnchorChannel",
+      "AccountReactivationNotification",
+      "AccountStatusChanged",
+      "ClosureApprovedNotification",
+      "ClosureRejectedNotification",
+      "LicenceCancellationRejectedNotification",
+      "LicenceIssuedNotification",
+      "UserRoleChangedNotification",
+      "ConditionalPaymentReadyNotification",
+      "WelcomeUserNotification",
+      "LicenceCancellationRequestedAdminNotification",
+      "RoleRemovedNotification",
+      "LicenceCancellationConfirmedNotification",
+      "RoleAssignedNotification",
+      "Concerns/UsesPreferredChannels",
+      "LicenceCancellationRequestedNotification",
+      "ClosureRequestedAdminNotification",
+      "AccountReactivationConfirmationNotification",
+      "ClosureRequestedNotification",
+      "PbtAssignmentNotification",
+      "AdminResetPasswordNotification"
+    ],
+    "mail": [
+      "TemplateEmail",
+      "OtpMail",
+      "SlaConfigNotification",
+      "TestMail"
+    ],
+    "commands": [
+      "TestQueuedMail",
+      "TestBilingualEmail",
+      "ReencryptMyDigitalIdSecret",
+      "AutoRejectExpiredClosures",
+      "CreateSampleAdmins"
+    ]
+  },
+  "migrations": 7,
+  "routes": [
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/",
+      "name": null,
+      "controller": "Closure",
+      "action": null,
+      "middleware": [
+        "web"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/addresses",
+      "name": null,
+      "controller": "Api\\AddressController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/addresses",
+      "name": null,
+      "controller": "Api\\AddressController",
+      "action": "store",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/addresses/{addressId}",
+      "name": null,
+      "controller": "Api\\AddressController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/addresses/{addressId}",
+      "name": null,
+      "controller": "Api\\AddressController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/addresses/{addressId}",
+      "name": null,
+      "controller": "Api\\AddressController",
+      "action": "destroy",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/accounts/{userId}/approve",
+      "name": null,
+      "controller": "Api\\AdminAccountController",
+      "action": "approveCompanyAccount",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/accounts/{userId}/force-logout",
+      "name": null,
+      "controller": "Api\\AdminAccountController",
+      "action": "forceLogoutAllSessions",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/accounts/{userId}/reactivate",
+      "name": null,
+      "controller": "Api\\AdminAccountController",
+      "action": "reactivateAccount",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/accounts/{userId}/reject",
+      "name": null,
+      "controller": "Api\\AdminAccountController",
+      "action": "rejectCompanyAccount",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/accounts/{userId}/suspend",
+      "name": null,
+      "controller": "Api\\AdminAccountController",
+      "action": "suspendAccount",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/accounts/{userId}/unlock",
+      "name": null,
+      "controller": "Api\\AdminAccountController",
+      "action": "unlockAccount",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/audit-logs",
+      "name": null,
+      "controller": "Api\\AuditLogController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/audit-logs/export",
+      "name": null,
+      "controller": "Api\\AuditLogController",
+      "action": "export",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "ThrottleRequests:10,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/audit-logs/search",
+      "name": null,
+      "controller": "Api\\AuditLogController",
+      "action": "search",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/audit-logs/stats",
+      "name": null,
+      "controller": "Api\\AuditLogController",
+      "action": "stats",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/audit-logs/{id}",
+      "name": null,
+      "controller": "Api\\AuditLogController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/audit-logs/{id}",
+      "name": null,
+      "controller": "Api\\AuditLogController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/audit-logs/{id}",
+      "name": null,
+      "controller": "Api\\AuditLogController",
+      "action": "destroy",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/bulk-import/confirm",
+      "name": null,
+      "controller": "Api\\BulkImportController",
+      "action": "confirm",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:users.bulk-import",
+        "ThrottleRequests:10,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/bulk-import/template",
+      "name": null,
+      "controller": "Api\\BulkImportController",
+      "action": "downloadTemplate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:users.bulk-import"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/bulk-import/validate",
+      "name": null,
+      "controller": "Api\\BulkImportController",
+      "action": "validate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:users.bulk-import",
+        "ThrottleRequests:30,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/closures/pending",
+      "name": null,
+      "controller": "Api\\AdminAccountController",
+      "action": "listPendingClosures",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/closures/{userId}",
+      "name": null,
+      "controller": "Api\\AdminAccountController",
+      "action": "showClosureDetail",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/closures/{userId}/approve",
+      "name": null,
+      "controller": "Api\\AdminAccountController",
+      "action": "approveClosure",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/closures/{userId}/reject",
+      "name": null,
+      "controller": "Api\\AdminAccountController",
+      "action": "rejectClosure",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/companies/search",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "adminSearch",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/companies/{companyId}/review",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "review",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/companies/{ssmNo}/profile-documents",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "adminProfileDocuments",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "CheckPermission:documents.view.all"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/dashboard/stats",
+      "name": null,
+      "controller": "Api\\DashboardController",
+      "action": "getStats",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/documents/{docId}/download",
+      "name": null,
+      "controller": "Api\\DocumentController",
+      "action": "adminDownload",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "CheckPermission:documents.download.all"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/forgot-password",
+      "name": null,
+      "controller": "Api\\AdminAuthController",
+      "action": "forgotPassword",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/housekeeping/cancel/{id}",
+      "name": null,
+      "controller": "Api\\HousekeepingController",
+      "action": "cancel",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/housekeeping/execute",
+      "name": null,
+      "controller": "Api\\HousekeepingController",
+      "action": "execute",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/housekeeping/history",
+      "name": null,
+      "controller": "Api\\HousekeepingController",
+      "action": "history",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/housekeeping/history/{id}",
+      "name": null,
+      "controller": "Api\\HousekeepingController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/housekeeping/preview",
+      "name": null,
+      "controller": "Api\\HousekeepingController",
+      "action": "preview",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/housekeeping/status/{id}",
+      "name": null,
+      "controller": "Api\\HousekeepingController",
+      "action": "status",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/impersonate/active-session",
+      "name": null,
+      "controller": "Api\\ImpersonateController",
+      "action": "activeSession",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/impersonate/check-revoked",
+      "name": null,
+      "controller": "Api\\ImpersonateController",
+      "action": "checkRevoked",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/impersonate/leave",
+      "name": null,
+      "controller": "Api\\ImpersonateController",
+      "action": "leave",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/impersonate/pending",
+      "name": null,
+      "controller": "Api\\ImpersonateController",
+      "action": "pending",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/impersonate/requests/{id}/cancel",
+      "name": null,
+      "controller": "Api\\ImpersonateController",
+      "action": "cancel",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/impersonate/requests/{id}/execute",
+      "name": null,
+      "controller": "Api\\ImpersonateController",
+      "action": "execute",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/impersonate/requests/{id}/status",
+      "name": null,
+      "controller": "Api\\ImpersonateController",
+      "action": "status",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/impersonate/requests/{token}/approve",
+      "name": null,
+      "controller": "Api\\ImpersonateController",
+      "action": "approve",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/impersonate/requests/{token}/reject",
+      "name": null,
+      "controller": "Api\\ImpersonateController",
+      "action": "reject",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/impersonate/revoke",
+      "name": null,
+      "controller": "Api\\ImpersonateController",
+      "action": "revoke",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/integrations/{provider}",
+      "name": null,
+      "controller": "Api\\IntegrationConfigurationController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "CheckPermission:system.integration.update"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/integrations/{provider}",
+      "name": null,
+      "controller": "Api\\IntegrationConfigurationController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "CheckPermission:system.integration.update"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/integrations/{provider}/test",
+      "name": null,
+      "controller": "Api\\IntegrationConfigurationController",
+      "action": "testConnection",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "CheckPermission:system.integration.update"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/kubernetes/configurations",
+      "name": null,
+      "controller": "Api\\KubernetesOperationsController",
+      "action": "configuration",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "CheckRole:super_admin"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/kubernetes/configurations",
+      "name": null,
+      "controller": "Api\\KubernetesOperationsController",
+      "action": "updateConfiguration",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "CheckRole:super_admin"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/kubernetes/inventory",
+      "name": null,
+      "controller": "Api\\KubernetesOperationsController",
+      "action": "inventory",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "CheckRole:super_admin"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/kubernetes/operations",
+      "name": null,
+      "controller": "Api\\KubernetesOperationsController",
+      "action": "storeOperation",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "CheckRole:super_admin"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/kubernetes/operations/{operation}",
+      "name": null,
+      "controller": "Api\\KubernetesOperationsController",
+      "action": "showOperation",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "CheckRole:super_admin"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/kubernetes/workloads",
+      "name": null,
+      "controller": "Api\\KubernetesOperationsController",
+      "action": "workloads",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "CheckRole:super_admin"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/license-types",
+      "name": null,
+      "controller": "Api\\LicenseTypeController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/license-types",
+      "name": null,
+      "controller": "Api\\LicenseTypeController",
+      "action": "store",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/license-types/{id}",
+      "name": null,
+      "controller": "Api\\LicenseTypeController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/license-types/{id}",
+      "name": null,
+      "controller": "Api\\LicenseTypeController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/license-types/{id}/activate",
+      "name": null,
+      "controller": "Api\\LicenseTypeController",
+      "action": "activate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/license-types/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\LicenseTypeController",
+      "action": "deactivate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/locale",
+      "name": null,
+      "controller": "Api\\AdminAuthController",
+      "action": "updateLocale",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/login",
+      "name": null,
+      "controller": "Api\\AdminAuthController",
+      "action": "login",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/logout",
+      "name": null,
+      "controller": "Api\\AdminAuthController",
+      "action": "logout",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/agencies",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listAgencies",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/agencies",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createAgency",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/agencies/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getAgency",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/agencies/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateAgency",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/agencies/{id}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateAgency",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/agencies/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateAgency",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/akta-kompaun",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listAktaKompaun",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/akta-kompaun",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createAktaKompaun",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/akta-kompaun/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getAktaKompaun",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/akta-kompaun/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateAktaKompaun",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/master-data/akta-kompaun/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deleteAktaKompaun",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/akta-kompaun/{id}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateAktaKompaun",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/akta-kompaun/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateAktaKompaun",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/approval-conditions/active",
+      "name": null,
+      "controller": "Api\\ApprovalConditionController",
+      "action": "active",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/approval-conditions/validate",
+      "name": null,
+      "controller": "Api\\ApprovalConditionController",
+      "action": "validateCodes",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/blacklist-codes",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listBlacklistCodes",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/blacklist-codes",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createBlacklistCode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/blacklist-codes/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getBlacklistCode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/blacklist-codes/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateBlacklistCode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/master-data/blacklist-codes/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deleteBlacklistCode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/blacklist-codes/{id}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateBlacklistCode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/blacklist-codes/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateBlacklistCode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/control-codes",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listControlCodes",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/control-codes",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createControlCode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/control-codes/{code}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateControlCode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/control-codes/{code}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateControlCode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/control-codes/{code}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateControlCode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/document-types",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listDocumentTypes",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/dokumen",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listDokumen",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/dokumen",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createDokumen",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/dokumen/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getDokumen",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/dokumen/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateDokumen",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/dokumen/{id}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateDokumen",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/dokumen/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateDokumen",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/images",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listImages",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/images",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createImage",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/images/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getImage",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/images/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateImage",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/jam-operasi",
+      "name": null,
+      "controller": "Api\\JamOperasiController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:jam_operasi.view"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/jam-operasi",
+      "name": null,
+      "controller": "Api\\JamOperasiController",
+      "action": "store",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:jam_operasi.create"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/jam-operasi/{id}",
+      "name": null,
+      "controller": "Api\\JamOperasiController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:jam_operasi.view"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/jam-operasi/{id}",
+      "name": null,
+      "controller": "Api\\JamOperasiController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:jam_operasi.update"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/master-data/jam-operasi/{id}",
+      "name": null,
+      "controller": "Api\\JamOperasiController",
+      "action": "destroy",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:jam_operasi.update"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/jam-operasi/{id}/activate",
+      "name": null,
+      "controller": "Api\\JamOperasiController",
+      "action": "activate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:jam_operasi.update"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/jam-operasi/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\JamOperasiController",
+      "action": "deactivate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:jam_operasi.update"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/jenis",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listJenis",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/jenis",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createJenis",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/jenis/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getJenis",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/jenis/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateJenis",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/jenis/{id}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateJenis",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/jenis/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateJenis",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kalendar-cuti",
+      "name": null,
+      "controller": "Api\\KalendarCutiController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:kalendar_cuti.view"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/kalendar-cuti",
+      "name": null,
+      "controller": "Api\\KalendarCutiController",
+      "action": "store",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:kalendar_cuti.create"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kalendar-cuti/{id}",
+      "name": null,
+      "controller": "Api\\KalendarCutiController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:kalendar_cuti.view"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/kalendar-cuti/{id}",
+      "name": null,
+      "controller": "Api\\KalendarCutiController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:kalendar_cuti.update"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/master-data/kalendar-cuti/{id}",
+      "name": null,
+      "controller": "Api\\KalendarCutiController",
+      "action": "destroy",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:kalendar_cuti.update"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/kalendar-cuti/{id}/activate",
+      "name": null,
+      "controller": "Api\\KalendarCutiController",
+      "action": "activate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:kalendar_cuti.update"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/kalendar-cuti/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\KalendarCutiController",
+      "action": "deactivate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "CheckPermission:kalendar_cuti.update"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kawasan",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listKawasan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/kawasan",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createKawasan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kawasan/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getKawasan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/kawasan/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateKawasan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/kawasan/{id}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateKawasan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/kawasan/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateKawasan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-aktiviti",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listKodAktiviti",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/kod-aktiviti",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createKodAktiviti",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-aktiviti/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getKodAktiviti",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/kod-aktiviti/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateKodAktiviti",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/kod-aktiviti/{id}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateKodAktiviti",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/kod-aktiviti/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateKodAktiviti",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-aktiviti/{id}/dokumen",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listKodAktivitiDokumen",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/kod-aktiviti/{id}/dokumen",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "addKodAktivitiDokumen",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/kod-aktiviti/{id}/dokumen/{docId}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateKodAktivitiDokumen",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/kod-aktiviti/{id}/dokumen/{docId}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateKodAktivitiDokumen",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-iklan",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listKodIklan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/kod-iklan",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createKodIklan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-iklan/suggest",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "suggestKodIklan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-iklan/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getKodIklan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/kod-iklan/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateKodIklan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/master-data/kod-iklan/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deleteKodIklan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/kod-iklan/{id}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateKodIklan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/kod-iklan/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateKodIklan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-jenis-aduan",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listKodJenisAduan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/kod-jenis-aduan",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createKodJenisAduan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-jenis-aduan/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getKodJenisAduan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/kod-jenis-aduan/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateKodJenisAduan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/master-data/kod-jenis-aduan/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deleteKodJenisAduan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/kod-jenis-aduan/{id}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateKodJenisAduan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/kod-jenis-aduan/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateKodJenisAduan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-kesalahan",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listKodKesalahan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/kod-kesalahan",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createKodKesalahan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-kesalahan/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getKodKesalahan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/kod-kesalahan/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateKodKesalahan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/master-data/kod-kesalahan/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deleteKodKesalahan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/kod-kesalahan/{id}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateKesalahan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/kod-kesalahan/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateKesalahan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-niaga",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listKodNiaga",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/kod-niaga",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createKodNiaga",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-niaga-iklan",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getKodNiagaIklan",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-niaga/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getKodNiaga",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/kod-niaga/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateKodNiaga",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/master-data/kod-niaga/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deleteKodNiaga",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/kod-niaga/{id}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateKodNiaga",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/kod-niaga/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateKodNiaga",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/kod-niaga/{id}/jadual-kadar",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateJadualKadar",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-undang",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listKodUndang",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/kod-undang",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createKodUndang",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/kod-undang/{und_idpbt}/{und_kodundang}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getKodUndang",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/kod-undang/{und_idpbt}/{und_kodundang}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateKodUndang",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/kod-undang/{und_idpbt}/{und_kodundang}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateKodUndang",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/kod-undang/{und_idpbt}/{und_kodundang}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateKodUndang",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/locations",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listLocations",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/locations",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createLocation",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/locations/{locationCode}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getLocation",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/locations/{locationCode}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateLocation",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/locations/{locationCode}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateLocation",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/locations/{locationCode}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateLocation",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/majlis",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listMajlis",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/majlis",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createMajlis",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/majlis/{majlisCode}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getMajlis",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/majlis/{majlisCode}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateMajlis",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/majlis/{majlisCode}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateMajlis",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/majlis/{majlisCode}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateMajlis",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/parameters",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/parameters",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "store",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/parameters/definitions",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "getParameterDefinitions",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/parameters/lookup-para-id",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "lookupParaId",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/parameters/pbt/{pbtCode}",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "updatePbtParameters",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/parameters/unconfigured-pbts",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "listUnconfiguredPbts",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/parameters/{id}",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "showById",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/parameters/{id}",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "updateById",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/master-data/parameters/{id}",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "destroy",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/parameters/{id}/activate",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "activateById",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/parameters/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "deactivateById",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/pbts",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listPBTs",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/pbts",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createPBT",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/pbts/{pbtCode}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updatePBT",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/pbts/{pbtCode}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivatePBT",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/postcodes",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listPostcodes",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/postcodes",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createPostcode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/postcodes/dropdown",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getPostcodesDropdown",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/postcodes/{postcode}/{stateCode}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getPostcode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/postcodes/{postcode}/{stateCode}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updatePostcode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/postcodes/{postcode}/{stateCode}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activatePostcode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/postcodes/{postcode}/{stateCode}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivatePostcode",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/ptjpks",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listPtjpks",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/ptjpks",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createPtjpk",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/ptjpks/{ptjpkCode}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getPtjpk",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/ptjpks/{ptjpkCode}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updatePtjpk",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/ptjpks/{ptjpkCode}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activatePtjpk",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/ptjpks/{ptjpkCode}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivatePtjpk",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/rejection-reasons",
+      "name": null,
+      "controller": "Api\\RejectionReasonController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/rejection-reasons",
+      "name": null,
+      "controller": "Api\\RejectionReasonController",
+      "action": "store",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/rejection-reasons/active",
+      "name": null,
+      "controller": "Api\\RejectionReasonController",
+      "action": "active",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/rejection-reasons/{id}",
+      "name": null,
+      "controller": "Api\\RejectionReasonController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/rejection-reasons/{id}",
+      "name": null,
+      "controller": "Api\\RejectionReasonController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/master-data/rejection-reasons/{id}",
+      "name": null,
+      "controller": "Api\\RejectionReasonController",
+      "action": "destroy",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/rejection-reasons/{id}/activate",
+      "name": null,
+      "controller": "Api\\RejectionReasonController",
+      "action": "activate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/rejection-reasons/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\RejectionReasonController",
+      "action": "deactivate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/sektors",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listSektors",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/sektors",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createSektor",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/sektors/{pbtCode}/{sektorCode}/{jenisCode}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getSektor",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/sektors/{pbtCode}/{sektorCode}/{jenisCode}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateSektor",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/sektors/{pbtCode}/{sektorCode}/{jenisCode}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateSektor",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/sektors/{pbtCode}/{sektorCode}/{jenisCode}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateSektor",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/states",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getStates",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/zon",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "listZon",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/master-data/zon",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "createZon",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/master-data/zon/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "getZon",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/master-data/zon/{id}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "updateZon",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/zon/{id}/activate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "activateZon",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/master-data/zon/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "deactivateZon",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/monitoring/api-metrics",
+      "name": null,
+      "controller": "Api\\MonitoringController",
+      "action": "apiMetrics",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/monitoring/database",
+      "name": null,
+      "controller": "Api\\MonitoringController",
+      "action": "database",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/monitoring/error-logs",
+      "name": null,
+      "controller": "Api\\MonitoringController",
+      "action": "errorLogs",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/monitoring/health",
+      "name": null,
+      "controller": "Api\\MonitoringController",
+      "action": "health",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/monitoring/jobs",
+      "name": null,
+      "controller": "Api\\MonitoringController",
+      "action": "jobs",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/monitoring/sessions",
+      "name": null,
+      "controller": "Api\\MonitoringController",
+      "action": "sessions",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/monitoring/sessions/{userId}/force-logout",
+      "name": null,
+      "controller": "Api\\MonitoringController",
+      "action": "forceLogout",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/monitoring/storage",
+      "name": null,
+      "controller": "Api\\MonitoringController",
+      "action": "storage",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/parameters",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/parameters",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "store",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/parameters/{id}",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "destroy",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/parameters/{key}",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/parameters/{key}",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/parameters/{key}/history",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "history",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/parameters/{key}/impact",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "impact",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/parameters/{key}/rollback",
+      "name": null,
+      "controller": "Api\\SystemParameterController",
+      "action": "rollback",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/pbt/{pbtCode}/configuration",
+      "name": null,
+      "controller": "Api\\PbtConfigurationController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/pbt/{pbtCode}/parameters",
+      "name": null,
+      "controller": "Api\\PbtConfigurationController",
+      "action": "getParameters",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/pbt/{pbtCode}/parameters/{key}",
+      "name": null,
+      "controller": "Api\\PbtConfigurationController",
+      "action": "updateParameter",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/pbt/{pbtCode}/users/{userId}/roles",
+      "name": null,
+      "controller": "Api\\PbtConfigurationController",
+      "action": "getUserRoles",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/pbt/{pbtCode}/users/{userId}/roles",
+      "name": null,
+      "controller": "Api\\PbtConfigurationController",
+      "action": "assignRole",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/pbt/{pbtCode}/users/{userId}/roles/{roleId}",
+      "name": null,
+      "controller": "Api\\PbtConfigurationController",
+      "action": "removeRole",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/permissions",
+      "name": "permissions.index",
+      "controller": "Api\\PermissionController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/permissions",
+      "name": "permissions.store",
+      "controller": "Api\\PermissionController",
+      "action": "store",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/permissions/actions/list",
+      "name": null,
+      "controller": "Api\\PermissionController",
+      "action": "actions",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/permissions/document-matrix",
+      "name": null,
+      "controller": "Api\\PermissionController",
+      "action": "documentMatrix",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/permissions/grouped-by-module",
+      "name": null,
+      "controller": "Api\\PermissionController",
+      "action": "groupedByModule",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/permissions/modules/list",
+      "name": null,
+      "controller": "Api\\PermissionController",
+      "action": "modules",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/permissions/{permission}",
+      "name": "permissions.show",
+      "controller": "Api\\PermissionController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT",
+        "PATCH"
+      ],
+      "uri": "/api/admin/permissions/{permission}",
+      "name": "permissions.update",
+      "controller": "Api\\PermissionController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/permissions/{permission}/activate",
+      "name": null,
+      "controller": "Api\\PermissionController",
+      "action": "activate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/permissions/{permission}/deactivate",
+      "name": null,
+      "controller": "Api\\PermissionController",
+      "action": "deactivate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/profiles",
+      "name": null,
+      "controller": "Api\\AdminProfileController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/profiles/{id}",
+      "name": null,
+      "controller": "Api\\AdminProfileController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/profiles/{id}",
+      "name": null,
+      "controller": "Api\\AdminProfileController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/profiles/{id}/resend-otp",
+      "name": null,
+      "controller": "Api\\AdminProfileController",
+      "action": "resendOtp",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/reset-password",
+      "name": null,
+      "controller": "Api\\AdminAuthController",
+      "action": "resetPassword",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/roles",
+      "name": "roles.index",
+      "controller": "Api\\RoleController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/roles",
+      "name": "roles.store",
+      "controller": "Api\\RoleController",
+      "action": "store",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/roles/{role}",
+      "name": "roles.show",
+      "controller": "Api\\RoleController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT",
+        "PATCH"
+      ],
+      "uri": "/api/admin/roles/{role}",
+      "name": "roles.update",
+      "controller": "Api\\RoleController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/roles/{role}/activate",
+      "name": null,
+      "controller": "Api\\RoleController",
+      "action": "activate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/roles/{role}/deactivate",
+      "name": null,
+      "controller": "Api\\RoleController",
+      "action": "deactivate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/roles/{role}/permissions",
+      "name": null,
+      "controller": "Api\\RoleController",
+      "action": "permissions",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/roles/{role}/permissions",
+      "name": null,
+      "controller": "Api\\RoleController",
+      "action": "assignPermissions",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/roles/{role}/permissions/remove",
+      "name": null,
+      "controller": "Api\\RoleController",
+      "action": "removePermissions",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/roles/{role}/permissions/{permission}",
+      "name": null,
+      "controller": "Api\\RoleController",
+      "action": "removePermission",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/sla-config",
+      "name": null,
+      "controller": "Api\\SlaConfigController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/sla-config",
+      "name": null,
+      "controller": "Api\\SlaConfigController",
+      "action": "store",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/sla-config/approve",
+      "name": null,
+      "controller": "Api\\SlaConfigController",
+      "action": "approve",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/sla-config/pending",
+      "name": null,
+      "controller": "Api\\SlaConfigController",
+      "action": "pending",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/sla-config/reject",
+      "name": null,
+      "controller": "Api\\SlaConfigController",
+      "action": "reject",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/sla-config/stages",
+      "name": null,
+      "controller": "Api\\SlaConfigController",
+      "action": "stages",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/storage-information",
+      "name": null,
+      "controller": "Api\\StorageInformationController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/storage-settings",
+      "name": null,
+      "controller": "Api\\StorageSettingController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/storage-settings",
+      "name": null,
+      "controller": "Api\\StorageSettingController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/users",
+      "name": null,
+      "controller": "Api\\UserManagementController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/users",
+      "name": null,
+      "controller": "Api\\UserManagementController",
+      "action": "store",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/users/bulk-import",
+      "name": null,
+      "controller": "Api\\UserManagementController",
+      "action": "bulkImport",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "ThrottleRequests:10,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/users/export",
+      "name": null,
+      "controller": "Api\\UserManagementController",
+      "action": "export",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1",
+        "ThrottleRequests:10,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/users/{id}",
+      "name": null,
+      "controller": "Api\\UserManagementController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/admin/users/{id}",
+      "name": null,
+      "controller": "Api\\UserManagementController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/users/{id}/activity",
+      "name": null,
+      "controller": "Api\\UserManagementController",
+      "action": "activity",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/users/{id}/change-password",
+      "name": null,
+      "controller": "Api\\UserManagementController",
+      "action": "changePassword",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/admin/users/{id}/deactivate",
+      "name": null,
+      "controller": "Api\\UserManagementController",
+      "action": "deactivate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/users/{id}/force-logout",
+      "name": null,
+      "controller": "Api\\UserManagementController",
+      "action": "forceLogout",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/users/{id}/impersonate",
+      "name": null,
+      "controller": "Api\\ImpersonateController",
+      "action": "impersonate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/users/{id}/resend-activation",
+      "name": null,
+      "controller": "Api\\UserManagementController",
+      "action": "resendActivation",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/users/{id}/reset-password",
+      "name": null,
+      "controller": "Api\\UserManagementController",
+      "action": "resetPassword",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/users/{userId}/permissions",
+      "name": null,
+      "controller": "Api\\UserRoleController",
+      "action": "getEffectivePermissions",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/admin/users/{userId}/roles",
+      "name": null,
+      "controller": "Api\\UserRoleController",
+      "action": "getUserRoles",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/admin/users/{userId}/roles",
+      "name": null,
+      "controller": "Api\\UserRoleController",
+      "action": "assignRole",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/admin/users/{userId}/roles/{roleId}",
+      "name": null,
+      "controller": "Api\\UserRoleController",
+      "action": "removeRole",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum_admin",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:120,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/auth/mydigitalid/exchange",
+      "name": null,
+      "controller": "Api\\MyDigitalIdAuthController",
+      "action": "exchange",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/auth/mydigitalid/register",
+      "name": null,
+      "controller": "Api\\MyDigitalIdAuthController",
+      "action": "register",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/auth/step-up/initiate",
+      "name": null,
+      "controller": "Auth\\StepUpController",
+      "action": "initiate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:5,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/auth/step-up/resend",
+      "name": null,
+      "controller": "Auth\\StepUpController",
+      "action": "resend",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:5,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/auth/step-up/verify",
+      "name": null,
+      "controller": "Auth\\StepUpController",
+      "action": "verify",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry",
+        "ThrottleRequests:5,1"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/companies",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/companies",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "store",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/companies/metadata",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "metadata",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/companies/options",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "options",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/companies/validate-registration",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "validateRegistration",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/companies/{companyId}",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT",
+        "PATCH"
+      ],
+      "uri": "/api/companies/{companyId}",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/companies/{companyId}",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "destroy",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/companies/{companyId}/branches/appointment-document",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "uploadBranchAppointmentDocument",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/companies/{companyId}/branches/{branchId}/appointment-document",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "destroyBranchAppointmentDocument",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/companies/{companyId}/branches/{branchId}/appointment-document/download",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "downloadBranchAppointmentDocument",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/companies/{companyId}/branches/{branchId}/delete-eligibility",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "checkBranchDeleteEligibility",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/companies/{companyId}/delete-eligibility",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "checkDeleteEligibility",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/companies/{companyId}/myipo-cert/preview",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "previewMyipoCert",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/companies/{companyId}/proof-documents/{documentId}",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "destroyProofDocument",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/companies/{companyId}/proof-documents/{documentId}/download",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "downloadProofDocument",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/companies/{companyId}/proof-documents/{documentId}/preview",
+      "name": null,
+      "controller": "Api\\CustomerCompanyController",
+      "action": "previewProofDocument",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/documents",
+      "name": null,
+      "controller": "Api\\DocumentController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/documents",
+      "name": null,
+      "controller": "Api\\DocumentController",
+      "action": "upload",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/documents/{document}",
+      "name": "documents.show",
+      "controller": "Api\\DocumentController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/api/documents/{document}",
+      "name": null,
+      "controller": "Api\\DocumentController",
+      "action": "destroy",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/documents/{document}/download",
+      "name": "documents.download",
+      "controller": "Api\\DocumentController",
+      "action": "download",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/forgot-password",
+      "name": null,
+      "controller": "Api\\AuthController",
+      "action": "forgotPassword",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/health",
+      "name": null,
+      "controller": "Closure",
+      "action": null,
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/impersonate/requests/{token}/approve",
+      "name": null,
+      "controller": "Api\\ImpersonateController",
+      "action": "approve",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/impersonate/requests/{token}/reject",
+      "name": null,
+      "controller": "Api\\ImpersonateController",
+      "action": "reject",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/internal/companies/{customerId}/snapshot-info",
+      "name": null,
+      "controller": "Internal\\CompanyDocumentController",
+      "action": "snapshotInfo",
+      "middleware": [
+        "api",
+        "AuthInternal"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/internal/documents/{docId}/download",
+      "name": null,
+      "controller": "Internal\\CompanyDocumentController",
+      "action": "download",
+      "middleware": [
+        "api",
+        "AuthInternal"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/internal/notifications/dispatch",
+      "name": null,
+      "controller": "Internal\\NotificationDispatchController",
+      "action": "dispatch",
+      "middleware": [
+        "api",
+        "AuthInternal"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/internal/step-up/consume",
+      "name": null,
+      "controller": "Internal\\StepUpInternalController",
+      "action": "consume",
+      "middleware": [
+        "api",
+        "AuthInternal"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/login",
+      "name": null,
+      "controller": "Api\\AuthController",
+      "action": "login",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/logout",
+      "name": null,
+      "controller": "Api\\AuthController",
+      "action": "logout",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/master-data/kalendar-cuti/active",
+      "name": null,
+      "controller": "Api\\KalendarCutiController",
+      "action": "active",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/me",
+      "name": null,
+      "controller": "Api\\AuthController",
+      "action": "me",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/notifications",
+      "name": null,
+      "controller": "Api\\NotificationController",
+      "action": "index",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/notifications/has-new",
+      "name": null,
+      "controller": "Api\\NotificationController",
+      "action": "hasNew",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/notifications/mark-all-read",
+      "name": null,
+      "controller": "Api\\NotificationController",
+      "action": "markAllRead",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/notifications/mark-all-unread",
+      "name": null,
+      "controller": "Api\\NotificationController",
+      "action": "markAllUnread",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/notifications/preview",
+      "name": null,
+      "controller": "Api\\NotificationController",
+      "action": "preview",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/notifications/unread",
+      "name": null,
+      "controller": "Api\\NotificationController",
+      "action": "unread",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/notifications/{id}/read",
+      "name": null,
+      "controller": "Api\\NotificationController",
+      "action": "markRead",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/notifications/{id}/unread",
+      "name": null,
+      "controller": "Api\\NotificationController",
+      "action": "markUnread",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/postcode-lookup/{postcode}",
+      "name": null,
+      "controller": "Api\\MasterDataController",
+      "action": "lookupPostcode",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/profile",
+      "name": null,
+      "controller": "Api\\ProfileController",
+      "action": "show",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PATCH"
+      ],
+      "uri": "/api/profile",
+      "name": null,
+      "controller": "Api\\ProfileController",
+      "action": "update",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/profile/close",
+      "name": null,
+      "controller": "Api\\ProfileController",
+      "action": "requestClosure",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/profile/closure-status",
+      "name": null,
+      "controller": "Api\\ProfileController",
+      "action": "closureStatus",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/profile/contact/update",
+      "name": null,
+      "controller": "Api\\ProfileController",
+      "action": "requestContactUpdate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/profile/contact/verify",
+      "name": null,
+      "controller": "Api\\ProfileController",
+      "action": "verifyContactUpdate",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "PUT"
+      ],
+      "uri": "/api/profile/password",
+      "name": null,
+      "controller": "Api\\ProfileController",
+      "action": "changePassword",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/profile/password-status",
+      "name": null,
+      "controller": "Api\\ProfileController",
+      "action": "passwordStatus",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/profile/photo",
+      "name": null,
+      "controller": "Api\\ProfileController",
+      "action": "showPhoto",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/profile/photo",
+      "name": null,
+      "controller": "Api\\ProfileController",
+      "action": "uploadPhoto",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/reactivation/complete",
+      "name": null,
+      "controller": "Api\\AccountReactivationController",
+      "action": "complete",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/reactivation/request",
+      "name": null,
+      "controller": "Api\\AccountReactivationController",
+      "action": "request",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/reactivation/validate",
+      "name": null,
+      "controller": "Api\\AccountReactivationController",
+      "action": "validateToken",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/register",
+      "name": null,
+      "controller": "Api\\AuthController",
+      "action": "register",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/register/company",
+      "name": null,
+      "controller": "Api\\AuthController",
+      "action": "registerCompany",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/register/individual",
+      "name": null,
+      "controller": "Api\\AuthController",
+      "action": "registerIndividual",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/resend-otp",
+      "name": null,
+      "controller": "Api\\AuthController",
+      "action": "resendOtp",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/reset-password",
+      "name": null,
+      "controller": "Api\\AuthController",
+      "action": "resetPassword",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/user/locale",
+      "name": null,
+      "controller": "Api\\AuthController",
+      "action": "updateLocale",
+      "middleware": [
+        "api",
+        "Authenticate:sanctum",
+        "CheckPasswordExpiry"
+      ],
+      "routeLevelAuth": true
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/api/validate-reset-token",
+      "name": null,
+      "controller": "Api\\AuthController",
+      "action": "validateResetToken",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/verify-otp",
+      "name": null,
+      "controller": "Api\\AuthController",
+      "action": "verifyOtp",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/verify/company-search",
+      "name": null,
+      "controller": "Api\\AuthController",
+      "action": "searchCompany",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/api/verify/individual-search",
+      "name": null,
+      "controller": "Api\\AuthController",
+      "action": "searchIndividual",
+      "middleware": [
+        "api"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/docs/api",
+      "name": "scramble.docs.ui",
+      "controller": "Closure",
+      "action": null,
+      "middleware": [
+        "web",
+        "RestrictedDocsAccess"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/docs/api.json",
+      "name": "scramble.docs.document",
+      "controller": "Closure",
+      "action": null,
+      "middleware": [
+        "web",
+        "RestrictedDocsAccess"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/log-viewer/api/clear-cache-all",
+      "name": "log-viewer.files.clear-cache-all",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\FilesController",
+      "action": "clearCacheAll",
+      "middleware": [
+        "EnsureFrontendRequestsAreStateful",
+        "AuthorizeLogViewer",
+        "ForwardRequestToHostMiddleware",
+        "JsonResourceWithoutWrappingMiddleware"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/log-viewer/api/delete-multiple-files",
+      "name": "log-viewer.files.delete-multiple-files",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\FilesController",
+      "action": "deleteMultipleFiles",
+      "middleware": [
+        "EnsureFrontendRequestsAreStateful",
+        "AuthorizeLogViewer",
+        "ForwardRequestToHostMiddleware",
+        "JsonResourceWithoutWrappingMiddleware"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/log-viewer/api/files",
+      "name": "log-viewer.files",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\FilesController",
+      "action": "index",
+      "middleware": [
+        "EnsureFrontendRequestsAreStateful",
+        "AuthorizeLogViewer",
+        "ForwardRequestToHostMiddleware",
+        "JsonResourceWithoutWrappingMiddleware"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/log-viewer/api/files/{fileIdentifier}",
+      "name": "log-viewer.files.delete",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\FilesController",
+      "action": "delete",
+      "middleware": [
+        "EnsureFrontendRequestsAreStateful",
+        "AuthorizeLogViewer",
+        "ForwardRequestToHostMiddleware",
+        "JsonResourceWithoutWrappingMiddleware"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/log-viewer/api/files/{fileIdentifier}/clear-cache",
+      "name": "log-viewer.files.clear-cache",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\FilesController",
+      "action": "clearCache",
+      "middleware": [
+        "EnsureFrontendRequestsAreStateful",
+        "AuthorizeLogViewer",
+        "ForwardRequestToHostMiddleware",
+        "JsonResourceWithoutWrappingMiddleware"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/log-viewer/api/files/{fileIdentifier}/download",
+      "name": "log-viewer.files.download",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\FilesController",
+      "action": "download",
+      "middleware": [
+        "EnsureFrontendRequestsAreStateful",
+        "AuthorizeLogViewer",
+        "ValidateSignature"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/log-viewer/api/files/{fileIdentifier}/download/request",
+      "name": "log-viewer.files.request-download",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\FilesController",
+      "action": "requestDownload",
+      "middleware": [
+        "EnsureFrontendRequestsAreStateful",
+        "AuthorizeLogViewer",
+        "ForwardRequestToHostMiddleware",
+        "JsonResourceWithoutWrappingMiddleware"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/log-viewer/api/folders",
+      "name": "log-viewer.folders",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\FoldersController",
+      "action": "index",
+      "middleware": [
+        "EnsureFrontendRequestsAreStateful",
+        "AuthorizeLogViewer",
+        "ForwardRequestToHostMiddleware",
+        "JsonResourceWithoutWrappingMiddleware"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "DELETE"
+      ],
+      "uri": "/log-viewer/api/folders/{folderIdentifier}",
+      "name": "log-viewer.folders.delete",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\FoldersController",
+      "action": "delete",
+      "middleware": [
+        "EnsureFrontendRequestsAreStateful",
+        "AuthorizeLogViewer",
+        "ForwardRequestToHostMiddleware",
+        "JsonResourceWithoutWrappingMiddleware"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "POST"
+      ],
+      "uri": "/log-viewer/api/folders/{folderIdentifier}/clear-cache",
+      "name": "log-viewer.folders.clear-cache",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\FoldersController",
+      "action": "clearCache",
+      "middleware": [
+        "EnsureFrontendRequestsAreStateful",
+        "AuthorizeLogViewer",
+        "ForwardRequestToHostMiddleware",
+        "JsonResourceWithoutWrappingMiddleware"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/log-viewer/api/folders/{folderIdentifier}/download",
+      "name": "log-viewer.folders.download",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\FoldersController",
+      "action": "download",
+      "middleware": [
+        "EnsureFrontendRequestsAreStateful",
+        "AuthorizeLogViewer",
+        "ValidateSignature"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/log-viewer/api/folders/{folderIdentifier}/download/request",
+      "name": "log-viewer.folders.request-download",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\FoldersController",
+      "action": "requestDownload",
+      "middleware": [
+        "EnsureFrontendRequestsAreStateful",
+        "AuthorizeLogViewer",
+        "ForwardRequestToHostMiddleware",
+        "JsonResourceWithoutWrappingMiddleware"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/log-viewer/api/hosts",
+      "name": "log-viewer.hosts",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\HostsController",
+      "action": "index",
+      "middleware": [
+        "EnsureFrontendRequestsAreStateful",
+        "AuthorizeLogViewer"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/log-viewer/api/logs",
+      "name": "log-viewer.logs",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\LogsController",
+      "action": "index",
+      "middleware": [
+        "EnsureFrontendRequestsAreStateful",
+        "AuthorizeLogViewer",
+        "ForwardRequestToHostMiddleware",
+        "JsonResourceWithoutWrappingMiddleware"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/log-viewer/{view?}",
+      "name": "log-viewer.index",
+      "controller": "Opcodes\\LogViewer\\Http\\Controllers\\IndexController",
+      "action": null,
+      "middleware": [
+        "web",
+        "AuthorizeLogViewer"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/sanctum/csrf-cookie",
+      "name": "sanctum.csrf-cookie",
+      "controller": "Laravel\\Sanctum\\Http\\Controllers\\CsrfCookieController",
+      "action": "show",
+      "middleware": [
+        "web"
+      ],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/storage/{path}",
+      "name": "storage.local",
+      "controller": "Closure",
+      "action": null,
+      "middleware": [],
+      "routeLevelAuth": false
+    },
+    {
+      "methods": [
+        "GET"
+      ],
+      "uri": "/up",
+      "name": null,
+      "controller": "Closure",
+      "action": null,
+      "middleware": [],
+      "routeLevelAuth": false
+    }
+  ],
+  "routesSource": "artisan route:list",
+  "routesError": null,
+  "status": "ok",
+  "git": {
+    "branch": "development",
+    "commit": "b90d1ea",
+    "commitDate": "2026-09-28T17:21:50+08:00",
+    "commitSubject": "hotfix amount and dashboard",
+    "remote": "https://github.com/censof/osc-be1-admin-profile.git"
+  }
+}

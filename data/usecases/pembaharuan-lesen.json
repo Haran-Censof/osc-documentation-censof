@@ -1,0 +1,2735 @@
+{
+ "module": {
+  "id": "pembaharuan-lesen",
+  "name": "Pembaharuan Lesen",
+  "code": "BL",
+  "version": "2.0",
+  "iteration": 2,
+  "sourceFile": "OSCP SD.01.01 Spesifikasi Rekabentuk Sistem (SDS) v2.0 - Pembaharuan Lesen.docx"
+ },
+ "functions": [
+  {
+   "id": "SF-PL-BL-PN",
+   "name": "Pembaharuan Lesen",
+   "actors": []
+  },
+  {
+   "id": "SF-PL-BL-PN-01",
+   "name": "Hantar Peringatan Pra-Tamat",
+   "actors": [
+    "Pemohon",
+    "Pelesen"
+   ]
+  },
+  {
+   "id": "SF-PL-BL-PN-02",
+   "name": "Mulakan Pembaharuan",
+   "actors": [
+    "Pemohon",
+    "Pelesen"
+   ]
+  },
+  {
+   "id": "SF-PL-BL-PN-03",
+   "name": "Kemas Kini Maklumat Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesen"
+   ]
+  },
+  {
+   "id": "SF-PL-BL-PN-04",
+   "name": "Muat Naik Dokumen Pembaharuan",
+   "actors": [
+    "Pemohon",
+    "Pelesen"
+   ]
+  },
+  {
+   "id": "SF-PL-BL-PN-05",
+   "name": "Serah Permohonan Pembaharuan",
+   "actors": [
+    "Pemohon",
+    "Pelesen"
+   ]
+  }
+ ],
+ "useCases": [
+  {
+   "id": "UC-PL-BL-PN-01",
+   "name": "Hantar Peringatan Pra-Tamat",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesan"
+   ],
+   "steps": [
+    "Sistem jana senarai lesen yang bakal tamat tempoh.",
+    "Sistem hantar notifikasi pembaharuan kepada pemohon, merujuk kepada medan No Tel Bimbit bagi notifikasi sms dan Alamat Email bagi notifikasi email. Template yang digunakan adalah sama bagi individu dan syarikat.",
+    "Sistem log status penghantaran, ‘Berjaya’ - notifikasi telah berjaya dihantar ‘Gagal’ – sistem log notifikasi tidak berjaya dihantar bersama ralatnya. Contoh ralat, Alamat email tidak sah."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tiada paparan lesen yang bakal tamat di papan pemuka sistem pengguna. Mesej: Tiada lesen bakal tamat"
+    },
+    {
+     "id": "A2",
+     "text": "Notifikasi gagal dihantar. Akan memaparkan ralat bersama status ‘Gagal’ di log sistem"
+    },
+    {
+     "id": "A3",
+     "text": "Ralat capaian pangkalan data. Sistem akan paparkan notifikasi di sistem."
+    }
+   ],
+   "input": "Data lesen",
+   "output": "Notifikasi peringatan",
+   "uiRefs": [
+    "UI-PL-BL-PN-01"
+   ],
+   "integration": "Modul Notifikasi",
+   "notes": "Menyokong e-mel/SMS/in-app",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-BL-PN-01-01",
+   "name": "Jana Senarai Lesen Tamat Tempoh",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesan"
+   ],
+   "steps": [
+    "Sistem jalankan carian bagi kesemua lesen yang masih Aktif dan tamat dalam tempoh 30/14/hari dari tarikh tamat lesen.",
+    "Sistem jana senarai rekod dipaparan pemohon bagi membolehkan pemohon membuat pembaharuan lebih awal."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Tiada rekod tamat tempoh. Mesej: Tiada lesen bakal tamat"
+    },
+    {
+     "id": "A2",
+     "text": "Ralat carian pangkalan data. Sistem akan memaparkan mesej ralat: “Ralat capaian data. Sila cuba semula”"
+    }
+   ],
+   "input": "Tarikh tamat lesen",
+   "output": "Senarai lesen tamat",
+   "uiRefs": [
+    "UI-PL-BL-PN-01-01"
+   ],
+   "integration": "–",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-BL-PN-01"
+  },
+  {
+   "id": "UC-PL-BL-PN-01-02",
+   "name": "Notifikasi Peringatan Pembaharuan",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesan"
+   ],
+   "steps": [
+    "Sistem hantar notifikasi secara automatik mengikut tempoh 30/14/1hari sebelum tamat tempoh lesen dan 30/7 hari selepas tamat tempoh.",
+    "Sistem pastikan templat notifikasi betul bagi email dan sms seperti yang ditetapkan. Rujuk Lampiran 1"
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Templat tidak dijumpai. Sistem semak templat bagi notisfikasi email/sms."
+    },
+    {
+     "id": "A2",
+     "text": "Gagal hantar. Sistem akan memaparkan mesej ralat bersama status ‘Gagal’"
+    }
+   ],
+   "input": "Email ID/No Telefon Bimbit yang didaftar bagi pemohon/syarikat",
+   "output": "Notifikasi",
+   "uiRefs": [
+    "UI-PL-BL-PN-01-02"
+   ],
+   "integration": "Modul Notifikasi,",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-BL-PN-01"
+  },
+  {
+   "id": "UC-PL-BL-PN-02",
+   "name": "Mulakan Pembaharuan",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesen"
+   ],
+   "steps": [
+    "Pemohon pilih lesen yang ingin diperbaharui dari senarai UC-PL-BL-PN-01-01",
+    "Sistem panggil UC-PL-BL-PN-02-01 untuk ambil data sedia ada.",
+    "Sistem papar borang pembaharuan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Rekod lesen yang tidak lengkap, tidak akan paparkan dalam senarai Pembaharuan Lesen."
+    },
+    {
+     "id": "A2",
+     "text": "Status lesen tidak layak diperbaharui. Sistem akan memaparkan mesej ralat “Pembaharuan tidak dibenarkan kerana syarat kelayakan tidak dipenuhi”"
+    }
+   ],
+   "input": "No lesen Format No lesen: 999999 (6 digits running number)",
+   "output": "Borang pembaharuan",
+   "uiRefs": [
+    "UI-PL-BL-PN-02"
+   ],
+   "integration": "–",
+   "notes": "Lesen mesti masih aktif",
+   "calls": [
+    "UC-PL-BL-PN-01-01",
+    "UC-PL-BL-PN-02-01"
+   ],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-BL-PN-02-01",
+   "name": "Ambil Data Lesen Sedia Ada",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesan"
+   ],
+   "steps": [
+    "Sistem tarik maklumat lesen, maklumat perniagaan, Maklumat hubungi dan maklumat iklan.",
+    "Sistem pra-isi borang pembaharuan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Bagi rekod tidak lengkap, akan memaparkan mesej ralat “Maklumat tidak lengkap. Sila kemaskini”"
+    },
+    {
+     "id": "A2",
+     "text": "Ralat pangkalan data. SIstem akan memaparkan mesej ralat “Ralat capaian data. Sila cuba semula”"
+    }
+   ],
+   "input": "No lesen",
+   "output": "Data pra-isi. Sistem memaparkan maklumat lesen sedia ada",
+   "uiRefs": [
+    "UI-PL-BL-PN-02-01"
+   ],
+   "integration": "–",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-BL-PN-02"
+  },
+  {
+   "id": "UC-PL-BL-PN-02-02",
+   "name": "Semak Syarat dan Larangan",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesan"
+   ],
+   "steps": [
+    "Sistem semak syarat khas lesen & larangan bagi tunggakan, kompaun dan sekatan.",
+    "Sistem papar amaran jika tidak layak. Mesej makluman “Anda mempunyai kompaun belum bayar. Sila bayar dahulu.“ dan “Akaun anda disekat“ dan “Pembaharuan tidak dibenarkan kerana syarat kelayakan tidak dipenuhi”"
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "membenarkan pembaharuan lesen bagi lesen-lesen yang sepatunya tidak dibenarkan(cth: kompaun belum bayar)."
+    }
+   ],
+   "input": "No Lesen, semakan pada setiap syarat dan larangan seperti yang ditetapkan di sistem",
+   "output": "Pembaharuan dapat diteruskan jika memenuhi segala syarat dan larangan",
+   "uiRefs": [
+    "UI-PL-BL-PN-02-02"
+   ],
+   "integration": "Rujukan PBT",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-BL-PN-02"
+  },
+  {
+   "id": "UC-PL-BL-PN-03",
+   "name": "Kemas Kini Maklumat Lesen",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesen"
+   ],
+   "steps": [
+    "Pemohon kemaskini maklumat lesen, perniagaan hubungi dan iklan.",
+    "Sistem validasi input.",
+    "Sistem simpan perubahan."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Format tidak sah. Semakan medan atau borang seperti UC-PL-BL-PN-03-01. Sistem akan paparkan mesej ralat. Contoh , “Jenis fail tidak dibenarkan. Sila muatnaik PDF, JPG atau PNG”"
+    },
+    {
+     "id": "A2",
+     "text": "Ralat simpan. Sistem akan paparkan mesej ralat, “Ralat semasa menyimpan data. Sila cuba semula.”"
+    }
+   ],
+   "input": "Maklumat baharu",
+   "output": "Maklumat dikemaskini",
+   "uiRefs": [
+    "UI-PL-BL-PN-03"
+   ],
+   "integration": "–",
+   "notes": "–",
+   "calls": [
+    "UC-PL-BL-PN-03-01"
+   ],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-BL-PN-03-01",
+   "name": "Validasi Borang dan Medan",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesan"
+   ],
+   "steps": [
+    "Sistem semak format medan seperti yang ditetapkan. No. Telefon - Nombor sahaja, 10–11 digit Emel: Format standard nama@domain.com No. SSM: Alfanumerik, format “123456-A”, panjang 7–10 aksara Poskod: Nombor sahaja, 5 digit Koordinat (Latitude/Longitude): Nombor desimal, julat Latitude -90 hingga +90, Longitude -180 hingga +180",
+    "Sistem beri amaran jika salah."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Data tidak konsisten. Data bercanggah antara field atau sumber dan akan menyebabkan ralat pada data. Value no telefon, emel id, no SSM tidak selaras. Sistem paparkan mesej seperti di 4.1.8 skrin validasi borang & medan"
+    }
+   ],
+   "input": "Data borang",
+   "output": "Dapat teruskan proses seterusnya jika memenuhi semakan validasi borang dan medan",
+   "uiRefs": [
+    "UI-PL-BL-PN-03-01"
+   ],
+   "integration": "–",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-BL-PN-03"
+  },
+  {
+   "id": "UC-PL-BL-PN-04",
+   "name": "Muat Naik Dokumen Pembaharuan",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesen"
+   ],
+   "steps": [
+    "Pemohon muat naik dokumen terkini.",
+    "Sistem semak format & saiz fail.",
+    "Sistem simpan dokumen."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Format tidak dibenarkan. Sistem memaparkan mesej ralat “Jenis fail tidak dibenarkan. Sila Muat naik PDF, JPG, atau PNG”"
+    },
+    {
+     "id": "A2",
+     "text": "Fail terlalu besar. Sistem memaparkan mesej ralat “Fail terlalu besar. Saiz maksimum adalah 5MB”"
+    },
+    {
+     "id": "A3",
+     "text": "Stor dokumen tidak respons. Sistem memaparkan mesej ralat “Ralat semasa memuat naik dokumen. Sila cuba semula.”"
+    }
+   ],
+   "input": "Fail dokumen",
+   "output": "Dokumen dimuat naik",
+   "uiRefs": [
+    "UI-PL-BL-PN-04"
+   ],
+   "integration": "–",
+   "notes": "Enkripsi fail",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-BL-PN-04-01",
+   "name": "Semak Senarai Dokumen",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesan"
+   ],
+   "steps": [
+    "Sistem paparkan senarai dokumen yang diperlu dilampiran.",
+    "Sistem semak kelengkapan dokumen yang muat naik."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Rujukan hilang. Sistem akan memarparkan mesej “Konfigurasi dokumen tidak lengkap. Sila hubungi pentadbir.”"
+    }
+   ],
+   "input": "–",
+   "output": "Senarai dokumen",
+   "uiRefs": [
+    "UI-PL-BL-PN-04-01"
+   ],
+   "integration": "–",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-BL-PN-04"
+  },
+  {
+   "id": "UC-PL-BL-PN-04-02",
+   "name": "Semak Saiz/Format Fail",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesan"
+   ],
+   "steps": [
+    "Sistem periksa saiz & format fail.",
+    "Sistem beri maklum balas."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Saiz melebihi had. Sistem paparkan mesej “Fail terlalu besar. Saiz maksimum adalah 5MB”"
+    },
+    {
+     "id": "A2",
+     "text": "Format salah. Sistem paparkan mesej “Jenis fail tidak dibenarkan. Sila Muat naik ODF, JPG, atau PNG”"
+    }
+   ],
+   "input": "Fail",
+   "output": "Dokumen dimuat naik jika memenuhi max size dan format yang dibenarkan",
+   "uiRefs": [
+    "UI-PL-BL-PN-04-02"
+   ],
+   "integration": "–",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-BL-PN-04"
+  },
+  {
+   "id": "UC-PL-BL-PN-05",
+   "name": "Serah Permohonan Pembaharuan",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesen"
+   ],
+   "steps": [
+    "Pemohon semak ringkasan.",
+    "Pemohon klik “Serah”.",
+    "Sistem simpan permohonan.",
+    "Sistem tetapkan status “Baharu”."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Borang tidak lengkap. Sistem memaparkan mesej “ Medan bertanda (*) adalah wajib diisi.” Pemohon perlu mengisi semula"
+    },
+    {
+     "id": "A2",
+     "text": "Dokumen tidak lengkap. Sistem memaparkan mesej “ Sila muat naik semua dokumen yang diperlukan” . Pemohon perlu melengkapkan dokumen."
+    }
+   ],
+   "input": "Pengesahan",
+   "output": "Permohonan diserah",
+   "uiRefs": [
+    "UI-PL-BL-PN-05"
+   ],
+   "integration": "–",
+   "notes": "Tidak boleh serah tanpa lengkap",
+   "calls": [],
+   "parentId": null
+  },
+  {
+   "id": "UC-PL-BL-PN-05-01",
+   "name": "Papar Ringkasan Pembaharuan",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesen"
+   ],
+   "steps": [
+    "Sistem papar ringkasan permohonan pembaharuan. (maklumat lesen, maklumat perniagaan, maklumat iklan dan maklumat hubungi)."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Ringkasan gagal dipaparkan. Sistem memaparkan mesej “Sila lengkapkan semua maklumat yang diperlukan”"
+    }
+   ],
+   "input": "–",
+   "output": "Paparan ringkasan",
+   "uiRefs": [
+    "UI-PL-BL-PN-05-01"
+   ],
+   "integration": "–",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-BL-PN-05"
+  },
+  {
+   "id": "UC-PL-BL-PN-05-02",
+   "name": "Semakan Kelengkapan Automatik",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesan"
+   ],
+   "steps": [
+    "Sistem periksa borang + dokumen.",
+    "Sistem beri keputusan lengkap/tidak lengkap."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Metadata dokumen hilang. Sistem memaparkan mesej “Perlu Pembetulan” dan paparan indikator tanda betul/salah"
+    }
+   ],
+   "input": "Maklumat permohonan",
+   "output": "Status kelengkapan",
+   "uiRefs": [
+    "UI-PL-BL-PN-05-02"
+   ],
+   "integration": "–",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-BL-PN-05"
+  },
+  {
+   "id": "UC-PL-BL-PN-05-03",
+   "name": "Notifikasi Serahan (Pemohon)",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "Pemohon",
+    "Pelesan"
+   ],
+   "steps": [
+    "Sistem hantar notifikasi “Menunggu Semakan PBT” melalui email dan juga notifikasi di sistem kepada pemohon, selepas bayaran pembaharuan berjaya dibuat."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "Gagal hantar. Sistem memaparkan mesej ralat “Notifikasi akan terima dalam masa 24jam”"
+    }
+   ],
+   "input": "Emel/ID",
+   "output": "Notifikasi",
+   "uiRefs": [
+    "UI-PL-BL-PN-05-03"
+   ],
+   "integration": "Modul Notifikasi",
+   "notes": "–",
+   "calls": [],
+   "parentId": "UC-PL-BL-PN-05"
+  },
+  {
+   "id": "UC-PL-BL-PN-05-04",
+   "name": "Notifikasi Serahan (PPSU)",
+   "group": "Pembaharuan Lesen",
+   "actors": [
+    "PPSU"
+   ],
+   "steps": [
+    "Sistem hantar notifikasi kepada PPSU selepas bayaran pembaharuan berjaya dibuat.",
+    "Sistem rekod penghantaran."
+   ],
+   "alternatives": [
+    {
+     "id": "A1",
+     "text": "PPSU tidak menerima notifikasi. Boleh membuat semak/pantau log sistem bagi status gagal."
+    }
+   ],
+   "input": "Senarai PPSU-admin PBT seperti yang telah ditetapkan",
+   "output": "Notifikasi",
+   "uiRefs": [
+    "UI-PL-BL-PN-05-04"
+   ],
+   "integration": "Modul Notifikasi",
+   "notes": "Berikut adalah perbezaan aliran kerja untuk lesen berisiko dan tidak berisiko: 1.Tidak Berisiko: Pelesen memohon pembaharuan lesen > pemohon membayar caj lesen untuk pembaharuan> pemohon jana sijil. 2. Berisiko – kaedah pembaharuan lesen berisiko adalah sama seperti permohonan lesen baharu bagi lesen berisiko dimana pemohon akan melalui semakan & ulasan ATL/BTD (sekiranya perlu) dan PPKT2 akan meluluskan permohonan pembaharuan.",
+   "calls": [],
+   "parentId": "UC-PL-BL-PN-05"
+  }
+ ],
+ "screens": [
+  {
+   "title": "Skrin Hantar Peringatan Pra-Tamat",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Tarikh",
+     "objectType": "Table column",
+     "tables": [
+      "osc_email_log"
+     ],
+     "fields": [
+      "sent_at"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Penerima",
+     "objectType": "Table column",
+     "tables": [
+      "osc_email_log"
+     ],
+     "fields": [
+      "recipient_name"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Subjek",
+     "objectType": "Table column",
+     "tables": [
+      "osc_email_log"
+     ],
+     "fields": [
+      "subject"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Kategori",
+     "objectType": "Table column",
+     "tables": [
+      "osc_email_log"
+     ],
+     "fields": [
+      "category"
+     ],
+     "crud": "R",
+     "note": "Berjaya/ Gagal Menunggu"
+    },
+    {
+     "label": "Status",
+     "objectType": "Table column",
+     "tables": [],
+     "fields": [
+      "status"
+     ],
+     "crud": "–",
+     "note": "Segera/ Amaran/ Maklumat/ Notifikasi/ Peringatan"
+    },
+    {
+     "label": "Ralat",
+     "objectType": "Table column",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": ""
+    },
+    {
+     "label": "Tarikh",
+     "objectType": "Table column",
+     "tables": [
+      "osc_sms_log"
+     ],
+     "fields": [
+      "sent_at"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Penerima",
+     "objectType": "Table column",
+     "tables": [
+      "osc_sms_log"
+     ],
+     "fields": [
+      "recipient_name"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Mesej",
+     "objectType": "Table column",
+     "tables": [
+      "osc_sms_log"
+     ],
+     "fields": [
+      "message"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Kategori",
+     "objectType": "Table column",
+     "tables": [
+      "osc_sms_log"
+     ],
+     "fields": [
+      "category"
+     ],
+     "crud": "R",
+     "note": "Berjaya / Gagal / Menunggu"
+    },
+    {
+     "label": "Status",
+     "objectType": "Table column",
+     "tables": [],
+     "fields": [
+      "status"
+     ],
+     "crud": "–",
+     "note": "Segera/ Amaran/ Maklumat/ Notifikasi/ Peringatan"
+    },
+    {
+     "label": "Ralat",
+     "objectType": "Table column",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": ""
+    }
+   ]
+  },
+  {
+   "title": "Skrin Jana Senarai Lesen Tamat Tempoh",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-01-01"
+   ],
+   "dataMap": [
+    {
+     "label": "No. Lesen",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_norujukan"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_namaperniagaan"
+     ],
+     "crud": "R",
+     "note": "Join jenis_lesen"
+    },
+    {
+     "label": "Tarikh Tamat",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_tkhtamat"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Tamat Tempoh (tarikh tamat > tarikh sistem)/ Kritikal (tarikh tamat <=7hari tarikh sistem) / Segera (tarikh tamat =<30hari tarikh sistem)/ Hampir Tamat (tarikh tamat =<90hari tarikh sistem)"
+    },
+    {
+     "label": "Butang <Perbaharui>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Aktif jika dalam tempoh pembaharuan"
+    },
+    {
+     "label": "Penapis Status",
+     "objectType": "Dropdown",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "UI sahaja Penapisan mengikut status yang ada"
+    },
+    {
+     "label": "Bar Carian",
+     "objectType": "Text area",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Opsyen carian"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Notifikasi Peringatan Pembaharuan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-02"
+   ],
+   "dataMap": [
+    {
+     "label": "message",
+     "objectType": "Table column",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "data"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "masa",
+     "objectType": "Table column",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "created_at"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Butang <Penapisan>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Penapisan mengikut jenis Auth; Application; Payment; Renewal; Cancellation; Profile; Complaint; Company; Draft"
+    },
+    {
+     "label": "Bar Carian",
+     "objectType": "Text area",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Opsyen carian"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Mula Pembaharuan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-02"
+   ],
+   "dataMap": [
+    {
+     "label": "No. Lesen",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_norujukan"
+     ],
+     "crud": "R",
+     "note": "Format No lesen: LIC/{YEAR}/R{RUNNING:6} - (6 digits running number)"
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_namaperniagaan"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Tarikh Tamat",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_tkhtamat"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Status",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Tamat Tempoh Kritikal Segera Hampir Tamat"
+    },
+    {
+     "label": "Tindakan",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Butang <Perbaharui Butang> untuk mula pembaharuan"
+    },
+    {
+     "label": "Penapis Status",
+     "objectType": "Dropdown",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "UI sahaja Penapisan mengikut status yang ada"
+    },
+    {
+     "label": "Bar Carian",
+     "objectType": "Text area",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Opsyen carian"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Ambil Data Lesen Sedia Ada",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-02-01"
+   ],
+   "dataMap": [
+    {
+     "label": "No. Lesen",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_norujukan"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Jenis Lesen",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_katniaga"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_namaperniagaan"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Alamat",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_almtperniagaan1"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Tarikh Mula",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_tkhmula"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Tarikh Tamat",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_tkhtamat"
+     ],
+     "crud": "R",
+     "note": "–"
+    },
+    {
+     "label": "Tempoh Asal",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_tempoh"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Waktu Operasi",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_msmula",
+      "ind_mstamat"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Status",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "Aktif/ Batal"
+    },
+    {
+     "label": "Aktiviti Perniagaan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_translesen"
+     ],
+     "fields": [
+      "trn_kodaktiviti"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Butang <Tambah Aktiviti Baharu>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Bagi menambah kod aktiviti baru"
+    },
+    {
+     "label": "Sektor Perniaagan",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_mhn_transaksi"
+     ],
+     "fields": [
+      "trn_kodsektor"
+     ],
+     "crud": "C",
+     "note": ""
+    },
+    {
+     "label": "Aktiviti Perniagaan",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_mhn_transaksi"
+     ],
+     "fields": [
+      "trn_ kodaktiviti"
+     ],
+     "crud": "C",
+     "note": ""
+    },
+    {
+     "label": "Kod Niaga",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_mhn_transaksi"
+     ],
+     "fields": [
+      "trn_ kodniaga"
+     ],
+     "crud": "C",
+     "note": ""
+    },
+    {
+     "label": "<Tambah Kod Niaga>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Untuk menambahkan kod niaga baharu"
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan ke skrin sebelumnya atau tutp skrin tambah aktiviti baharu"
+    },
+    {
+     "label": "Tutup",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan ke skrin sebelumnya atau tutp skrin tambah aktiviti baharu"
+    },
+    {
+     "label": "Butang <Tambah Aktiviti Baharu>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Bagi menambah kod aktiviti baru"
+    },
+    {
+     "label": "Pihak Berkuasa Tempatan (PBT)",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_idpbt"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Lokasi",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_kodlokasi"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Tempoh Pembaharuan",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_tempoh"
+     ],
+     "crud": "U",
+     "note": "12Bulan; 24Bulan; 36Bulan"
+    },
+    {
+     "label": "Anggaran Yuran Pembaharuan",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "UI; Sistem paparkan jumlah bayaran"
+    },
+    {
+     "label": "Butang <Setesrusnya>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan ke mukasurat seterusnya"
+    },
+    {
+     "label": "Butang <Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan ke skrin sebelumnya"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Semak Syarat Dan Larangan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-02-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Butang <OK>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan kembali ke skrin sebelumnya"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Kemaskini Maklumat Lesen",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-03"
+   ],
+   "dataMap": [
+    {
+     "label": "No. Lesen",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_norujukan"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Jenis Lesen",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_idniaga"
+     ],
+     "crud": "R",
+     "note": "Data sedia ada dari osc_ind_induklesen. ind_katniaga"
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_namaperniagaan"
+     ],
+     "crud": "R",
+     "note": "Data sedia ada dari osc_ind_induklesen. Ind_namaperniagaan"
+    },
+    {
+     "label": "Alamat",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_almtperniagaan1"
+     ],
+     "crud": "R",
+     "note": "Data sedia ada dari osc_ind_induklesen. ind_almtperniagaan1"
+    },
+    {
+     "label": "Tarikh Mula",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_tkmula"
+     ],
+     "crud": "R",
+     "note": "Data sedia ada dari osc_ind_induklesen. ind_tkhmula"
+    },
+    {
+     "label": "Tarikh Tamat",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_tktamat"
+     ],
+     "crud": "R",
+     "note": "Data sedia ada dari osc_ind_induklesen. ind_tkhtamat"
+    },
+    {
+     "label": "Tempoh Asal",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_tempoh"
+     ],
+     "crud": "R",
+     "note": "Data sedia ada dari osc_ind_induklesen. ind_tempoh"
+    },
+    {
+     "label": "Waktu Operasi",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_msmula_hm",
+      "mhn_mstamat_hm"
+     ],
+     "crud": "R",
+     "note": "Data sedia ada dari osc_ind_induklesen. Ind_msmula; ind_mstamat"
+    },
+    {
+     "label": "Status",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "status"
+     ],
+     "crud": "R",
+     "note": "Aktif/ Batal"
+    },
+    {
+     "label": "Aktiviti Perniagaan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_kodaktiviti"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Butang <Tambah Aktiviti Baharu>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Bagi menambah kod aktiviti baru"
+    },
+    {
+     "label": "Sektor Perniaagan",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_kod_niaga"
+     ],
+     "fields": [
+      "nia_kodniaga"
+     ],
+     "crud": "C",
+     "note": ""
+    },
+    {
+     "label": "Aktiviti Perniagaan",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_kod_niaga"
+     ],
+     "fields": [
+      "nia_kodaktiviti"
+     ],
+     "crud": "C",
+     "note": ""
+    },
+    {
+     "label": "Kod Niaga",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_kod_niaga"
+     ],
+     "fields": [
+      "nia_transaksi"
+     ],
+     "crud": "C",
+     "note": ""
+    },
+    {
+     "label": "<Tambah Kod Niaga>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Untuk menambahkan kod niaga baharu"
+    },
+    {
+     "label": "<Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan ke skrin sebelumnya atau tutp skrin tambah aktiviti baharu"
+    },
+    {
+     "label": "Tutup",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan ke skrin sebelumnya atau tutp skrin tambah aktiviti baharu"
+    },
+    {
+     "label": "Butang <Tambah Aktiviti Baharu>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Bagi menambah kod aktiviti baru"
+    },
+    {
+     "label": "Pihak Berkuasa Tempatan (PBT)",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_idpbt"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Lokasi",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_kodlokasi"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Tempoh Pembaharuan",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_tempoh"
+     ],
+     "crud": "U",
+     "note": "12Bulan; 24Bulan; 36Bulan"
+    },
+    {
+     "label": "Anggaran Yuran Pembaharuan",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": "UI; Sistem paparkan jumlah bayaran"
+    },
+    {
+     "label": "Butang <Setesrusnya>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan ke mukasurat seterusnya"
+    },
+    {
+     "label": "Butang <Batal>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan ke skrin sebelumnya"
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_namaperniagaan"
+     ],
+     "crud": "R",
+     "note": "Data sedia ada dari osc_ind_induklesen. Ind_namaperniagaan"
+    },
+    {
+     "label": "No Pendaftaran SSM",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_kodssm"
+     ],
+     "crud": "C/U",
+     "note": ""
+    },
+    {
+     "label": "Alamat Baris 1",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_alamatpos1"
+     ],
+     "crud": "U",
+     "note": ""
+    },
+    {
+     "label": "Alamat Baris 2",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_alamatpos2"
+     ],
+     "crud": "U",
+     "note": ""
+    },
+    {
+     "label": "Poskod",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_poskod"
+     ],
+     "crud": "U",
+     "note": ""
+    },
+    {
+     "label": "Bandar",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_alamatpos3"
+     ],
+     "crud": "U",
+     "note": ""
+    },
+    {
+     "label": "Alamat Baris 1",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_almtniaga1"
+     ],
+     "crud": "U",
+     "note": ""
+    },
+    {
+     "label": "Alamat Baris 2",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_almtniaga2"
+     ],
+     "crud": "U",
+     "note": ""
+    },
+    {
+     "label": "Poskod",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_poskod2"
+     ],
+     "crud": "U",
+     "note": ""
+    },
+    {
+     "label": "Bandar",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_almtniaga3"
+     ],
+     "crud": "U",
+     "note": ""
+    },
+    {
+     "label": "Negeri",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_almtniaga4"
+     ],
+     "crud": "U",
+     "note": ""
+    },
+    {
+     "label": "Lokasi Premis",
+     "objectType": "OpenStreetMap",
+     "tables": [],
+     "fields": [],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Latitud",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_xcoordinat"
+     ],
+     "crud": "C/U",
+     "note": ""
+    },
+    {
+     "label": "Longitud",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_ycoordinat"
+     ],
+     "crud": "C/U",
+     "note": ""
+    },
+    {
+     "label": "Masa Mula Operasi",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_msmula"
+     ],
+     "crud": "C/U",
+     "note": ""
+    },
+    {
+     "label": "Masa Tamat Operasi",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_mstamat"
+     ],
+     "crud": "C/U",
+     "note": ""
+    },
+    {
+     "label": "Melayu",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_lpekerja"
+     ],
+     "fields": [
+      "ipk_melayu"
+     ],
+     "crud": "C/U",
+     "note": ""
+    },
+    {
+     "label": "Cina",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_lpekerja"
+     ],
+     "fields": [
+      "ipk_cina"
+     ],
+     "crud": "C/U",
+     "note": ""
+    },
+    {
+     "label": "India",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_lpekerja"
+     ],
+     "fields": [
+      "ipk_india"
+     ],
+     "crud": "C/U",
+     "note": ""
+    },
+    {
+     "label": "Lain-Lain",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_lpekerja"
+     ],
+     "fields": [
+      "ipk_lainlain"
+     ],
+     "crud": "C/U",
+     "note": ""
+    },
+    {
+     "label": "Email",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_emel"
+     ],
+     "crud": "C/U",
+     "note": ""
+    },
+    {
+     "label": "No. Telefon Bimbit",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nomhp"
+     ],
+     "crud": "C/U",
+     "note": ""
+    },
+    {
+     "label": "No. Telefon Pejabat",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_notel"
+     ],
+     "crud": "C/U",
+     "note": ""
+    },
+    {
+     "label": "No. Fax",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nofax"
+     ],
+     "crud": "C/U",
+     "note": ""
+    },
+    {
+     "label": "Jenis Iklan",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [],
+     "crud": "C",
+     "note": ""
+    },
+    {
+     "label": "Pencahayaan",
+     "objectType": "Dropdown",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [
+      "lan_keadn"
+     ],
+     "crud": "C",
+     "note": ""
+    },
+    {
+     "label": "Panjang (meter)",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [
+      "lan_panjg"
+     ],
+     "crud": "C",
+     "note": ""
+    },
+    {
+     "label": "Lebar (meter)",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [
+      "lan_lebar"
+     ],
+     "crud": "C",
+     "note": ""
+    },
+    {
+     "label": "Keluasan",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [],
+     "crud": "R",
+     "note": "Auto paparkan megikut kiraan Panjang x Lebar"
+    },
+    {
+     "label": "Lokasi Pemasangan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [
+      "lan_tempt"
+     ],
+     "crud": "C",
+     "note": ""
+    },
+    {
+     "label": "Keterangan / Kandungan Iklan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [
+      "lan_keter"
+     ],
+     "crud": "C",
+     "note": ""
+    }
+   ]
+  },
+  {
+   "title": "Skrin Validasi Borang & Medan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-03-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Butang <OK>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan kembali ke skrin sebelumnya"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Muat Naik Dokumen Pembaharuan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-04"
+   ],
+   "dataMap": [
+    {
+     "label": "Muat Naik Dokumen",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Senarai yang perlu dimuatnaik akan dipaparkan"
+    },
+    {
+     "label": "Salinan Kad Pengenalan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "doc_catatan"
+     ],
+     "crud": "R",
+     "note": "Senarai dokumen yang perlu muatnaik"
+    },
+    {
+     "label": "Gambar Ukuran Passport",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "doc_catatan"
+     ],
+     "crud": "R",
+     "note": "Senarai dokumen yang perlu muatnaik"
+    },
+    {
+     "label": "Salinan Suruhanjaya Syarikat (SSM)",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "doc_catatan"
+     ],
+     "crud": "R",
+     "note": "Senarai dokumen yang perlu muatnaik"
+    },
+    {
+     "label": "Kelulusan/ Pendaftaran KPDN",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "doc_catatan"
+     ],
+     "crud": "R",
+     "note": "Senarai dokumen yang perlu muatnaik"
+    },
+    {
+     "label": "Resit Bayaran Fi Permohonan Lesen",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "doc_catatan"
+     ],
+     "crud": "R",
+     "note": "Senarai dokumen yang perlu muatnaik"
+    },
+    {
+     "label": "Status Wajib",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "is_mandatory"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Fail Muat Naik",
+     "objectType": "Upload",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "original_filename"
+     ],
+     "crud": "C/U",
+     "note": "Simpan fail"
+    },
+    {
+     "label": "Hapus",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Opsyen hapus selepas muatnaik dokumen (jika perlu)"
+    },
+    {
+     "label": "<Sebelumnya>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan ke skrin sebelumnya"
+    },
+    {
+     "label": "<Seterusnya>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan ke skrin seterusnya"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Semak Senarai Dokumen",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-04-01"
+   ],
+   "dataMap": [
+    {
+     "label": "Nama Dokumen",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "doc_catatan"
+     ],
+     "crud": "R",
+     "note": "Senarai dokumen yang perlu dilampirkan. contoh: Salinan Kad Pengenalan, Sijil Pendaftaran Syarikat,"
+    },
+    {
+     "label": "Salinan Kad Pengenalan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "doc_catatan"
+     ],
+     "crud": "R",
+     "note": "Senarai dokumen yang perlu muatnaik"
+    },
+    {
+     "label": "Gambar Ukuran Passport",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "doc_catatan"
+     ],
+     "crud": "R",
+     "note": "Senarai dokumen yang perlu muatnaik"
+    },
+    {
+     "label": "Salinan Suruhanjaya Syarikat (SSM)",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "doc_catatan"
+     ],
+     "crud": "R",
+     "note": "Senarai dokumen yang perlu muatnaik"
+    },
+    {
+     "label": "Status Wajib",
+     "objectType": "Label",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "is_mandatory"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Fail Muat Naik",
+     "objectType": "Upload",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "original_filename"
+     ],
+     "crud": "C/U",
+     "note": "Simpan fail"
+    },
+    {
+     "label": "<sebelumnya>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan ke skrin sebelumnya"
+    },
+    {
+     "label": "<Seterusnya>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan ke skrin seterusnya"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Semak Saiz/Format Fail",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-04-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Saiz/format",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Sistem akan paparkan saiz maksimum dan jenis format dokumen yang dibenarkan untuk muatnaik. Format & saiz yang dibenarkan: PDF,JPG,PNG(Max 5MB)"
+    },
+    {
+     "label": "Butang <OK>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Bagi masej makluman yang dipaprkan"
+    },
+    {
+     "label": "Butang <Seterusnya>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "–"
+    }
+   ]
+  },
+  {
+   "title": "Skrin Serah Permohonan Pembaharuan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-05"
+   ],
+   "dataMap": [
+    {
+     "label": "No Lesen Asal",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_norujukan"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Jenis Lesen",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_idniaga"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "PBT",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_idpbt"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Lokasi",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_kodlokasi"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Tempoh Pembaharuan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_tempoh"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_namaperniagaan"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Alamat Premis",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_almtperniagaan1"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Waktu Operasi",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_msmula_hm",
+      "mhn_mstamat_hm"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Pekerja (M/C/I/L)",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_lpekerja"
+     ],
+     "fields": [
+      "ipk_melayu",
+      "ipk_cina",
+      "ipk_india",
+      "ipk_lainlain"
+     ],
+     "crud": "R",
+     "note": ""
+    }
+   ]
+  },
+  {
+   "title": "Skrin Papar Ringkasan Pembaharuan",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-05-01"
+   ],
+   "dataMap": [
+    {
+     "label": "No Lesen Asal",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_norujukan"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Jenis Lesen",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_idniaga"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "PBT",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_idpbt"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Lokasi",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_kodlokasi"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Tempoh Pembaharuan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_tempoh"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_namaperniagaan"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Alamat Premis",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_almtperniagaan1"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Waktu Operasi",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_msmula_hm",
+      "mhn_mstamat_hm"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Pekerja (M/C/I/L)",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_lpekerja"
+     ],
+     "fields": [
+      "ipk_melayu",
+      "ipk_cina",
+      "ipk_india",
+      "ipk_lainlain"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Jumlah Iklan",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Sistem auto kita iklan dari table osc_mhn_iklan"
+    },
+    {
+     "label": "Keluasan",
+     "objectType": "Lebal",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "lan_panjg X lan_lebar"
+    },
+    {
+     "label": "Anggaran",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Sistem auto kita dari lan_amaun"
+    },
+    {
+     "label": "Ukuran",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [
+      "lan_panjg X lan_lebar"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Lokasi",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_iklan"
+     ],
+     "fields": [
+      "lan_tempt"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Emel",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_emel"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "No Telefon Bimbit",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nomhp"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "No Telefon Pejabat",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_notel"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "No Fax",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nofax"
+     ],
+     "crud": "R",
+     "note": ""
+    }
+   ]
+  },
+  {
+   "title": "Skrin Semakan Kelengkapan Automatik",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-05-02"
+   ],
+   "dataMap": [
+    {
+     "label": "Maklumat Dokumen",
+     "objectType": "Panel",
+     "tables": [
+      "osc_mhn_dokumen"
+     ],
+     "fields": [
+      "original_filename"
+     ],
+     "crud": "R",
+     "note": "Akan senaraikan kesemua dokumen bersama lampiran yang telah semak secara automatik. Bagi yang lengkap akan bertanda betul berwarna hijau dan bagi tidak lengkap akan bertanda pangkah/salah berwarna merah"
+    },
+    {
+     "label": "Pengakuan",
+     "objectType": "Panel",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan paparkan senarai pengakuan yang perlu tanda"
+    },
+    {
+     "label": "Butang <Sebelumnya>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Akan ke skrin sebelumnya"
+    },
+    {
+     "label": "Butang <Seterusnya>",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "Akan ke skrin seterusnya"
+    },
+    {
+     "label": "Jenis Lesen",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_idniaga"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "No Rujukan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_norujukan"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Nama",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_nama"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "No ID Pelanggan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_idpelanggan"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "No rujukan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_ind_induklesen"
+     ],
+     "fields": [
+      "ind_norujukan"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Nama Perniagaan",
+     "objectType": "Table column",
+     "tables": [
+      "osc_mhn_permohonan"
+     ],
+     "fields": [
+      "mhn_namaperniagaan"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Perkara",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan senaraikan jenis lesen, iklan bersama jumlah"
+    },
+    {
+     "label": "Jumlah (RM)",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan senaraikan jenis lesen, iklan bersama jumlah"
+    },
+    {
+     "label": "Jumlah Perlu Dibayar",
+     "objectType": "Label",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan paparkan jumlah RM yang perlu dibayar"
+    },
+    {
+     "label": "Cetak Bil/ Bayar Di Kaunter",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan ke skrin Cetak Bil. Rujuk Rajah 18"
+    },
+    {
+     "label": "Bayar Dalam Talian",
+     "objectType": "Button",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Akan ke skrin pengesahan teruskan pembayaran dan seterusnya skrin pembayaran online, akhirnya akan paparkan status bayaran seperti Rajah 19 (Modul Bayaran Pengeluaran Lesen) Klik pada Kembali ke Dashbord untuk ke skrin papan pemuka."
+    }
+   ]
+  },
+  {
+   "title": "Skrin Notifikasi Serahan (Pemohon)",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-05-03"
+   ],
+   "dataMap": [
+    {
+     "label": "Bar Carian",
+     "objectType": "Opsyen Carian",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Boleh membuat carian"
+    },
+    {
+     "label": "Penapis Status",
+     "objectType": "Dropdown",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "UI sahaja Penapisan mengikut status yang ada"
+    },
+    {
+     "label": "Keterangan",
+     "objectType": "Table column",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "data"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Jenis Notifikasi",
+     "objectType": "Table column",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Tarikh/Masa",
+     "objectType": "Table column",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "created_at"
+     ],
+     "crud": "R",
+     "note": ""
+    }
+   ]
+  },
+  {
+   "title": "Skrin Notifikasi Serahan (PPSU)",
+   "group": "Rekabentuk Antaramuka dan Pemetaan Data – Modul Pembaharuan Lesen",
+   "uiIds": [
+    "UI-PL-BL-PN-05-03"
+   ],
+   "dataMap": [
+    {
+     "label": "Bar Carian",
+     "objectType": "Opsyen Carian",
+     "tables": [],
+     "fields": [],
+     "crud": "-",
+     "note": "Boleh membuat carian"
+    },
+    {
+     "label": "Penapis Status",
+     "objectType": "Dropdown",
+     "tables": [],
+     "fields": [],
+     "crud": "–",
+     "note": "UI sahaja Penapisan mengikut status yang ada"
+    },
+    {
+     "label": "Keterangan",
+     "objectType": "Table column",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "data"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Jenis Notifikasi",
+     "objectType": "Table column",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "type"
+     ],
+     "crud": "R",
+     "note": ""
+    },
+    {
+     "label": "Tarikh/Masa",
+     "objectType": "Table column",
+     "tables": [
+      "notifications"
+     ],
+     "fields": [
+      "created_at"
+     ],
+     "crud": "R",
+     "note": ""
+    }
+   ]
+  }
+ ],
+ "businessRules": [
+  {
+   "group": "Pembaharuan Lesen",
+   "rules": [
+    {
+     "code": "BR-LS-01",
+     "text": "Pemohon mesti memilih jenis lesen sebelum teruskan."
+    },
+    {
+     "code": "BR-LS-02",
+     "text": "Profil mesti lengkap sebelum permohonan baharu dibenarkan."
+    },
+    {
+     "code": "BR-LS-03",
+     "text": "Dokumen wajib perlu dimuat naik mengikut format & saiz yang dibenarkan."
+    },
+    {
+     "code": "BR-LS-04",
+     "text": "Sistem mesti semak kelengkapan sebelum serahan."
+    },
+    {
+     "code": "BR-LS-05",
+     "text": "Permohonan hanya dianggap sah selepas status “Diterima” dicatat."
+    }
+   ]
+  }
+ ],
+ "sdsIssues": []
+}
